@@ -1,0 +1,328 @@
+# Translation for the Dublin Core Extended plugin for Omeka.
+# Copyright (C) 2012 Roy Rosenzweig Center for History and New Media
+# This file is distributed under the same license as the Omeka package.
+# 
+# Translators:
+# Cédric Valmary <cvalmary@yahoo.fr>, 2016
+# Cédric Valmary <cvalmary@yahoo.fr>, 2016
+# Delaye <stephane.delaye@biblibre.com>, 2015
+# fiuzzy <fiuzzy1@gmail.com>, 2016
+# Isabelle Gilles <isabelle.gillesgallet@gmail.com>, 2015
+# Julian Maurice <julian.maurice@biblibre.com>, 2015
+# Julien Sicot <julien.sicot@gmail.com>, 2013,2015
+# Mathieu Beaudin <macthieu@me.com>, 2013
+# rcheno <remi.cheno@ideo-cairo.org>, 2014
+# Thierry Pasquier <thierry.pasquier@emf.ccsti.eu>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: Omeka\n"
+"Report-Msgid-Bugs-To: http://github.com/omeka/plugin-DublinCoreExtended/issues\n"
+"POT-Creation-Date: 2012-12-17 21:49-0500\n"
+"PO-Revision-Date: 2017-02-06 12:25+0000\n"
+"Last-Translator: Cédric Valmary <cvalmary@yahoo.fr>\n"
+"Language-Team: Occitan (post 1500) (http://www.transifex.com/omeka/omeka/language/oc/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: oc\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Alternative Title"
+msgstr "Autra forma de títol"
+
+msgid ""
+"An alternative name for the resource. The distinction between titles and "
+"alternative titles is application-specific."
+msgstr "Autre nom per la ressorsa. La distincion entre Títols e Autras formas de títols varia segon l'aplicacion"
+
+msgid "Abstract"
+msgstr "Resumit"
+
+msgid "A summary of the resource."
+msgstr "Un resumit de la ressorsa."
+
+msgid "Table Of Contents"
+msgstr "Ensenhador"
+
+msgid "A list of subunits of the resource."
+msgstr "Una lista de las sosunitats de la ressorsa."
+
+msgid "Date Available"
+msgstr "Data de disponibilitat"
+
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr "La data (sovent un periòde) a la quala la ressorsa es venguda o vendrà disponibla."
+
+msgid "Date Created"
+msgstr "Data de creacion"
+
+msgid "Date of creation of the resource."
+msgstr "Data de creacion de la ressorsa."
+
+msgid "Date Accepted"
+msgstr "Data d'acceptacion"
+
+msgid ""
+"Date of acceptance of the resource. Examples of resources to which a Date "
+"Accepted may be relevant are a thesis (accepted by a university department) "
+"or an article (accepted by a journal)."
+msgstr "Data de l'acceptacion de la ressorsa. Exemples de ressorsas per las qualas una Data acceptada pòt far sens : una tèsi (acceptada per un departament d'universitat) o un article (acceptat per una revista)."
+
+msgid "Date Copyrighted"
+msgstr "Data del copyright"
+
+msgid "Date of copyright."
+msgstr "Data del copyright."
+
+msgid "Date Submitted"
+msgstr "Data de somission"
+
+msgid ""
+"Date of submission of the resource. Examples of resources to which a Date "
+"Submitted may be relevant are a thesis (submitted to a university "
+"department) or an article (submitted to a journal)."
+msgstr "Data de somission de la ressorsa. Exemples de ressorsas per las qualas una Data de somission pòt far sens : una tèsi (somesa a un departament d'universitat) o un article (somés a una revista)."
+
+msgid "Date Issued"
+msgstr "Data de parucion"
+
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr "Data de parucion oficiala (ex. : una publicacion) de la ressorsa."
+
+msgid "Date on which the resource was changed."
+msgstr "Data a la quala la ressorsa es estada modificada."
+
+msgid "Date Valid"
+msgstr "Data de validitat"
+
+msgid "Date (often a range) of validity of a resource."
+msgstr "La data (sovent un periòde) de validitat d'una ressorsa."
+
+msgid "Access Rights"
+msgstr "Dreit d'accès"
+
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status. Access Rights may include information regarding access or "
+"restrictions based on privacy, security, or other policies."
+msgstr "Modalitats d'accès per la ressorsa o informacions de seguretat a prepaus d'aquesta darrièra. Los dreits o las restrictions d'accès son definits en foncion de critèris de confidencialitat, de vida privada, de seguretat, etc."
+
+msgid "License"
+msgstr "Licéncia"
+
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr "Un document juridic que dona l'autorizacion oficiala de far quicòm amb la ressorsa."
+
+msgid "Conforms To"
+msgstr "Es confòrme a"
+
+msgid "An established standard to which the described resource conforms."
+msgstr "Una nòrma establida a la quala se confòrma la ressorsa."
+
+msgid "Has Format"
+msgstr "A per autre format"
+
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr "Ressorsa similara a la ressorsa descrita mas dins un autre format"
+
+msgid "Has Part"
+msgstr "A coma partida"
+
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr "Una ressorsa ligada qu'es inclusa fisicament o logicament dins la ressorsa descrita."
+
+msgid "Has Version"
+msgstr "A d'autras versions"
+
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr "Una ressorsa ligada qu'es una version, una edicion o una adaptacion de la ressorsa descrita."
+
+msgid "Is Format Of"
+msgstr "Es un autre format de"
+
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr "Una ressorsa ligada, globalament identica a la ressorsa descrita, qu'existís jos un autre format."
+
+msgid "Is Part Of"
+msgstr "Es una partida de "
+
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr "Ressorsa similara a la ressorsa descrita fisicament."
+
+msgid "Is Referenced By"
+msgstr "Es referenciat per"
+
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr "Una ressorsa ligada que fa referéncia, cita o punta d'una autra manièra cap a la ressorsa descrita."
+
+msgid "Is Replaced By"
+msgstr "Es remplaçat per"
+
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr "Una ressorsa similara que suplanta o remplaça la ressorsa descrita."
+
+msgid "Is Required By"
+msgstr "Es requesit per"
+
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr ""
+
+msgid "Is Version Of"
+msgstr "Es una version de"
+
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation. Changes in version imply substantive changes in content rather "
+"than differences in format."
+msgstr ""
+
+msgid "References"
+msgstr "Referéncia"
+
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr "Ressorsa similara qu'es referenciada, citada, o designada per la ressorsa descrita."
+
+msgid "Replaces"
+msgstr "Remplaça"
+
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr "Una ressorsa similara qu'es suplantada o remplaçada per la ressorsa descrita."
+
+msgid "Requires"
+msgstr "Requerís"
+
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr "Una ressorsa similara qu'es requesida per la ressorsa descrita per sa foncion, distribucion o coeréncia."
+
+msgid "Extent"
+msgstr "Espandida de la ressorsa, talha, durada"
+
+msgid "The size or duration of the resource."
+msgstr "La talha o la durada de la ressorsa."
+
+msgid "Medium"
+msgstr "Supòrt"
+
+msgid "The material or physical carrier of the resource."
+msgstr "Lo supòrt material o fisic de la ressorsa."
+
+msgid ""
+"A bibliographic reference for the resource. Recommended practice is to "
+"include sufficient bibliographic detail to identify the resource as "
+"unambiguously as possible."
+msgstr "Referéncia bibliografica de la ressorsa. Utile per identificar la ressorsa sens ambigüitat."
+
+msgid "Spatial Coverage"
+msgstr "Cobèrta espaciala"
+
+msgid "Spatial characteristics of the resource."
+msgstr "Las caracteristicas espacialas de la ressorsa"
+
+msgid "Temporal Coverage"
+msgstr "Cobèrta temporala"
+
+msgid "Temporal characteristics of the resource."
+msgstr "Las caracteristicas temporalas de la ressorsa"
+
+msgid "Accrual Method"
+msgstr "Metòde d'abonament"
+
+msgid "The method by which items are added to a collection."
+msgstr "La metòde que consistís a apondre los items dins una colleccion"
+
+msgid "Accrual Periodicity"
+msgstr "Periodicitat d'aquisicion"
+
+msgid "The frequency with which items are added to a collection."
+msgstr "Frequéncia d'apondon dels items dins una colleccion"
+
+msgid "Accrual Policy"
+msgstr "Politica d'aquisicion"
+
+msgid "The policy governing the addition of items to a collection."
+msgstr "Politica d'aquisicion d'una colleccion"
+
+msgid "Audience"
+msgstr "Public visat"
+
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr "Una classa d'entitat per la quala la ressorsa es destinada o utila."
+
+msgid "Audience Education Level"
+msgstr "Nivèl public destinatari"
+
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr ""
+
+msgid "Mediator"
+msgstr "Mediator"
+
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful. In an educational context, a mediator might be a parent,"
+" teacher, teaching assistant, or care-giver."
+msgstr ""
+
+msgid "Instructional Method"
+msgstr "Metòde d'ensenhament"
+
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support. Instructional Method will "
+"typically include ways of presenting instructional materials or conducting "
+"instructional activities, patterns of learner-to-learner and learner-to-"
+"instructor interactions, and mechanisms by which group and individual levels"
+" of learning are measured. Instructional methods include all aspects of the "
+"instruction and learning processes from planning and implementation through "
+"evaluation and feedback."
+msgstr ""
+
+msgid "Provenance"
+msgstr "Provenéncia"
+
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation. The statement may include a description of any changes "
+"successive custodians made to the resource."
+msgstr ""
+
+msgid "Rights Holder"
+msgstr "Avents dreit"
+
+msgid "A person or organization owning or managing rights over the resource."
+msgstr "Una persona o una organizacion detentritz o cargada de la gestion dels dreits que concernisson la ressorsa."
+
+#: DublinCoreExtendedPlugin.php:82
+#, php-format
+msgid ""
+"%sWarning%s: This will remove all the Dublin Core elements added by this "
+"plugin and permanently delete all element texts entered in those fields.%s"
+msgstr "%sAvertiment%s: Aquò va suprimir totes los elements Dublin Core aponduts per aquesta extension e escafar definitivament totes los contenguts textuals entrats dins aquestes camps.%s"

@@ -1,0 +1,319 @@
+# Translation for the Dublin Core Extended plugin for Omeka.
+# Copyright (C) 2012 Roy Rosenzweig Center for History and New Media
+# This file is distributed under the same license as the Omeka package.
+# 
+# Translators:
+# hans schraven <hans.schraven@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Omeka\n"
+"Report-Msgid-Bugs-To: http://github.com/omeka/plugin-DublinCoreExtended/issues\n"
+"POT-Creation-Date: 2012-12-17 21:49-0500\n"
+"PO-Revision-Date: 2015-10-08 16:12+0000\n"
+"Last-Translator: Brian Cho <briancho@ezuserguide.com>\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/omeka/omeka/language/nl_NL/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl_NL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Alternative Title"
+msgstr "Alternatieve titel"
+
+msgid ""
+"An alternative name for the resource. The distinction between titles and "
+"alternative titles is application-specific."
+msgstr "Een andere naam voor de bron. Het verschil tussen titels en alternatieve titels hangt af van de applicatie."
+
+msgid "Abstract"
+msgstr "Samenvatting"
+
+msgid "A summary of the resource."
+msgstr "Een samenvatting van de bron."
+
+msgid "Table Of Contents"
+msgstr "Inhoudsopgave"
+
+msgid "A list of subunits of the resource."
+msgstr "Een lijst met de onderdelen van de bron."
+
+msgid "Date Available"
+msgstr "Datum waarop beschikbaar"
+
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr "Datum (vaak een periode) waarin de bron beschikbaar is of zal zijn."
+
+msgid "Date Created"
+msgstr "Datum gecreëerd"
+
+msgid "Date of creation of the resource."
+msgstr "Datum waarop de bron is aangemaakt."
+
+msgid "Date Accepted"
+msgstr "Datum geaccepteerd"
+
+msgid ""
+"Date of acceptance of the resource. Examples of resources to which a Date "
+"Accepted may be relevant are a thesis (accepted by a university department) "
+"or an article (accepted by a journal)."
+msgstr "Datum waarop de bron geaccepteerd is. Voorbeelden van bronnen waarvoor een Datum geaccepteerd relevant kan zijn is een proefschrift (geaccepteerd door een universiteit) of een paper (geaccepteerd door een wetenschappelijk tijdschrift)."
+
+msgid "Date Copyrighted"
+msgstr "Datum copyright toegekend"
+
+msgid "Date of copyright."
+msgstr "Datum van copyright."
+
+msgid "Date Submitted"
+msgstr "Datum ingezonden"
+
+msgid ""
+"Date of submission of the resource. Examples of resources to which a Date "
+"Submitted may be relevant are a thesis (submitted to a university "
+"department) or an article (submitted to a journal)."
+msgstr "Datum waarop de bron ingezonden is. Voorbeelden van bronnen waarvoor een Datum ingezonden relevant kan zijn is een proefschrift (geaccepteerd door een universiteit) of een paper (geaccepteerd door een wetenschappelijk tijdschrift)."
+
+msgid "Date Issued"
+msgstr "Datum publicatie"
+
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr "Datum waarop de bron officieel is uitgegeven (publicatie)."
+
+msgid "Date on which the resource was changed."
+msgstr "Datum waarop de bron is gewijzigd."
+
+msgid "Date Valid"
+msgstr "Datum geldig"
+
+msgid "Date (often a range) of validity of a resource."
+msgstr "Datum (vaak een periode) waarin een bron geldig is."
+
+msgid "Access Rights"
+msgstr "Toegangsrechten"
+
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status. Access Rights may include information regarding access or "
+"restrictions based on privacy, security, or other policies."
+msgstr "Informatie over wie toegang tot de bron heeft of aanwijzing over wat de beveiligingsstatus is. Toegangsrechten kunnen informatie bevatten over toegang of beperkingen op basis van privacy-, beveiligings- of ander beleid."
+
+msgid "License"
+msgstr "Vergunning"
+
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr "Een juridisch document waarmee officieel toestemming wordt gegeven om met de bronnen aan de slag te gaan."
+
+msgid "Conforms To"
+msgstr "Voldoet aan"
+
+msgid "An established standard to which the described resource conforms."
+msgstr "Een vastgestelde norm waaraan de bron voldoet."
+
+msgid "Has Format"
+msgstr "Heeft format"
+
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr "Een gerelateerde bron die grotendeels hetzelfde is als de omschreven bron die reeds bestaat, maar die in een ander format is geplaatst."
+
+msgid "Has Part"
+msgstr "Vormt deel"
+
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr "Een gerelateerde bron die daadwerkelijk of in logische zin opgenomen is in de omschreven bron."
+
+msgid "Has Version"
+msgstr "Is versie"
+
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr "Een gerelateerde bron die een versie, editie of aanpassing is van de omschreven bron."
+
+msgid "Is Format Of"
+msgstr "Is format van"
+
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr "Een gerelateerde bron die grotendeels hetzelfde is als de omschreven bron, maar die in een ander format is gezet."
+
+msgid "Is Part Of"
+msgstr "Maakt deel uit van"
+
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr "Een gerelateerde bron waarin de omschreven bron daadwerkelijk of in logische zin is opgenomen."
+
+msgid "Is Referenced By"
+msgstr "Verwijst naar"
+
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr "Een gerelateerde bron die naar de omschreven bron verwijst, eruit citeert of op een andere manier ernaar verwijst."
+
+msgid "Is Replaced By"
+msgstr "Is vervangen door"
+
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr "Een gerelateerde bron die de plaats inneemt van de omschreven bron, hem verplaatst of vervangt."
+
+msgid "Is Required By"
+msgstr "Wordt vereist door"
+
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr "Een gerelateerde bron waarbij de omschreven bron de functie, weergave of samenhang van deze bron moet ondersteunen."
+
+msgid "Is Version Of"
+msgstr "Is een versie van"
+
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation. Changes in version imply substantive changes in content rather "
+"than differences in format."
+msgstr "Een gerelateerde bron waarvan de omschreven bron een versie, een editie of een aanpassing is. Wijzigingen in versie hebben aanzienlijke wijzigingen tot gevolg in content in plaats van wijzigingen in format."
+
+msgid "References"
+msgstr "Referenties"
+
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr "Een gerelateerde bron waaraan de omschreven bron refereert, uit citeert of op een andere manier verwijst."
+
+msgid "Replaces"
+msgstr "Vervangt"
+
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr "Een gerelateerde bron die vervangen of verplaatst wordt door de omschreven bron."
+
+msgid "Requires"
+msgstr "Vereist"
+
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr "Een gerelateerde bron die de omschreven bron nodig heeft om de functie, delivery of samenhang te ondersteunen."
+
+msgid "Extent"
+msgstr "Duur"
+
+msgid "The size or duration of the resource."
+msgstr "De omvang of geldigheidsduur van een bron."
+
+msgid "Medium"
+msgstr "Medium"
+
+msgid "The material or physical carrier of the resource."
+msgstr "De materiële of fysieke drager waarop de bron staat."
+
+msgid ""
+"A bibliographic reference for the resource. Recommended practice is to "
+"include sufficient bibliographic detail to identify the resource as "
+"unambiguously as possible."
+msgstr "Een bibliografische verwijzing voor de bron. Het is aan te bevelen om voldoende bibliografische gegevens in te voeren, zodat de bron eenduidiger gevonden kan worden."
+
+msgid "Spatial Coverage"
+msgstr "Ruimtelijke afmetingen"
+
+msgid "Spatial characteristics of the resource."
+msgstr "Ruimtelijke kenmerken van de bron."
+
+msgid "Temporal Coverage"
+msgstr "Tijdsbestek"
+
+msgid "Temporal characteristics of the resource."
+msgstr "Kenmerken omtrent tijd van de bron."
+
+msgid "Accrual Method"
+msgstr "Verzamelmethode"
+
+msgid "The method by which items are added to a collection."
+msgstr "De methode waarmee items aan een collectie worden toegevoegd."
+
+msgid "Accrual Periodicity"
+msgstr "Regelmaat verzamelen"
+
+msgid "The frequency with which items are added to a collection."
+msgstr "De frequentie waarmee items aan een collectie worden toegevoegd."
+
+msgid "Accrual Policy"
+msgstr "Verzamelbeleid"
+
+msgid "The policy governing the addition of items to a collection."
+msgstr "Het beleid dat geldt voor de toevoeging van items aan een collectie."
+
+msgid "Audience"
+msgstr "Publiek"
+
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr "De groep waarvoor de bron is bedoeld of waarvoor hij nuttig is."
+
+msgid "Audience Education Level"
+msgstr "Opleidingsniveau publiek"
+
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr "Het niveau aan onderwijs dat de groep heeft genoten waarvoor de omschreven bron is bedoeld."
+
+msgid "Mediator"
+msgstr "Mediator"
+
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful. In an educational context, a mediator might be a parent,"
+" teacher, teaching assistant, or care-giver."
+msgstr "Een entiteit die bemiddelt tussen de bron en diegenen voor wie hij is bedoeld of voor wie hij nuttig is. Als de bron ingezet wordt ter educatie, kan een mediator een ouder, leerkracht, onderwijsassistent of een zorgverlener zijn."
+
+msgid "Instructional Method"
+msgstr "Instructiemethode"
+
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support. Instructional Method will "
+"typically include ways of presenting instructional materials or conducting "
+"instructional activities, patterns of learner-to-learner and learner-to-"
+"instructor interactions, and mechanisms by which group and individual levels"
+" of learning are measured. Instructional methods include all aspects of the "
+"instruction and learning processes from planning and implementation through "
+"evaluation and feedback."
+msgstr "Een proces waarin kennis, houdingen en vaardigheden ontstaan, onder andere door de omschreven bron. Instructiemethode bevat manieren waarop instructiemateriaal gepresenteerd kan worden of instructieactiviteiten kunnen worden uitgevoerd, methodes voor leerling-naar-leerling- en leerling-naar-docentinteracties en mechanismen om de opgedane kennis van een groep of een persoon te analyseren. Instructiemethodes bevatten alle delen van de instructie- en leerprocessen, van het plannen en de toepassing tot evaluatie en feedback."
+
+msgid "Provenance"
+msgstr "Afkomst"
+
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation. The statement may include a description of any changes "
+"successive custodians made to the resource."
+msgstr "Een overzicht van wijzingen in eigendom en beheer van de bron sinds dat deze is aangemaakt. Het gaat daarbij om wijzigingen die invloed hebben op de authenticiteit, de integriteit en de interpretatie. Het overzicht kan een omschrijving bevatten van wijzigingen die volgende eigenaren in de bron hebben doorgevoerd."
+
+msgid "Rights Holder"
+msgstr "Rechthebbende"
+
+msgid "A person or organization owning or managing rights over the resource."
+msgstr "Een persoon of organisatie die eigenaar is of de rechten beheert van de bron."
+
+#: DublinCoreExtendedPlugin.php:82
+#, php-format
+msgid ""
+"%sWarning%s: This will remove all the Dublin Core elements added by this "
+"plugin and permanently delete all element texts entered in those fields.%s"
+msgstr "%sWaarschuwing%s: Hiermee verwijdert u alle Dublin Core-elementen die door deze plug-in zijn toegevoegd. Daarnaast worden alle elementteksten die in die velden zijn ingevoerd, permanent verwijderd.%s"

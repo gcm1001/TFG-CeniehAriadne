@@ -1,0 +1,319 @@
+# Translation for the Dublin Core Extended plugin for Omeka.
+# Copyright (C) 2012 Roy Rosenzweig Center for History and New Media
+# This file is distributed under the same license as the Omeka package.
+# 
+# Translators:
+# sionengland <sne@llgc.org.uk>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Omeka\n"
+"Report-Msgid-Bugs-To: http://github.com/omeka/plugin-DublinCoreExtended/issues\n"
+"POT-Creation-Date: 2012-12-17 21:49-0500\n"
+"PO-Revision-Date: 2014-02-04 15:13+0000\n"
+"Last-Translator: sionengland <sne@llgc.org.uk>\n"
+"Language-Team: Welsh (United Kingdom) (http://www.transifex.com/omeka/omeka/language/cy_GB/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cy_GB\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
+
+msgid "Alternative Title"
+msgstr "Teitl Amgen"
+
+msgid ""
+"An alternative name for the resource. The distinction between titles and "
+"alternative titles is application-specific."
+msgstr "Enw amgen ar gyfer yr adnodd. Mae'r gwahaniaeth rhwng teitl a teitl amgen yn ddibynol ar y rhaglen priodol."
+
+msgid "Abstract"
+msgstr "Crynodeb"
+
+msgid "A summary of the resource."
+msgstr "Crynodeb o'r adnodd."
+
+msgid "Table Of Contents"
+msgstr "Cynnwys"
+
+msgid "A list of subunits of the resource."
+msgstr "Rhestr o man-rannau'r adnodd."
+
+msgid "Date Available"
+msgstr "Dyddiad Ar Gael"
+
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr "Dyddiad (neu ystod o ddyddiadau) y bydd yr adnodd ar gael."
+
+msgid "Date Created"
+msgstr "Dyddiad Creu"
+
+msgid "Date of creation of the resource."
+msgstr "Y dyddiad crewyd yr adnodd."
+
+msgid "Date Accepted"
+msgstr "Dyddiad Derbyn"
+
+msgid ""
+"Date of acceptance of the resource. Examples of resources to which a Date "
+"Accepted may be relevant are a thesis (accepted by a university department) "
+"or an article (accepted by a journal)."
+msgstr "Y dyddiad derbyniwyd yr adnodd. Enghreifftiau lle y gellir hyn fod yn berthnasol yw traethodau (derbyniwyd gan brifysgol) neu erthygl (derbyniwyd gan gyfnodolyn)."
+
+msgid "Date Copyrighted"
+msgstr "Dyddiad Hawlfraint"
+
+msgid "Date of copyright."
+msgstr "Dyddiad yr Hawlfraint."
+
+msgid "Date Submitted"
+msgstr "Dyddiad Cyflwyno"
+
+msgid ""
+"Date of submission of the resource. Examples of resources to which a Date "
+"Submitted may be relevant are a thesis (submitted to a university "
+"department) or an article (submitted to a journal)."
+msgstr "Dyddiad cyflwynwyd yr adnodd. Enghreifftiau lle y gellir hyn fod yn berthnasol yw traethodau (derbyniwyd gan brifysgol) neu erthygl (derbyniwyd gan gyfnodolyn)."
+
+msgid "Date Issued"
+msgstr "Dyddiad Rhyddhau"
+
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr "Y dyddiad rhyddhawyd yr adnodd yn swyddogol (e.e. dyddiad cyhoeddi)"
+
+msgid "Date on which the resource was changed."
+msgstr "Dyddiad pan newidiwyd yr adnodd."
+
+msgid "Date Valid"
+msgstr "Dyddiad Dilysu"
+
+msgid "Date (often a range) of validity of a resource."
+msgstr "Dyddiad (yn aml yn ystod) dilysu'r adnodd."
+
+msgid "Access Rights"
+msgstr "Hawliau Mynediad"
+
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status. Access Rights may include information regarding access or "
+"restrictions based on privacy, security, or other policies."
+msgstr "Gwybodaeth am bwy all gael mynediad i'r adnodd neu am statws diogelwch yr adnodd. Gellir cynnwys gwybodaeth ynglyn a mynediad neu cyfyngiadau yn ddibynol ar breifatrwydd, diogelwch neu unrhyw bolisi arall."
+
+msgid "License"
+msgstr "Trwydded"
+
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr "Dogfen gyfreithiol yn rhoi hawl swyddogol i wneud rhywbeth a'r adnodd."
+
+msgid "Conforms To"
+msgstr "Cydymffurfio â"
+
+msgid "An established standard to which the described resource conforms."
+msgstr "Safon sefydledig y mae'r adnodd yn cydymffurfio iddi."
+
+msgid "Has Format"
+msgstr "Gyda'r Fformat"
+
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr "Adnodd cysylltiedig sydd mwy neu lai'r un peth a'r adnodd sydd eisoes yn bodoli, ond sydd mewn fformat gwahanol."
+
+msgid "Has Part"
+msgstr "Gyda Rhan"
+
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr "Adnodd cysylltiedig sydd wedi'i gynnwys naill ai'n gorfforol neu'n rhesymegol o fewn yr adnodd."
+
+msgid "Has Version"
+msgstr "Gyda Fersiwn"
+
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr "Adnodd cysylltiedig sydd yn fersiwn, golygiad neu'n addasiad o'r adnodd a ddisgrifiwyd."
+
+msgid "Is Format Of"
+msgstr "Yn Fformat O"
+
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr "Adnodd cysylltiedig sydd mwy neu lai'r un peth a'r adnodd a ddisgrifiwyd, ond mewn fformat wahanol."
+
+msgid "Is Part Of"
+msgstr "Yn Rhan O"
+
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr "Adnodd cysylltiedig y mae'r adnodd a ddisgrifir yn rhan ohonni - naill ai'n gorfforol neu'n rhesymegol."
+
+msgid "Is Referenced By"
+msgstr "Cyfeiriwyd Gan"
+
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr "Adnodd cysylltiedig sy'n cyfeirio neu'n pwyntio at yr adnodd a ddisgrifiwyd."
+
+msgid "Is Replaced By"
+msgstr "Disodlwyd Gan"
+
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr "Adnodd cysylltiedig sy'n disodli'r adnodd a ddisgrifiwyd."
+
+msgid "Is Required By"
+msgstr "Yn Ofynnol Gan"
+
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr "Adnodd cysylltiedig sy'n gofynol ar yr adnodd a ddisgrifir i'w gefnogi er mwyn sicrhau ei wethrediad llwyddiannus."
+
+msgid "Is Version Of"
+msgstr "Yn Fersiwn O"
+
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation. Changes in version imply substantive changes in content rather "
+"than differences in format."
+msgstr "Adnodd cysylltiedig y mae'r adnodd a ddisgrifir yn fersiwn, argraffiad neu'n addasiad ohonni. Mae newid fersiwn yn golygu newidiadau nodedig yn y cynnwys yn hytrach na fformat gwahanol."
+
+msgid "References"
+msgstr "Cyfeiriadau"
+
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr "Adnodd cysylltiedig sy'n cael ei gyfeirio ati gan yr adnodd a ddisgrifiwyd."
+
+msgid "Replaces"
+msgstr "Yn Disodli"
+
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr "Adnodd cysylltiedig sy'n cael ei ddisodli gan yr adnodd a ddisgrifir."
+
+msgid "Requires"
+msgstr "Angen"
+
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr "Adnodd cysylltiedig sydd ei angen gan yr adnodd a ddisgrifir er mwyn iddo gyflawni ei swyddogaeth neu er mwyn iddo fod yn eglur."
+
+msgid "Extent"
+msgstr "Maint"
+
+msgid "The size or duration of the resource."
+msgstr "Maint neu hyd yr adnodd."
+
+msgid "Medium"
+msgstr "Cyfrwng"
+
+msgid "The material or physical carrier of the resource."
+msgstr "Y defnydd neu natur gorfforol yr adnodd."
+
+msgid ""
+"A bibliographic reference for the resource. Recommended practice is to "
+"include sufficient bibliographic detail to identify the resource as "
+"unambiguously as possible."
+msgstr "Cyfeiriad llyfryddol ar gyfer yr adnodd. Yr argymell yw i gynnwys digon o wybodaeth llyfryddol er mwyn gallu adnabod yr adnodd mor ddigamsyniol a phosib."
+
+msgid "Spatial Coverage"
+msgstr "Ymdriniaeth Gofodol "
+
+msgid "Spatial characteristics of the resource."
+msgstr "Nodweddion gofodol yr adnodd."
+
+msgid "Temporal Coverage"
+msgstr "Ymdriniaeth Amserol"
+
+msgid "Temporal characteristics of the resource."
+msgstr "Nodweddion amserol yr adnodd."
+
+msgid "Accrual Method"
+msgstr "Dull Cronni"
+
+msgid "The method by which items are added to a collection."
+msgstr "Y dull mae'r eitemau yn cael eu hychwanegu i'r casgliad."
+
+msgid "Accrual Periodicity"
+msgstr "Cyfnod Cronni"
+
+msgid "The frequency with which items are added to a collection."
+msgstr "Yr amlder y mae'r eitemau'n cael eu hychwanegu i gasgliad."
+
+msgid "Accrual Policy"
+msgstr "Policy Cronni"
+
+msgid "The policy governing the addition of items to a collection."
+msgstr "Y polisi sy'n llywodraethu broses o ychwanegu eitemau i gasgliad."
+
+msgid "Audience"
+msgstr "Cynulleidfa"
+
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr "Cynulleidfa bydd yn elwa o'r adnodd."
+
+msgid "Audience Education Level"
+msgstr "Lefel Addysg Cynulleidfa"
+
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr "Gwahanol lefelau o addysg neu hyfforddiant y mae'r adnodd wedi'i fwriadu atynt."
+
+msgid "Mediator"
+msgstr "Cyfryngwr"
+
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful. In an educational context, a mediator might be a parent,"
+" teacher, teaching assistant, or care-giver."
+msgstr "Endid sy'n cyflwyno mynediad at yr adnodd. Mewn sefyllfa addysg, gall y cyfryngwr fod yn rhiant, athro, cynorthwyydd dysgu neu'n ofalwr."
+
+msgid "Instructional Method"
+msgstr "Dull Cyfarwyddiadol"
+
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support. Instructional Method will "
+"typically include ways of presenting instructional materials or conducting "
+"instructional activities, patterns of learner-to-learner and learner-to-"
+"instructor interactions, and mechanisms by which group and individual levels"
+" of learning are measured. Instructional methods include all aspects of the "
+"instruction and learning processes from planning and implementation through "
+"evaluation and feedback."
+msgstr "Proses sy'n meithrin gwybodaeth, agwedd a sgiliau y mae'r adnodd wedi ei greu ar ei chyfer. Bydd dulliau hyfforddi yn cynnwys ffyrdd o gyflwyno deunydd hyfforddi neu gynnal gweithgareddau hyfforddi, cynlluniau ar gyfer rhyngweithio ymysg dysgwyr yn ogystal ag addysgwyr, a dulliau o fesur lefelau dysgu grwpiau ac unigolion. Mae'r dulliau hyfforddi yn cynnwys pob agwedd o'r hyfforddi a'r broses o ddysgu o'r cynllunio cyntaf hyd at werthuso ac adborth."
+
+msgid "Provenance"
+msgstr "Tarddiad"
+
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation. The statement may include a description of any changes "
+"successive custodians made to the resource."
+msgstr "Datganiad yn nodi unrhyw newidiadau ym mherchnogaeth yr adnodd ers iddo cael ei greu. Gall y datganiad gynnwys ddisgrifiad o unrhyw newidiadau a wnaethpwyd i'r adnodd gan unrhyw cyn-berchennog."
+
+msgid "Rights Holder"
+msgstr "Deiliad Hawliau"
+
+msgid "A person or organization owning or managing rights over the resource."
+msgstr "Person neu gyfundrefn sy'n berchen ar neu'n rheoli hawliau'r adnodd."
+
+#: DublinCoreExtendedPlugin.php:82
+#, php-format
+msgid ""
+"%sWarning%s: This will remove all the Dublin Core elements added by this "
+"plugin and permanently delete all element texts entered in those fields.%s"
+msgstr "%sRhybudd%s: Bydd gwneud hyn yn dileu holl elfennau Dublin Core a ychwanegwyd gan yr ategyn yma ac yn dileu'r holl destun yn y meysydd hynny. %s"

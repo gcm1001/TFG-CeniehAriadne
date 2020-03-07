@@ -1,0 +1,320 @@
+# Translation for the Dublin Core Extended plugin for Omeka.
+# Copyright (C) 2012 Roy Rosenzweig Center for History and New Media
+# This file is distributed under the same license as the Omeka package.
+# 
+# Translators:
+# yennylin <yennylin1234@gmail.com>, 2014
+# Hong Zhang <zhangh@unlv.nevada.edu>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: Omeka\n"
+"Report-Msgid-Bugs-To: http://github.com/omeka/plugin-DublinCoreExtended/issues\n"
+"POT-Creation-Date: 2012-12-17 21:49-0500\n"
+"PO-Revision-Date: 2014-01-11 16:07+0000\n"
+"Last-Translator: yennylin <yennylin1234@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/omeka/omeka/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Alternative Title"
+msgstr "別名"
+
+msgid ""
+"An alternative name for the resource. The distinction between titles and "
+"alternative titles is application-specific."
+msgstr "資源的其它題名。題名和別名的區別取決於具體應用。"
+
+msgid "Abstract"
+msgstr "摘要"
+
+msgid "A summary of the resource."
+msgstr "資源內容的摘錄。"
+
+msgid "Table Of Contents"
+msgstr "目錄"
+
+msgid "A list of subunits of the resource."
+msgstr "資源內容子單元的列表。"
+
+msgid "Date Available"
+msgstr "可用日期"
+
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr "資源將變為或已變為可使用的日期（通常是一個時間範圍）"
+
+msgid "Date Created"
+msgstr "創作日期"
+
+msgid "Date of creation of the resource."
+msgstr "資源的創作日期。"
+
+msgid "Date Accepted"
+msgstr "接受日期"
+
+msgid ""
+"Date of acceptance of the resource. Examples of resources to which a Date "
+"Accepted may be relevant are a thesis (accepted by a university department) "
+"or an article (accepted by a journal)."
+msgstr "資源被接受的日期（例如論文被大學學系接受、文章被期刊接受…等）。"
+
+msgid "Date Copyrighted"
+msgstr "取得著作權日期"
+
+msgid "Date of copyright."
+msgstr "著作權聲明的日期。"
+
+msgid "Date Submitted"
+msgstr "提交日期"
+
+msgid ""
+"Date of submission of the resource. Examples of resources to which a Date "
+"Submitted may be relevant are a thesis (submitted to a university "
+"department) or an article (submitted to a journal)."
+msgstr "資源提交的日期（例如提交論文、文章…等）。"
+
+msgid "Date Issued"
+msgstr "發行日期"
+
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr "資源正式發行（例如出版的日期）。"
+
+msgid "Date on which the resource was changed."
+msgstr "資源變更的日期。"
+
+msgid "Date Valid"
+msgstr "有效日期"
+
+msgid "Date (often a range) of validity of a resource."
+msgstr "資源的有效日期（通常是一段時間範圍）。"
+
+msgid "Access Rights"
+msgstr "取用權"
+
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status. Access Rights may include information regarding access or "
+"restrictions based on privacy, security, or other policies."
+msgstr "有關誰能取用資源或資源安全狀態的指示資訊。取用權可 包含隱私、安全或其他規章之取用或限制的相關資訊。"
+
+msgid "License"
+msgstr "授權條款"
+
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr "正式授權對資源做後續運用的法律文件。"
+
+msgid "Conforms To"
+msgstr "遵照"
+
+msgid "An established standard to which the described resource conforms."
+msgstr "資源所遵照的既定標準。"
+
+msgid "Has Format"
+msgstr "有格式為"
+
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr "描述資源的存在早於參考資源，實質上知識內容相同，但以不同格式呈現。"
+
+msgid "Has Part"
+msgstr "有一部分為"
+
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr "描述的資源包含實體或邏輯方面的參考資源。"
+
+msgid "Has Version"
+msgstr "有版本…"
+
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr "描述的資源有一個內容版本、形式版本或改編，即為參考資源。"
+
+msgid "Is Format Of"
+msgstr "是…的格式"
+
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr "描述資源與參考資源有相同的知識內容，但以不同格式呈現。"
+
+msgid "Is Part Of"
+msgstr "是…的一部分"
+
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr "描述的資源是參考資源實體或邏輯的一部份。"
+
+msgid "Is Referenced By"
+msgstr "被…所參照"
+
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr "描述的資源是被參考資源所參照、引用，或以其他方式指出。"
+
+msgid "Is Replaced By"
+msgstr "被…取代"
+
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr "描述的資源是由參考資源所替代或取代。"
+
+msgid "Is Required By"
+msgstr "被…需要"
+
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr "描述的資源是實體上或邏輯上被參考資源所需要。"
+
+msgid "Is Version Of"
+msgstr "是…的版本"
+
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation. Changes in version imply substantive changes in content rather "
+"than differences in format."
+msgstr "描述的資源是參考資源的一個內容版本、形式版本或改編。內容版本的改變意指內容的實質改變，而非格式上的改變。  "
+
+msgid "References"
+msgstr "參照"
+
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr "描述的資源參照、引用，或以其他方式指出參考資源。"
+
+msgid "Replaces"
+msgstr "取代"
+
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr "描述的資源替代或取代參考資源。"
+
+msgid "Requires"
+msgstr "需要"
+
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr "描述的資源需要參考資源來支持其功能、傳遞或內容的連貫性。"
+
+msgid "Extent"
+msgstr "高廣度"
+
+msgid "The size or duration of the resource."
+msgstr "資源的大小或時間長度。"
+
+msgid "Medium"
+msgstr "媒體"
+
+msgid "The material or physical carrier of the resource."
+msgstr "資源的材質或實體媒介。"
+
+msgid ""
+"A bibliographic reference for the resource. Recommended practice is to "
+"include sufficient bibliographic detail to identify the resource as "
+"unambiguously as possible."
+msgstr "代表資源的書目參照。建議包含足夠的書目詳述，以盡可能清楚地識別資源。"
+
+msgid "Spatial Coverage"
+msgstr "空間範圍"
+
+msgid "Spatial characteristics of the resource."
+msgstr "資源的空間特徵。"
+
+msgid "Temporal Coverage"
+msgstr "時間範圍"
+
+msgid "Temporal characteristics of the resource."
+msgstr "資源的時間特徵。"
+
+msgid "Accrual Method"
+msgstr "徵集方法"
+
+msgid "The method by which items are added to a collection."
+msgstr "單件增加至合集中的方法。"
+
+msgid "Accrual Periodicity"
+msgstr "徵集周期"
+
+msgid "The frequency with which items are added to a collection."
+msgstr "單件增加至合集中的頻率。"
+
+msgid "Accrual Policy"
+msgstr "徵集政策"
+
+msgid "The policy governing the addition of items to a collection."
+msgstr "管理向馆藏添加条目的政策声明。"
+
+msgid "Audience"
+msgstr "适用对象"
+
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr "資源對其產生吸引力或有用的實體群。"
+
+msgid "Audience Education Level"
+msgstr "觀眾的教育水平"
+
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr "依據教育或訓練的程度去定義對資源有興趣的實體群。"
+
+msgid "Mediator"
+msgstr "媒介"
+
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful. In an educational context, a mediator might be a parent,"
+" teacher, teaching assistant, or care-giver."
+msgstr "資源對其產生吸引力或有用的實體群與資源之間的協調者。以教育為例，媒介可能是家長、教師、教學助理、或看護者。"
+
+msgid "Instructional Method"
+msgstr "指导方法"
+
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support. Instructional Method will "
+"typically include ways of presenting instructional materials or conducting "
+"instructional activities, patterns of learner-to-learner and learner-to-"
+"instructor interactions, and mechanisms by which group and individual levels"
+" of learning are measured. Instructional methods include all aspects of the "
+"instruction and learning processes from planning and implementation through "
+"evaluation and feedback."
+msgstr "描述的資源用以支援生成知識、看法和技巧的過程。指導方法一般會包括展示指導素材、或帶領指導性行為等方法，還有學習者到學習者、學習者到教師的指導模式，還有衡量團體和個人學習水平的機制。指導方法包括指導和學習過程的所有方面，從規劃和實施一直到評估和反饋。"
+
+msgid "Provenance"
+msgstr "保管歷史"
+
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation. The statement may include a description of any changes "
+"successive custodians made to the resource."
+msgstr "自創建以來，資源的所有權和保管方面的任何變更之說明，這對資源的真實性，完整性和解釋都是非常重要的。說明可能包含對資源的歷來保管人的變更描述。"
+
+msgid "Rights Holder"
+msgstr "權利擁有者"
+
+msgid "A person or organization owning or managing rights over the resource."
+msgstr "擁有或管理資源權利的個人或組織。"
+
+#: DublinCoreExtendedPlugin.php:82
+#, php-format
+msgid ""
+"%sWarning%s: This will remove all the Dublin Core elements added by this "
+"plugin and permanently delete all element texts entered in those fields.%s"
+msgstr "%s警告%s：這將移除由這個外掛增加的所有都柏林核心元素，並永久刪除輸入在那些欄位中的所有元素文本。%s"
