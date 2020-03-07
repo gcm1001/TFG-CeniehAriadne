@@ -1,0 +1,100 @@
+/* copied from admin theme. alerts */
+
+#content #flash ul {
+    list-style-type: none;
+    margin-top: 0;
+    padding: 0;
+}
+
+    ul.error {
+        list-style-type: none;
+        margin-top: 20px;
+        padding: 0;
+    }
+    
+    #content #flash li, ul.error li {
+        border: 1px solid #E7E7E7;
+        border-radius: 3px;
+        font-size: 14px;
+        margin-bottom: 20px;
+        padding: .5em;            
+    }
+
+.success {
+    color: #729108;
+}
+    
+.error, .alert {
+    color: #914E33;
+}
+
+#admin-bar li {
+    position: relative;
+}
+
+a#menu-admin-bar-welcome + ul {
+    position: absolute;
+    background: #404040;
+    z-index: 10000;
+    padding-left: 3px;
+    left: -9999px;
+    width: 125%;
+}
+
+a#menu-admin-bar-welcome + ul:hover ,
+a#menu-admin-bar-welcome:hover + ul {
+    left: -6px;
+}
+
+a#menu-admin-bar-welcome + ul li {
+    display: block;
+    text-align: left;
+    padding: 3px;
+    float: none;
+}
+
+h2.guest-user-widget-label {
+    border-bottom: 1px solid rgba(0,0,0,.3);
+    margin: 0;
+    padding: 0 10px;
+    font-size: 1em;
+    margin-bottom: .75em;
+    text-transform: uppercase;
+}
+
+div#guest-user-register-info {
+    background: rgba(0,0,0,0.75);    
+    color: #fff;
+    position:absolute;
+    right: 0;
+    top: 40px;
+    font-family:Arvo, serif !important;
+    font-size: 12px;
+    width: 250px;
+    display: none;
+    padding: 3px;
+}
+
+div.guest-user-widget {
+    border: 1px solid rgba(0,0,0,.3);
+    margin: 0 1.5em 1.5em 0;
+    width: 210px;
+    height: 200px;
+    overflow: auto;
+    float: left;
+    background-color: white;
+}
+
+div.guest-user-widget ul {
+    padding: 0 10px 0 30px;
+    margin: 0;
+}
+
+div.guest-user-widget-odd {
+    clear:right;
+}
+
+p.explanation {
+    margin-top: 0px;
+    
+}
