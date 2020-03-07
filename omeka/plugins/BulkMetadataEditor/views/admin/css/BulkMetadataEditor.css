@@ -1,0 +1,57 @@
+.preview-button {
+    margin:10px;
+}
+
+.previewButtonDiv{
+    display:block;
+    clear:left;
+}
+
+.hide-preview {
+    display:none;
+}
+
+.bmeFieldset {
+    border:1px solid black;
+    padding:15px;
+    margin:7px;
+}
+
+.bmeHidden {
+    display:none;
+    margin:20px;
+}
+
+.inputs field {
+    display:block;
+    clear:left;
+}
+
+#bulk-metadata-editor-form legend {
+    padding: 0 10px;
+    position: relative;
+    top: 5px;
+}
+
+#performButton {    
+    font-size: 1.3em;
+    margin-left: 35px;
+    margin-top: 15px;
+}
+
+.bulk-metadata-editor-waiting {
+    display:none;
+}
+
+.removeRule {
+    color: #FF0000;
+    float: left;
+    margin-left: 10px;
+    padding-top: 5px;
+    vertical-align: middle;
+    cursor:pointer;
+}
+
+#fieldPreviewDiv table tr.even {
+    font-weight: bold;
+}
