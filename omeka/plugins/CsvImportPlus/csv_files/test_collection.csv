@@ -1,0 +1,4 @@
+Dublin Core:Identifier	Record Type	Collection	Dublin Core:Title	Dublin Core:Creator	Dublin Core:Date	Dublin Core:Description
+Item-a	Item	collection-a	The title of this item	Myself	Just now	A test to create a collection if it doesn't exist.
+Item-b	Item	collection-a	The title of this second item	Myself too	Now	This second item belongs to the same collection.
+collection-a	Collection		New collection from "Csv Import" (updated)	Myself	Now too	The collection with metadata.
