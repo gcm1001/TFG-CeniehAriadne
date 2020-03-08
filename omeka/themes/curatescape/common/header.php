@@ -44,9 +44,9 @@ $file = (isset($file)) ? $file : null;
 <meta name="msapplication-TileImage" content="<?php echo mh_apple_icon_logo_url();?>"/>
 
 <!-- Icon -->
-<link rel="shortcut icon" href="<?php echo ($favicon=get_theme_option('favicon')) ? WEB_ROOT.'/files/theme_uploads/'.$favicon : img('favicon.ico');?>"/>
+<link rel="shortcut icon" href="<?php echo ($favicon=get_theme_option('favicon')) ? WEB_ROOT.'/files/theme_uploads/'.$favicon : img('cenieh-ico.ico');?>"/>
 <link rel="icon" href="<?php echo mh_apple_icon_logo_url(); ?>"/> 
-<link rel='mask-icon' href='<?php echo img('favicon.svg')?>' color='#1EAEDB'> <!-- Safari -->
+<link rel='mask-icon' href='<?php echo img('cenieh-ico.svg')?>' color='#1EAEDB'> <!-- Safari -->
 
 <!-- Plugin Stuff -->
 <?php fire_plugin_hook('public_head',array('view'=>$this)); ?>

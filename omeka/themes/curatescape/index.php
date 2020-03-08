@@ -17,6 +17,7 @@ else{
 		<h2 hidden class="hidden"><?php echo __('Map');?></h2>
 		<nav aria-label="<?php echo __('Skip Interactive Map');?>"><a id="skip-map" href="#homepage"><?php echo __('Skip Interactive Map');?></a></nav>
 		<figure>
+			<?php echo mh_map_title(); ?>
 			<?php echo mh_map_type('focusarea',null,null); ?>
 		</figure>
 	</section>	

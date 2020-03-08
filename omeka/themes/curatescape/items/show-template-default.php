@@ -4,6 +4,10 @@ if ($hasimg=metadata($item, 'has thumbnail') ) {
 	$img_markup=item_image('fullsize',array(),0, $item);
 	preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img_markup, $result);
 	$hero_img = array_pop($result);
+	$noimg= false;
+} else {
+	$noimg= true;
+	$hero_img = WEB_ROOT.'/files/theme_uploads/default.JPG';
 }
 	
 echo head(array(
@@ -18,7 +22,7 @@ echo head(array(
 			
 	<header id="story-header">
 		<?php
-			echo '<div class="item-hero '.(!$hasimg ? 'hero short' : 'hero').'" '.($hasimg ? 'style="background-image: url('.$hero_img.')"' : null).'>';
+			echo '<div class="item-hero hero" style="background-image: url('.$hero_img.')">';
 			echo '<div class="item-hero-text">'.mh_the_title().mh_the_subtitle().mh_the_byline($item,true).'</div>';
 			echo '</div>';	
 			if(function_exists('tour_nav')){
@@ -27,7 +31,7 @@ echo head(array(
 			}
 			echo mh_the_lede();
 		?>
-		<?php //echo item_is_private($item);?>
+		<?php //TODO: echo item_is_private($item);?>
 	</header>
 	<section class="text">
 		<h2 hidden class="hidden"><?php echo __('Text');?></h2>
@@ -37,7 +41,7 @@ echo head(array(
 	<section class="media">
 		<h2 hidden class="hidden"><?php echo __('Media');?></h2>
 		<?php mh_video_files($item);?>
-		<?php mh_item_images($item);?>	
+		<?php if ($hasimg) mh_item_images($item);?>	
 		<?php mh_audio_files($item);?>	
 		<?php mh_document_files($item);?>		
 	</section>
@@ -61,11 +65,15 @@ echo head(array(
 		<?php echo mh_item_citation(); ?>
 		<?php echo function_exists('tours_for_item') ? tours_for_item($item->id, __('Related %s', mh_tour_label('plural'))) : null?>
 		<?php echo mh_subjects(); ?>
-		<?php echo mh_tags();?>			
+		<?php #echo mh_tags();?>			
 		<?php echo mh_related_links();?>
-		<?php echo mh_post_date(); ?>				
-		<?php echo mh_display_comments();?>
 	</section>	
+	
+	<section class="allmetadata">
+		<?php echo mh_show_all_exist_metadata();?>
+		<?php echo mh_post_date(); ?>		
+		<?php echo mh_display_comments();?>
+	</section>
 
 	<?php echo mh_share_this(mh_item_label());?>
 	
