@@ -54,10 +54,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         `address` TEXT NOT NULL ,
         INDEX (`item_id`)) ENGINE = InnoDB";
         $db->query($sql);
-
-        set_option('geolocation_default_latitude', '38');
-        set_option('geolocation_default_longitude', '-77');
-        set_option('geolocation_default_zoom_level', '5');
+		
+        set_option('geolocation_default_latitude', '55.673730');
+        set_option('geolocation_default_longitude', '12.561809');
+        set_option('geolocation_default_zoom_level', '3');
         set_option('geolocation_per_page', self::DEFAULT_LOCATIONS_PER_PAGE);
         set_option('geolocation_add_map_to_contribution_form', '0');
         set_option('geolocation_default_radius', 10);
@@ -151,6 +151,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         set_option('geolocation_mapbox_access_token', $_POST['mapbox_access_token']);
         set_option('geolocation_mapbox_map_id', $_POST['mapbox_map_id']);
         set_option('geolocation_cluster', $_POST['cluster']);
+        set_option('geolocation_sync_spatial', $_POST['geolocation_sync_spatial']);
+        set_option('geolocation_sync_spatial_rev', $_POST['geolocation_sync_spatial_rev']);
     }
 
     public function hookDefineAcl($args)
@@ -200,22 +202,82 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 'javascripts/leaflet-markercluster');
             queue_js_file('leaflet-markercluster/leaflet.markercluster');
         }
+	}
+
+    private function synchronizeSpatialCoverage_Map($item)
+    {
+		$spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
+		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
+
+		if(!empty($spatialtext)){ // si el campo 'Spatial Coverage' ha sido rellenado
+			if (!$location) { // si el objeto no tenía ninguna localización asignada en el mapa
+				$location = new Location; //creo un nuevo objeto 'Location'
+				$location->item_id = $item->id; // y lo asocio al item actual
+			}
+			list($lat,$lon) = explode(',',$spatialtext); // divido la cadena de texto en latitud y longitud
+            // actualizo/relleno los campos requeridos para el objeto 'Location'
+			$location->latitude = $lat;
+			$location->longitude = $lon;
+            $location->zoom_level = '19';
+            // guardo los cambios realizados
+			$location->save(); 
+		} else {
+			if($location){
+				$location->delete();
+			}
+		}
+        return;       
     }
+
+    private function synchronizeMap_SpatialCoverage($item){
+        // obtenemos el elemento 'Spatial Coverage' de la tabla 'Element' alojada en la base de datos
+		$elementTable = $this->_db->getTable('Element');
+		$spatialElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Spatial Coverage');
+		// obtenemos de la tabla 'Location' las características asociadas a la localización del item actual
+		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
+        // eliminamos el texto existente en el elemento 'Spatial Coverage' ya que vamos a actualizar su contenido
+		$item->deleteElementTextsByElementId(array($spatialElement->id));
+
+		if ($location) { //si existe una localización
+				$lon = $location->longitude;
+				if ((-100 < $lon) && ($lon < 100)) { //si la parte entera de la longitud está entre -100 y 100
+					$formatoSalida = "%'.0+".(strlen(sprintf('%+f', $lon)) + 1)."f"; //añado 0 para rellenar 
+				} else {
+					$formatoSalida = "%+f";
+				}
+				$latlon = sprintf('%+f',$location->latitude).','.sprintf($formatoSalida, $lon); // creo la cadena (latitud,longitud)
+				$item->addTextForElement($spatialElement, $latlon); // añado al elemento 'Spatial Coverage' del item la cadena
+				if ($location->address) {   // y, si además, hemos introducido el nombre del lugar 
+					$item->addTextForElement($coverageElement, $location->address); // añado otro campo de tipo 'Spatial Coverage' para almacenar dicho nombre
+				}
+			 }
+
+		$item->saveElementTexts(); //guardo las modificaciones
+
+    }
+
 
     public function hookAfterSaveItem($args)
     {
+		$item = $args['record'];
+		$spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
+		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
+
         if (!($post = $args['post'])) {
+			if(get_option('geolocation_sync_spatial_rev')) {
+                $this->synchronizeSpatialCoverage_Map($item);
+            } else {
+                if($location){
+				    $location->delete();
+			    }
+            }
             return;
         }
-
-        $item = $args['record'];
+	
         // If we don't have the geolocation form on the page, don't do anything!
         if (!isset($post['geolocation'])) {
             return;
         }
-
-        // Find the location object for the item
-        $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
 
         // If we have filled out info for the geolocation, then submit to the db
         $geolocationPost = $post['geolocation'];
@@ -226,16 +288,20 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             if (!$location) {
                 $location = new Location;
                 $location->item_id = $item->id;
-            }
+			}
             $location->setPostData($geolocationPost);
             $location->save();
         } else {
-            // If the form is empty, then we want to delete whatever location is
-            // currently stored
-            if ($location) {
-                $location->delete();
+			if(get_option('geolocation_sync_spatial_rev')) {
+                $this->synchronizeSpatialCoverage_Map($item);
+            } else {
+                if($location){
+				    $location->delete();
+			    }
             }
         }
+
+        if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
     }
 
     public function hookAdminItemsShowSidebar($args)

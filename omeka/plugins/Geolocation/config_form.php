@@ -229,6 +229,31 @@
         ?>
     </div>
 </div>
+
+<div class="field">
+    <div class="two columns alpha">
+        <label for="geolocation_sync_spatial"><?php echo __('\'Spatial Coverage\' synchronization'); ?></label>
+    </div>
+    <div class="inputs five columns omega">
+        <p class="explanation"><?php echo __('Whenever an item is saved, this option will allow update the item\'s Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation. WARN: This option will OVERWRITE any element texts in Spatial Coverage.'); ?></p>
+        <?php
+        echo get_view()->formCheckbox('geolocation_sync_spatial', true,
+            array('checked' => (boolean) get_option('geolocation_sync_spatial')));
+        ?>
+    </div>
+</div>
+<div class="field">
+    <div class="two columns alpha">
+        <label for="geolocation_sync_spatial_rev"><?php echo __('Reverse \'Spatial Coverage\' synchronization'); ?></label>
+    </div>
+    <div class="inputs five columns omega">
+        <p class="explanation"><?php echo __('Whenever an item is saved, this option will allow update the map with a new Location based on item\'s Dublin Core "Spatial Coverage" metadata.'); ?></p>
+        <?php
+        echo get_view()->formCheckbox('geolocation_sync_spatial_rev', true,
+            array('checked' => (boolean) get_option('geolocation_sync_spatial_rev')));
+        ?>
+    </div>
+</div>
 </fieldset>
 <script type="text/javascript">
 function toggleMapboxSettings() {
