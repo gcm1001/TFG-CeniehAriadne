@@ -7,7 +7,7 @@
 class IsPartOfCollectionPlugin extends Omeka_Plugin_AbstractPlugin
 {
 
-    protected $_hooks = 'after_save_item';
+    protected $_hooks = array('after_save_item');
 
     public function hookAfterSaveItem($args)
     {
