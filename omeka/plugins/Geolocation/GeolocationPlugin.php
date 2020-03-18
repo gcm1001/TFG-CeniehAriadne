@@ -54,7 +54,23 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         `address` TEXT NOT NULL ,
         INDEX (`item_id`)) ENGINE = InnoDB";
         $db->query($sql);
-		
+
+        $sqlBox = "
+        CREATE TABLE IF NOT EXISTS `$db->BoxLocation` (
+        `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+        `item_id` BIGINT UNSIGNED NOT NULL ,
+        `box_latA` DOUBLE NOT NULL ,
+        `box_lonA` DOUBLE NOT NULL ,
+        `box_latB` DOUBLE NOT NULL ,
+        `box_lonB` DOUBLE NOT NULL ,
+        `box_latC` DOUBLE NOT NULL ,
+        `box_lonC` DOUBLE NOT NULL ,
+        `box_latD` DOUBLE NOT NULL ,
+        `box_lonD` DOUBLE NOT NULL ,
+        `box_zoom` INT NOT NULL ,
+        INDEX (`item_id`)) ENGINE = InnoDB";
+        $db->query($sqlBox);
+
         set_option('geolocation_default_latitude', '55.673730');
         set_option('geolocation_default_longitude', '12.561809');
         set_option('geolocation_default_zoom_level', '3');
@@ -81,38 +97,22 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         delete_option('geolocation_mapbox_access_token');
         delete_option('geolocation_mapbox_map_id');
         delete_option('geolocation_cluster');
-
+        delete_option('geolocation_draw');
         // This is for older versions of Geolocation, which used to store a Google Map API key.
         delete_option('geolocation_gmaps_key');
 
         // Drop the Location table
         $db = get_db();
         $db->query("DROP TABLE IF EXISTS `$db->Location`");
+        $db->query("DROP TABLE IF EXISTS `$db->BoxLocation`");
+
     }
 
     public function hookUpgrade($args)
     {
-        if (version_compare($args['old_version'], '1.1', '<')) {
-            // If necessary, upgrade the plugin options
-            // Check for old plugin options, and if necessary, transfer to new options
-            $options = array('default_latitude', 'default_longitude', 'default_zoom_level', 'per_page');
-            foreach($options as $option) {
-                $oldOptionValue = get_option('geo_' . $option);
-                if ($oldOptionValue != '') {
-                    set_option('geolocation_' . $option, $oldOptionValue);
-                    delete_option('geo_' . $option);
-                }
-            }
-            delete_option('geo_gmaps_key');
-        }
-        if (version_compare($args['old_version'], '2.2.3', '<')) {
-            set_option('geolocation_default_radius', 10);
-        }
-        if (version_compare($args['old_version'], '3.0', '<')) {
             delete_option('geolocation_api_key');
             delete_option('geolocation_map_type');
             set_option('geolocation_basemap', self::DEFAULT_BASEMAP);
-        }
     }
 
     /**
@@ -151,6 +151,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         set_option('geolocation_mapbox_access_token', $_POST['mapbox_access_token']);
         set_option('geolocation_mapbox_map_id', $_POST['mapbox_map_id']);
         set_option('geolocation_cluster', $_POST['cluster']);
+        set_option('geolocation_draw', $_POST['draw']);
         set_option('geolocation_sync_spatial', $_POST['geolocation_sync_spatial']);
         set_option('geolocation_sync_spatial_rev', $_POST['geolocation_sync_spatial_rev']);
     }
@@ -202,31 +203,40 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 'javascripts/leaflet-markercluster');
             queue_js_file('leaflet-markercluster/leaflet.markercluster');
         }
+        if (get_option('geolocation_draw')) {
+            queue_js_file(array('Leaflet.draw/src/Leaflet.draw','Leaflet.draw/src/Leaflet.Draw.Event'));
+        		queue_css_file('Leaflet.draw/src/leaflet.draw', null, null,'javascripts',null);
+        		queue_js_file(array('Leaflet.draw/src/Toolbar', 'Leaflet.draw/src/Tooltip'),'javascripts',null,null);
+        		queue_js_file(array('Leaflet.draw/src/ext/GeometryUtil','Leaflet.draw/src/ext/LatLngUtil','Leaflet.draw/src/ext/LineUtil.Intersect', 'Leaflet.draw/src/ext/Polygon.Intersect','Leaflet.draw/src/ext/Polyline.Intersect','Leaflet.draw/src/ext/TouchEvents'),'javascripts',null,null);
+        		queue_js_file(array('Leaflet.draw/src/draw/DrawToolbar','Leaflet.draw/src/draw/handler/Draw.Feature','Leaflet.draw/src/draw/handler/Draw.SimpleShape','Leaflet.draw/src/draw/handler/Draw.Polyline','Leaflet.draw/src/draw/handler/Draw.Marker','Leaflet.draw/src/draw/handler/Draw.Circle','Leaflet.draw/src/draw/handler/Draw.CircleMarker','Leaflet.draw/src/draw/handler/Draw.Polygon','Leaflet.draw/src/draw/handler/Draw.Rectangle'));
+        		queue_js_file(array('Leaflet.draw/src/edit/EditToolbar','Leaflet.draw/src/edit/handler/EditToolbar.Edit','Leaflet.draw/src/edit/handler/EditToolbar.Delete'));
+        		queue_js_file('Leaflet.draw/src/Control.Draw');
+        		queue_js_file(array('Leaflet.draw/src/edit/handler/Edit.Poly','Leaflet.draw/src/edit/handler/Edit.SimpleShape','Leaflet.draw/src/edit/handler/Edit.Rectangle', 'Leaflet.draw/src/edit/handler/Edit.Marker','Leaflet.draw/src/edit/handler/Edit.CircleMarker','Leaflet.draw/src/edit/handler/Edit.Circle'));
+        }
 	}
 
     private function synchronizeSpatialCoverage_Map($item)
     {
 		$spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
 		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
-
 		if(!empty($spatialtext)){ // si el campo 'Spatial Coverage' ha sido rellenado
 			if (!$location) { // si el objeto no tenía ninguna localización asignada en el mapa
 				$location = new Location; //creo un nuevo objeto 'Location'
 				$location->item_id = $item->id; // y lo asocio al item actual
 			}
 			list($lat,$lon) = explode(',',$spatialtext); // divido la cadena de texto en latitud y longitud
-            // actualizo/relleno los campos requeridos para el objeto 'Location'
+      // actualizo/relleno los campos requeridos para el objeto 'Location'
 			$location->latitude = $lat;
 			$location->longitude = $lon;
-            $location->zoom_level = '19';
-            // guardo los cambios realizados
-			$location->save(); 
+      $location->zoom_level = '5';
+      // guardo los cambios realizados
+			$location->save();
 		} else {
 			if($location){
 				$location->delete();
 			}
 		}
-        return;       
+        return;
     }
 
     private function synchronizeMap_SpatialCoverage($item){
@@ -235,19 +245,20 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 		$spatialElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Spatial Coverage');
 		// obtenemos de la tabla 'Location' las características asociadas a la localización del item actual
 		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
-        // eliminamos el texto existente en el elemento 'Spatial Coverage' ya que vamos a actualizar su contenido
+
+    // eliminamos el texto existente en el elemento 'Spatial Coverage' ya que vamos a actualizar su contenido
 		$item->deleteElementTextsByElementId(array($spatialElement->id));
 
 		if ($location) { //si existe una localización
 				$lon = $location->longitude;
 				if ((-100 < $lon) && ($lon < 100)) { //si la parte entera de la longitud está entre -100 y 100
-					$formatoSalida = "%'.0+".(strlen(sprintf('%+f', $lon)) + 1)."f"; //añado 0 para rellenar 
+					$formatoSalida = "%'.0+".(strlen(sprintf('%+f', $lon)) + 1)."f"; //añado 0 para rellenar
 				} else {
 					$formatoSalida = "%+f";
 				}
 				$latlon = sprintf('%+f',$location->latitude).','.sprintf($formatoSalida, $lon); // creo la cadena (latitud,longitud)
 				$item->addTextForElement($spatialElement, $latlon); // añado al elemento 'Spatial Coverage' del item la cadena
-				if ($location->address) {   // y, si además, hemos introducido el nombre del lugar 
+				if ($location->address) {   // y, si además, hemos introducido el nombre del lugar
 					$item->addTextForElement($coverageElement, $location->address); // añado otro campo de tipo 'Spatial Coverage' para almacenar dicho nombre
 				}
 			 }
@@ -262,6 +273,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 		$item = $args['record'];
 		$spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
 		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
+    $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
+
 
         if (!($post = $args['post'])) {
 			if(get_option('geolocation_sync_spatial_rev')) {
@@ -270,10 +283,13 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 if($location){
 				    $location->delete();
 			    }
+          if ($boxlocation){
+            $boxlocation->delete();
+          }
             }
             return;
         }
-	
+
         // If we don't have the geolocation form on the page, don't do anything!
         if (!isset($post['geolocation'])) {
             return;
@@ -281,6 +297,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 
         // If we have filled out info for the geolocation, then submit to the db
         $geolocationPost = $post['geolocation'];
+
         if (!empty($geolocationPost)
             && $geolocationPost['latitude'] != ''
             && $geolocationPost['longitude'] != ''
@@ -288,18 +305,42 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             if (!$location) {
                 $location = new Location;
                 $location->item_id = $item->id;
-			}
+			      }
             $location->setPostData($geolocationPost);
             $location->save();
+
         } else {
-			if(get_option('geolocation_sync_spatial_rev')) {
-                $this->synchronizeSpatialCoverage_Map($item);
-            } else {
-                if($location){
-				    $location->delete();
-			    }
-            }
+          if(get_option('geolocation_sync_spatial_rev')) {
+              $this->synchronizeSpatialCoverage_Map($item);
+          } else {
+              if($location){
+				         $location->delete();
+			        }
+          }
         }
+
+        if (!empty($geolocationPost)
+            && $geolocationPost['box_latA'] != ''
+            && $geolocationPost['box_lonA'] != ''
+            && $geolocationPost['box_latB'] != ''
+            && $geolocationPost['box_lonB'] != ''
+            && $geolocationPost['box_latC'] != ''
+            && $geolocationPost['box_lonC'] != ''
+            && $geolocationPost['box_latD'] != ''
+            && $geolocationPost['box_lonD'] != ''
+        ) {
+            if (!$boxlocation) {
+                $boxlocation = new BoxLocation;
+                $boxlocation->item_id = $item->id;
+            }
+            $boxlocation->setPostData($geolocationPost);
+            $boxlocation->save();
+        } else {
+              if($boxlocation){
+                 $boxlocation->delete();
+              }
+        }
+
 
         if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
     }
@@ -365,6 +406,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $db = $this->_db;
         $select = $args['select'];
         $alias = $this->_db->getTable('Location')->getTableAlias();
+
         if (!empty($args['params']['only_map_items'])
             || !empty($args['params']['geolocation-address'])
         ) {
@@ -398,7 +440,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 $radius = $db->quote($radius, Zend_Db::FLOAT_TYPE);
                 $lat = $db->quote($lat, Zend_Db::FLOAT_TYPE);
                 $lng = $db->quote($lng, Zend_Db::FLOAT_TYPE);
-                $sqlMathExpression = 
+
+                $sqlMathExpression =
                     new Zend_Db_Expr(
                         "$earthRadius * ACOS(
                         COS(RADIANS($lat)) *
@@ -408,16 +451,16 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                         SIN(RADIANS($lat)) *
                         SIN(RADIANS(locations.latitude))
                         ) AS distance");
-                
+
                 $select->columns($sqlMathExpression);
 
                 // WHERE the distance is within radius miles/kilometers of the specified lat & long
-                $locationWithinRadius = 
+                $locationWithinRadius =
                     new Zend_Db_Expr(
-                        "(locations.latitude BETWEEN $lat - $radius / $denominator 
+                        "(locations.latitude BETWEEN $lat - $radius / $denominator
                             AND $lat + $radius / $denominator)
                             AND
-                        (locations.longitude BETWEEN $lng - $radius / $denominator 
+                        (locations.longitude BETWEEN $lng - $radius / $denominator
                             AND $lng + $radius / $denominator)");
                 $select->where($locationWithinRadius);
 
@@ -678,6 +721,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $center['show'] = false;
 
         $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
+        $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
         if (is_null($post)) {
             $post = $_POST;
@@ -693,13 +737,50 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             $zoom = empty($post['geolocation']['zoom_level']) ? '' : (int) $post['geolocation']['zoom_level'];
             $address = html_escape($post['geolocation']['address']);
         } else {
-            if ($location) {
-                $lng  = (double) $location['longitude'];
-                $lat  = (double) $location['latitude'];
-                $zoom = (int) $location['zoom_level'];
-                $address = html_escape($location['address']);
+            if ($location){
+              $lng  = (double) $location['longitude'];
+              $lat  = (double) $location['latitude'];
+              $zoom = (int) $location['zoom_level'];
+              $address = html_escape($location['address']);
             } else {
-                $lng = $lat = $zoom = $address = '';
+              $lng = $lat = $zoom = $address = '';
+            }
+        }
+
+        $usePostBox = !empty($post)
+                    && !empty($post['geolocation'])
+                    && $post['geolocation']['box_latA'] != ''
+                    && $post['geolocation']['box_lonA'] != ''
+                    && $post['geolocation']['box_latB'] != ''
+                    && $post['geolocation']['box_lonB'] != ''
+                    && $post['geolocation']['box_latC'] != ''
+                    && $post['geolocation']['box_lonC'] != ''
+                    && $post['geolocation']['box_latD'] != ''
+                    && $post['geolocation']['box_lonD'] != '';
+        if ($usePostBox){
+            $box_lonA  = empty($post['geolocation']['box_lonA']) ? '' : (double) $post['geolocation']['box_lonA'];
+            $box_latA  = empty($post['geolocation']['box_latA']) ? '' : (double) $post['geolocation']['box_latA'];
+            $box_lonB  = empty($post['geolocation']['box_lonB']) ? '' : (double) $post['geolocation']['box_lonB'];
+            $box_latB  = empty($post['geolocation']['box_latB']) ? '' : (double) $post['geolocation']['box_latB'];
+            $box_lonC  = empty($post['geolocation']['box_lonC']) ? '' : (double) $post['geolocation']['box_lonC'];
+            $box_latC  = empty($post['geolocation']['box_latC']) ? '' : (double) $post['geolocation']['box_latC'];
+            $box_lonD  = empty($post['geolocation']['box_lonD']) ? '' : (double) $post['geolocation']['box_lonD'];
+            $box_latD  = empty($post['geolocation']['box_latD']) ? '' : (double) $post['geolocation']['box_latD'];
+            $box_zoom = empty($post['geolocation']['box_zoom']) ? '' : (int) $post['geolocation']['box_zoom'];
+        } else {
+            if ($boxlocation) {
+                $box_lonA  = (double) $boxlocation['box_lonA'];
+                $box_latA  = (double) $boxlocation['box_latA'];
+                $box_lonB  = (double) $boxlocation['box_lonB'];
+                $box_latB  = (double) $boxlocation['box_latB'];
+                $box_lonC  = (double) $boxlocation['box_lonC'];
+                $box_latC  = (double) $boxlocation['box_latC'];
+                $box_lonD  = (double) $boxlocation['box_lonD'];
+                $box_latD  = (double) $boxlocation['box_latD'];
+                $box_zoom = (int) $boxlocation['box_zoom'];
+
+            } else {
+                $box_lonA = $box_latA = $box_lonB = $box_latB = $box_lonC = $box_latC = $box_lonD = $box_latD = $box_zoom = '';
             }
         }
 
@@ -714,7 +795,19 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 'zoomLevel' => $zoom);
             $center = $options['point'];
         }
-        $options['confirmLocationChange'] = $confirmLocationChange;
+        if($boxlocation or $usePostBox){
+
+          $options['points'] = array (
+            'box_latA' => $box_latA,
+            'box_lonA' => $box_lonA,
+            'box_latB' => $box_latB,
+            'box_lonB' => $box_lonB,
+            'box_latC' => $box_latC,
+            'box_lonC' => $box_lonC,
+            'box_latD' => $box_latD,
+            'box_lonD' => $box_lonD,
+            'box_zoom' => $box_zoom);
+        }
 
         return $view->partial('map/input-partial.php', array(
             'label' => $label,
@@ -723,8 +816,19 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'options' => $options,
             'lng' => $lng,
             'lat' => $lat,
+            'box_latA' => $box_latA,
+            'box_lonA' => $box_lonA,
+            'box_latB' => $box_latB,
+            'box_lonB' => $box_lonB,
+            'box_latC' => $box_latC,
+            'box_lonC' => $box_lonC,
+            'box_latD' => $box_latD,
+            'box_lonD' => $box_lonD,
+            'box_zoom' => $box_zoom,
             'zoom' => $zoom,
         ));
+
+        $options['confirmLocationChange'] = $confirmLocationChange;
     }
 
     protected function _getCenter()

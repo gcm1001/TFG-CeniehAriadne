@@ -5,7 +5,7 @@ function OmekaMap(mapDivId, center, options) {
 }
 
 OmekaMap.prototype = {
-    
+
     map: null,
     mapDivId: null,
     markers: [],
@@ -13,7 +13,7 @@ OmekaMap.prototype = {
     center: null,
     markerBounds: null,
     clusterGroup: null,
-    
+
     addMarker: function (latLng, options, bindHtml)
     {
         var map = this.map;
@@ -24,7 +24,7 @@ OmekaMap.prototype = {
         } else {
             marker.addTo(map);
         }
-        
+
         if (bindHtml) {
             marker.bindPopup(bindHtml, {autoPanPadding: [50, 50]});
             // Fit images on the map on first load
@@ -46,12 +46,11 @@ OmekaMap.prototype = {
                 }
             });
         }
-               
+
         this.markers.push(marker);
         this.markerBounds.extend(latLng);
         return marker;
     },
-
     fitMarkers: function () {
         if (this.markers.length == 1) {
             this.map.panTo(this.markers[0].getLatLng());
@@ -59,7 +58,7 @@ OmekaMap.prototype = {
             this.map.fitBounds(this.markerBounds, {padding: [25, 25]});
         }
     },
-    
+
     initMap: function () {
         if (!this.center) {
             alert('Error: The center of the map has not been set!');
@@ -83,7 +82,7 @@ OmekaMap.prototype = {
         // Show the center marker if we have that enabled.
         if (this.center.show) {
             this.addMarker([this.center.latitude, this.center.longitude],
-                           {title: "(" + this.center.latitude + ',' + this.center.longitude + ")"}, 
+                           {title: "(" + this.center.latitude + ',' + this.center.longitude + ")"},
                            this.center.markerHtml);
         }
     }
@@ -99,7 +98,7 @@ function OmekaMapBrowse(mapDivId, center, options) {
 }
 
 OmekaMapBrowse.prototype = {
-    
+
     afterLoadItems: function () {
         if (this.options.fitMarkers) {
             this.fitMarkers();
@@ -117,8 +116,8 @@ OmekaMapBrowse.prototype = {
             this.buildListLinks(listDiv);
         }
     },
-    
-    /* Need to parse KML manually b/c Google Maps API cannot access the KML 
+
+    /* Need to parse KML manually b/c Google Maps API cannot access the KML
        behind the admin interface */
     loadKmlIntoMap: function (kmlUrl, params) {
         var that = this;
@@ -129,7 +128,7 @@ OmekaMapBrowse.prototype = {
             data: params,
             success: function(data) {
                 var xml = jQuery(data);
-        
+
                 /* KML can be parsed as:
                     kml - root element
                         Placemark
@@ -138,32 +137,32 @@ OmekaMapBrowse.prototype = {
                             Point - longitude,latitude
                 */
                 var placeMarks = xml.find('Placemark');
-        
+
                 // If we have some placemarks, load them
                 if (placeMarks.size()) {
                     // Retrieve the balloon styling from the KML file
                     that.browseBalloon = that.getBalloonStyling(xml);
-                
+
                     // Build the markers from the placemarks
                     jQuery.each(placeMarks, function (index, placeMark) {
                         placeMark = jQuery(placeMark);
                         that.buildMarkerFromPlacemark(placeMark);
                     });
-            
+
                     // We have successfully loaded some map points, so continue setting up the map object
                     return that.afterLoadItems();
                 } else {
                     // @todo Elaborate with an error message
                     return false;
-                }            
+                }
             }
         });
     },
-    
+
     getBalloonStyling: function (xml) {
-        return xml.find('BalloonStyle text').text();        
+        return xml.find('BalloonStyle text').text();
     },
-    
+
     // Build a marker given the KML XML Placemark data
     // I wish we could use the KML file directly, but it's behind the admin interface so no go
     buildMarkerFromPlacemark: function (placeMark) {
@@ -172,12 +171,12 @@ OmekaMapBrowse.prototype = {
         var titleWithLink = placeMark.find('namewithlink').text();
         var body = placeMark.find('description').text();
         var snippet = placeMark.find('Snippet').text();
-            
+
         // Extract the lat/long from the KML-formatted data
         var coordinates = placeMark.find('Point coordinates').text().split(',');
         var longitude = coordinates[0];
         var latitude = coordinates[1];
-        
+
         // Use the KML formatting (do some string sub magic)
         var balloon = this.browseBalloon;
         balloon = balloon.replace('$[namewithlink]', titleWithLink).replace('$[description]', body).replace('$[Snippet]', snippet);
@@ -185,7 +184,7 @@ OmekaMapBrowse.prototype = {
         // Build a marker, add HTML for it
         this.addMarker([latitude, longitude], {title: title}, balloon);
     },
-    
+
     buildListLinks: function (container) {
         var that = this;
         var list = jQuery('<ul></ul>');
@@ -202,7 +201,7 @@ OmekaMapBrowse.prototype = {
             // Links open up the markers on the map, clicking them doesn't actually go anywhere
             link.attr('href', 'javascript:void(0);');
 
-            // Each <li> starts with the title of the item            
+            // Each <li> starts with the title of the item
             link.html(marker.options.title);
 
             // Clicking the link should take us to the map
@@ -236,101 +235,266 @@ function OmekaMapForm(mapDivId, center, options) {
     var omekaMap = new OmekaMap(mapDivId, center, options);
     jQuery.extend(true, this, omekaMap);
     this.initMap();
-    
-    this.formDiv = jQuery('#' + this.options.form.id);       
-        
-    // Make the map clickable to add a location point.
-    this.map.on('click', function (event) {
-        // If we are clicking a new spot on the map
-        var marker = that.setMarker(event.latlng);
-        if (marker) {
-            jQuery('#geolocation_address').val('');
-        }
-    });
-	
+
+    this.formDiv = jQuery('#' + this.options.form.id);
+    // Si está activada la funcionalidad de dibujo...
+    if (this.options.draw) {
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                  osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
+                  drawnItems = L.featureGroup().addTo(this.map);
+
+      	L.control.layers({
+              'osm': osm.addTo(this.map),
+              "google": L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+                  attribution: 'google'
+              })
+          }, { 'location view': drawnItems }, { position: 'topright', collapsed: false }).addTo(this.map);
+
+      	this.map.addControl(new L.Control.Draw({
+              edit: {
+                  featureGroup: drawnItems,
+                  poly: {
+                      allowIntersection: false
+                  }
+              },
+              draw: {
+                  polygon: false,
+                  circlemarker: false,
+                  circle: false,
+                  polyline: false
+              }
+          }));
+
+          // Se activa cuando una figura / marcador es creada.
+          this.map.on(L.Draw.Event.CREATED, function (event) {
+              var layer = event.layer,
+                  type = event.layerType;
+              // solo se admite una localización por objeto
+              drawnItems.clearLayers();
+              that.clearForm();
+              that.clearBoxForm();
+              //si es un objeto de tipo 'marker' (Marcador).
+              if (type === 'marker') {
+                  // coordenada del marcador
+                  var point = layer.getLatLng();
+                  // objeto (layer)
+                  var marker = that.setMarker(point);
+                  // añado un Pop Up al objeto informando su longitud y latitud
+                  marker.bindPopup('Lat: ' + point.lat + ' Lon: ' + point.lng).openPopup();
+                  // añado el objeto a la capa de objetos (location view)
+                  drawnItems.addLayer(marker);
+              }
+              // si es un objeto de tipo 'rectangle' (Rectángulo)
+              if (type === 'rectangle') {
+                //coordenadas de los cuatro puntos que lo componen
+                var points = layer.getLatLngs();
+                // objeto (layer)
+                var boxMarker = that.setBoxMarker(points);
+                // añado el objeto a la capa de objetos (location view)
+                drawnItems.addLayer(boxMarker);
+              }
+          });
+          // Se activa cuando una figura / marcador es eliminado (siempre que se guarde)
+          this.map.on('draw:deleted', function (event) {
+              // Antes de guardar la eliminación, se pregunta al usuario
+              if (!confirm('Are you sure you want to remove the location of the item?')
+              ) {
+                  return false;
+              }
+              // objetos eliminados (en nuestro caso,siempre será uno)
+              var layers = event.layers;
+              //por cada objeto eliminado se limpian sus elementos
+              layers.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    that.clearForm();
+                }
+                if (layer instanceof L.Rectangle) {
+                    that.clearBoxForm();
+                }
+              });
+          });
+        // Se activa cuando una figura / marcador es editado (siempre que se guarde)
+        this.map.on('draw:edited', function (event) {
+            // Antes de guardar la edición, se pregunta al usuario
+            if (!confirm('Are you sure you want to change the location of the item?')
+            ) {
+                return false;
+            }
+            // objetos editados(en nuestro caso,siempre será uno)
+            var layers = event.layers;
+            //por cada objeto editado, se actualizan sus elementos
+            layers.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    that.setMarker(layer.getLatLng());
+                }
+                if (layer instanceof L.Rectangle) {
+                    that.setBoxMarker(layer.getLatLngs());
+                }
+            });
+        });
+    // Si no está activada la función dibujo se conserva el funcionamiento normal...
+    } else {
+        this.map.on('click', function (event) {
+            var marker = that.setMarker(event.latlng);
+              if (marker) {
+                jQuery('#geolocation_address').val('');
+            }
+        });
+    }
+
     // Make the map update on zoom changes.
     this.map.on('zoomend', function () {
         that.updateZoomForm();
+        that.updateZoomBoxForm();
     });
 
     // Add the existing map point.
     if (this.options.point) {
         var point = L.latLng(this.options.point.latitude, this.options.point.longitude);
+        var drawpoint = new L.marker(point);
         this.setMarker(point);
+        drawnItems.addLayer(drawpoint.bindPopup('Lat: ' + point.lat + ' Lon: ' + point.lng).openPopup());
         this.map.setView(point, this.options.point.zoomLevel);
     }
+    // Añado el rectángulo si es que lo hubiera
+    if(this.options.points){
+      // objeto (layer)
+        var box = new L.rectangle([[this.options.points.box_latA,this.options.points.box_lonA],
+                                   [this.options.points.box_latB,this.options.points.box_lonB],
+                                   [this.options.points.box_latC,this.options.points.box_lonC],
+                                   [this.options.points.box_latD,this.options.points.box_lonD]]);
+        // calculo el punto medio del rectángulo para centrar la vista
+        var midpoint = L.latLng((this.options.points.box_latA+this.options.points.box_latC)/2,(this.options.points.box_lonA+this.options.points.box_lonC)/2);
+        // plasmo el objeto en el mapa
+        drawnItems.addLayer(box);
+        // centro la vista en base al punto medio y zoom asociado al objeto
+        this.map.setView(midpoint, this.options.points.box_zoom);
+    }
+
 }
 
 OmekaMapForm.prototype = {
-    /* Set the marker to the point. */   
+    /* Set the marker to the point. */
     setMarker: function (point) {
         var that = this;
 
-        if (this.options.confirmLocationChange
-            && this.markers.length > 0
-            && !confirm('Are you sure you want to change the location of the item?')
-        ) {
-            return false;
-        }
-
-        // Get rid of existing markers.
-        this.clearForm();
-        
-        // Add the marker
-        var marker = this.addMarker(point);
-        
-        // Pan the map to the marker
-        this.map.panTo(point);
-        
-        //  Make the marker clear the form if clicked.
-        marker.on('click', function (event) {
-            if (!that.options.confirmLocationChange || confirm('Are you sure you want to remove the location of the item?')) {
-                that.clearForm();
+            if (this.options.confirmLocationChange
+                && this.markers.length > 0
+                && !confirm('Are you sure you want to change the location of the item?')
+            ) {
+                return false;
             }
-        });
-        
-        this.updateForm(point);
-        return marker;
+
+            // Get rid of existing markers.
+            this.clearForm();
+
+            // Add the marker
+            var marker = (this.options.draw) ? L.marker(point) : this.addMarker(point);
+
+            // Pan the map to the marker
+            this.map.panTo(point);
+
+            //  Make the marker clear the form if clicked.
+            marker.on('click', function (event) {
+                if (!that.options.confirmLocationChange || confirm('Are you sure you want to remove the location of the item?')) {
+                    that.clearForm();
+                }
+            });
+
+            this.updateForm(point);
+            return marker;
     },
-    
+
+    setBoxMarker: function (points) {
+        var box = new L.rectangle(points);
+
+        var midpoint = L.latLng((points[0][0].lat + points[0][2].lat)/2,(points[0][0].lng + points[0][2].lng)/2);
+
+        this.map.panTo(midpoint);
+
+        this.updateBoxForm(points);
+        return box;
+    },
     /* Update the latitude, longitude, and zoom of the form. */
     updateForm: function (point) {
         var latElement = document.getElementsByName('geolocation[latitude]')[0];
         var lngElement = document.getElementsByName('geolocation[longitude]')[0];
         var zoomElement = document.getElementsByName('geolocation[zoom_level]')[0];
-        
+
         // If we passed a point, then set the form to that. If there is no point, clear the form
         if (point) {
             latElement.value = point.lat;
             lngElement.value = point.lng;
-            zoomElement.value = this.map.getZoom();          
+            zoomElement.value = this.map.getZoom();
         } else {
             latElement.value = '';
             lngElement.value = '';
-            zoomElement.value = this.map.getZoom();          
-        }        
+            zoomElement.value = this.map.getZoom();
+        }
     },
-    
+    /* Se actiza la latitud y longitud de cada punto existente en la forma del rectángulo */
+    updateBoxForm: function (points) {
+        var box_latA_element = document.getElementsByName('geolocation[box_latA]')[0];
+        var box_lonA_element = document.getElementsByName('geolocation[box_lonA]')[0];
+        var box_latB_element = document.getElementsByName('geolocation[box_latB]')[0];
+        var box_lonB_element = document.getElementsByName('geolocation[box_lonB]')[0];
+        var box_latC_element = document.getElementsByName('geolocation[box_latC]')[0];
+        var box_lonC_element = document.getElementsByName('geolocation[box_lonC]')[0];
+        var box_latD_element = document.getElementsByName('geolocation[box_latD]')[0];
+        var box_lonD_element = document.getElementsByName('geolocation[box_lonD]')[0];
+        var box_zoom_element = document.getElementsByName('geolocation[box_zoom]')[0];
+
+        if (points) {
+            box_latA_element.value = points[0][0].lat;
+            box_lonA_element.value = points[0][0].lng;
+            box_latB_element.value = points[0][1].lat;
+            box_lonB_element.value = points[0][1].lng;
+            box_latC_element.value = points[0][2].lat;
+            box_lonC_element.value = points[0][2].lng;
+            box_latD_element.value = points[0][3].lat;
+            box_lonD_element.value = points[0][3].lng;
+            box_zoom_element.value = this.map.getZoom();
+        } else {
+            box_latA_element.value = '';
+            box_lonA_element.value = '';
+            box_latB_element.value = '';
+            box_lonB_element.value = '';
+            box_latC_element.value = '';
+            box_lonC_element.value = '';
+            box_latD_element.value = '';
+            box_lonD_element.value = '';
+            box_zoom_element.value = this.map.getZoom();
+        }
+    },
     /* Update the zoom input of the form to be the current zoom on the map. */
     updateZoomForm: function () {
         var zoomElement = document.getElementsByName('geolocation[zoom_level]')[0];
         zoomElement.value = this.map.getZoom();
     },
-    
+    /* Se actualiza el zoom de la forma asociada al rectángulo dibujado en el mapa. */
+    updateZoomBoxForm: function () {
+        var zoomBoxElement = document.getElementsByName('geolocation[box_zoom]')[0];
+        zoomBoxElement.value = this.map.getZoom();
+    },
     /* Clear the form of all markers. */
     clearForm: function () {
         // Remove the markers from the map
         for (var i = 0; i < this.markers.length; i++) {
             this.markers[i].remove();
         }
-        
+
         // Clear the markers array
         this.markers = [];
-        
+
         // Update the form
         this.updateForm();
     },
-    
+    /* Se limpia el valor de los elementos de la forma asociada al rectángulo*/
+    clearBoxForm: function () {
+        // Update the form
+        this.updateBoxForm();
+    },
     /* Resize the map and center it on the first marker. */
     resize: function () {
         this.map.invalidateSize();

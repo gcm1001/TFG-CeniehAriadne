@@ -25,6 +25,10 @@ class Geolocation_View_Helper_GeolocationMapOptions extends Zend_View_Helper_Abs
             $options['cluster'] = (bool) get_option('geolocation_cluster');
         }
 
+        if (!array_key_exists('draw', $options)) {
+            $options['draw'] = (bool) get_option('geolocation_draw');
+        }
+        
         return js_escape($options);
     }
 

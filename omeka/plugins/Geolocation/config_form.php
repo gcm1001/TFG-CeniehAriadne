@@ -177,6 +177,18 @@
         ?>
     </div>
 </div>
+<div class="field">
+    <div class="two columns alpha">
+        <label for="draw"><?php echo __('Enable draw plugin'); ?></label>
+    </div>
+    <div class="inputs five columns omega">
+        <p class="explanation"><?php echo __('Adds support for drawing and editing vectors and markers on edit map.'); ?></p>
+        <?php
+        echo get_view()->formCheckbox('draw', true,
+            array('checked' => (boolean) get_option('geolocation_draw')));
+        ?>
+    </div>
+</div>
 </fieldset>
 
 <fieldset>
