@@ -117,8 +117,19 @@
                 $flag = true;
 
         	      foreach($elementTexts as $elementText) {
+                    $eSlugPlus = false;
                     $preElement = ($recordType == "Collection") ? "\t\t\t<" : "\t\t\t\t\t<";
-                    echo (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.$eSlug.">") : ($preElement."dcterms:".$eSlug.">");
+                    if ($eSlug == "language") $eSlugPlus = $eSlug.' xsi:type="dcterms:ISO639-1"';
+                    if ($eSlug == "spatial"){
+                        if (preg_match('/;/', $elementText->text)) {
+                            if(count(explode(';',$elementText->text)) == 2){
+                                $eSlugPlus = $eSlug.' xsi:type="dcterms:BOX"';
+                            }
+                        } else{
+                            $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
+                        }
+                    }
+                    echo (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ($preElement."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">");
           		      echo htmlspecialchars($elementText->text);
                     echo (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n";
         	      }
@@ -161,9 +172,6 @@
             die();
         }
 
-        $titles = $item->getElementTexts('Dublin Core','Title');
-        $title = $titles[0];
-        $title = htmlspecialchars($title);
         $type = $item->getItemType();
 
         $unqualified = array(
@@ -205,7 +213,18 @@
                 $flag = true;
 
                 foreach($elementTexts as $elementText) {
-                    echo (in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.$eSlug.">") : ("\t\t\t<"."dcterms:".$eSlug.">");
+                    $eSlugPlus = false;
+                    if ($eSlug == "language") $eSlugPlus = $eSlug.' xsi:type="dcterms:ISO639-1"';
+                    if ($eSlug == "spatial"){
+                        if (preg_match('/;/', $elementText->text)) {
+                            if(count(explode(';',$elementText->text)) == 2){
+                                $eSlugPlus = $eSlug.' xsi:type="dcterms:BOX"';
+                            }
+                        } else{
+                            $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
+                        }
+                    }
+                    echo (in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ("\t\t\t<"."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">");
                     echo htmlspecialchars($elementText->text);
                     echo (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n";
         	      }
@@ -249,7 +268,7 @@
      */
     private function _getElementSlug($elementName,$elementSetName='') {
         $dces = new DublinCoreExtendedPlugin;
-        foreach ($dces->getElements() as $elementDces) { 
+        foreach ($dces->getElements() as $elementDces) {
             if ($elementName == $elementDces['label']) return $elementDces['name'];
         }
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $elementName));
