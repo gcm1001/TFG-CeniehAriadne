@@ -16,6 +16,10 @@ class BoxLocation extends Omeka_Record_AbstractRecord implements Zend_Acl_Resour
     public $box_latD;
     public $box_lonD;
     public $box_zoom;
+    public $address;
+    public $map_type;
+
+
     /*
      * Executes before the record is saved.
      */

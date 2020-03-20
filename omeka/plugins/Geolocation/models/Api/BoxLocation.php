@@ -31,6 +31,8 @@ class Api_BoxLocation extends Omeka_Record_Api_AbstractRecordAdapter
             'box_latD' => $record->box_latD,
             'box_lonD' => $record->box_lonD,
             'box_zoom' => $record->box_zoom,
+            'address' => $record->address,
+            'map_type' => $record->map_type,
             'item' => array(
                 'id' => $record->item_id,
                 'url' => $this->getResourceUrl("/items/{$record->item_id}"),
@@ -78,6 +80,16 @@ class Api_BoxLocation extends Omeka_Record_Api_AbstractRecordAdapter
         if (isset($data->box_zoom)) {
             $record->box_zoom = $data->box_zoom;
         }
+        if (isset($data->map_type)) {
+            $record->map_type = $data->map_type;
+        } else {
+            $record->map_type = '';
+        }
+        if (isset($data->address)) {
+            $record->address = $data->address;
+        } else {
+            $record->address = '';
+        }
     }
 
     /**
@@ -114,6 +126,16 @@ class Api_BoxLocation extends Omeka_Record_Api_AbstractRecordAdapter
         }
         if (isset($data->box_zoom)) {
             $record->box_zoom = $data->box_zoom;
+        }
+        if (isset($data->map_type)) {
+            $record->map_type = $data->map_type;
+        } else {
+            $record->map_type = '';
+        }
+        if (isset($data->address)) {
+            $record->address = $data->address;
+        } else {
+            $record->address = '';
         }
     }
 }
