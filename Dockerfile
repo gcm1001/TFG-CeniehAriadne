@@ -25,9 +25,9 @@ RUN unzip -q omeka-${OMEKA_VERSION}.zip && mv omeka-${OMEKA_VERSION}/* /var/www/
 
 RUN rm -r omeka-${OMEKA_VERSION}.zip
 
-ADD dockfiles/ini/${OMEKA_VERSION}/.htaccess.modificar /var/www/html/.htaccess
+ADD omeka/.htaccess /var/www/html/.htaccess
 
-ADD dockfiles/ini/${OMEKA_VERSION}/config.ini.modificar /var/www/html/application/config/config.ini
+ADD omeka/application/config/config.ini /var/www/html/application/config/config.ini
 
 RUN chmod -R 777 files
 
