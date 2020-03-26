@@ -1,6 +1,108 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+\section{Metodologías}\label{metodologias}
 
+\subsection{Scrum}\label{scrum}
 
+Scrum es un marco de trabajo donde se ejecutan procesos ágiles que contribuyen al desarrollo y mantenimiento de productos \emph{software}. Por ello, está catalogado como una metodología ágil, la cual se caracteriza por trabajar con un ciclo de vida iterativo e incremental, donde se va liberando el producto software de forma periódica a través de \emph{sprints} (iteraciones) \cite{agile:scrum}.
+
+\section{Cliente de control de versiones}\label{ctr-ver}
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas:
+ 		\href{https://wiki.gnome.org/Apps/Gitg/}{Gitg},
+  		\href{https://www.syntevo.com/smartgit/}{SmartGit},
+  		\href{https://www.gitkraken.com/}{GitKraken} y
+  		\href{https://desktop.github.com/}{GitHub Desktop}
+	\item Herramienta elegida: \href{https://www.gitkraken.com/}{GitKraken}.
+\end{itemize}
+
+GitKraken es un cliente para el control de versiones \emph{Git} que nos permite realizar todas y cada una de las tareas propias de \emph{Git} a través de una intuitiva y elegante interfaz gráfica. Además, incorpora funciones adicionales como \emph{GitFlow}, que nos permite gestionar las diferentes ramificaciones del proyecto. De entre todas las opciones posibles es, en mi opinión, la más competente tanto en diseño como en funcionalidad.
+
+\section{\emph{Hosting} del repositorio}\label{rep-host}
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas: \href{https://github.com/}{GitHub} y
+  		\href{https://gitlab.com/}{GitLab}.
+	\item Herramienta elegida: \href{https://github.com/}{GitHub}.
+\end{itemize}
+
+Github es el servicio de \emph{hosting} de Git más utilizado para albergar repositorios de código en la nube. El hecho de que cuente con una enorme comunidad de usuarios y que además ofrezca servicios exclusivos y gratuitos a estudiantes lo convierte en la mejor opción posible. Alguno de estos servicios son: privatización de repositorios, cantidad ilimitada de colaboradores por repositorio, código propiertario... 
+
+\section{Gestor de contenidos (CMS)}\label{cms}
+
+\begin{itemize}
+\tightlist
+	\item Gestores de contenidos considerados:
+  		\href{https://duraspace.org/dspace/}{DSpace},
+  		\href{https://www.bibl.ulaval.ca/archimede/index.en.html}{Archimede},
+  		\href{https://www.mycore.de/}{MyCoRe},
+  		\href{https://omeka.org/classic/}{Omeka Classic} y
+  		\href{https://github.com/DANS-KNAW/dccd-webui}{DCCD}
+	\item Herramienta elegida: \href{https://omeka.org/classic/}{Omeka Classic}.
+\end{itemize}
+
+Omeka Classic es una plataforma de gestión de contenidos libre, flexible y de código abierto. Su misión principal es la publicación de colecciones digitales provenientes de bibliotecas, museos o cualquier tipo de institución que pretenda difundir su patrimonio cultural, como es el caso del CENIEH. Los motivos principales por los que he decidido escoger este CMS son:
+\begin{enumerate}
+\tightlist
+	\item Se distribuye bajo una Licencia Pública General1 (GNU), con lo cual su distribución, uso y modificación es libre. Esto me permitirá amoldar la plataforma a los requisitos impuestos por la integración.
+	\item Utiliza un entorno PHP-MySQL (Fácil despliegue sobre el servidor)
+	\item Basado en estándares internacionalmente aceptados como Dublin Core o W3C. 
+	\item Flexible, escalable y extensible.
+	\begin{itemize}
+	\tightlist
+		\item Zend framework como arquitectura.
+		\item APIs documentadas.
+		\item Le respalda una gran comunidad de desarrolladores.
+	\end{itemize}
+	\item Asistencia técnica gratuita gracias a la existencia de foros donde desarrolladores del proyecto oficial aportan soluciones.
+	\item Pensado para ser utilizado por usuarios no necesariamente expertos en el manejo de las TIC (personal del CENIEH).
+\end{enumerate}
+
+\section{Entorno de desarrollo integrado (IDE)}\label{ide}
+
+\subsection{PHP | CSS | JavaScript | XML}\label{java}
+
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas:
+  		\href{https://atom.io/}{Atom},
+  		\href{https://eclipse.org/}{Eclipse},
+  		\href{https://www.zend.com/products/zend-studio}{Zend Studio} y
+  		\href{https://www.activestate.com/products/komodo-ide/}{Komodo}  
+	\item Herramienta elegida: \href{https://www.zend.com/products/zend-studio}{Zend Studio}.
+\end{itemize}
+
+Zend Studio es un IDE para PHP que ha sido construido tomando como base Eclipse. Considero que es la opción ideal ya que da soporte a todos y cada uno de los lenguajes de programación utilizados por la infraestructura software escogida. Además, permite la instalación de \emph{plugins} externos (Eclipse) e incluye herramientas tales como \emph{Docker} y \emph{Gitflow}. 
+
+\subsection{LaTeX}\label{latex}
+
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas:
+  		\href{https://www.texstudio.org/}{TeXstudio} y
+  		\href{http://www.xm1math.net/texmaker/}{Texmaker}.
+	\item Herramienta elegida:
+  		\href{http://www.xm1math.net/texmaker/}{Texmaker}.
+\end{itemize}
+
+Texmaker es un editor libre y gratuito para \LaTeX distribuido bajo la licencia GPL. Además, es multi-plataforma, es decir, trabaja tanto en UNIX como en MacOS y Windows. Incluye múltiples herramientas necesarias para elaborar documentos con \LaTeX como BibText o Metapost. Incorpora funciones adicionales como la corrección ortográfica, el auto-completado y plegado de código o un visor de pdf compatible con SyncTeX y con modo de visualización continua. 
+
+\section{Generador de documentación}\label{gen-doc}
+
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas:
+  		\href{https://www.sphinx-doc.org/es/master/index.html}{Sphinx} y
+  		\href{https://www.mkdocs.org/} {MkDocs}
+	\item Herramienta elegida:
+  		\href{https://www.sphinx-doc.org/es/master/index.html}{Sphinx}
+\end{itemize}
+
+He decidido utilizar el generador de documentación Sphinx ya que es mucho más completo que MkDocs. Además de soportar el lenguaje de marcado ligero \emph{Markdown} es compatible con \emph{reStructuredText}. Esta compatibilidad hace que sea posible usar ambos lenguajes en un mismo proyecto Sphinx. Además, con el uso del conversor \href{http://pandoc.org/}{Pandoc}, toda la documentación generada a partir de ambos lenguajes se puede exportar a multitud de formatos, entre los que se encuentra \LaTeX.
+
+\emph{Markdown} es un lenguaje muy conocido debido a que es utilizado en plataformas como Github o StackOverflow. Fue creado para generar contenido de una manera sencilla de escribir y fácil de leer. Permite además convertir el texto marcado en documentos XHTML.
+
+\emph{reStructuredText} presenta también una sintaxis sencilla y de fácil lectura. La principal ventaja respecto a \emph{Markdown} es que permite elaborar expresiones más complejas sin el uso de librerías/aplicaciones externas.
+
+\LaTeX es el estándar de facto para la publicación de documentos científicos. Permite la creación de documentos con una alta calidad tipográfica. Utiliza Tex como motor a la hora de darle formato a los documentos.
