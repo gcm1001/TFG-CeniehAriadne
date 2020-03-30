@@ -5,15 +5,8 @@ $options = $this->geolocationMapOptions($options);
 
 <input type="hidden" name="geolocation[latitude]" value="<?php echo $lat; ?>">
 <input type="hidden" name="geolocation[longitude]" value="<?php echo $lng; ?>">
-<input type="hidden" name="geolocation[box_latA]" value="<?php echo $box_latA; ?>">
-<input type="hidden" name="geolocation[box_lonA]" value="<?php echo $box_lonA; ?>">
-<input type="hidden" name="geolocation[box_latB]" value="<?php echo $box_latB; ?>">
-<input type="hidden" name="geolocation[box_lonB]" value="<?php echo $box_lonB; ?>">
-<input type="hidden" name="geolocation[box_latC]" value="<?php echo $box_latC; ?>">
-<input type="hidden" name="geolocation[box_lonC]" value="<?php echo $box_lonC; ?>">
-<input type="hidden" name="geolocation[box_latD]" value="<?php echo $box_latD; ?>">
-<input type="hidden" name="geolocation[box_lonD]" value="<?php echo $box_lonD; ?>">
-<input type="hidden" name="geolocation[box_zoom]" value="<?php echo $box_zoom; ?>">
+<input type="hidden" name="geolocation[width]" value="<?php echo $width; ?>">
+<input type="hidden" name="geolocation[height]" value="<?php echo $height; ?>">
 <input type="hidden" name="geolocation[zoom_level]" value="<?php echo $zoom; ?>">
 <input type="hidden" name="geolocation[map_type]" value="Leaflet">
 

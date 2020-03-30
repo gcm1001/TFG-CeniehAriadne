@@ -360,16 +360,18 @@ function OmekaMapForm(mapDivId, center, options) {
     // Añado el rectángulo si es que lo hubiera
     if(this.options.points){
       // objeto (layer)
-        var box = new L.rectangle([[this.options.points.box_latA,this.options.points.box_lonA],
-                                   [this.options.points.box_latB,this.options.points.box_lonB],
-                                   [this.options.points.box_latC,this.options.points.box_lonC],
-                                   [this.options.points.box_latD,this.options.points.box_lonD]]);
+    	var minlat = this.options.points.latitude - this.options.points.height;
+    	var maxlon = this.options.points.longitude + this.options.points.width;
+        var box = new L.rectangle([[minlat,this.options.points.longitude],
+                                   [this.options.points.latitude,this.options.points.longitude],
+                                   [this.options.points.latitude,maxlon],
+                                   [minlat,maxlon]]);
         // calculo el punto medio del rectángulo para centrar la vista
-        var midpoint = L.latLng((this.options.points.box_latA+this.options.points.box_latC)/2,(this.options.points.box_lonA+this.options.points.box_lonC)/2);
+        var midpoint = L.latLng((minlat+this.options.points.latitude)/2,(this.options.points.longitude+maxlon)/2);
         // plasmo el objeto en el mapa
         drawnItems.addLayer(box);
         // centro la vista en base al punto medio y zoom asociado al objeto
-        this.map.setView(midpoint, this.options.points.box_zoom);
+        this.map.setView(midpoint, this.options.points.zoomLevel);
     }
 
 }
@@ -435,36 +437,27 @@ OmekaMapForm.prototype = {
     },
     /* Se actiza la latitud y longitud de cada punto existente en la forma del rectángulo */
     updateBoxForm: function (points) {
-        var box_latA_element = document.getElementsByName('geolocation[box_latA]')[0];
-        var box_lonA_element = document.getElementsByName('geolocation[box_lonA]')[0];
-        var box_latB_element = document.getElementsByName('geolocation[box_latB]')[0];
-        var box_lonB_element = document.getElementsByName('geolocation[box_lonB]')[0];
-        var box_latC_element = document.getElementsByName('geolocation[box_latC]')[0];
-        var box_lonC_element = document.getElementsByName('geolocation[box_lonC]')[0];
-        var box_latD_element = document.getElementsByName('geolocation[box_latD]')[0];
-        var box_lonD_element = document.getElementsByName('geolocation[box_lonD]')[0];
-        var box_zoom_element = document.getElementsByName('geolocation[box_zoom]')[0];
+        var latElement = document.getElementsByName('geolocation[latitude]')[0];
+        var lngElement = document.getElementsByName('geolocation[longitude]')[0];
+        var widthElement = document.getElementsByName('geolocation[width]')[0];
+        var heightElement = document.getElementsByName('geolocation[height]')[0];
+        var zoomElement = document.getElementsByName('geolocation[zoom_level]')[0];
 
         if (points) {
-            box_latA_element.value = points[0][0].lat;
-            box_lonA_element.value = points[0][0].lng;
-            box_latB_element.value = points[0][1].lat;
-            box_lonB_element.value = points[0][1].lng;
-            box_latC_element.value = points[0][2].lat;
-            box_lonC_element.value = points[0][2].lng;
-            box_latD_element.value = points[0][3].lat;
-            box_lonD_element.value = points[0][3].lng;
-            box_zoom_element.value = this.map.getZoom();
+        	var width = Math.abs(points[0][1].lng - points[0][2].lng);
+        	var height = Math.abs(points[0][1].lat - points[0][0].lat);
+        	latElement.value = points[0][1].lat;
+        	lngElement.value = points[0][1].lng;
+        	widthElement.value = width;
+        	heightElement.value = height;
+        	zoomElement.value = this.map.getZoom();
+        	
         } else {
-            box_latA_element.value = '';
-            box_lonA_element.value = '';
-            box_latB_element.value = '';
-            box_lonB_element.value = '';
-            box_latC_element.value = '';
-            box_lonC_element.value = '';
-            box_latD_element.value = '';
-            box_lonD_element.value = '';
-            box_zoom_element.value = this.map.getZoom();
+        	latElement.value = '';
+        	lngElement.value = '';
+        	widthElement.value = '';
+        	heightElement.value = '';
+        	zoomElement.value = this.map.getZoom();
         }
     },
     /* Update the zoom input of the form to be the current zoom on the map. */
@@ -474,8 +467,8 @@ OmekaMapForm.prototype = {
     },
     /* Se actualiza el zoom de la forma asociada al rectángulo dibujado en el mapa. */
     updateZoomBoxForm: function () {
-        var zoomBoxElement = document.getElementsByName('geolocation[box_zoom]')[0];
-        zoomBoxElement.value = this.map.getZoom();
+        var zoomElement = document.getElementsByName('geolocation[zoom_level]')[0];
+        zoomElement.value = this.map.getZoom();
     },
     /* Clear the form of all markers. */
     clearForm: function () {

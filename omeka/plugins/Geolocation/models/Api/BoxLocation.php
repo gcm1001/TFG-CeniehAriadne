@@ -22,15 +22,11 @@ class Api_BoxLocation extends Omeka_Record_Api_AbstractRecordAdapter
         $representation = array(
             'id' => $record->id,
             'url' => $this->getResourceUrl("/geolocations/{$record->id}"),
-            'box_latA' => $record->box_latA,
-            'box_lonA' => $record->box_lonA,
-            'box_latB' => $record->box_latB,
-            'box_lonB' => $record->box_lonB,
-            'box_latC' => $record->box_latC,
-            'box_lonC' => $record->box_lonC,
-            'box_latD' => $record->box_latD,
-            'box_lonD' => $record->box_lonD,
-            'box_zoom' => $record->box_zoom,
+            'latitude' => $record->latitude,
+            'longitude' => $record->longitude,
+            'width' => $record->width,
+            'height' => $record->height,
+            'zoom_level' => $record->zoom_level,
             'address' => $record->address,
             'map_type' => $record->map_type,
             'item' => array(
@@ -53,32 +49,20 @@ class Api_BoxLocation extends Omeka_Record_Api_AbstractRecordAdapter
         if (isset($data->item->id)) {
             $record->item_id = $data->item->id;
         }
-        if (isset($data->box_latA)) {
-            $record->box_latA = $data->box_latA;
+        if (isset($data->latitude)) {
+            $record->latitude = $data->latitude;
         }
-        if (isset($data->box_lonA)) {
-            $record->box_lonA = $data->box_lonA;
+        if (isset($data->longitude)) {
+            $record->longitude = $data->longitude;
         }
-        if (isset($data->box_latB)) {
-            $record->box_latB = $data->box_latB;
+        if (isset($data->width)) {
+            $record->width = $data->width;
         }
-        if (isset($data->box_lonB)) {
-            $record->box_lonB = $data->box_lonB;
+        if (isset($data->height)) {
+            $record->height = $data->height;
         }
-        if (isset($data->box_latC)) {
-            $record->box_latC = $data->box_latC;
-        }
-        if (isset($data->box_lonC)) {
-            $record->box_lonC = $data->box_lonC;
-        }
-        if (isset($data->box_latD)) {
-            $record->box_latD = $data->box_latD;
-        }
-        if (isset($data->box_lonD)) {
-            $record->box_lonD = $data->box_lonD;
-        }
-        if (isset($data->box_zoom)) {
-            $record->box_zoom = $data->box_zoom;
+        if (isset($data->zoom_level)) {
+            $record->zoom_level = $data->zoom_level;
         }
         if (isset($data->map_type)) {
             $record->map_type = $data->map_type;
@@ -100,32 +84,20 @@ class Api_BoxLocation extends Omeka_Record_Api_AbstractRecordAdapter
      */
     public function setPutData(Omeka_Record_AbstractRecord $record, $data)
     {
-        if (isset($data->box_latA)) {
-            $record->box_latA = $data->box_latA;
+        if (isset($data->latitude)) {
+            $record->latitude = $data->latitude;
         }
-        if (isset($data->box_lonA)) {
-            $record->box_lonA = $data->box_lonA;
+        if (isset($data->longitude)) {
+            $record->longitude = $data->longitude;
         }
-        if (isset($data->box_latB)) {
-            $record->box_latB = $data->box_latB;
+        if (isset($data->width)) {
+            $record->width = $data->width;
         }
-        if (isset($data->box_lonB)) {
-            $record->box_lonB = $data->box_lonB;
+        if (isset($data->height)) {
+            $record->height = $data->height;
         }
-        if (isset($data->box_latC)) {
-            $record->box_latC = $data->box_latC;
-        }
-        if (isset($data->box_lonC)) {
-            $record->box_lonC = $data->box_lonC;
-        }
-        if (isset($data->box_latD)) {
-            $record->box_latD = $data->box_latD;
-        }
-        if (isset($data->box_lonD)) {
-            $record->box_lonD = $data->box_lonD;
-        }
-        if (isset($data->box_zoom)) {
-            $record->box_zoom = $data->box_zoom;
+        if (isset($data->zoom_level)) {
+            $record->zoom_level = $data->zoom_level;
         }
         if (isset($data->map_type)) {
             $record->map_type = $data->map_type;

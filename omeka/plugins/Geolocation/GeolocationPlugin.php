@@ -59,15 +59,11 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         CREATE TABLE IF NOT EXISTS `$db->BoxLocation` (
         `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
         `item_id` BIGINT UNSIGNED NOT NULL ,
-        `box_latA` DOUBLE NOT NULL ,
-        `box_lonA` DOUBLE NOT NULL ,
-        `box_latB` DOUBLE NOT NULL ,
-        `box_lonB` DOUBLE NOT NULL ,
-        `box_latC` DOUBLE NOT NULL ,
-        `box_lonC` DOUBLE NOT NULL ,
-        `box_latD` DOUBLE NOT NULL ,
-        `box_lonD` DOUBLE NOT NULL ,
-        `box_zoom` INT NOT NULL ,
+        `latitude` DOUBLE NOT NULL ,
+        `longitude` DOUBLE NOT NULL ,
+        `width` DOUBLE NOT NULL ,
+        `height` DOUBLE NOT NULL ,
+        `zoom_level` INT NOT NULL ,
         `map_type` VARCHAR( 255 ) NOT NULL ,
         `address` TEXT NOT NULL ,
         INDEX (`item_id`)) ENGINE = InnoDB";
@@ -218,6 +214,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 	}
 
     private function synchronizeSpatialCoverage_Map($item) {
+        $elementTable = $this->_db->getTable('Element');
         $spatialElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Spatial Coverage');
 		$spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
 		$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
@@ -235,15 +232,11 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                         $boxlocation->item_id = $item->id; // y lo asocio al item actual
                       }
                       // actualizo/relleno los campos requeridos para el objeto 'BoxLocation'
-                      $boxlocation->box_latA = $minlat;
-                      $boxlocation->box_lonA = $minlon;
-                      $boxlocation->box_latB = $maxlat;
-                      $boxlocation->box_lonB = $minlon;
-                      $boxlocation->box_latC = $maxlat;
-                      $boxlocation->box_lonC = $maxlon;
-                      $boxlocation->box_latD = $minlat;
-                      $boxlocation->box_lonD = $maxlon;
-                      $boxlocation->box_zoom = '5';
+                      $boxlocation->latitude = $minlat;
+                      $boxlocation->longitude = $maxlon;
+                      $boxlocation->width = abs($maxlon - $minlon);
+                      $boxlocation->heigth = abs($minlat - $maxlat);
+                      $boxlocation->zoom_level = '5';
                       // guardo los cambios realizados
                       $boxlocation->save();
                       return true;
@@ -302,16 +295,16 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 				}
 		}
         if ($boxlocation) { //si existe una localización (BBox)
-			$box_minlon = $boxlocation->box_lonA;
-            $box_maxlon = $boxlocation->box_lonC;
+			$box_minlon = $boxlocation->longitude;
+            $box_maxlat= $boxlocation->latitude;
 
 			if ((-100 < $box_minlon) && ($box_minlon < 100)) { //si la parte entera de la longitud está entre -100 y 100
 				$formatoSalida = "%'.0+".(strlen(sprintf('%+f', $box_minlon)) + 1)."f"; // añado 0 para rellenar
 			} else {
 				$formatoSalida = "%+f";
 			}
-			$latlonMin = sprintf('%+f',$boxlocation->box_latA).','.sprintf($formatoSalida, $box_minlon); // coordenada del punto mínimo
-            $latlonMax = sprintf('%+f',$boxlocation->box_latC).','.sprintf($formatoSalida, $box_maxlon); // coordenada del punto máximo
+			$latlonMin = sprintf('%+f',$box_maxlat-$boxlocation->height).','.sprintf($formatoSalida, $box_minlon); // coordenada del punto mínimo
+			$latlonMax = sprintf('%+f',$box_maxlat).','.sprintf($formatoSalida, $box_minlon + $boxlocation->width); // coordenada del punto máximo
 			$item->addTextForElement($spatialElement, $latlonMin.';'.$latlonMax); // añado al elemento 'Spatial Coverage' las coordendas en formato "mincoord;maxcoord"
 			if ($boxlocation->address) {   // y, si además, hemos introducido el nombre del lugar
 				$item->addTextForElement($spatialElement, $boxlocation->address); // añado otro campo de tipo 'Spatial Coverage' para almacenar dicho nombre
@@ -352,6 +345,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         if (!empty($geolocationPost)
             && $geolocationPost['latitude'] != ''
             && $geolocationPost['longitude'] != ''
+            && $geolocationPost['width'] == ''
+            && $geolocationPost['height'] == ''
         ) {
             if (!$location) {
                 $location = new Location;
@@ -368,14 +363,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         if (!empty($geolocationPost)
-            && $geolocationPost['box_latA'] != ''
-            && $geolocationPost['box_lonA'] != ''
-            && $geolocationPost['box_latB'] != ''
-            && $geolocationPost['box_lonB'] != ''
-            && $geolocationPost['box_latC'] != ''
-            && $geolocationPost['box_lonC'] != ''
-            && $geolocationPost['box_latD'] != ''
-            && $geolocationPost['box_lonD'] != ''
+            && $geolocationPost['latitude'] != ''
+            && $geolocationPost['longitude'] != ''
+            && $geolocationPost['width'] != ''
+            && $geolocationPost['height'] != ''
         ) {
             if (!$boxlocation) {
                 $boxlocation = new BoxLocation;
@@ -777,7 +768,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $usePost = !empty($post)
                     && !empty($post['geolocation'])
                     && $post['geolocation']['longitude'] != ''
-                    && $post['geolocation']['latitude'] != '';
+                    && $post['geolocation']['latitude'] != ''
+                    && $post['geolocation']['width'] == ''
+                    && $post['geolocation']['height'] == '';
         if ($usePost) {
             $lng  = empty($post['geolocation']['longitude']) ? '' : (double) $post['geolocation']['longitude'];
             $lat  = empty($post['geolocation']['latitude']) ? '' : (double) $post['geolocation']['latitude'];
@@ -796,41 +789,28 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 
         $usePostBox = !empty($post)
                     && !empty($post['geolocation'])
-                    && $post['geolocation']['box_latA'] != ''
-                    && $post['geolocation']['box_lonA'] != ''
-                    && $post['geolocation']['box_latB'] != ''
-                    && $post['geolocation']['box_lonB'] != ''
-                    && $post['geolocation']['box_latC'] != ''
-                    && $post['geolocation']['box_lonC'] != ''
-                    && $post['geolocation']['box_latD'] != ''
-                    && $post['geolocation']['box_lonD'] != '';
+                    && $post['geolocation']['latitude'] != ''
+                    && $post['geolocation']['longitude'] != ''
+                    && $post['geolocation']['width'] != ''
+                    && $post['geolocation']['height'] != '';
         if ($usePostBox){
-            $box_lonA  = empty($post['geolocation']['box_lonA']) ? '' : (double) $post['geolocation']['box_lonA'];
-            $box_latA  = empty($post['geolocation']['box_latA']) ? '' : (double) $post['geolocation']['box_latA'];
-            $box_lonB  = empty($post['geolocation']['box_lonB']) ? '' : (double) $post['geolocation']['box_lonB'];
-            $box_latB  = empty($post['geolocation']['box_latB']) ? '' : (double) $post['geolocation']['box_latB'];
-            $box_lonC  = empty($post['geolocation']['box_lonC']) ? '' : (double) $post['geolocation']['box_lonC'];
-            $box_latC  = empty($post['geolocation']['box_latC']) ? '' : (double) $post['geolocation']['box_latC'];
-            $box_lonD  = empty($post['geolocation']['box_lonD']) ? '' : (double) $post['geolocation']['box_lonD'];
-            $box_latD  = empty($post['geolocation']['box_latD']) ? '' : (double) $post['geolocation']['box_latD'];
-            $box_zoom = empty($post['geolocation']['box_zoom']) ? '' : (int) $post['geolocation']['box_zoom'];
-            $address = html_escape($post['geolocation']['address']);
+            $box_lat  = empty($post['geolocation']['latitude']) ? '' : (double) $post['geolocation']['latitude'];
+            $box_lon  = empty($post['geolocation']['longitude']) ? '' : (double) $post['geolocation']['longitude'];
+            $width  = empty($post['geolocation']['width']) ? '' : (double) $post['geolocation']['width'];
+            $height  = empty($post['geolocation']['height']) ? '' : (double) $post['geolocation']['height'];
+            $box_zoom = empty($post['geolocation']['zoom_level']) ? '' : (int) $post['geolocation']['zoom_level'];
+            $box_address = html_escape($post['geolocation']['address']);
 
         } else {
             if ($boxlocation) {
-                $box_lonA  = (double) $boxlocation['box_lonA'];
-                $box_latA  = (double) $boxlocation['box_latA'];
-                $box_lonB  = (double) $boxlocation['box_lonB'];
-                $box_latB  = (double) $boxlocation['box_latB'];
-                $box_lonC  = (double) $boxlocation['box_lonC'];
-                $box_latC  = (double) $boxlocation['box_latC'];
-                $box_lonD  = (double) $boxlocation['box_lonD'];
-                $box_latD  = (double) $boxlocation['box_latD'];
-                $box_zoom = (int) $boxlocation['box_zoom'];
-                $address = html_escape($boxlocation['address']);
+                $box_lat  = (double) $boxlocation['latitude'];
+                $box_lon  = (double) $boxlocation['longitude'];
+                $width  = (double) $boxlocation['width'];
+                $height  = (double) $boxlocation['height'];
+                $box_zoom = (int) $boxlocation['zoom_level'];
+                $box_address = html_escape($boxlocation['address']);
             } else {
-                $box_lonA = $box_latA = $box_lonB = $box_latB = $box_lonC = $box_latC = $box_lonD = $box_latD = $box_zoom = '';
-                $address = ($location or $usePost) ? $address : '';
+                $box_lat = $box_lon = $box_address = $width = $height = $box_zoom = '';
             }
         }
 
@@ -848,16 +828,12 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         if($boxlocation or $usePostBox){
 
           $options['points'] = array (
-            'box_latA' => $box_latA,
-            'box_lonA' => $box_lonA,
-            'box_latB' => $box_latB,
-            'box_lonB' => $box_lonB,
-            'box_latC' => $box_latC,
-            'box_lonC' => $box_lonC,
-            'box_latD' => $box_latD,
-            'box_lonD' => $box_lonD,
-            'box_zoom' => $box_zoom,
-            'address' => $address);
+            'latitude' => $box_lat,
+            'longitude' => $box_lon,
+            'width' => $width,
+            'height' => $height,
+            'zoomLevel' => $box_zoom,
+            'address' => $box_address);
         }
 
         return $view->partial('map/input-partial.php', array(
@@ -865,18 +841,11 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'address' => $address,
             'center' => $center,
             'options' => $options,
-            'lng' => $lng,
-            'lat' => $lat,
-            'box_latA' => $box_latA,
-            'box_lonA' => $box_lonA,
-            'box_latB' => $box_latB,
-            'box_lonB' => $box_lonB,
-            'box_latC' => $box_latC,
-            'box_lonC' => $box_lonC,
-            'box_latD' => $box_latD,
-            'box_lonD' => $box_lonD,
-            'box_zoom' => $box_zoom,
-            'zoom' => $zoom,
+            'lng' => empty($lng) ? $box_lon : $lng,
+            'lat' => empty($lat) ? $box_lat : $lat,
+            'width' => $width,
+            'height' => $height,
+            'zoom' => empty($zoom) ? $box_zoom : $zoom,
         ));
 
         $options['confirmLocationChange'] = $confirmLocationChange;
