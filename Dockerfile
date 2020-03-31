@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -qq -y --no-install-recommends \
 	    zlib1g \
         zlib1g-dev \
 	    libzip-dev && \
-        docker-php-ext-install exif mysqli pdo pdo_mysql zip
+        docker-php-ext-install curl exif mysqli pdo pdo_mysql zip
 
 ENV OMEKA_VERSION 2.7.1
 

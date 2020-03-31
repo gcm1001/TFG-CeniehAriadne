@@ -1,0 +1,39 @@
+version: '3.7'
+
+secrets:
+  db_ini:
+    file: './db.ini'
+  omeka_db_password:
+    external: true
+  omeka_db_root_password:
+    external: true
+
+services:
+  db:
+    image: 'mysql:8.0'
+    environment:
+      MYSQL_DATABASE: dbcenieh
+      MYSQL_PASSWORD_FILE: /run/secrets/omeka_db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/omeka_db_root_password
+      MYSQL_USER: cenieh
+    volumes:
+      - 'db:/var/lib/mysql'
+    secrets:
+      - omeka_db_password
+      - omeka_db_root_password
+  omeka_app:
+    image: 'omeka_cenieh:latest'
+    ports:
+      - '80:80'
+    volumes:
+      - 'files:/var/www/html/files'
+    secrets:
+      - source: db_ini
+        target: /var/www/html/db.ini
+        uid: '33'
+        gid: '33'
+        mode: 0440
+
+volumes:
+  db:
+  files:
