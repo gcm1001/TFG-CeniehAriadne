@@ -1,0 +1,45 @@
+ul.navigation {
+  list-style: none;
+}
+
+ul.navigation li{
+  position:relative;
+}
+
+ul.navigation a{
+  display:block;
+  text-decoration:none;
+  transition: backgorund 0.25s, color 0.25s;
+}
+
+ul.navigation ul{
+  position:absolute;
+  left:0%;
+  top:0;
+  width:100%;
+  visibility:hidden;
+  opacity:0;
+  transition: transform 0.2s;
+  transform: translateX(50px);
+}
+
+.dropdown:after{
+	content: '\f0da';
+	font-family: 'FontAwesome';
+	color: #777;
+	float: right;
+}
+
+ul.navigation li:hover{
+  font-weight: bold;
+}
+
+ul.navigation li:hover > ul{
+  font-weight: normal;
+  left:100%;
+  visibility:visible;
+  opacity:0.8;
+  transform: translateX(0px);
+}
+
+
