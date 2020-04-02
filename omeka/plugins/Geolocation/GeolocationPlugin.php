@@ -221,9 +221,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
 		if(!empty($spatialtext)){ // si el campo 'Spatial Coverage' ha sido rellenado
-            if (preg_match('/;/', $spatialtext)) { // si tiene coordenadas separadas por ';'
-                if(count(explode(';',$spatialtext)) == 2){ // si el número de coordenadas es 2
-                    list($min,$max) = explode(';',$spatialtext); // obtenemos las coordenadas
+		    if (preg_match('/||/', $spatialtext)) { // si tiene coordenadas separadas por '||'
+                if(count(explode('-',$spatialtext)) == 2){ // si el número de coordenadas es 2
+                    list($min,$max) = explode('-',$spatialtext); // obtenemos las coordenadas
                     list($minlat,$minlon) = explode(',',$min); // > latitud y longitus de la coordenada mínima
                     list($maxlat,$maxlon) = explode(',',$max); // > latitud y longitus de la coordenada máxima
                     if(is_numeric($minlat) && is_numeric($maxlat) && is_numeric($minlon) && is_numeric($maxlon)){ //si son válidas
@@ -305,7 +305,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 			}
 			$latlonMin = sprintf('%+f',$box_maxlat-$boxlocation->height).','.sprintf($formatoSalida, $box_minlon); // coordenada del punto mínimo
 			$latlonMax = sprintf('%+f',$box_maxlat).','.sprintf($formatoSalida, $box_minlon + $boxlocation->width); // coordenada del punto máximo
-			$item->addTextForElement($spatialElement, $latlonMin.';'.$latlonMax); // añado al elemento 'Spatial Coverage' las coordendas en formato "mincoord;maxcoord"
+			$item->addTextForElement($spatialElement, $latlonMin.'||'.$latlonMax); // añado al elemento 'Spatial Coverage' las coordendas en formato "mincoord;maxcoord"
 			if ($boxlocation->address) {   // y, si además, hemos introducido el nombre del lugar
 				$item->addTextForElement($spatialElement, $boxlocation->address); // añado otro campo de tipo 'Spatial Coverage' para almacenar dicho nombre
 			}
