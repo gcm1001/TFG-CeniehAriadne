@@ -1,0 +1,34 @@
+  name: TFG CeniehAriadnePlus CI/CD
+  
+  on:
+    push:
+      branches:
+        - master
+    pull_request:
+      branches:
+        - master
+  
+  jobs:
+      Docker:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v1
+          - name: Login
+            run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+          - name: Build
+            run: docker build -t omeka_cenieh .
+          - name: Tags
+            run: |
+                docker tag omeka_cenieh ${{ secrets.DOCKER_USER }}/omeka_cenieh:${{ github.sha }}
+                docker tag omeka_cenieh ${{ secrets.DOCKER_USER }}/omeka_cenieh:latest
+          - name: Push
+            run: |
+                docker push ${{ secrets.DOCKER_USER }}/omeka_cenieh:${{ github.sha }}
+                docker push ${{ secrets.DOCKER_USER }}/omeka_cenieh:latest
+          - name: Deployment
+            run: |
+                docker swarm init
+                echo ${{ secrets.DB_PASSWORD }} | docker secret create omeka_db_password -
+                echo ${{ secrets.DB_ROOT_PASSWORD }} | docker secret create omeka_db_root_password -
+                cp ./db.ini.modificar ./db.ini
+                docker stack deploy -c docker-compose.yml omeka_cenieh
