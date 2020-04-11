@@ -1,11 +1,12 @@
-¡Bienvenido a la documentación del proyecto TFG-CeniehAriadnePlus_!
-===================================================================
 
+################################################
+Documentación del proyecto TFG-CeniehAriadnePlus_ 
+#################################################
 
 Descripción
 ===========
 
-Esta es la descripción del proyecto.
+.
 
 .. _TFG-CeniehAriadnePlus: https://github.com/gcm1001/TFG-CeniehAriadne
 
@@ -13,9 +14,10 @@ Contenido
 ^^^^^^^^^
 
 .. toctree::
+   :caption: Memoria
+   :name: memo
    :maxdepth: 2
-    
-   license
+   memoria/*    
    help
 
 

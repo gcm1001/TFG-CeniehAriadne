@@ -6,6 +6,11 @@
 
 Scrum es un marco de trabajo donde se ejecutan procesos ágiles que contribuyen al desarrollo y mantenimiento de productos \emph{software}. Por ello, está catalogado como una metodología ágil, la cual se caracteriza por trabajar con un ciclo de vida iterativo e incremental, donde se va liberando el producto software de forma periódica a través de \emph{sprints} (iteraciones) \cite{agile:scrum}.
 
+\subsection{Integración continua}\label{scrum}
+
+La Integración Continua (CI) es una práctica utilizada en el desarrollo de software mediante la cual es posible automatizar operaciones tales como la compilación o ejecución de tests. Aplicando esta metodología en el proyecto conseguimos detectar fallos con mayor rapidez, mejorar la calidad del software y reducir el tiempo empleado en validar y publicar nuevas actualizaciones de software. 
+
+
 \section{Cliente de control de versiones}\label{ctr-ver}
 \begin{itemize}
 \tightlist
@@ -73,7 +78,7 @@ Omeka Classic es una plataforma de gestión de contenidos libre, flexible y de c
 	\item Herramienta elegida: \href{https://www.zend.com/products/zend-studio}{Zend Studio}.
 \end{itemize}
 
-Zend Studio es un IDE para PHP que ha sido construido tomando como base Eclipse. Considero que es la opción ideal ya que da soporte a todos y cada uno de los lenguajes de programación utilizados por la infraestructura software escogida. Además, permite la instalación de \emph{plugins} externos (Eclipse) e incluye herramientas tales como \emph{Docker} y \emph{Gitflow}. 
+Zend Studio es un IDE para PHP que ha sido construido tomando como base Eclipse. Considero que es la opción ideal ya que da soporte a todos y cada uno de los lenguajes de programación utilizados por la infraestructura software escogida. Además, permite la instalación de \emph{plugins} externos de Eclipse e incluye herramientas tales como \emph{Docker} y \emph{Gitflow}. 
 
 \subsection{LaTeX}\label{latex}
 
@@ -106,3 +111,65 @@ He decidido utilizar el generador de documentación Sphinx ya que es mucho más 
 \emph{reStructuredText} presenta también una sintaxis sencilla y de fácil lectura. La principal ventaja respecto a \emph{Markdown} es que permite elaborar expresiones más complejas sin el uso de librerías/aplicaciones externas.
 
 \LaTeX es el estándar de facto para la publicación de documentos científicos. Permite la creación de documentos con una alta calidad tipográfica. Utiliza Tex como motor a la hora de darle formato a los documentos.
+
+\section{Docker}\label{docker}
+
+La tecnología \href{https://www.docker.com/}{Docker} permite desplegar una aplicación distribuida y empaquetarla junto a todas sus dependencias y librerías en un uno o varios "objetos" denominados contenedores o \emph{containers}. Estos pueden ser ejecutados en cualquier servidor Linux, aumentando así la flexibilidad y portabilidad de nuestra aplicación. 
+
+
+\section{Herramienta de integración continua}\label{int-cont}
+
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas:
+  		\href{https://jenkins.io/}{Jenkins},
+  		\href{https://travis-ci.org/} {Travis CI} y
+  		\href{https://github.com/features/actions} {Github Actions}
+	\item Herramienta elegida:
+  		\href{https://github.com/features/actions}{Github Actions}
+\end{itemize}
+
+Para aplicar la integración continua al proyecto he dedicido utilizar \emph{Github Actions}. El principal motivo es que todas sus funciones se encuentran integradas en la propia interfaz de Github, lo que facilita en gran medida su uso. Además, permite reutilizar código, elaborado por otros usuarios de la comunidad, para desarrollar nuestro propio entorno de trabajo (\emph{workflow}).
+
+
+\section{Herramienta de diagramación}\label{int-cont}
+
+\begin{itemize}
+\tightlist
+	\item Herramientas consideradas:
+  		\href{https://es.libreoffice.org/descubre/draw/}{Draw - LibreOffice},
+  		\href{https://www.smartdraw.com/} {SmartDraw} y
+  		\href{https://app.diagrams.net/} {Draw.io}
+	\item Herramienta elegida:
+  		\href{https://app.diagrams.net/}{Draw.io}
+\end{itemize}
+
+\emph{Draw.io} es una herramienta gratuita de diseño que permite crear y compartir diagramas de forma \emph{online}, es decir, sin necesidad de instalar programa alguno. Presenta una interfaz elegante y fácil de utilizar desde la cual podemos hacer uso de sus múltiples funciones como, por ejemplo, importar imágenes, añadir objetos UML, exportar e importar proyectos en diversos formatos, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
