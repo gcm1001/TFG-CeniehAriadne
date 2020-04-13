@@ -64,6 +64,8 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
             'simple' => array(),
             'detailed' => array(),
         ),
+        'ariadneplus_monitor_name' => '',
+        'ariadneplus_monitor_email' => '',
     );
 
     /**
@@ -145,7 +147,6 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_options['ariadneplus_monitor_elements_steppable'] = json_encode($this->_options['ariadneplus_monitor_elements_steppable']);
         $this->_options['ariadneplus_monitor_elements_default'] = json_encode($this->_options['ariadneplus_monitor_elements_default']);
         $this->_options['ariadneplus_monitor_admin_items_browse'] = json_encode($this->_options['ariadneplus_monitor_admin_items_browse']);
-
         $this->_installOptions();
     }
 
@@ -306,7 +307,6 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
             }
             $elementSet->delete();
         }
-
         $this->_uninstallOptions();
     }
 
@@ -379,6 +379,8 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
             'detailed' => isset($post['detailed']) ? $post['detailed'] : array(),
         );
         set_option('ariadneplus_monitor_admin_items_browse', json_encode($settings));
+        set_option('ariadneplus_monitor_name', $_POST['ariadneplus_monitor_name']);
+        set_option('ariadneplus_monitor_email', $_POST['ariadneplus_monitor_email']);
     }
 
     /**
@@ -995,14 +997,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
                 'html' => true,
             );
         }
-        //GETTY ATT JSON
-        $getty = metadata($collection, array('Monitor','JSON file of your matchings to Getty AAT'));
-        if($getty){
-            $elementTexts['Monitor']['JSON file of your matchings to Getty AAT'][] = array(
-                'text' => $getty,
-                'html' => false,
-            );
-        }
+      
         $metadata = array(
             Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
         );

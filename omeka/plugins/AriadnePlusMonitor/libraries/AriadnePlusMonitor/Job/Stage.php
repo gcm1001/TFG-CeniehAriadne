@@ -30,7 +30,7 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             $this->_log(__('The term "%s" is the last one of the vocabulary of element %s.', $term, $element->name));
             return;
         }
-        
+        $url = $this->_options['url'];
         // All is fine.
         $newTerm = $statusElement['terms'][$key + 1];
         $elementSet = $element->getElementSet();
@@ -42,42 +42,14 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
         );
 
-        if (empty($this->_options['records'])) {
-            $records = get_records('Item', array('collection' => $this->_options['collection'],
-                'advanced' => array(array(
-                    'element_id' => $element->id,
-                    'type' => 'is exactly',
-                    'terms' => $term,
-                )),
-            ), 0);
-        }
-        // There is a list of records, so check them.
-        else {
-            $records = array();
-            foreach ($this->_options['records'] as $key => $record) {
-                if (is_numeric($record)) {
-                    $record = get_record_by_id('Item', $record);
-                    if (empty($record)) {
-                        $this->_log(__('Record #%d does not exist and has been skipped.', $record));
-                        continue;
-                    }
-                }
-                // Check the stage.
-                $flag = true;
-                $ets = $record->getElementTexts($elementSet->name, $element->name);
-                foreach ($ets as $et) {
-                    if ($et->text === $newTerm) {
-                        $this->_log(__('Record #%d is already staged to "%s" and has been skipped.', $record, $newTerm));
-                        $flag = false;
-                        break;
-                    }
-                }
-                if ($flag) {
-                    $records[] = $record;
-                }
-            }
-        }
-
+        $records = get_records('Item', array('collection' => $this->_options['collection'],
+            'advanced' => array(array(
+                'element_id' => $element->id,
+                'type' => 'is exactly',
+                'terms' => $term,
+            )),
+        ), 0);
+        
         // CHECK: Incomplete > Complete 
         if($key == 0){
             $mandatoryElementsDC = array('Identifier','Title','Subject','Language','Date','Rights','Publisher','Contributor','Creator', 'Spatial Coverage');
@@ -86,46 +58,58 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
                 foreach($mandatoryElementsDC as $element) {
                     if(empty(metadata($record,array('Dublin Core', $element)))){
                         unset($records[$key]);
+                        release_object($record);
                         $this->_log(__('Record #%d is not valid. %s is empty.', $record->id, $element));
                         break;
                     }
                 }
             }
         }
-        // CHECK: Complete > Mapped
-        if($key == 1){
+        // CHECK: Complete > Mapped  & Mapped > Enriched [OPTIONAL]
+        if($key == 1 || $key == 2){
+            $elements = ($key==1) ? array('ID of your metadata transformation') : array('URL of your PeriodO collection');
             foreach ($records as $key => $record) {
-                if(empty(metadata($record,array('Monitor', 'ID of your metadata transformation')))){
-                    unset($records[$key]);
-                    $this->_log(__('Record #%d is not valid. %s is empty.', $record->id, 'ID of your metadata transformation'));
-                }
-            }
-        }
-        // CHECK: Mapped > Enriched [OPTIONAL]
-        if($key == 2){
-            $enrichElements = array('URL of your Period0 collection', 'JSON file of your matchings to Getty AAT');
-            foreach ($records as $key => $record) {
-                foreach($enrichElements as $element) {
-                    if(empty(metadata($record,array('Monitor', $element)))){
-                        $this->_log(__('Record #%d have not been completly enriched. %s is empty.', $record->id, $element));
+                $collection = get_collection_for_item($record);
+                if($collection) {
+                    foreach($elements as $element) {
+                        if(empty(metadata($collection,array('Monitor', $element)))){
+                            unset($records[$key]);
+                            release_object($record);
+                            $this->_log(__('Record #%d is not valid, in its collection %s is empty.', $record->id, $element));
+                        }
                     }
+                } else {
+                    unset($records[$key]);
+                    $this->_log(__('Record #%d dont have collection associated', $record->id));
                 }
             }
         }
         
         // TODO: CHECK: Enriched > Ready to Publish
         if($key == 3){
-            /*
+            $collections = array();
+            foreach ($records as $key => $record) {
+                $collection = get_collection_for_item($record);
+                if(!array_key_exists($collection->id, $collections)){
+                    $collections[$collection->id] = $collection;
+                }
+            }
             $siteTitle  = get_option('site_title');
             $from = get_option('administrator_email');
-            $email = get_option('ariadne_wp4_email');
-            $name = get_option('ariadne_wp4_name');
+            $email = get_option('ariadneplus_monitor_email');
+            $name = get_option('ariadneplus_monitor_name');
             $subject = __("%s - Metadata Ingestion", $siteTitle);
-            $body = "<p>";
-            $body .= __("Mapping: %s",$mapping);
-            $body .= __("Matchings to GettyAAT: %s",$gettyATT);
-            $body .= __("PeriodO Collection: %s",$periodo);
-            $body .= "</p>";
+            $body = '';
+            foreach($collections as $id => $collection){
+                $body .= "<p>";
+                $body .= __("- COLLECTION %s", $id);
+                $body .= __("<br> > XML url: %s", $url.'/collections/show/'.$id.'?output=CIRcol');
+                $body .= __("<br> > OAI-PMH url: %s", $url.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$id);
+                $body .= __("<br> > Mapping: %s",metadata($collection,array('Monitor', 'ID of your metadata transformation')));
+                $body .= __("<br> > Matchings to GettyAAT: %s","None");
+                $body .= __("<br> > PeriodO Collection: %s",metadata($collection,array('Monitor', 'URL of your PeriodO collection')));
+                $body .= "</p>";
+            }
             $mail = new Zend_Mail('UTF-8');
             $mail->setBodyHtml($body);
             $mail->setFrom($from, "$siteTitle Administrator");
@@ -133,7 +117,7 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             $mail->setSubject($subject);
             $mail->addHeader('X-Mailer', 'PHP/' . phpversion());
             $mail->send();
-            */
+   
         }
         
         // TODO: CHECK: Ready to Publish > Published

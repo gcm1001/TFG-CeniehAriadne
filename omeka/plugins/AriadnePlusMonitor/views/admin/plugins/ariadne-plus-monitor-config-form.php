@@ -1,3 +1,4 @@
+<?php $view = get_view(); ?>
 <style type="text/css">
 .ariadneplus-monitor-boxes {
     text-align: center;
@@ -6,6 +7,30 @@
     list-style: none outside none;
 }
 </style>
+<fieldset id="fieldset-ariadneplus-monitor-contact"><legend><?php echo __('AriadnePlus contact details'); ?></legend>
+    <p class="explanation">
+    	
+    </p>
+    <div class="field">
+        <div class="two columns alpha">
+            <label for="ariadneplus_monitor_name"><?php echo __('Contact Name'); ?></label>
+        </div>
+        <div class="inputs five columns omega">
+            <p class="explanation"><?php echo __("The name of the person who is responsible for metadata imports to AriadnePlus."); ?></p>
+            <?php echo $view->formText('ariadneplus_monitor_name', get_option('ariadneplus_monitor_name')); ?>
+        </div>
+	</div>
+	
+	<div class="field">
+        <div class="two columns alpha">
+            <label for="ariadneplus_monitor_email"><?php echo __('Contact email'); ?></label>
+        </div>
+        <div class="inputs five columns omega">
+            <p class="explanation"><?php echo __("The e-mail of the contact person.");?></p>
+            <?php echo $view->formText('ariadneplus_monitor_email', get_option('ariadneplus_monitor_email')); ?>
+        </div>
+	</div>
+</fieldset>
 <fieldset id="fieldset-ariadneplus-monitor-elements"><legend><?php echo __('Elements'); ?></legend>
     <?php $monitorElementSet = $this->monitor()->getElementSet(); ?>
     <p class="explanation"><?php echo __('To manage elements (repeatable or not, steppable or not, with list of terms or not...), go to %sSettings%s, then %sElement Sets%s, then %sMonitor%s.',

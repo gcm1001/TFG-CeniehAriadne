@@ -4,20 +4,25 @@ echo head(array(
     'title' => $pageTitle,
     'bodyclass' => 'ariadne-plus-monitor index',
 ));
-?>
+?>	
+<script type="text/javascript" charset="utf-8">
+jQuery(window).load(function () {
+  jQuery('#element-id').change(function() {
+    var elementId = jQuery('#element-id').val();
+    var url = <?php echo json_encode($this->url()); ?>;
+    window.location = url + (elementId ? ("?collection=" + elementId) : '');
+  });
+});
+</script>
 <div id="primary">
-	<?php if (!empty($results)): ?>
-       	<form method="POST">
-       	<?php echo $this->formSelect('element_id', null, array('id' => 'element-id'), $options_for_select); ?>
-       	<input type="submit" name="submit" value="Seleccionar" />
-       	</form> 
-   	<?php endif; ?>
 <?php echo flash(); ?>
     <h2><?php
         echo  __('Total published items: %d / %d', get_db()->getTable('Item')->count(array('public' => 1)), total_records('Item'));
     ?></h2>
+	<p> <b>Select a collection </b>
+	<?php echo $this->formSelect('element_id', null, array('id' => 'element-id'), $options_for_select); ?>  <br/> 
+	</p>
 <?php
-
 if (!empty($results)):
 $statusElements = $this->monitor()->getStatusElements();
 foreach ($results as $elementId => $result):
@@ -49,9 +54,6 @@ foreach ($results as $elementId => $result):
                 foreach ($result as $period => $row): ?>
                 <tr class="ariadne-plus-monitor-stat <?php echo ++$key%2 == 1 ? 'odd' : 'even'; ?>">
                     <?php
-                        // Replace values "0" by empty string if wanted (default
-                        // for "by" queries).
-                        // $row = array_map(function($value) { return $value ?: '';}, $row);
                         echo '<td>' . implode('</td><td>', $row) . '</td>';
                     ?>
                 </tr>
@@ -65,7 +67,7 @@ foreach ($results as $elementId => $result):
                             array('class' => 'button small blue'));
                         if ($statusElements[$elementId]['steppable'] && $key < count($headers) - 1):
                             printf('<a href="%s" class="button small red">%s</a>',
-                                html_escape(url('ariadne-plus-monitor/index/stage', array('element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
+                                html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
                                 __('Stage'));
                         endif;
                     ?>
@@ -90,4 +92,4 @@ foreach ($results as $elementId => $result):
     ?></p>
 <?php endif; ?>
 </div>
-<?php echo foot();
+<?php echo foot(); 

@@ -60,6 +60,10 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
             }
         }
 
+
+        $collectionId = ($this->getParam('collection')) ? $this->getParam('collection') : '';
+        $this->view->collectionId = $collectionId;
+        $this->view->options_for_select = $this->_getOptionsForSelect($collectionId);
         // A second check may be needed if there are no unique elements.
         if (empty($statusElements)) {
             $this->view->results = array();
@@ -67,14 +71,8 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         }
 
         $this->view->params = $params;
-        $collectionId = null;
-        if(isset($_POST['submit']) && isset($_POST['element_id'])){
-            $collectionId = $_POST['element_id'];
-            $this->view->collectionId = $collectionId;
-        } else  {
-            $this->view->collectionId = '';
-        }
-        
+            
+
         $db = get_db();
         foreach($params['element'] as $elementId){
             $terms =  explode("\n", $db->query("SELECT terms FROM `$db->SimpleVocabTerm` WHERE element_id = '$elementId'")->fetch()['terms']);
@@ -82,7 +80,7 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
                 if($collectionId){
                     $n = $db->query("SELECT COUNT(*) as n FROM `$db->ElementText` INNER JOIN `$db->Item` ON `$db->ElementText`.record_id = `$db->Item`.id WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND collection_id='$collectionId'")->fetch()['n'];
                 }else{
-                    $n = $db->query("SELECT COUNT(*) as n FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term'")->fetch()['n'];
+                    $n = $db->query("SELECT COUNT(*) as n FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term' AND record_type='Item'")->fetch()['n'];
                 }
                 if($n > 0) $result[] = array('element_id' => $elementId, 'text' => $term, 'Count' => $n);
                 
@@ -109,7 +107,8 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         // Reduce memory?
         unset($result);
         $this->view->results = $stats;
-        $this->view->options_for_select = $this->_getOptionsForSelect($collectionId);
+        
+
 
     }
     
@@ -122,6 +121,7 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         $elementId = $this->getParam('element');
         $term = $this->getParam('term');
         $collection = $this->getParam('collection');
+        $url = $this->getParam('url');
         if (!empty($elementId) && !empty($term)) {
             $statusElement = get_view()->monitor()
                 // Only elements unique, steppable and with terms can be staged.
@@ -134,6 +134,7 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
                     $options['element'] = $element->id;
                     $options['collection'] = $collection;
                     $options['term'] = $term;
+                    $options['url'] = $url;
                     $jobDispatcher = Zend_Registry::get('bootstrap')->getResource('jobs');
                     $jobDispatcher->setQueueName(AriadnePlusMonitor_Job_Stage::QUEUE_NAME);
                     $jobDispatcher->sendLongRunning('AriadnePlusMonitor_Job_Stage', $options);
@@ -149,26 +150,25 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
             $flashMessenger->addMessage(__('Stage cannot be done with element #%s and term "%s".',
                 $elementId, $term), 'error');
         }
-        return $this->redirect('ariadne-plus-monitor');
+        return $this->redirect('ariadne-plus-monitor?collection='.$collection);
     }
     
     private function _getOptionsForSelect($collectionId)
     {
         $collections = get_records( 'Collection', array('sort_field' => 'id', 'sort_dir' => 'a') );
-        $options = array('' => __('All items'));
+        $options = array('' => __('All'));
         foreach ($collections as $collection) {
             if (metadata($collection,array('Dublin Core', 'Title'))) {
                 $col =  $collection->id.'. '.metadata($collection,array('Dublin Core', 'Title'));
             } else {
                 $col =  $collection->id.'. No title';
             }
-            if($collection->id == $collectionId){
-                $options[] = $options[''];
-                $options[''] = $col;
-            } else{
-                $options[$collection->id] = $col;
-            }
-            
+            $options[$collection->id] = $col;
+        }
+        if(!empty($collectionId)){
+            $actual_col = $options[$collectionId];
+            unset($options[$collectionId]);
+            $options = array($collectionId => $actual_col) + $options;
         }
         return $options;
     }
