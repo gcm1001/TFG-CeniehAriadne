@@ -3,3 +3,7 @@
 
 # Log Files
 *.log
+
+# Project Files
+.buildpath
+.project
