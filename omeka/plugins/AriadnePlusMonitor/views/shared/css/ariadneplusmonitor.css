@@ -41,7 +41,7 @@ div.badge div span {
 	background: #555555;
 }
 
-.badge .status.new {
+.badge .status.proposed {
 	background: darkmagenta;
 }
 .badge .status.incomplete {

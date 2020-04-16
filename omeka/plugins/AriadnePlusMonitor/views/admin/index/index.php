@@ -65,11 +65,15 @@ foreach ($results as $elementId => $result):
                         echo link_to_items_browse(__('Browse'),
                             array('collection' => $collectionId, 'advanced' => array(array('element_id' => $element->id, 'type' => 'is exactly', 'terms' => $header))),
                             array('class' => 'button small blue'));
-                        if ($statusElements[$elementId]['steppable'] && $key < count($headers) - 1):
+                        if ($statusElements[$elementId]['steppable']):
                             if($header == 'Proposed'):
-                                printf('<a href="%s" class="button small brown">%s</a>',
+                                printf('<a href="%s" class="button small">%s</a>',
                                     html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
                                     __('Assign Status'));
+                            elseif ($header == 'Published'):
+                                printf('<a href="%s" class="button small">%s</a>',
+                                    html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
+                                    __('Refresh'));
                             else:
                                 printf('<a href="%s" class="button small red">%s</a>',
                                     html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
