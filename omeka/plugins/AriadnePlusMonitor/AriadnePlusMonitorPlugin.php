@@ -32,6 +32,10 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         'admin_items_browse_simple_each',
         'admin_items_browse_detailed_each',
         // 'admin_items_browse',
+        'admin_collections_show',
+        'admin_collections_show_sidebar',
+        'admin_collections_browse',
+        'admin_collections_browse_each',
         'admin_items_batch_edit_form',
         'items_batch_edit_custom',
         'admin_element_sets_form',
@@ -48,6 +52,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
     protected $_filters = array(
         'admin_navigation_main',
         'admin_items_form_tabs',
+        'admin_collections_form_tabs',
     );
 
     /**
@@ -390,9 +395,8 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAdminHead()
     {
-        queue_css_string(
-            '.last-change {clear: left; font-size: 12px; font-style: italic;}
-        ');
+        queue_css_file('ariadneplusmonitor');
+       
     }
 
     /**
@@ -799,7 +803,88 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         ));
         return $tabs;
     }
-
+    public function filterAdminCollectionsFormTabs($tabs, $args)
+    {
+        $tab = $tabs[$this->_elementSetName];
+        $record = $args['collection'];
+        $view = get_view();
+        
+        // This hack uses a simple preg_replace.
+        $patterns = array();
+        $replacements = array();
+        
+        // Indicate the last change for each element of the Monitor element set.
+        $listElements = $view->monitor()->getStatusElementNamesById();
+        $lastChanges = $this->_db->getTable('HistoryLogChange')
+        ->getLastChanges($record, array_keys($listElements), true);
+        
+        // The "input" button has been replaced by a button between Omeka 2.4.1
+        // and Omeka 2.5.
+        if (version_compare(OMEKA_VERSION, '2.5', '<')) {
+            $inputString = '(<input type="submit" name="add_element_(%s)" .*? class="add-element">)';
+        }
+        // From Omeka 2.5.
+        else {
+            $inputString = '(<button name="add_element_(%s)" .*?<\/button>)';
+        }
+        
+        // Add a message only for created/updated elements.
+        foreach ($lastChanges as $change) {
+            $pattern = sprintf($inputString, $change->element_id);
+            $patterns[] = '~' . $pattern . '~';
+            $replacement = '$1<p class="last-change">';
+            switch ($change->type) {
+                case HistoryLogChange::TYPE_CREATE:
+                    $replacement .= __('Set by %s on %s', $change->displayUser(), $change->displayAdded());
+                    break;
+                case HistoryLogChange::TYPE_UPDATE:
+                    $replacement .= __('Updated by %s on %s', $change->displayUser(), $change->displayAdded());
+                    break;
+                case HistoryLogChange::TYPE_DELETE:
+                    $replacement .= __('Removed by %s on %s', $change->displayUser(), $change->displayAdded());
+                    break;
+                case HistoryLogChange::TYPE_NONE:
+                default:
+                    $replacement .= __('Logged by %s on %s', $change->displayUser(), $change->displayAdded());
+                    break;
+            }
+            $replacement .= '</p>';
+            $replacements[] = $replacement;
+        }
+        
+        // Remove all buttons "Add element" and "Remove element" for non
+        // repeatable elements.
+        $listUnique = $view->monitor()->getStatusElementNamesById(true);
+        $pattern =
+        // This first part of pattern removes all listed buttons "Add element".
+        sprintf($inputString, implode('|', array_keys($listUnique)))
+        // The second part allows to keep the dropdown.
+        . '(.*?)'
+            // The last part removes all listed buttons "Remove element".
+        . '(' . '<div class="controls"><input type="submit" name="" value="' . __('Remove') . '" class="remove-element red button"><\/div>' . ')';
+        // The pattern is multiline.
+        $patterns[] = '~' . $pattern . '~s';
+        $replacements[] = '$3';
+        
+        // If this is a new record, set the default values.
+        if (empty($record->id)) {
+            $defaults = json_decode(get_option('ariadneplus_monitor_elements_default'), true) ?: array();
+            foreach ($defaults as $elementId => $default) {
+                if ($default) {
+                    $pattern = sprintf('<select name="Elements\[%s\].*<option value="%s"', $elementId, $default);
+                    // Multiline and ungreedy.
+                    $patterns[] = '~(' . $pattern . ')~sU';
+                    $replacements[] = '$1 selected="selected"';
+                }
+            }
+        }
+        // Update the tab.
+        $tab = preg_replace($patterns, $replacements, $tab);
+        $tabs[$this->_elementSetName] = $tab.$view->partial('file/file-input-partial-col.php', array(
+            'collection' => $record
+        ));
+        return $tabs;
+    }
   
     /**
      * Set / unset a value in the list of unique fields.
@@ -975,28 +1060,28 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $items = get_records('Item',array('collection'=> $collection->id));
         // METADATA STATUS
         $status = metadata($collection, array('Monitor','Metadata Status'));
-        if($status){
-            $elementTexts['Monitor']['Metadata Status'][] = array(
-                'text' => $status,
-                'html' => false,
-            );
-        }
+        if(!$status) $status = '';
+        $elementTexts['Monitor']['Metadata Status'][] = array(
+            'text' => $status,
+            'html' => false,
+        );
+        
         //MAP ID
         $mapId = metadata($collection, array('Monitor','ID of your metadata transformation'));
-        if($mapId){
-            $elementTexts['Monitor']['ID of your metadata transformation'][] = array(
-                'text' => $mapId,
-                'html' => false,
-            );
-        }
+        if(!$mapId) $mapId = '';
+        $elementTexts['Monitor']['ID of your metadata transformation'][] = array(
+            'text' => $mapId,
+            'html' => false,
+        );
+        
         //PERIODO URL
         $periodo = metadata($collection, array('Monitor','URL of your PeriodO collection'));
-        if($periodo){
-            $elementTexts['Monitor']['URL of your PeriodO collection'][] = array(
-                'text' => '<a href="'.$periodo.'">Period0</a>',
-                'html' => true,
-            );
-        }
+        if(!$periodo) $periodo = '';
+        $elementTexts['Monitor']['URL of your PeriodO collection'][] = array(
+             'text' => $periodo,
+             'html' => true,
+        );
+        
       
         $metadata = array(
             Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
@@ -1025,5 +1110,60 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
-
+    public function hookAdminCollectionsBrowseEach($args){
+        $collection = $args['collection'];
+        $this->printStatus($collection);
+    }
+    
+    public function hookAdminCollectionsBrowse($args){
+        
+        if(isset($_GET["proposed"])){
+            $collection = get_record_by_id('Collection',$_GET["proposed"]);
+            
+            if($collection){
+                $metadata = array(
+                    Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
+                );
+                $elementTexts['Monitor']['Metadata Status'][] = array(
+                    'text' => 'Proposed',
+                    'html' => false,
+                );
+                $collection = update_collection($collection, $metadata, $elementTexts);
+                release_object($collection);
+                header("Refresh:0; url=".url('collections'));
+            }
+        }
+      
+    }
+    
+    public function hookAdminCollectionsShowSidebar($args){
+        $collection = $args['collection'];
+        echo '<div class="panel">';
+        echo "<h4> Ariadne+ Status</h4> </br>";
+        $this->printStatus($collection);
+        echo '</div>';
+    }
+    
+    public function hookAdminCollectionsShow($args){
+        
+    }
+   
+    private function printStatus($collection){
+        $state = metadata($collection,array('Monitor','Metadata Status'));
+        if($state) {
+            echo '<div class="badge">';
+            echo '<a href='.url('ariadne-plus-monitor', array('collection' => $collection->id)).'>';
+            echo '<div class="name"><span>A+ Status</span></div>';
+            echo '<div class="status '.trim(strtolower($state)).'"> <span>'.$state.'</span> </div>';
+            echo '</a></div>';
+        } else {
+            echo '<div class="badge">';
+            printf('<a href="%s">',
+                html_escape(url('collections', array('proposed' => $collection->id))));
+            echo '<div class="name"><span>No Status</span></div>';
+            echo '<div class="status noprogress"><span>Add to publish process</span></div>';
+            echo '</a></div> <div></div>';
+            
+        }
+    }
 }

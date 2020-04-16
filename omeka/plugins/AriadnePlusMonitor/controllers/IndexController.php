@@ -72,18 +72,16 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
 
         $this->view->params = $params;
             
-
         $db = get_db();
         foreach($params['element'] as $elementId){
             $terms =  explode("\n", $db->query("SELECT terms FROM `$db->SimpleVocabTerm` WHERE element_id = '$elementId'")->fetch()['terms']);
             foreach($terms as $term){
-                if($collectionId){
-                    $n = $db->query("SELECT COUNT(*) as n FROM `$db->ElementText` INNER JOIN `$db->Item` ON `$db->ElementText`.record_id = `$db->Item`.id WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND collection_id='$collectionId'")->fetch()['n'];
-                }else{
-                    $n = $db->query("SELECT COUNT(*) as n FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term' AND record_type='Item'")->fetch()['n'];
-                }
+                $n = ($collectionId) ?  $db->query("SELECT COUNT(*) as n 
+                                                    FROM `$db->ElementText` INNER JOIN `$db->Item` ON `$db->ElementText`.record_id = `$db->Item`.id 
+                                                    WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND collection_id='$collectionId'")->fetch()['n'] :
+                                        $db->query("SELECT COUNT(*) as n 
+                                                    FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term' AND record_type='Item'")->fetch()['n'];
                 if($n > 0) $result[] = array('element_id' => $elementId, 'text' => $term, 'Count' => $n);
-                
             }
         }
 
@@ -122,6 +120,10 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         $term = $this->getParam('term');
         $collection = $this->getParam('collection');
         $url = $this->getParam('url');
+        if(!$collection){
+            $flashMessenger->addMessage(__('Please, select a collection.'), 'error');
+            return $this->redirect('ariadne-plus-monitor');
+        }
         if (!empty($elementId) && !empty($term)) {
             $statusElement = get_view()->monitor()
                 // Only elements unique, steppable and with terms can be staged.
@@ -138,9 +140,15 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
                     $jobDispatcher = Zend_Registry::get('bootstrap')->getResource('jobs');
                     $jobDispatcher->setQueueName(AriadnePlusMonitor_Job_Stage::QUEUE_NAME);
                     $jobDispatcher->sendLongRunning('AriadnePlusMonitor_Job_Stage', $options);
-                    $message = __('A background job process is launched to stage "%s" into "%s" for element "%s".',
-                        $term, $statusElement['terms'][$key +1], $element->name)
-                        . ' ' . __('This may take a while.');
+                    if($key == 0){
+                        $message = __('A background job process is launched to assign status to element "%s".',
+                            $element->name)
+                            . ' ' . __('This may take a while.');
+                    } else {
+                        $message = __('A background job process is launched to stage "%s" into "%s" for element "%s".',
+                            $term, $statusElement['terms'][$key +1], $element->name)
+                            . ' ' . __('This may take a while.');
+                    }
                     $flashMessenger->addMessage($message, 'success');
                 }
             }
@@ -164,6 +172,7 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
                 $col =  $collection->id.'. No title';
             }
             $options[$collection->id] = $col;
+            release_object($collection);
         }
         if(!empty($collectionId)){
             $actual_col = $options[$collectionId];

@@ -11,6 +11,7 @@ $elementSetMetadata = array(
             'comment' => '',
             'unique' => true,
             'terms' => array(
+                'Proposed',
                 'Incomplete',
                 'Complete',
                 'Mapped',

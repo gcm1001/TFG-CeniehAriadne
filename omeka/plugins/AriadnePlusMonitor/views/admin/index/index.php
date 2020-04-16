@@ -66,9 +66,15 @@ foreach ($results as $elementId => $result):
                             array('collection' => $collectionId, 'advanced' => array(array('element_id' => $element->id, 'type' => 'is exactly', 'terms' => $header))),
                             array('class' => 'button small blue'));
                         if ($statusElements[$elementId]['steppable'] && $key < count($headers) - 1):
-                            printf('<a href="%s" class="button small red">%s</a>',
-                                html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
-                                __('Stage'));
+                            if($header == 'Proposed'):
+                                printf('<a href="%s" class="button small brown">%s</a>',
+                                    html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
+                                    __('Assign Status'));
+                            else:
+                                printf('<a href="%s" class="button small red">%s</a>',
+                                    html_escape(url('ariadne-plus-monitor/index/stage', array('url' => WEB_ROOT, 'element' => $element->id, 'collection' => $collectionId, 'term' => $header))),
+                                    __('Stage'));
+                            endif;
                         endif;
                     ?>
                    </td>
