@@ -1,6 +1,6 @@
-############
+************
 Introducción
-############
+************
 
 El CENIEH, Centro Nacional de Investigación sobre la Evolución Humana, es una instalación científica y tecnológica donde se desarrollan multitud de investigaciones relacionadas con la evolución humana. Además, son responsables de la conservación, restauración, gestión y registro de una gran cantidad de colecciones paleontológicas y arqueológicas procedentes de las excavaciones de Atapuerca y otros yacimientos tanto nacionales como internacionales de similares características.
 
@@ -12,5 +12,5 @@ AriadnePlus es un proyecto europeo que tiene como finalidad construir una infrae
 
 La integración del CENIEH en este proyecto permitirá que todo el contenido almacenado de forma local salga a la red para que investigadores y estudiantes de toda Europa puedan visualizar y acceder a toda esta información de forma remota a través del portal oficial AriadnePlus.
 
-La finalidad de este proyecto será llevar a cabo esta integración. Para ello trataré de diseñar e implementar una infraestructura software que permita gestionar cada uno de los conjuntos de datos que almacena el CENIEH de forma que estos puedan ser importados a AriadnePlus. 
+La finalidad de este proyecto será llevar a cabo esta integración. Para ello trataré de diseñar e implementar una infraestructura software que permita gestionar cada uno de los conjuntos de datos que almacena el CENIEH de forma que estos puedan ser importados a AriadnePlus.
 
