@@ -1,12 +1,12 @@
-<?php if (metadata('item', 'has files')): ?>
+<?php if ($has_files): ?>
     <p class="explanation"><?php echo __('Click and drag the files into the preferred display order.'); ?></p>
     <div id="file-list">
         <ul class="sortable">
-        <?php foreach( $item->Files as $key => $file ): ?>
+        <?php foreach( $files as $key => $file ): ?>
             <li class="file">
-                <div class="sortable-item">
+                <div class="sortable-collection">
                     <?php echo file_image('square_thumbnail', array(), $file); ?>
-                    <?php echo link_to($file, 'show', html_escape($file->original_filename), array()); ?>
+                    <?php echo html_escape($file->original_filename); ?>
                     <?php echo $this->formHidden("order[{$file->id}]", $file->order, array('class' => 'file-order')); ?>
                     <ul class="action-links">
                         <li><?php echo link_to($file, 'edit', __('Edit'), array('class'=>'edit')); ?></li>
@@ -18,9 +18,7 @@
         </ul>
     </div>
 <?php endif; ?>
-<div class="two columns alpha">
-	<label><b><?php echo __('JSON file of your matchings to Getty AAT'); ?></b></label>
-</div>
+<div class="add-new"><?php echo __('Add New Files'); ?></div>
 <div class="drawer-contents">
     <p><?php echo __('The maximum file size is %s.', max_file_size()); ?></p>
     
@@ -29,8 +27,8 @@
     </div>
 
     <div class="files four columns omega">
-        <input name="monitorfile[0]" type="file">
+        <input name="collectionfile[0]" type="file">
     </div>
 </div>
 
-<?php fire_plugin_hook('admin_items_form_files', array('item' => $item, 'view' => $this)); ?>
+<?php fire_plugin_hook('admin_collections_form_files', array('collection' => $collection, 'view' => $this)); ?>
