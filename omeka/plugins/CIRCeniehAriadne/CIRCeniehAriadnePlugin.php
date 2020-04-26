@@ -24,10 +24,13 @@ class CIRCeniehAriadnePlugin extends Omeka_Plugin_AbstractPlugin
       $contexts['CIR'] = array('suffix' => 'cir',
 				'headers' => array('Content-Type' => 'application/octet-stream'));
 
-      $contexts['CIRcol'] = array('suffix' => 'circol',
+      $contexts['CIRmeta'] = array('suffix' => 'cirmeta',
+          'headers' => array('Content-Type' => 'application/octet-stream'));
+      
+      $contexts['CIRfull'] = array('suffix' => 'cirfull',
 				'headers' => array('Content-Type' => 'application/octet-stream'));
 
-      $contexts['CIRzip'] = array('suffix' => 'cirzip',
+      $contexts['CIRfullzip'] = array('suffix' => 'cirfullzip',
 				'headers' => array('Content-Type' => 'text/xml'));
 
       return $contexts;
@@ -45,8 +48,9 @@ class CIRCeniehAriadnePlugin extends Omeka_Plugin_AbstractPlugin
       if($args['controller'] instanceOf ItemsController) {
 	       $contexts['show'][] = 'CIR';
       } else if($args['controller'] instanceOf CollectionsController) {
-	       $contexts['show'][] = 'CIRzip';
-         $contexts['show'][] = 'CIRcol';
+	       $contexts['show'][] = 'CIRfullzip';
+         $contexts['show'][] = 'CIRfull';
+         $contexts['show'][] = 'CIRmeta';
       }
 
       return $contexts;

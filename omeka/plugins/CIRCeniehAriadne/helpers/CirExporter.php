@@ -19,23 +19,38 @@
     }
 
     /**
+     * Genera el contenido del fichero xml asociado a una colección (Sólo la parte de metadatos de la colección).
+     *
+     *@param int $collectionID Identificador de la colección a exportar
+     *@return void
+     */
+    public function exportCollectionMeta($collectionID) {
+        $collection = get_record_by_id("collection",$collectionID);
+        
+        $this->_generateCirHeader();
+        $this->_generateCirBody($collectionID,"Collection",false);
+        
+        $this->_generateCirFooter(false);
+    }
+    
+    /**
      * Genera el contenido del fichero xml asociado a una colección.
      *
      *@param int $collectionID Identificador de la colección a exportar
      *@return void
      */
-    public function exportCollection($collectionID) {
+    public function exportCollectionFull($collectionID) {
         $collection = get_record_by_id("collection",$collectionID);
         $items = get_records('Item',array('collection'=>$collectionID),999);
 
-        $this->_generateCirHeader($collectionID,"Collection");
+        $this->_generateCirHeader();
         $this->_generateCirBody($collectionID,"Collection");
 
         foreach($items as $item) {
             $this->_generateCirBody($item->id,"Item");
         }
 
-        $this->_generateCirFooter($collectionID);
+        $this->_generateCirFooter();
     }
 
     /**
@@ -66,12 +81,12 @@
     }
 
 
-    private function _generateCirHeader($itemID,$recordType="Item") {
+    private function _generateCirHeader() {
         echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         //--------------------
         // HEADER
         //--------------------
-        echo '<Collection ';
+        echo '<Collections ';
         echo 'xmlns:dc="http://purl.org/dc/elements/1.1/" ';
         echo 'xmlns:dcterms="http://purl.org/dc/terms/" ';
         echo 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
@@ -79,21 +94,22 @@
         echo ">\n";
 
     }
-
-    private function _generateCirBody($itemID,$recordType) {
-
-        $item = get_record_by_id($recordType,$itemID);
-        $files = ($recordType=="Item") ? $item->getFiles() : array();
+  
+    private function _generateCirBody($recordID,$recordType, $full = True) {
+        $record = get_record_by_id($recordType,$recordID);
 
         //--------------------
         //METADATA
         //--------------------
         echo ($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n";
 
-        $elementArray = $item->getAllElements();
+        $elementArray = $record->getAllElements();
 
         foreach($elementArray as $elementSetName => $elements) {
+            //Si se corresponde al monitor de estados, ignora
+            if($elementSetName == 'Monitor') continue;
             ob_start();
+            
             $flag = false;
 
             $eSSlug=$this->_getElementSetSlug($elementSetName);
@@ -110,7 +126,7 @@
 
             foreach($elements as $element) {
                 $eSlug = $this->_getElementSlug($element->name,$elementSetName);
-                $elementTexts =  $item->getElementTexts($elementSetName,$element->name);
+                $elementTexts =  $record->getElementTexts($elementSetName,$element->name);
 
         	      if(empty($elementTexts)) continue;
 
@@ -143,13 +159,12 @@
       	       ob_end_clean();
             }
         }
-
-        echo ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n";
+        if($full) echo ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n";
     }
 
 
-    private function _generateCirFooter($itemID) {
-        echo "\t\t</records>";
+    private function _generateCirFooter($full = True) {
+        if($full) echo "\t\t</records>";
         echo "\n\t</collection>\n";
         echo "</Collection>\n";
     }
