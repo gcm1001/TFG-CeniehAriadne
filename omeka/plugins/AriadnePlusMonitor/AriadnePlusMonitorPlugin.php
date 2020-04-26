@@ -2,8 +2,7 @@
 /**
  * AriadnePlus Monitor
  *
- * @copyright Copyright 2015 Daniel Berthereau
- * @license https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
+ * @license GPLv3
  */
 
 /**
@@ -31,8 +30,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         'admin_head',
         'admin_items_browse_simple_each',
         'admin_items_browse_detailed_each',
-        // 'admin_items_browse',
-        'admin_collections_show',
+        'admin_items_show_sidebar',
         'admin_collections_show_sidebar',
         'admin_collections_browse',
         'admin_collections_browse_each',
@@ -153,6 +151,42 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_options['ariadneplus_monitor_elements_default'] = json_encode($this->_options['ariadneplus_monitor_elements_default']);
         $this->_options['ariadneplus_monitor_admin_items_browse'] = json_encode($this->_options['ariadneplus_monitor_admin_items_browse']);
         $this->_installOptions();
+        
+        // JSON Element
+        $hideSettings = json_decode(get_option('hide_elements_settings'), true);
+        if(!isset($hideSettings['form']['Monitor'])){
+            $hideSettings['form']['Monitor'] = array('GettyAAT mapping' => '1');
+            
+        }
+        set_option('hide_elements_settings', json_encode($hideSettings));
+        
+        $db = get_db();
+        // Log entries
+        $sql = "
+                CREATE TABLE IF NOT EXISTS `{$db->AriadnePlusLogEntry}` (
+                    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                    `record_type` enum('Item', 'Collection') NOT NULL,
+                    `record_id` int(10) unsigned NOT NULL,
+                    `part_of` int(10) unsigned NOT NULL DEFAULT 0,
+                    `user_id` int(10) unsigned NOT NULL,
+                    `operation` enum('assign', 'stage', 'refresh') NOT NULL,
+                    `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    PRIMARY KEY (`id`),
+                    INDEX `record_type_record_id` (`record_type`, `record_id`),
+                    INDEX (`added`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+        $db->query($sql);
+        
+        // Associated table to log changes of each element.
+        $sql = "
+                CREATE TABLE IF NOT EXISTS `{$db->AriadnePlusLogMsgs}` (
+                    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                    `entry_id` int(10) unsigned NOT NULL,
+                    `msg` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                    PRIMARY KEY (`id`),
+                    INDEX (`entry_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+        $db->query($sql);
     }
 
     /**
@@ -313,6 +347,18 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
             $elementSet->delete();
         }
         $this->_uninstallOptions();
+        
+        $hideSettings = json_decode(get_option('hide_elements_settings'), true);
+        if(isset($hideSettings['form']['Monitor'])){
+            unset($hideSettings['form']['Monitor']);
+        }
+        set_option('hide_elements_settings', json_encode($hideSettings));
+        
+        
+        $sql = "DROP TABLE IF EXISTS `{$this->_db->AriadnePlusLogEntry}`";
+        $this->_db->query($sql);
+        $sql = "DROP TABLE IF EXISTS `{$this->_db->AriadnePlusLogMsg}`";
+        $this->_db->query($sql);
     }
 
     /**
@@ -798,7 +844,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         }
         // Update the tab.
         $tab = preg_replace($patterns, $replacements, $tab);
-        $tabs[$this->_elementSetName] = $tab.$view->partial('file/file-input-partial.php', array(
+        $tabs[$this->_elementSetName] = $tab.$view->partial('file/gettyAATitem.php', array(
             'item' => $record
         ));
         return $tabs;
@@ -878,11 +924,31 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
         }
+        $gettyaatElementId = '';
+        foreach($listElements as $elementId => $element){
+            if($element == 'GettyAAT mapping'){
+                $gettyaatElementId = $elementId;
+            }
+        }
+        
+        $db = get_db();
+        $sql = "
+        SELECT COUNT(f.id)
+        FROM $db->CollectionFile f
+        WHERE f.collection_id = ?";
+        $has_files = (int) $db->fetchOne($sql, array((int) $record->id));
+        
+        $files = $db->getTable('CollectionFile')->findByCollection($record->id);
+        
         // Update the tab.
         $tab = preg_replace($patterns, $replacements, $tab);
-        $tabs[$this->_elementSetName] = $tab.$view->partial('file/file-input-partial-col.php', array(
-            'collection' => $record
+        $tabs[$this->_elementSetName] = $tab.$view->partial('file/gettyAATcollection.php', array(
+            'collection' => $record,
+            'has_files' => (bool) $has_files,
+            'files' => $files,
         ));
+        
+        
         return $tabs;
     }
   
@@ -1102,8 +1168,8 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
             fire_plugin_hook('before_upload_files', array('item' => $item));
             // Tell it to always try the upload, but ignore any errors if any of
             // the files were not actually uploaded (left form fields empty).
-            if (!empty($_FILES['monitorfile'])) {
-                $files = insert_files_for_item($item, 'Upload', 'monitorfile', array('ignoreNoFile' => true));
+            if (!empty($_FILES['itemfile'])) {
+                $files = insert_files_for_item($item, 'Upload', 'itemfile', array('ignoreNoFile' => true));
             }
         } catch (Omeka_File_Ingest_InvalidException $e) {
             $this->addError('File Upload', $e->getMessage());
@@ -1144,22 +1210,26 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         echo '</div>';
     }
     
-    public function hookAdminCollectionsShow($args){
-        
+    public function hookAdminItemsShowSidebar($args){
+        $item = $args['item'];
+        echo '<div class="panel">';
+        echo "<h4> Ariadne+ Status</h4> </br>";
+        $this->printStatus($item);
+        echo '</div>';
     }
-   
-    private function printStatus($collection){
-        $state = metadata($collection,array('Monitor','Metadata Status'));
+
+    private function printStatus($record){
+        $state = metadata($record,array('Monitor','Metadata Status'));
         if($state) {
             echo '<div class="badge">';
-            echo '<a href='.url('ariadne-plus-monitor', array('collection' => $collection->id)).'>';
+            echo '<a href='.url('ariadne-plus-monitor', array(is_a($record, 'Collection') ? 'collection' : 'item' => $record->id )).'>';
             echo '<div class="name"><span>A+ Status</span></div>';
             echo '<div class="status '.trim(strtolower($state)).'"> <span>'.$state.'</span> </div>';
             echo '</a></div>';
         } else {
             echo '<div class="badge">';
             printf('<a href="%s">',
-                html_escape(url('collections', array('proposed' => $collection->id))));
+                html_escape(url(is_a($record, 'Collection') ? 'collections' : 'items', array('proposed' => $record->id ))));
             echo '<div class="name"><span>No Status</span></div>';
             echo '<div class="status noprogress"><span>Add to publish process</span></div>';
             echo '</a></div> <div></div>';

@@ -67,3 +67,30 @@ div.badge div span {
 .badge .status.noprogress {
 	background: green;
 }
+
+#element-id-collection {
+	max-width: 200px;
+} 
+
+#element-id-item {
+	max-width: 200px;
+} 
+/* BROWSE LINKS */
+a.browse-button{
+  width: 100%;
+  color: brown;
+  text-decoration: none;
+ 
+}
+
+a.browse-button > .fa + .fa,
+a.browse-button:hover > .fa {
+  display: none;
+}
+a.browse-button:hover > .fa + .fa {
+  display: inherit;
+}
+
+a.operation-button-proposed {
+    
+}

@@ -6,19 +6,14 @@
  */
 class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractActionController
 {
-    protected $_browseRecordsPerPage = 100;
-    protected $_autoCsrfProtection = true;
-
-    private $_zipGenerator = '';
-    private $_unzipGenerator = '';
-
     /**
-     * Initialize with the HistoryLogEntry table to simplify queries.
+     * Initialize with the AriadnePlusLogEntry table to simplify queries.
      */
     public function init()
     {
-        $this->_helper->db->setDefaultModelName('HistoryLogEntry');
+        $this->_helper->db->setDefaultModelName('AriadnePlusLogEntry');
     }
+    
 
     /**
      * Main view of the monitor.
@@ -30,6 +25,14 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
      */
     public function indexAction()
     {
+        if (!$this->_getParam('sort_field')) {
+            $this->_setParam('sort_field', 'added');
+            $this->_setParam('sort_dir', 'd');
+        }
+        
+        parent::browseAction();
+        
+        $this->view->params = $this->getAllParams();
         // Respect only GET parameters when browsing.
         $this->getRequest()->setParamSources(array('_GET'));
 
@@ -60,10 +63,21 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
             }
         }
 
-
+        $record_type = ($this->getParam('record_type')) ? $this->getParam('record_type') : '';
         $collectionId = ($this->getParam('collection')) ? $this->getParam('collection') : '';
+        $itemId = ($this->getParam('item')) ? $this->getParam('item') : '';
+        $mode = ($this->getParam('mode')) ? $this->getParam('mode') : '';
+        
         $this->view->collectionId = $collectionId;
-        $this->view->options_for_select = $this->_getOptionsForSelect($collectionId);
+        $this->view->itemId = $itemId;
+        $this->view->record_type = $record_type;
+        $this->view->mode = $mode;
+        
+        $this->view->options_for_select_type = $this->_getOptions(array('opSel' => $record_type, 'options' => array('' => 'Select Type', 'Collection' => 'Collection', 'Item' => 'Item')));
+        $this->view->options_for_select_collection = $this->_getOptionsForSelectCollection($collectionId);
+        $this->view->options_for_select_item = $this->_getOptionsForSelectItem($itemId);
+        $this->view->options_for_select_mode = $this->_getOptions(array('opSel' => $mode,'options' => array('' => 'Select Mode', 'full' => 'Full Collection', 'meta' => 'Collection metadata')));
+        
         // A second check may be needed if there are no unique elements.
         if (empty($statusElements)) {
             $this->view->results = array();
@@ -76,11 +90,22 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         foreach($params['element'] as $elementId){
             $terms =  explode("\n", $db->query("SELECT terms FROM `$db->SimpleVocabTerm` WHERE element_id = '$elementId'")->fetch()['terms']);
             foreach($terms as $term){
-                $n = ($collectionId) ?  $db->query("SELECT COUNT(*) as n 
-                                                    FROM `$db->ElementText` INNER JOIN `$db->Item` ON `$db->ElementText`.record_id = `$db->Item`.id 
-                                                    WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND collection_id='$collectionId'")->fetch()['n'] :
-                                        $db->query("SELECT COUNT(*) as n 
-                                                    FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term' AND record_type='Item'")->fetch()['n'];
+                if($collectionId && $itemId){
+                    $n = $db->query("SELECT COUNT(*) as n
+                                    FROM `$db->ElementText` INNER JOIN `$db->Item` ON `$db->ElementText`.record_id = `$db->Item`.id
+                                    WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND collection_id=$collectionId AND `$db->Item`.id = $itemId")->fetch()['n'];
+                } elseif ($collectionId){
+                    $n = $db->query("SELECT COUNT(*) as n
+                                    FROM `$db->ElementText` INNER JOIN `$db->Item` ON `$db->ElementText`.record_id = `$db->Item`.id
+                                    WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND collection_id=$collectionId")->fetch()['n'];
+                } elseif ($itemId){
+                    $n = $db->query("SELECT COUNT(*) as n
+                                    FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term' AND record_type='Item' AND record_id = $itemId")->fetch()['n'];
+                } else {
+                    $n = $db->query("SELECT COUNT(*) as n
+                        FROM `$db->ElementText` WHERE element_id='$elementId' AND text='$term' AND record_type='Item'")->fetch()['n'];
+                }
+
                 if($n > 0) $result[] = array('element_id' => $elementId, 'text' => $term, 'Count' => $n);
             }
         }
@@ -105,8 +130,6 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         // Reduce memory?
         unset($result);
         $this->view->results = $stats;
-        
-
 
     }
     
@@ -119,11 +142,10 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         $elementId = $this->getParam('element');
         $term = $this->getParam('term');
         $collection = $this->getParam('collection');
+        $item = $this->getParam('item');
         $url = $this->getParam('url');
-        if(!$collection){
-            $flashMessenger->addMessage(__('Please, select a collection.'), 'error');
-            return $this->redirect('ariadne-plus-monitor');
-        }
+        $mode = $this->getParam('mode');
+        $record_type = $this->getParam('record_type');
         if (!empty($elementId) && !empty($term)) {
             $statusElement = get_view()->monitor()
                 // Only elements unique, steppable and with terms can be staged.
@@ -133,8 +155,11 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
                 $key = array_search($term, $statusElement['terms']);
                 if ($key < count($statusElement['terms']) - 1) {
                     $options = array();
+                    $options['record_type'] = $record_type;
                     $options['element'] = $element->id;
                     $options['collection'] = $collection;
+                    $options['mode'] = $mode;
+                    $options['item'] = $item;
                     $options['term'] = $term;
                     $options['url'] = $url;
                     $jobDispatcher = Zend_Registry::get('bootstrap')->getResource('jobs');
@@ -158,13 +183,17 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
             $flashMessenger->addMessage(__('Stage cannot be done with element #%s and term "%s".',
                 $elementId, $term), 'error');
         }
-        return $this->redirect('ariadne-plus-monitor?collection='.$collection);
+        $search = 'ariadne-plus-monitor?record_type='.$record_type;
+        if($collection) $search = $search.'&collection='.$collection;
+        if($item) $search = $search.'&item='.$item;
+        if($mode) $search = $search.'&mode='.$mode;
+        return $this->redirect($search);
     }
     
-    private function _getOptionsForSelect($collectionId)
+    private function _getOptionsForSelectCollection($collectionId)
     {
-        $collections = get_records( 'Collection', array('sort_field' => 'id', 'sort_dir' => 'a') );
-        $options = array('' => __('All'));
+        $collections = get_records( 'Collection', array('sort_field' => 'id', 'sort_dir' => 'a'),9999);
+        $options = array('' => __('Select Collection'));
         foreach ($collections as $collection) {
             if (metadata($collection,array('Dublin Core', 'Title'))) {
                 $col =  $collection->id.'. '.metadata($collection,array('Dublin Core', 'Title'));
@@ -174,12 +203,51 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
             $options[$collection->id] = $col;
             release_object($collection);
         }
-        if(!empty($collectionId)){
+        if(!empty($collectionId) && array_key_exists($collectionId, $options)){
             $actual_col = $options[$collectionId];
             unset($options[$collectionId]);
+            unset($options['']);
             $options = array($collectionId => $actual_col) + $options;
         }
         return $options;
     }
 
+    private function _getOptionsForSelectItem($itemId)
+    {
+        $items = get_records( 'Item', array('sort_field' => 'id', 'sort_dir' => 'a'),9999);
+        $options = array('' => __('Select Item'));
+        foreach ($items as $item) {
+            if (metadata($item,array('Dublin Core', 'Title'))) {
+                $it =  $item->id.'. '.metadata($item,array('Dublin Core', 'Title'));
+            } else {
+                $it =  $item->id.'. No title';
+            }
+            $options[$item->id] = $it;
+            release_object($item);
+        }
+        if(!empty($itemId) && array_key_exists($itemId, $options)){
+            $actual_it = $options[$itemId];
+            unset($options[$itemId]);
+            unset($options['']);
+            $options = array($itemId => $actual_it) + $options;
+        }
+        return $options;
+    }
+  
+    private function _getOptions($args)
+    {
+        $options = $args['options'];
+        
+        if(empty($args['opSel'])){
+            return $options;
+        }
+        if (array_key_exists($args['opSel'], $options)){
+            $opSel = $args['opSel'];
+            unset($options[$opSel]);
+            unset($options['']);
+            $options = array($opSel => $args['options'][$opSel]) + $options;
+        }
+        return $options;
+    }
+    
 }

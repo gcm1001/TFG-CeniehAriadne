@@ -27,12 +27,22 @@ $elementSetMetadata = array(
             'label' => 'ID of your metadata transformation',
             'description' => 'You have to define a mapping with the X3ML mapping tool​',
             'comment' => '',
+            'unique' => true,
         ),
         array(
             'name' => 'periodo-url',
             'label' => 'URL of your PeriodO collection',
             'description' => 'You can enrich your metadata with Period0.',
             'comment' => '',
+            'unique' => true,
+        ),
+        array(
+            'name' => 'gettyaat-mapping',
+            'label' => 'GettyAAT mapping',
+            'description' => '',
+            'comment' => '',
+            'unique' => true,
+            
         ),
     ),
 );
