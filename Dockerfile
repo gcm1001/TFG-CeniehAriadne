@@ -16,7 +16,9 @@ RUN apt-get update && apt-get install -qq -y --no-install-recommends \
 
 ENV OMEKA_VERSION 2.7.1
 
-RUN echo "ServerName localhost" >> /etc/apache2.conf
+COPY /configFiles/php.ini.modificar /usr/local/etc/php/conf.d/php.ini
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 WORKDIR /var/www/html
 
@@ -26,11 +28,9 @@ RUN unzip -q omeka-${OMEKA_VERSION}.zip && mv omeka-${OMEKA_VERSION}/* /var/www/
 
 RUN rm -r omeka-${OMEKA_VERSION}.zip
 
-ADD omeka/.htaccess /var/www/html/.htaccess
+ADD /configFiles/.htaccess.modificar /var/www/html/.htaccess
 
-ADD omeka/application/config/config.ini /var/www/html/application/config/config.ini
-
-RUN chmod -R 777 files
+ADD /configFiles/config.ini.modificar /var/www/html/application/config/config.ini
 
 RUN chown -R www-data:www-data files
 
@@ -38,7 +38,7 @@ RUN chown www-data:www-data application/config/config.ini
 
 RUN rm -rf /var/www/html/themes/* && rm /var/www/html/db.ini
 
-RUN rm -rf /var/www/html/plugins/ExhibitBuilder && rm -rf /var/www/html/plugins/Coins         
+RUN rm -rf /var/www/html/plugins/ExhibitBuilder && rm -rf /var/www/html/plugins/Coins    
 
 ADD /omeka/themes /var/www/html/themes
 
