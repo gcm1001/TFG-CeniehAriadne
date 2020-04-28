@@ -6,12 +6,7 @@
         - master
       paths-ignore:
         - 'docs/**'
-    pull_request:
-      branches:
-        - master
-      paths-ignore:
-        - 'docs/**'
-  
+        
   jobs:
       Docker:
         runs-on: ubuntu-latest
@@ -29,10 +24,3 @@
             run: |
                 docker push ${{ secrets.DOCKER_USER }}/omeka_cenieh:${{ github.sha }}
                 docker push ${{ secrets.DOCKER_USER }}/omeka_cenieh:latest
-          - name: Deployment
-            run: |
-                docker swarm init
-                echo ${{ secrets.DB_PASSWORD }} | docker secret create omeka_db_password -
-                echo ${{ secrets.DB_ROOT_PASSWORD }} | docker secret create omeka_db_root_password -
-                cp ./db.ini.modificar ./db.ini
-                docker stack deploy -c docker-compose.yml omeka_cenieh
