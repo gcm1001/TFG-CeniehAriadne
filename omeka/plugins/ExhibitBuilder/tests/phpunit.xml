@@ -1,9 +1,0 @@
-<phpunit bootstrap="bootstrap.php"
-         convertErrorsToExceptions="true"
-         convertWarningsToExceptions="true">
-    <testsuites>
-        <testsuite name="ExhibitBuilder">
-            <directory>cases</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>
