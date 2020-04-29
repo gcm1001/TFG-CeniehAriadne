@@ -76,6 +76,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         set_option('geolocation_add_map_to_contribution_form', '0');
         set_option('geolocation_default_radius', 10);
         set_option('geolocation_use_metric_distances', '0');
+        set_option('geolocation_draw','1');
+        set_option('geolocation_sync_spatial','1');
         set_option('geolocation_basemap', self::DEFAULT_BASEMAP);
     }
 
@@ -96,9 +98,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         delete_option('geolocation_mapbox_map_id');
         delete_option('geolocation_cluster');
         delete_option('geolocation_draw');
+        delete_option('geolocation_sync_spatial_rev');
+        delete_option('geolocation_sync_spatial');
         // This is for older versions of Geolocation, which used to store a Google Map API key.
         delete_option('geolocation_gmaps_key');
-
         // Drop the Location table
         $db = get_db();
         $db->query("DROP TABLE IF EXISTS `$db->Location`");
@@ -221,7 +224,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
 		if(!empty($spatialtext)){ // si el campo 'Spatial Coverage' ha sido rellenado
-		    if (preg_match('/||/', $spatialtext)) { // si tiene coordenadas separadas por '||'
+		    if (preg_match('/\|\|/', $spatialtext)) { // si tiene coordenadas separadas por '||'
                 if(count(explode('-',$spatialtext)) == 2){ // si el número de coordenadas es 2
                     list($min,$max) = explode('-',$spatialtext); // obtenemos las coordenadas
                     list($minlat,$minlon) = explode(',',$min); // > latitud y longitus de la coordenada mínima
@@ -257,7 +260,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                     $location->save();
                     return true;
                 }
-            }
+            } 
             // si ha sido rellenado pero el texto no es válido, se elimina el contenido
             $item->deleteElementTextsByElementId(array($spatialElement->id));
     } else {
@@ -358,10 +361,11 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         } else {
             if($location){
                 $location->delete();
+                if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
+            } else {
+                if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeSpatialCoverage_Map($item);
             }
-            if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeMap_SpatialCoverage($item);
         }
-
         if (!empty($geolocationPost)
             && $geolocationPost['latitude'] != ''
             && $geolocationPost['longitude'] != ''
@@ -378,8 +382,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         } else {
             if($boxlocation){
                $boxlocation->delete();
+               if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
+            } else {
+                if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeSpatialCoverage_Map($item);
             }
-            if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeMap_SpatialCoverage($item);
         }
     }
 

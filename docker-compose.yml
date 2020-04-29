@@ -13,8 +13,8 @@ services:
     image: 'mysql:5.7'
     environment:
       MYSQL_DATABASE: dbcenieh
-      MYSQL_PASSWORD: /run/secrets/omeka_db_password
-      MYSQL_ROOT_PASSWORD: /run/secrets/omeka_db_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/omeka_db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/omeka_db_root_password
       MYSQL_USER: cenieh
     volumes:
       - 'db:/var/lib/mysql'

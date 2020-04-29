@@ -1974,7 +1974,7 @@ function mh_home_cta($html=null){
 
 	$cta_title= empty(get_theme_option('cta_title')) ? 'Ariadne+ Project' : get_theme_option('cta_title');
 	$cta_text= empty(get_theme_option('cta_text')) ? 'ARIADNEplus is a research infrastructure funded by the European Commission’s H2020 programme.' : get_theme_option('cta_text');
-	$cta_img_src= empty(get_theme_option('cta_img_src')) ? '4fd073a33a1cc80e23b15ca441865c71.jpg' : get_theme_option('cta_img_src');
+	$cta_img_src= empty(get_theme_option('cta_img_src')) ? img('ariadneplusWidget.jpg') : '/files/theme_uploads/'.get_theme_option('cta_img_src');
 	$cta_button_label=empty(get_theme_option('cta_button_label')) ? 'About the project' : get_theme_option('cta_button_label');
 	$cta_button_url=empty(get_theme_option('cta_button_url')) ? 'https://ariadne-infrastructure.eu/about-ariadne/' : get_theme_option('cta_button_url'); ;
 	$cta_button_url_target=get_theme_option('cta_button_url_target') ? ' target="_blank" rel="noreferrer noopener"' : null;
@@ -1983,7 +1983,7 @@ function mh_home_cta($html=null){
 		$html .='<h3 class="result-type-header">'.$cta_title.'</h3>';
 
 		$html .= '<div class="cta-inner">';
-			$html .= '<article style="background-image:url(/files/theme_uploads/'.$cta_img_src.');">';
+		$html .= '<article style="background-image:url('.$cta_img_src.');">';
 
 				$html .= '<div class="cta-hero">';
 				$html .= '<a class="button" href="'.$cta_button_url.'" '.$cta_button_url_target.'></a>';

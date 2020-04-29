@@ -18,15 +18,15 @@ class CuratescapeAdminHelperPlugin extends Omeka_Plugin_AbstractPlugin
     	);
 
     protected $_options = array(
-        'cah_enable_dashboard_stats' => 1,
-        'cah_enable_dashboard_resources' => 1,
-        'cah_enable_dashboard_components' => 1,
+        'cah_enable_dashboard_stats' => 0,
+        'cah_enable_dashboard_resources' => 0,
+        'cah_enable_dashboard_components' => 0,
         'cah_enable_item_file_tab_notes' => 1,
-        'cah_enable_item_file_toggle_dc' => 1,
+        'cah_enable_item_file_toggle_dc' => 0,
         'cah_enable_file_edit_links' => 1,
-        'cah_theme_options_accordion'=>1,
+        'cah_theme_options_accordion'=>0,
         'cah_theme_options_batch_convert'=>0,
-        'cah_hide_add_input_where_unsupported'=>1,
+        'cah_hide_add_input_where_unsupported'=>0,
     );
        
         

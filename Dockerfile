@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -qq -y --no-install-recommends \
         git \
         unzip \
         imagemagick \
-	zlib1g \
+        zlib1g \
         zlib1g-dev \
-	libzip-dev \
-	libcurl4-openssl-dev && \
+        libzip-dev \
+        libcurl4-openssl-dev && \
         docker-php-ext-install curl exif mysqli pdo pdo_mysql zip
 
 ENV OMEKA_VERSION 2.7.1

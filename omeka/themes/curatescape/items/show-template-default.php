@@ -7,7 +7,7 @@ if ($hasimg=metadata($item, 'has thumbnail') ) {
 	$noimg= false;
 } else {
 	$noimg= true;
-	$hero_img = WEB_ROOT.'/files/theme_uploads/default.JPG';
+	$hero_img = img('thumbnailDefault.jpg');
 }
 	
 echo head(array(
