@@ -128,14 +128,13 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             $body = '';
             $body .= "<p>";
             $body .= __("- %s %s",$record_type, $stageRecord->id);
-            $output = ($mode == 'full') ? '?output=CIRfull' : '?output=CIRmeta';
+            $output = ($mode == 'on') ? '?output=CIRfull' : '?output=CIRmeta';
             $body .= __("<br> > XML url: %s", $url.'/'.strtolower($record_type).'s/show/'.$stageRecord->id.$output);
             if($record_type == 'Collection'){
                 $body .= __("<br> > OAI-PMH url: %s", $url.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$stageRecord->id);
             }
             $body .= __("<br> > Mapping: %s",metadata($stageRecord,array('Monitor', 'ID of your metadata transformation')));
-            //TODO: Conseguir url del fichero asociado al 'stageRecord'
-            $body .= __("<br> > Matchings to GettyAAT: %s","None");
+            $body .= __("<br> > Matchings to GettyAAT: %s",metadata($stageRecord,array('Monitor', 'GettyAAT mapping')));
             $body .= __("<br> > PeriodO Collection: %s",metadata($stageRecord,array('Monitor', 'URL of your PeriodO collection')));
             $body .= "</p>";
             $mail = new Zend_Mail('UTF-8');

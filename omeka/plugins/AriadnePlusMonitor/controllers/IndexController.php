@@ -73,10 +73,9 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
         $this->view->record_type = $record_type;
         $this->view->mode = $mode;
         
-        $this->view->options_for_select_type = $this->_getOptions(array('opSel' => $record_type, 'options' => array('' => 'Select Type', 'Collection' => 'Collection', 'Item' => 'Item')));
+        $this->view->options_for_select_type = $this->_getOptions(array('opSel' => $record_type, 'options' => array('' => 'Select below', 'Collection' => 'Collection', 'Item' => 'Item')));
         $this->view->options_for_select_collection = $this->_getOptionsForSelectCollection($collectionId);
         $this->view->options_for_select_item = $this->_getOptionsForSelectItem($itemId);
-        $this->view->options_for_select_mode = $this->_getOptions(array('opSel' => $mode,'options' => array('' => 'Select Mode', 'full' => 'Full Collection', 'meta' => 'Collection metadata')));
         
         // A second check may be needed if there are no unique elements.
         if (empty($statusElements)) {
@@ -169,16 +168,17 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
                         $message = __('A background job process is launched to assign status to element "%s".',
                             $element->name)
                             . ' ' . __('This may take a while.');
+                    } elseif ($key == 6) {
+                        $message = __('A background job process is launched to refresh published elements. This may take a while.');
                     } else {
                         $message = __('A background job process is launched to stage "%s" into "%s" for element "%s".',
                             $term, $statusElement['terms'][$key +1], $element->name)
-                            . ' ' . __('This may take a while.');
+                            . ' ' . __('This may take a while.');                       
                     }
                     $flashMessenger->addMessage($message, 'success');
                 }
             }
         }
-
         if (!isset($options)) {
             $flashMessenger->addMessage(__('Stage cannot be done with element #%s and term "%s".',
                 $elementId, $term), 'error');
@@ -193,7 +193,7 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
     private function _getOptionsForSelectCollection($collectionId)
     {
         $collections = get_records( 'Collection', array('sort_field' => 'id', 'sort_dir' => 'a'),9999);
-        $options = array('' => __('Select Collection'));
+        $options = array('' => __('Select below'));
         foreach ($collections as $collection) {
             if (metadata($collection,array('Dublin Core', 'Title'))) {
                 $col =  $collection->id.'. '.metadata($collection,array('Dublin Core', 'Title'));
@@ -215,7 +215,7 @@ class AriadnePlusMonitor_IndexController extends Omeka_Controller_AbstractAction
     private function _getOptionsForSelectItem($itemId)
     {
         $items = get_records( 'Item', array('sort_field' => 'id', 'sort_dir' => 'a'),9999);
-        $options = array('' => __('Select Item'));
+        $options = array('' => __('Select below'));
         foreach ($items as $item) {
             if (metadata($item,array('Dublin Core', 'Title'))) {
                 $it =  $item->id.'. '.metadata($item,array('Dublin Core', 'Title'));

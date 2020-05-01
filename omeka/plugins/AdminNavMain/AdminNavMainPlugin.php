@@ -2,6 +2,8 @@
 /**
  * PLUGIN AdminNavMain
  *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html
+ * @package AdminNavMain
  */
 class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
     
@@ -14,15 +16,26 @@ class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
         'admin_head'
     );
     
+    /**
+     * Set a higher number for the priority of 'admin_navigation_main' filter to make sure it runs later.
+     */
     public function setUp(){
         parent::setUp();
         add_filter('admin_navigation_main', array($this, 'filterAdminNavigationMain'), 1000);
     }
-    
+    /**
+     * Installs the plugin.
+     */
     public function hookInstall() {
         set_option('admin_nav_main_sections', json_encode($this->_sections()));
     }
     
+    /**
+     * Default Sections
+     * 
+     * @param type $arg Predefined sections
+     * @return type Sections
+     */
     private function _sections($arg = ''){
         if(empty($arg)){
             $sections = array(
@@ -38,10 +51,16 @@ class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
         return $sections;
     }
     
+    /**
+     *  Uninstalls the plugin.
+     */
     public function hookUninstall() {
         delete_option('admin_nav_main_sections');
     }
     
+    /**
+     * Shows plugin configuration page.
+     */
     public function hookConfigForm() {        
         $sections = $this->_sections;
         
@@ -50,6 +69,11 @@ class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
         include 'config-form.php';
     }
     
+    /**
+     * Saves plugin configuration page and creates folders if needed.
+     * 
+     * @param type $args Options set in the config form.
+     */
     public function hookConfig($args) {
         $post = $args['post'];
         $sections = $this->_sections;
@@ -59,10 +83,19 @@ class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
         set_option('admin_nav_main_sections', json_encode($sections));
     }
     
+    /**
+     * Initialize the set of sections through the option 'admin_nav_main_sections'
+     */
     public function hookInitialize() {
         $this->_sections = json_decode(get_option('admin_nav_main_sections'), true);
     }
     
+    /**
+     * Modifies the top-level navigation for the admin theme.
+     * 
+     * @param type $nav An array of arrays as used by Zend_Navigation.
+     * @return type An array of arrays as used by Zend_Navigation.
+     */
     public function filterAdminNavigationMain($nav) {
         $db = get_db();
         foreach($nav as $id => $entry){
@@ -104,15 +137,10 @@ class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
         return $nav;
     }
 
+
     public function hookAdminHead($args) {
-        $this->_head();
-    }
-    
-    private function _head() {
-        queue_js_url('jquery.tabledit.js');
         queue_css_file('ddm');
     }
-    
     
 }
 ?>

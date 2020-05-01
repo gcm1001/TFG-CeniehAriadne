@@ -5,6 +5,7 @@
     text-align: center;
 }
 </style>
+<h2><?php echo __("Organizes navigation menu entries into sections.");?></h2>
 <table id="hide-elements-table">
     <thead>
         <tr>
@@ -17,7 +18,6 @@
             echo __('<th class="hide-boxes">'.str_replace('-', ' ', $section).'</th>');
             ?>
             <?php endforeach; ?>
-            <th class="hide-boxes"> </th>
         </tr>
     </thead>
     <tbody>
