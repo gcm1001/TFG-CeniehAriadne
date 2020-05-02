@@ -53,6 +53,7 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
+        docker swarm init
         echo $DB_PASSWORD | docker secret create omeka_db_password -
         echo $DB_ROOT_PASSWORD | docker secret create omeka_db_password -
         echo "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" | docker secret create omeka_repo -
