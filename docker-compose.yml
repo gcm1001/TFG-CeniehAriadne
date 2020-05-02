@@ -7,7 +7,9 @@ secrets:
     external: true
   omeka_db_root_password:
     external: true
-
+  omeka_repo:
+    external: true
+    
 services:
   db:
     image: 'mysql:5.7'
@@ -32,7 +34,7 @@ services:
       - db    
       
   omeka_app:
-    image: gcm1001/omeka_cenieh:latest
+    image: /run/secrets/omeka_repo
     ports:
       - '80:80'
     volumes:
