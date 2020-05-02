@@ -55,6 +55,6 @@ jobs:
       run: |-
         docker swarm init
         echo $DB_PASSWORD | docker secret create omeka_db_password -
-        echo $DB_ROOT_PASSWORD | docker secret create omeka_db_password -
+        echo $DB_ROOT_PASSWORD | docker secret create omeka_db_root_password -
         echo "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" | docker secret create omeka_repo -
         docker stack deploy --orchestrator=kubernetes -c docker-compose.yml cenieh_app
