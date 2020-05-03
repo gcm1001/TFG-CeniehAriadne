@@ -10,3 +10,4 @@ spec:
   selector:
     app: omeka
   type: LoadBalancer
+  loadBalancerIP: "35.246.115.96"
