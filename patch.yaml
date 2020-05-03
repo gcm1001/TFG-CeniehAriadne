@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omeka
+spec:
+  template:
+    spec:
+      containers:
+      - name: omeka
+        env:
+        - name: DB_HOST
+          value: $(MYSQL_SERVICE)
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: omeka-db
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: omeka-db
+              key: user-password
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: omeka-db
+              key: database
+        volumeMounts:
+        - name: db-config
+          mountPath: /var/www/html/db.ini
+          subPath: db.ini
+      restartPolicy: Always
+      volumes:
+        - name: db-config
+          configMap:
+            name: db-config

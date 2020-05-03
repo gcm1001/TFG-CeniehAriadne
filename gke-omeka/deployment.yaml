@@ -1,0 +1,28 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: omeka
+  labels:
+    app: omeka
+spec:
+  selector:
+    matchLabels:
+      app: omeka
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: omeka
+    spec:
+      containers:
+      - image: gcr.io/cenieh-project/gke-omeka
+        name: omeka
+        ports:
+        - containerPort: 80
+          name: omeka
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 100m

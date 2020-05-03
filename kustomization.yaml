@@ -1,0 +1,18 @@
+resources:
+- gke-omeka
+- gke-mysql
+patchesStrategicMerge:
+- patch.yaml
+namePrefix: gke-
+
+vars:
+- name: OMEKA_SERVICE
+  objref:
+    kind: Service
+    name: omeka
+    apiVersion: v1
+- name: MYSQL_SERVICE
+  objref:
+    kind: Service
+    name: mysql
+    apiVersion: v1
