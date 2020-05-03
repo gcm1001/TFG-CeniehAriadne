@@ -34,7 +34,7 @@ services:
       - db    
       
   omeka_app:
-    image: /run/secrets/omeka_repo
+    image: gcm1001/omeka_cenieh
     ports:
       - '80:80'
     volumes:
@@ -45,6 +45,11 @@ services:
         uid: '33'
         gid: '33'
         mode: 0440
+    environment:
+      DB_DATABASE: /run/secrets/omeka_db_database
+      DB_HOST: /run/secrets/omeka_db_host
+      DB_PASSWORD: /run/secrets/omeka_db_password
+      DB_USERNAME: /run/secrets/omeka_db_username
     depends_on:
       - db
       
