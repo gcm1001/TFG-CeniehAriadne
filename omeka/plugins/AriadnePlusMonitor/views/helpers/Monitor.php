@@ -203,7 +203,7 @@ class AriadnePlusMonitor_View_Helper_Monitor extends Zend_View_Helper_Abstract
         return $this->_statusElements;
     }
     
-    public function showlogs($record, $limit = 2)
+    public function showlogs($record, $mode = false, $limit = 2)
     {
         $markup = '';
         $params = array();
@@ -226,15 +226,14 @@ class AriadnePlusMonitor_View_Helper_Monitor extends Zend_View_Helper_Abstract
         $params['sort_dir'] = 'd';
 
         $logEntries = $this->_table->findBy($params, $limit);
-        if (!empty($logEntries)) {
-            $markup = $this->view->partial('common/showariadnepluslog.php', array(
-                'record_type' => $params['record_type'],
-                'record_id' => $params['record_id'],
-                'limit' => $limit,
-                'logEntries' => $logEntries,
-            ));
-        }
-
+     
+        $markup = $this->view->partial('common/show-ariadne-plus-log.php', array(
+            'record_type' => $params['record_type'],
+            'record_id' => $params['record_id'],
+            'limit' => $limit,
+            'logEntries' => $logEntries,
+            'mode' => $mode,
+        ));
         return $markup;
     }
 }

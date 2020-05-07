@@ -21,3 +21,10 @@
     </div>
 <?php endforeach; ?>
 </fieldset>
+<?php if($batch_edit_disable): ?>
+<script type="text/javascript">
+    alert("Batch edit is disabled.");
+    jQuery("input").attr('disabled',true);
+    jQuery("select").attr('disabled',true);
+</script>
+<?php endif; 

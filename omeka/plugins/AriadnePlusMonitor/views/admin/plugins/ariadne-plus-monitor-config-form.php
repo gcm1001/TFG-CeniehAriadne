@@ -55,6 +55,42 @@
                 array('checked' => false)); ?>
         </div>
     </div>
+    <div class="field">
+        <div class="two columns alpha">
+            <?php echo $this->formLabel('ariadneplus_monitor_hide_elements',
+                __('Hide unnecessary Dublin Core elements')); ?>
+        </div>
+        <div class="inputs five columns omega">
+            <p class="explanation">
+                <?php
+                echo __('If set, all unnecessary Dublin Core elements will be hidden.');
+                echo '<br />';
+                ?>
+            </p>
+            <?php echo $this->formCheckbox('ariadneplus_monitor_hide_elements', true,
+                array('checked' => get_option('ariadneplus_monitor_hide_elements')) ); 
+                            echo __('</br><b>Info</b>: You can check which elements have been hidden on the "Hide Elements" plugin %s configuration page %s.',
+                                    '<a href="' . url('plugins/config', array('name' => 'HideElements')) . '">', '</a>');?>
+        </div>
+    </div>
+</fieldset>
+<fieldset id="fieldset-ariadneplus-monitor-elements"><legend><?php echo __('Permissions'); ?></legend>
+    <div class="field">
+        <div class="two columns alpha">
+            <?php echo $this->formLabel('batch_edit_disable',
+                __('Disable Batch Edit tool')); ?>
+        </div>
+        <div class="inputs five columns omega">
+            <p class="explanation">
+                <?php
+                echo __('If set, batch edit tool will be disabled.');
+                echo '<br />';
+                ?>
+            </p>
+            <?php echo $this->formCheckbox('batch_edit_disable', true,
+                array('checked' => get_option('batch_edit_disable')) ); ?>
+        </div>
+    </div>    
 </fieldset>
 <fieldset id="fieldset-ariadneplus-monitor-admin-display"><legend><?php echo __('Specific admin display'); ?></legend>
     <div class="field">

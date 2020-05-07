@@ -2,326 +2,337 @@
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
 
 /* BADGES STYLE */
+#logo-badge{
+    padding: 0;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .last-change {
-	clear: left; 
-	font-size: 12px; 
-	font-style: italic;
+    clear: left; 
+    font-size: 12px; 
+    font-style: italic;
 }
 
 div.badge {
-  	display: inline-block;
-  	border-radius: .75em;
-  	font-family: 'Dejavu Sans','Arial';
+    display: inline-block;
+    border-radius: .75em;
+    font-family: 'Dejavu Sans','Arial';
 }
 div.badge div {
-  	display: inline-block;
-  	float: left;
-  	color: #FFF;
-  	text-shadow: 0px .1em 0px rgba(0, 0, 0, 0.5);
-  	margin: 0;
-  	padding: 0;
-  	border: 0;
+    display: inline-block;
+    float: left;
+    color: #FFF;
+    text-shadow: 0px .1em 0px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+div.badge div.name{
+    height: 24px;
+    width: 31.5px;
 }
 div.badge div:first-child, div.badge div:first-child span {
-  	border-top-left-radius: .25em;
-  	border-bottom-left-radius: .25em;
+    border-top-left-radius: .25em;
+    border-bottom-left-radius: .25em;
 }
 div.badge div:last-child, div.badge div:last-child span {
-  	border-top-right-radius: .25em;
-  	border-bottom-right-radius: .25em;
+    border-top-right-radius: .25em;
+    border-bottom-right-radius: .25em;
 }
 div.badge div span {
-  	display: inline-block;
-  	background: linear-gradient(180deg, rgba(187, 187, 187, .1) 0%, rgba(0, 0, 0, .1) 100%);
-  	padding: .25em .5em;
-  	box-sizing: border-box;
+    display: inline-block;
+    background: linear-gradient(180deg, rgba(187, 187, 187, .1) 0%, rgba(0, 0, 0, .1) 100%);
+    padding: .25em .5em;
+    box-sizing: border-box;
 }
 
 .badge .name {
-	background: #555555;
+    background: #555555;
 }
 
 .badge .status.proposed {
-	background: darkmagenta;
+    background: darkmagenta;
 }
 .badge .status.incomplete {
-	background: red;
+    background: red;
 }
 .badge .status.complete {
-	background: orange;
+    background: orange;
 }
 .badge .status.mapped {
-	background: brown;
+    background: brown;
 }
 .badge .status.enriched {
-	background: lime;
+    background: lime;
 }
 .badge .status.readytopublish {
-	background: limegreen;
+    background: limegreen;
 }
 
 .badge .status.published {
-	background: darkgreen;
+    background: darkgreen;
 }
 
 .badge .status.noprogress {
-	background: green;
+    background: green;
 }
 
 /* SELECT STYLE */
 #record-id-collection {
-	max-width: 200px;
+    max-width: 200px;
 } 
 
 #record-id-item {
-	max-width: 200px;
+    max-width: 200px;
 } 
 /* BROWSE LINKS */
 
 a.browse-button > .fa + .fa,
 a.browse-button:hover > .fa {
-  display: none;
+    display: none;
 }
 a.browse-button:hover > .fa + .fa {
-  display: inherit;
+    display: inherit;
 }
 /* OPERATION LINKS */
 a.operation-button > .fa + .fa,
 a.operation-button:hover > .fa {
-  display: none;
+    display: none;
 }
 a.operation-button:hover > .fa + .fa {
-  display: inherit;
+    display: inherit;
 }
 
 /* SELECT OPTIONS FORM */
 
 .center-div-step {
-  font-family: "Roboto", sans-serif;
-  color: #4C3939;
-  position: relative;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 350px;
-  height: 200px;
-  margin-top: 60px;
-  margin-bottom: 20px;
-  border-radius: 3px;
+    font-family: "Roboto", sans-serif;
+    color: #4C3939;
+    position: relative;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 350px;
+    height: 200px;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    border-radius: 3px;
 }
 
 .container-step {
-  width: 300px;
+    width: 300px;
 }
 
 .line {
-  width: 100%;
-  border-bottom: 5px dotted #ddd;
-  position: relative;
-  overflow: visible;
-  margin-bottom: 55px;
+    width: 100%;
+    border-bottom: 5px dotted #ddd;
+    position: relative;
+    overflow: visible;
+    margin-bottom: 55px;
 }
 
 .line .step {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  background: #ddd;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(.5);
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: #ddd;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(.5);
 }
 
 .line .step.first {
-  background: #E8E8E8;
+    background: #E8E8E8;
 }
 
 .container-step.initial-active-area .step.first {
-  background: #E8E8E8;
-  border: 10px solid #16a085;
+    background: #E8E8E8;
+    border: 10px solid #16a085;
 }
 
 .line .step.second {
-  left: 50%;
-  background: #E8E8E8;
+    left: 50%;
+    background: #E8E8E8;
 }
 
 .line .step.third {
-  left: 100%;
-  background: #E8E8E8;
+    left: 100%;
+    background: #E8E8E8;
 }
 
 .steps {
-  width: 100%;
-  overflow: hidden;
+    width: 100%;
+    overflow: hidden;
 }
 
 .option-submission {
-  width: 970px;
-  transition: .3s all ease;
+    width: 970px;
+    transition: .3s all ease;
 }
 
 .submission {
-  float: left;
-  width: 300px;
-  text-align: center;
+    float: left;
+    width: 300px;
+    text-align: center;
 }
 
 .submission [type="text"] {
-  width: 62%;
-  margin-right: 14%;
-  margin-left: 14%;
-  padding: 15px 20px;
-  background: #e8e8e8;
-  border: 1px solid transparent;
-  color: #777;
-  border-radius: 10px;
-  margin-bottom: 25px;
-  font-size: 1em;
-  position: relative;
+    width: 62%;
+    margin-right: 14%;
+    margin-left: 14%;
+    padding: 15px 20px;
+    background: #e8e8e8;
+    border: 1px solid transparent;
+    color: #777;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    font-size: 1em;
+    position: relative;
 }
 
 .submission [type="text"]:focus {
-  background: #fcfcfc;
-  border: 1px solid #ddd;
+    background: #fcfcfc;
+    border: 1px solid #ddd;
 }
 
 .submission button {
-  display: inline-block;
-  text-decoration: none;
-  background: #16a085;
-  border: none;
-  color: white;
-  padding: 10px 25px;
-  font-size: 1em;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 300;
-  position: relative;
+    display: inline-block;
+    text-decoration: none;
+    background: #16a085;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    font-size: 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 300;
+    position: relative;
 }
 
 .submission button:hover {
-  background-color: #0E8267;
+    background-color: #0E8267;
 }
 
 .third-step h5 {
-  color: #4C3939;
-  font-size: 1em;
-  margin-top: 0px;
+    color: #4C3939;
+    font-size: 1em;
+    margin-top: 0px;
 }
 
 .container-step.second .line .step-move {
-  left: 50%;
+    left: 50%;
 }
 
 .container-step.second .line .step.second {
-  background: #E8E8E8;
-  border: 10px solid #16a085;
+    background: #E8E8E8;
+    border: 10px solid #16a085;
 }
 
 .container-step.second .option-submission {
-  transform: translate(-300px);
+    transform: translate(-300px);
 }
 
 .container-step.third .line .step-move {
-  left: 100%;
+    left: 100%;
 }
 
 .container-step.third .line .step.third {
-  background: #E8E8E8;
-  border: 10px solid #16a085;
+    background: #E8E8E8;
+    border: 10px solid #16a085;
 }
 
 .container-step.third .option-submission {
-  transform: translate(-600px);
+    transform: translate(-600px);
 }
 
 #step-1 {
-  width: 80px;
-  height: 80px;
-  padding: 20px;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
 }
 
 #step-2 {
-  width: 80px;
-  height: 80px;
-  padding: 20px;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
 }
 
 #step-3 {
-  width: 80px;
-  height: 80px;
-  padding: 20px;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
 }
 
 .attribution {
-  color: black;
+    color: black;
 }
 
 .attribution a{
-  color: black;
+    color: black;
 }
 
 /* SWITCHER STYLE */
 
 .switcher input {
-  display: none;
+    display: none;
 }
 
 .switcher label {
-  background-color: #fff;
-  border: 1px solid #dfdfdf;
-  border-radius: 15px;
-  cursor: pointer;
-  display: inline-block;
-  height: 25px;
-  position: relative;
-  vertical-align: middle;
-  width: 45px;
-  background-clip: content-box;
-  border-color: #dfdfdf;
-  box-shadow: #dfdfdf 0px 0px 0px 0px inset;
-  transition: border 0.4s, box-shadow 0.4s;
+    background-color: #fff;
+    border: 1px solid #dfdfdf;
+    border-radius: 15px;
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    position: relative;
+    vertical-align: middle;
+    width: 45px;
+    background-clip: content-box;
+    border-color: #dfdfdf;
+    box-shadow: #dfdfdf 0px 0px 0px 0px inset;
+    transition: border 0.4s, box-shadow 0.4s;
 }
 
 .switcher label:after {
-  content: "";
-  background: #fff;
-  border-radius: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  height: 25px;
-  position: absolute;
-  top: 0;
-  width: 25px;
-  left: 0px;
-  transition: background-color 0.4s, left 0.2s;
+    content: "";
+    background: #fff;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    height: 25px;
+    position: absolute;
+    top: 0;
+    width: 25px;
+    left: 0px;
+    transition: background-color 0.4s, left 0.2s;
 }
 .switcher input:checked ~ label {
-  border-color: #64bd63;
-  box-shadow: #64bd63 0px 0px 0px 16px inset;
-  transition: border 0.4s, box-shadow 0.4s, background-color 1.2s;
-  background-color: #64bd63;
+    border-color: #64bd63;
+    box-shadow: #64bd63 0px 0px 0px 16px inset;
+    transition: border 0.4s, box-shadow 0.4s, background-color 1.2s;
+    background-color: #64bd63;
 }
 .switcher input:checked ~ label:after {
-  left: 20px;
-  transition: background-color 0.4s, left 0.2s;
-  background-color: #ffffff;
+    left: 20px;
+    transition: background-color 0.4s, left 0.2s;
+    background-color: #ffffff;
 }
 .switcher {
-  width: 300px;
-  margin: 0px auto;
+    width: 300px;
+    margin: 0px auto;
 }
 
 /* EXPLANATION DIV STYLE */
 
 #explanation {
-  text-align: center;
-  font-family: "Roboto", sans-serif;
-  color: #4C3939;
-  width: 100%;
-  overflow: hidden;
-  height: 100%;
-  font-weight: 300;
-  cursor: default;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    color: #4C3939;
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    font-weight: 300;
+    cursor: default;
 }

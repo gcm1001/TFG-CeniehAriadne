@@ -45,6 +45,9 @@ jQuery(document).ready(function(){
             return false;
         } else {
             selectedrecord.html(typeval + " " + recordval);
+            if(typeval == 'Item'){
+                jQuery(".switcher").hide();
+            }
         }
         jQuery(".container-step").removeClass("second second-active-area initial-active-area");
         jQuery(".container-step").addClass("third third-active-area");

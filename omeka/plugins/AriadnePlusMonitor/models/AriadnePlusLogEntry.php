@@ -198,7 +198,7 @@ class AriadnePlusLogEntry extends Omeka_Record_AbstractRecord
         return $user->name . ' (' . $user->username . ')';
     }
     
-    public function displayPartOf($asUrl = false)
+    public function displayPartOf($asUrl = false, $mode = false)
     {
         $partOf = $this->getPartOfRecord();
         if (empty($partOf)) {
@@ -214,7 +214,7 @@ class AriadnePlusLogEntry extends Omeka_Record_AbstractRecord
                     url(array(
                             'type' => 'collections',
                             'id' => $this->part_of,
-                        ), 'history_log_record_log'),
+                        ), 'ariadneplus_record_log', array('mode' => $mode)),
                     $title)
                 : $title;
         }

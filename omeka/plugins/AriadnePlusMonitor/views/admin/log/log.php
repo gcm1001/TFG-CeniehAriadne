@@ -1,5 +1,5 @@
 <?php
-$logs = $this->Monitor()->showlogs($record, 0);
+$logs = $this->Monitor()->showlogs($record,$mode, 0);
 
 echo head(array(
     'title' => __('AriadnePlus Log'),
@@ -26,7 +26,10 @@ if (!empty($logs)):
     <p><?php echo __('This record does not exist and is not logged.'); ?></p>
     <?php endif; ?>
 <?php endif; ?>
-    <p><?php echo __('Go back to %sAriadnePlus Monitor%s.', '<a href="' . html_escape(url('ariadne-plus-monitor')) . '">', '</a>'); ?></p>
+    <p><?php $type = get_class($record);
+        echo __('Go back to %sAriadnePlus Monitor%s.', '<a href="' . 
+                html_escape(url('ariadne-plus-monitor',array('record_type' => $type,
+                    strtolower($type) => $record->id,'mode' => $mode ))) . '">', '</a>'); ?></p>
     </div>
 </div>
 <?php

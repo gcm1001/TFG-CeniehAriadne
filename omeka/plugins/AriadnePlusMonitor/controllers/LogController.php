@@ -23,6 +23,7 @@ class AriadnePlusMonitor_LogController extends Omeka_Controller_AbstractActionCo
         $flashMessenger = $this->_helper->FlashMessenger;
         $recordType = $this->_getParam('type');
         $recordId = $this->_getParam('id');
+        $mode = $this->_getParam('mode');
         if (empty($recordType) || empty($recordId)) {
             $flashMessenger->addMessage(__('Record not selected.'), 'error');
         }
@@ -36,6 +37,7 @@ class AriadnePlusMonitor_LogController extends Omeka_Controller_AbstractActionCo
             'record_type' => Inflector::classify($recordType),
             'record_id' => (integer) $recordId,
         );
+        $this->view->mode = $mode;
     }
 
 

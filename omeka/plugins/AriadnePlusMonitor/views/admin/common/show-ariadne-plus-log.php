@@ -26,14 +26,14 @@
                         echo url(array(
                                 'type' => Inflector::tableize($logEntry->record_type),
                                 'id' => $logEntry->record_id,
-                            ), 'ariadneplus_record_log'); ?>"><?php
+                            ), 'ariadneplus_record_log', array('mode' => $mode)); ?>"><?php
                             echo $logEntry->record_type;
                             echo ' ';
                             echo $logEntry->record_id;
                         ?></a>
                         <div class="record-title"><?php echo $logEntry->displayCurrentTitle(); ?></div>
                     </td>
-                    <td><?php echo $logEntry->displayPartOf(true); ?></td>
+                    <td><?php echo $logEntry->displayPartOf(true, $mode); ?></td>
                     <td><?php echo $logEntry->displayUser(); ?></td>
                     <td><?php echo $logEntry->displayOperation(); ?></td>
                     <td><?php echo nl2br($logEntry->displayMsgs(), true); ?></td>
@@ -45,7 +45,7 @@
                         <a href="<?php echo url(array(
                                     'type' => Inflector::tableize($logEntry->record_type),
                                     'id' => $logEntry->record_id,
-                                ), 'ariadneplus_record_log'); ?>">
+                                ), 'ariadneplus_record_log', array('mode' => $mode)); ?>">
                             <strong><?php echo __('See more'); ?></strong>
                         </a>
                     </td>

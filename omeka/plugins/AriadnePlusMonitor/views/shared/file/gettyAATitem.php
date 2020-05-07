@@ -9,7 +9,7 @@
     </div>
 
     <div class="files four columns omega">
-        <input name="itemfile[0]" type="file">
+        <input name="file[0]" type="file">
     </div>
 </div>
 <?php if (metadata('item', 'has files')): ?>

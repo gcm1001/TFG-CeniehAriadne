@@ -36,6 +36,8 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         'admin_element_sets_form',
         'admin_element_sets_form_each',
         'before_save_item',
+        'after_save_item',
+        'after_delete_item',
         'after_save_element',
         'after_save_collection',
         'before_save_collection',
@@ -66,6 +68,8 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         ),
         'ariadneplus_monitor_name' => '',
         'ariadneplus_monitor_email' => '',
+        'ariadneplus_monitor_hide_elements' => true,
+        'batch_edit_disable' => true,
     );
 
     /**
@@ -438,6 +442,19 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         set_option('ariadneplus_monitor_admin_items_browse', json_encode($settings));
         set_option('ariadneplus_monitor_name', $_POST['ariadneplus_monitor_name']);
         set_option('ariadneplus_monitor_email', $_POST['ariadneplus_monitor_email']);
+        
+        if(get_option('ariadneplus_monitor_hide_elements')){
+            $hideSettings = json_decode(get_option('hide_elements_settings'), true);
+            $elements = array('Conforms To' => 1, 'Has Part' => 1, 'Is Format Of' => 1, 
+            'Is Part Of' => 1, 'Is Referenced By' => 1, 'Is Replaced By' => 1,
+            'Is Required By' => 1,'Is Version Of' => 1, 'References' => 1, 'Replaces' => 1,
+            'Requires' => 1, 'Extent' => 1, 'Medium' => 1, 'Bibliographic Citation' => 1,
+            'Accrual Method' => 1, 'Accrual Periodicity' => 1, 'Accrual Policy' => 1,
+            'Audience' => 1, 'Audience Education Level' => 1, 'Mediator' => 1,
+            'Instructional Method' => 1, 'Provenance' => 1, 'Rights Holder' => 1);
+            $hideSettings['form']['Dublin Core'] = $elements;
+            set_option('hide_elements_settings', json_encode($hideSettings));
+        }
     }
 
     /**
@@ -466,6 +483,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminItemsBrowseDetailedEach($args)
     {
         $this->_adminItemsBrowseDisplay($args, 'detailed');
+        $this->_printStatus($args['item']);
     }
 
     protected function _adminItemsBrowseDisplay($args, $location)
@@ -511,6 +529,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
                 array(
                     'statusTermsElements' => $statusTermsElements,
                     'statusNoTermElements' => $statusNoTermElements,
+                    'batch_edit_disable' => get_option('batch_edit_disable'),
             ));
         }
     }
@@ -1150,16 +1169,24 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         if (!empty($_FILES['collectionfile'])) {
             $jsonfiles = $this->_db->getTable('CollectionFile')->findByCollection($collection->id);
             $file = array_pop($jsonfiles);
-            $url = metadata($file, 'uri');
-            if(!empty($url)){
-                $url = '<a href="'.$url.'"> JSON file </a>';
-                $elementTexts['Monitor']['GettyAAT mapping'][] = array(
-                 'text' => $url,
-                 'html' => true,
-                );
-                $gettyElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'GettyAAT mapping');
-                $collection->deleteElementTextsByElementId(array($gettyElement->id));
-                $collection->addTextForElement($gettyElement, $url,true);
+            if($file){
+                $filetype = metadata($file, 'mime_type');
+                if($filetype == 'application/json'){
+                    $url = metadata($file, 'uri');
+                    if(!empty($url)){
+                        $url = '<a href="'.$url.'"> JSON file </a>';
+                        $elementTexts['Monitor']['GettyAAT mapping'][] = array(
+                         'text' => $url,
+                         'html' => true,
+                        );
+                        $gettyElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'GettyAAT mapping');
+                        $collection->deleteElementTextsByElementId(array($gettyElement->id));
+                        $collection->addTextForElement($gettyElement, $url,true);
+                    }
+                } else {
+                    $collection->addError("File format Error", __('The uploaded file must be an application/json file, but it\'s an %s file!',$filetype));
+                    $file->delete();
+                }
             }
         }
     }
@@ -1177,41 +1204,36 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $elementTexts = [];
         // METADATA STATUS
         $status = metadata($collection, array('Monitor','Metadata Status'));
-        if(!$status){
-            $status = '';
+        if($status){
+            $elementTexts['Monitor']['Metadata Status'][] = array(
+                'text' => $status,
+                'html' => false,
+            );
         }
-        $elementTexts['Monitor']['Metadata Status'][] = array(
-            'text' => $status,
-            'html' => false,
-        );
         // MAP ID
         $mapId = metadata($collection, array('Monitor','ID of your metadata transformation'));
-        if(!$mapId){
-            $mapId = '';
+        if($mapId){
+            $elementTexts['Monitor']['ID of your metadata transformation'][] = array(
+                'text' => $mapId,
+                'html' => false,
+            );
         }
-        $elementTexts['Monitor']['ID of your metadata transformation'][] = array(
-            'text' => $mapId,
-            'html' => false,
-        );
         // PERIODO URL
         $periodo = metadata($collection, array('Monitor','URL of your PeriodO collection'));
-        if(!$periodo){
-            $periodo = '';
+        if($periodo){
+            $elementTexts['Monitor']['URL of your PeriodO collection'][] = array(
+                 'text' => $periodo,
+                 'html' => true,
+            );
         }
-        $elementTexts['Monitor']['URL of your PeriodO collection'][] = array(
-             'text' => $periodo,
-             'html' => true,
-        );
         //GETTY URL
         $getty = metadata($collection, array('Monitor', 'GettyAAT mapping'));
-        if(!$getty){
-            $periodo = '';
+        if($getty){
+            $elementTexts['Monitor']['GettyAAT mapping'][] = array(
+             'text' => $getty,
+             'html' => true,
+            );
         }
-        $elementTexts['Monitor']['GettyAAT mapping'][] = array(
-         'text' => $getty,
-         'html' => true,
-        );
-        
         // UPDATE CONFIG 
         $metadata = array(
             Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
@@ -1227,38 +1249,64 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
     }
     
     /**
-     * Adds JSON input.
+     * Adds JSON input and Checks/Update status.
      * 
      * @param type $args
      */
-    public function hookBeforeSaveItem($args){
-        try {
-            $item = $args['record'];
-            $files = array();
-            if (!empty($_FILES['itemfile'])) {
-                $files = insert_files_for_item($item, 'Upload', 'itemfile', array('ignoreNoFile' => true));
-                $gettyElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'GettyAAT mapping');
-                $item->deleteElementTextsByElementId(array($gettyElement->id));
-                foreach($files as $file){
-                    $item->addTextForElement($gettyElement, '<a href="'.metadata($file,'uri').'" >JSON file</a>',true);
+    public function hookBeforeSaveItem($args)
+    {
+        $item = $args['record'];
+        $post = $args['post'];
+        
+        if (!empty($_FILES['file'])) {
+            $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
+            $file = array_pop($jsonfiles);
+            if($file){
+                $filetype = metadata($file, 'mime_type');
+                if($filetype == 'application/json'){
+                    $url = metadata($file, 'uri');
+                    if(!empty($url)){
+                        $gettyElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'GettyAAT mapping');
+                        $item->deleteElementTextsByElementId(array($gettyElement->id));
+                        $item->addTextForElement($gettyElement, '<a href="'.metadata($file,'uri').'" >JSON file</a>',true);
+                    } 
+                } else {
+                    $item->addError("File format Error", __('The uploaded file must be an application/json file, but it\'s an %s file!',$filetype));
+                    $file->delete();
                 }
-            } 
-        } catch (Omeka_File_Ingest_InvalidException $e) {
-            $this->addError('File Upload', $e->getMessage());
-        }
+            }
+        } 
     }
+    
     /**
-     * Only one file per Collection
+     * Check that only one file is uploaded per item. It also updates its status
+     * if it's associated with a stateful collection.
+     * 
      * @param type $args
      */
     public function hookAfterSaveItem($args){
         $item = $args['record'];
-        if (!empty($_FILES['itemfile'])) {
-            $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
-            if(count($jsonfiles) > 1){
-                array_pop($jsonfiles);
-                foreach($jsonfiles as $jsonfile){
-                    $jsonfile->delete();
+        if (isset($_FILES['file'])) {
+            if(!empty(metadata($item, array('Monitor','Metadata Status')))){
+                $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
+                if(count($jsonfiles) > 1){
+                    array_pop($jsonfiles);
+                    foreach($jsonfiles as $jsonfile){
+                        $jsonfile->delete();
+                    }
+                }
+            }
+        } 
+        if(empty(metadata($item, array('Monitor','Metadata Status')))){
+            $collectionId =  $item->collection_id;
+            $collection = get_record_by_id('Collection', $collectionId);
+            if($collection){
+                $colStatus = metadata($collection, array('Monitor', 'Metadata Status'));
+                if(!empty($colStatus)){
+                    $statusElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'Metadata Status');
+                    $item->deleteElementTextsByElementId(array($statusElement->id));
+                    $item->addTextForElement($statusElement,'Proposed');
+                    $item->saveElementTexts(); 
                 }
             }
         }
@@ -1272,7 +1320,9 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAdminCollectionsBrowseEach($args){
         $collection = $args['collection'];
-        $this->printStatus($collection);
+        echo '<div class="details">';
+        $this->_printStatus($collection);
+        echo '</div>';
     }
     
     /**
@@ -1298,7 +1348,22 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
                 header("Refresh:0; url=".url('collections'));
             }
         }
-      
+        
+        echo '<script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery(".details").hide();
+                    jQuery(".action-links").prepend("<li class=\'details-link\'>Details</li>");
+
+                    jQuery(".collection").each(function() {
+                        var colDetails = jQuery(this).find(".details");
+                        if (jQuery.trim(colDetails.html()) != "") {
+                            jQuery(this).find(".details-link").css({"color": "#4E7181", "cursor": "pointer"}).click(function() {
+                                colDetails.slideToggle("fast");
+                            });
+                        }
+                    }); 
+                });
+              </script>';
     }
     
     /**
@@ -1310,7 +1375,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $collection = $args['collection'];
         echo '<div class="panel">';
         echo "<h4> Ariadne+ Status</h4> </br>";
-        $this->printStatus($collection);
+        $this->_printStatus($collection);
         echo '</div>';
     }
     
@@ -1323,7 +1388,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['item'];
         echo '<div class="panel">';
         echo "<h4> Ariadne+ Status</h4> </br>";
-        $this->printStatus($item);
+        $this->_printStatus($item);
         echo '</div>';
     }
 
@@ -1332,67 +1397,95 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $record
      */
-    private function printStatus($record){
+    protected function _printStatus($record){
         $state = metadata($record,array('Monitor','Metadata Status'));
         $type = is_a($record, 'Collection') ? 'collection' : 'item';
         if($state) {
             echo '<div class="badge">';
             echo '<a href='.url('ariadne-plus-monitor', array('record_type'=> ucfirst($type) ,$type => $record->id )).'>';
-            echo '<div class="name"><span>A+ Status</span></div>';
+            echo '<div class="name"><span><img alt="A+" id="logo-badge" src="'.img('ariadne-logo-badge.png').'" /></span></div>';
             echo '<div class="status '.trim(strtolower($state)).'"> <span>'.$state.'</span> </div>';
             echo '</a></div>';
         } else {
             echo '<div class="badge">';
             printf('<a href="%s">',
                 html_escape(url($type.'s', array('proposed' => $record->id ))));
-            echo '<div class="name"><span>No Status</span></div>';
-            echo '<div class="status noprogress"><span>Add to publish process</span></div>';
+            echo '<div class="name"><span><img alt="A+" id="logo-badge" src="'.img('ariadne-logo-badge.png').'" /></span></div>';
+            echo '<div class="status noprogress"><span>Propose the '.$type.'</span></div>';
             echo '</a></div> <div></div>';
             
         }
     }
     
+    /**
+     * Manage restrictions.
+     * 
+     * @param type $args
+     */
     public function hookAdminItemsPanelFields($args){
         $item = $args['record'];
+        $view = $args['view'];
         $state = metadata($item, array('Monitor', 'Metadata Status'));
         if($state != null && $state != ''){
             $blocks = array();
-            
             if($state != 'Incomplete'){
               array_push($blocks,'dublin-core', 'item-type-metadata', 'map', 'files', 'tags');
             }
-            if($state == 'Enriched'){
+            if($state == 'Mapped'){
+              array_push($blocks,'mapped');  
+            }
+            if($state == 'Enriched' || $state == 'Incomplete'){
               array_push($blocks,'monitor');
             }
-            $this->printScriptsToDisableMetadata($blocks);
+            $this->_printScriptsToDisableMetadata(array('sections' => $blocks, 'view' => $view));
         }
     }
     
+    /**
+     * Manage restrictions.
+     * 
+     * @param type $args
+     */
     public function hookAdminCollectionsPanelFields($args)
     {
         $collection = $args['record'];
+        $view = $args['view'];
         $state = metadata($collection, array('Monitor', 'Metadata Status'));
         if($state != null && $state != ''){
             $blocks = array();
-            
             if($state != 'Incomplete'){
               array_push($blocks,'dublin-core','files');
             }
-            if($state == 'Enriched'){
+            if($state == 'Mapped'){
+              array_push($blocks,'mapped');  
+            }
+            if($state == 'Enriched' || $state == 'Incomplete'){
               array_push($blocks,'monitor');
             }
-  
-            $this->printScriptsToDisableMetadata($blocks);
+            $this->_printScriptsToDisableMetadata(array('sections' => $blocks, 'view' => $view));
         }
     }
     
-    private function printScriptsToDisableMetadata($sections)
+    /**
+     * Print the scripts necessary for the restriction system.
+     * 
+     * @param type $args Sections
+     */
+    protected function _printScriptsToDisableMetadata($args)
     {
+        $sections = $args['sections'];
+        $view = $args['view'];
         echo __('<script type="text/javascript" charset="utf-8">'); 
         echo __("jQuery('#collection-id').attr('disabled',true);
                  jQuery('#public').attr('disabled',true);
                  jQuery('#featured').attr('disabled',true);");
         foreach($sections as $section){
+            if($section == 'mapped'){
+                $statusTermsElements = $view->monitor()->getStatusElements(null, null, true);
+                $elementId = array_key_first($statusTermsElements);
+                echo 'jQuery("#Elements-'.($elementId+1).'-0-text").attr("disabled",true);';
+                echo 'jQuery("#Elements-'.($elementId+1).'-0-html").attr("disabled",true);';
+            }
             if($section == 'files') echo __("jQuery('#".$section."-metadata .add-new').remove();
                                              jQuery('#".$section."-metadata .drawer-contents').remove();
                                              jQuery('#".$section."-metadata .edit').remove();
@@ -1409,5 +1502,49 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         echo __('</script>');
     }
     
+    /**
+     * Check if the collection associated with the item needs to be updated.
+     * 
+     * @param type $args 
+     */
+    public function hookAfterDeleteItem($args){
+        $item = $args['record'];
+        $view = $args['view'];
+        $collection = get_collection_for_item($item);
+        if($collection){
+            $colStatus = metadata($collection, array('Monitor', 'Metadata Status'));
+            if (!empty($colStatus)){
+                $this->_updateCollectionStatus(array('collection' => $collection,'view' => $view, 'status' =>$colStatus));
+            }
+        }
+    }
     
+    /**
+     * Updates collection status.
+     * 
+     * @param type $args 
+     */
+    protected function _updateCollectionStatus($args){
+        $collection = $args['collection'];
+        $actualStatus = $args['status'];
+        $view = $arg['view'];
+        $items = get_records('Item', array('collection' => $collection->id));
+        if(count($items) > 0){
+            $statusTermsElements = $view->monitor()->getStatusElements(null, null, true);
+            $terms = array_shift($statusTermsElements)['terms'];
+            $terms = array_flip($terms);
+            foreach($items as $item){
+                $statusItem = metadata($item, array('Monitor', 'Metadata Status'));
+                if($terms[$statusItem] <= $terms[$actualStatus]){
+                    $actualStatus = $statusItem;
+                }
+            }
+        } else {
+            $actualStatus = '';
+        }
+        $statusElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'Metadata Status');
+        $collection->deleteElementTextsByElementId(array($statusElement->id));
+        $collection->addTextForElement($statusElement,$actualStatus);
+    }
+  
 }

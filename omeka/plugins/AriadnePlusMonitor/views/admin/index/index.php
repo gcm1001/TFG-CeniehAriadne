@@ -15,7 +15,7 @@ echo head(array(
           <button type="button" id="restart">Change</button>
         </p> 
     <?php else: ?>
-        <img alt="" id="ariadnelogo" src="<?php echo img('ariadne-logo.png'); ?>" />
+        <img alt="" id="ariadnelogo" src="<?php echo img('ariadne-monitor-logo.png'); ?>" />
         <p>In this window you can manage the metadata import process to <br> Ariadne+.</p>
         <p>
           <button type="button" id="start">Start</button>
@@ -27,9 +27,9 @@ echo head(array(
         <div id="questionsdiv">
             <div class="container-step initial-active-area">
                 <div class="line">
-                  <div class="step first"><img alt="" id="step-1" src="<?php echo img('step-1.png'); ?>" /></i></div>
-                  <div class="step second"> <img alt="" id="step-2" src="<?php echo img('step-2.png'); ?>" /></div>
-                  <div class="step third"> <img alt="" id="step-3" src="<?php echo img('step-3.png'); ?>" /></div>
+                  <div class="step first"><img alt="Step 1" id="step-1" src="<?php echo img('step-1.png'); ?>" /></i></div>
+                  <div class="step second"> <img alt="Step 2" id="step-2" src="<?php echo img('step-2.png'); ?>" /></div>
+                  <div class="step third"> <img alt="Step 3" id="step-3" src="<?php echo img('step-3.png'); ?>" /></div>
                 </div>
                 <div class="steps">
                     <div class="option-submission">
@@ -135,7 +135,7 @@ echo head(array(
             <?php endforeach; ?>
             <section class="ten columns alpha omega">
                 <?php 
-                echo $this->Monitor()->showlogs($record); ?>
+                echo $this->Monitor()->showlogs($record, $mode); ?>
             </section>
             <?php fire_plugin_hook('ariadne_plus_monitor_stat_element', array('view' => $this)); ?>
         <?php else: ?>

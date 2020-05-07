@@ -95,7 +95,7 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
         if(($key == 2 || $key == 0 ) && $flag){
             $elementM = 'ID of your metadata transformation';
             if(empty(metadata($stageRecord,array('Monitor', $elementM)))){
-                if ($key != 0) unset($records[$k]);
+                if ($key != 0) $records = [];
                 $msg = __('%s #%d is not mapped,  %s is empty.',$record_type, $stageRecord->id, $elementM);
                 $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
                 $this->_log($msg);
@@ -107,7 +107,7 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
         if(($key == 3 || $key == 0 ) && $flag){
             $elementM = 'URL of your PeriodO collection';
             if(empty(metadata($stageRecord,array('Monitor', $elementM)))){
-                if ($key != 0) unset($records[$k]);
+                if ($key != 0) $records = [];
                 $msg = __('%s #%d is not enriched, %s is empty.',$record_type, $stageRecord->id, $elementM);
                 $this->_log($msg);
                 $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
@@ -121,20 +121,20 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             //TODO: Publicar en la plataforma Omeka el stageRecord
             
             $siteTitle  = get_option('site_title');
-            $from = get_option('administrator_email');
+            $from = current_user()->email;
             $email = get_option('ariadneplus_monitor_email');
             $name = get_option('ariadneplus_monitor_name');
             $subject = __("%s - Metadata Ingestion", $siteTitle);
             $body = '';
             $body .= "<p>";
             $body .= __("- %s %s",$record_type, $stageRecord->id);
-            $output = ($mode == 'on') ? '?output=CIRfull' : '?output=CIRmeta';
-            $body .= __("<br> > XML url: %s", $url.'/'.strtolower($record_type).'s/show/'.$stageRecord->id.$output);
+            $output = ($mode) ? '?output=CIRfull' : '?output=CIRmeta';
+            $body .= __("<br> > XML url: %s", WEB_ROOT.'/'.strtolower($record_type).'s/show/'.$stageRecord->id.$output);
             if($record_type == 'Collection'){
-                $body .= __("<br> > OAI-PMH url: %s", $url.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$stageRecord->id);
+                $body .= __("<br> > OAI-PMH url: %s", WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$stageRecord->id);
             }
-            $body .= __("<br> > Mapping: %s",metadata($stageRecord,array('Monitor', 'ID of your metadata transformation')));
-            $body .= __("<br> > Matchings to GettyAAT: %s",metadata($stageRecord,array('Monitor', 'GettyAAT mapping')));
+            $body .= __("<br> > Mapping Identifier: %s",metadata($stageRecord,array('Monitor', 'ID of your metadata transformation')));
+            $body .= __("<br> > JSON File (GettyAAT): %s",metadata($stageRecord,array('Monitor', 'GettyAAT mapping')));
             $body .= __("<br> > PeriodO Collection: %s",metadata($stageRecord,array('Monitor', 'URL of your PeriodO collection')));
             $body .= "</p>";
             $mail = new Zend_Mail('UTF-8');
@@ -145,6 +145,10 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             $mail->addHeader('X-Mailer', 'PHP/' . phpversion());
             $mail->send();
             $newTerm = $statusElement['terms'][5];
+            
+            $msg = __('An e-mail has been sent to %s (From: %s / To: %s). Please, wait for a response from the A+ manager.',$name, $from, $mail);
+            $this->_log($msg);
+            $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
         }
         
         // TODO: CHECK: Ready to Publish > Published
@@ -172,10 +176,6 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
             $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
             release_object($record);
         }     
-        $msg = __('%d records staged to "%s" for element "%s" (#%d).',
-            $count, $newTerm, $element->name, $element->id);
-        $this->_log($msg);
-        $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
         
         if(($flag || $key == 0) && $record_type == 'Collection'){
             $colState = metadata($stageRecord, array('Monitor', 'Metadata Status'));
@@ -187,8 +187,13 @@ class AriadnePlusMonitor_Job_Stage extends Omeka_Job_AbstractJob
                 $this->_log($msg);
                 $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
                 release_object($stageRecord);
+                $count += 1;
             } 
         }
+        $msg = __('%d records staged to "%s" for element "%s" (#%d).',
+            $count, $newTerm, $element->name, $element->id);
+        $this->_log($msg);
+        $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
     }
 
     /**
