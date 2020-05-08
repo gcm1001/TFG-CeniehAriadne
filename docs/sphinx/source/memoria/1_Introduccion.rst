@@ -1,16 +1,27 @@
-************
+============
 Introducción
-************
+============
 
-El CENIEH, Centro Nacional de Investigación sobre la Evolución Humana, es una instalación científica y tecnológica donde se desarrollan multitud de investigaciones relacionadas con la evolución humana. Además, son responsables de la conservación, restauración, gestión y registro de una gran cantidad de colecciones paleontológicas y arqueológicas procedentes de las excavaciones de Atapuerca y otros yacimientos tanto nacionales como internacionales de similares características.
+ARIADNEplus es un proyecto europeo que tiene como finalidad construir una infraestructura software de investigación, enfocada a la arqueología, que promueva la enseñanza, aprendizaje e investigación a través del libre acceso a recursos digitales y servicios. Su servicio principal es el catálogo de colecciones digitales, lugar donde son accesibles todos y cada uno de los datos que los socios del proyecto han considerado integrar.
 
-Todas estas actividades generan un gran volumen de datos que, sin el uso de nuevas tecnologías, su almacenamiento sería una tarea verdaderamente compleja. Actualmente disponen de un sistema de base de datos interno que sirve como catálogo de colecciones. Este les permite gestionar la información conceptual (metadatos) de todos los elementos pertenecientes a cada colección como, por ejemplo, su identificación mediante etiquetas RFID y códigos de barras. Además, cuentan con un repositorio online de colecciones llamado CIR (CENIEH Institutional Repository), construido sobre la infraestructura DSpace, donde gestionan una pequeña cantidad de documentos. Al igual que con el sistema anterior, cada documento almacenado es representado como un ítem el cual tiene asignado un conjunto de metadatos y está asociado a una comunidad y colección determinada. 
+.. image:: ../_static/images/catalogAriadne.png
+   :alt: Ejemplo de metadatos.
+   :align: center
 
-Exceptuando la información recogida en el CIR, la gran mayoría de datos están almacenados de forma local, es decir, no son accesibles desde el exterior. Esto puede significar un problema ya que cualquier investigador ajeno al CENIEH que pretenda consultar qué documentos tienen en posesión debe personarse en sus instalaciones para llevar a cabo dicha consulta. Como veremos a continuación, AriadnePlus es un proyecto que se presenta como solución a este problema.
+El Centro Nacional de Investigación sobre la Evolución Humana, también conocido como CENIEH, se ha incorporado recientemente a este proyecto. La finalidad de este trabajo será diseñar una infraestructura software que permita gestionar los datos del CENIEH en la integración con ARIADNEplus.
 
-AriadnePlus es un proyecto europeo que tiene como finalidad construir una infraestructura de investigación enfocada a la arqueología que fomenta la enseñanza, aprendizaje e investigación a través del acceso a recursos digitales y servicios. El pilar principal de esta infraestructura es su catálogo de colecciones digitales. En él todos los socios del proyecto vuelcan su contenido fruto de investigaciones, excavaciones, trabajos de laboratorio y otros procesos. Además, en el mismo portal donde se encuentra el catálogo, ofrecen multitud de servicios que contribuyen a mejorar la calidad del contenido.
+Esta tarea implica un estudio en detalle de los conjuntos de datos que puede ofrecer el CENIEH y de los requisitos impuestos por ARIADNEplus. Por este motivo, he optado por dividir el trabajo en tres fases: Investigación, Desarrollo e Integración.
 
-La integración del CENIEH en este proyecto permitirá que todo el contenido almacenado de forma local salga a la red para que investigadores y estudiantes de toda Europa puedan visualizar y acceder a toda esta información de forma remota a través del portal oficial AriadnePlus.
+1. **Investigación**
 
-La finalidad de este proyecto será llevar a cabo esta integración. Para ello trataré de diseñar e implementar una infraestructura software que permita gestionar cada uno de los conjuntos de datos que almacena el CENIEH de forma que estos puedan ser importados a AriadnePlus.
+    Antes de empezar con el desarrollo de la infraestructura, se ha realizado un estudio detallado de los conjuntos de datos utilizados, tanto por el origen (CENIEH) como por el destino (ARIADNEplus).
 
+2. **Desarrollo**
+
+    Una vez finalizada la fase de investigación, se han ejecutado todas las tareas relacionadas con el desarrollo de la infraestructura software.
+
+3. **Integración**
+
+    Con la infraestructura software ya desarrollada, se ha procedido a integrar los conjuntos de datos propuestos por el CENIEH en ARIADNEplus.
+
+La integración del CENIEH en este proyecto permitirá que gran parte de su contenido, actualmente oculto, salga a la luz para que investigadores y estudiantes de toda Europa puedan visualizar y acceder a toda esta información, de forma remota, a través del catálogo oficial de ARIADNEplus. 
