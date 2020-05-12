@@ -243,7 +243,7 @@ abstract class CollectionFiles_File_Ingest_AbstractIngest
             // Make sure types don't leak between files.
             self::$mimeType = null;
         } else {
-            $detect = new Omeka_File_MimeType_Detect($newFilePath);
+            $detect = new CollectionFiles_File_MimeType_Detect($newFilePath);
             $mimeType = $detect->detect();
         }
         $file = new CollectionFile;

@@ -162,8 +162,9 @@ class Omeka_Controller_Plugin_HtmlPurifier extends Zend_Controller_Plugin_Abstra
         $post = $this->_filterElementsFromPost($post, $htmlPurifierFilter);
 
         // Also strip HTML out of the tags field.
-        $post['tags'] = strip_tags($post['tags']);
-
+        if(isset($post['tags'])){
+            $post['tags'] = strip_tags($post['tags']);
+        }
         $request->setPost($post);
     }
 

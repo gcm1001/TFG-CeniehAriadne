@@ -209,13 +209,14 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookAdminCollectionsForm($args){
         echo '<script type="text/javascript">
-        jQuery(document).ready(function () {
-            Omeka.Collections.makeFileWindow();
-            Omeka.Collections.enableSorting();
-            Omeka.Collections.enableAddFiles('.js_escape(__('Add Another File')).');
-        });
-        </script>';
+                jQuery(document).ready(function () {
+                    Omeka.Collections.makeFileWindow();
+                    Omeka.Collections.enableSorting();
+                    Omeka.Collections.enableAddFiles('.js_escape(__('Add Another File')).');
+                });
+              </script>';
     }
+    
     public function hookAdminCollectionsShowSidebar($args){
         $collection = $args['collection'];
         
@@ -224,12 +225,13 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         <div id="file-list">';
         
         if (!$this->collection_has_files($collection)){
-            echo '<p>'.__('There are no files for this item yet.').link_to_collection(__('Add a File'), array(), 'edit').'.</p>';
+            echo '<p>'.__('There are no files for this collection yet.').link_to_collection(__('Add a File'), array(), 'edit').'.</p>';
         } else {
             $files = $this->get_collection_files($collection);
             echo '<ul>';
             foreach ($files as $file){
                 echo link_to($file,'show', $file->original_filename);
+                echo "<br>";
             }
             echo '</ul>';            
         }

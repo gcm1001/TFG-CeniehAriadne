@@ -151,11 +151,10 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
-        $db = get_db();
+        $db = $this->_db;
         
         // Log entries
-        $sql = "
-                CREATE TABLE IF NOT EXISTS `{$db->AriadnePlusLogEntry}` (
+        $db->query("CREATE TABLE IF NOT EXISTS `{$db->AriadnePlusLogEntry}` (
                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                     `record_type` enum('Item', 'Collection') NOT NULL,
                     `record_id` int(10) unsigned NOT NULL,
@@ -345,10 +344,10 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
-        $sql = "DROP TABLE IF EXISTS `{$this->_db->AriadnePlusLogEntry}`";
-        $this->_db->query($sql);
-        $sql = "DROP TABLE IF EXISTS `{$this->_db->AriadnePlusLogMsg}`";
-        $this->_db->query($sql);
+        $db = $this->_db;
+        $db->query("DROP TABLE IF EXISTS `{$this->_db->AriadnePlusLogEntry}`");
+        $db->query("DROP TABLE IF EXISTS `{$this->_db->AriadnePlusLogMsg}`");
+        $db->query("DROP TABLE IF EXISTS `{$this->_db->AriadnePlusProcess}`");
     }
 
     /**
@@ -1428,7 +1427,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $state = metadata($item, array('Monitor', 'Metadata Status'));
         if($state != null && $state != ''){
             $blocks = array();
-            if($state != 'Incomplete'){
+            if($state != 'Incomplete' && $state != 'Proposed'){
               array_push($blocks,'dublin-core', 'item-type-metadata', 'map', 'files', 'tags');
             }
             if($state == 'Mapped'){
@@ -1453,7 +1452,7 @@ class AriadnePlusMonitorPlugin extends Omeka_Plugin_AbstractPlugin
         $state = metadata($collection, array('Monitor', 'Metadata Status'));
         if($state != null && $state != ''){
             $blocks = array();
-            if($state != 'Incomplete'){
+            if($state != 'Incomplete' && $state != 'Proposed'){
               array_push($blocks,'dublin-core','files');
             }
             if($state == 'Mapped'){
