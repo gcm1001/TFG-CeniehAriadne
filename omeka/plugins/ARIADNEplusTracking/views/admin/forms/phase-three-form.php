@@ -27,22 +27,16 @@
                         <div class="acc-btn"><h4>How to create a Period0 Collection</h4></div>
                         <div class="acc-content">
                             <div class="acc-content-inner">
-                      
+                                <h4> <a href="http://perio.do/guide/"> Online User Guide </a> </h4>
                             </div>
                         </div>
 
                         <div class="acc-btn"><h4>How to use Vocabulary Matching Tool​</h4></div>
                         <div class="acc-content">
                           <div class="acc-content-inner">
-                          
+                              <h4> <a href="https://vmt.ariadne.d4science.org/vmt/vmt-help.html"> Online User Guide </a> </h4>
                           </div>
                         </div>
-                        
-                        <div class="acc-btn"><h4 class="selected">Where to save outputs</h4></div>
-                            <div class="acc-content">
-                              <div class="acc-content-inner">
-                              </div>
-                            </div>
                         </div>
                     </div>                  
               </div>

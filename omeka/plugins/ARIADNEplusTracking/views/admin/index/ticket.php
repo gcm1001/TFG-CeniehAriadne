@@ -143,25 +143,56 @@ echo head(array(
         });
         
         if (jQuery('.success')[0]){
-            jQuery('#content').delay(2000).load(location.href + " " + '#content > *');   
+            var time = 1000;            
+            if(level==0 || level == 1){
+                var items = jQuery('table#items >tbody >tr').length;
+                time = 100*items;
+            };
+            let timerInterval
+            Swal.fire({
+              title: 'Wait please!',
+              html: 'Validating information...',
+              timer: time,
+              timerProgressBar: true,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  const content = Swal.getContent()
+                  if (content) {
+                    const b = content.querySelector('b')
+                    if (b) {
+                      b.textContent = Swal.getTimerLeft()
+                    }
+                  }
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval)
+              }
+            });
             setTimeout(function(){
-                if(level == jQuery('#ticket-type').val() || jQuery('#ticket-type').val() == 1 ){
-                    Swal.fire({
-                          icon: 'error',
-                          title: 'Stage not completed!',
-                          showConfirmButton:false,
-                    });
-                } else {
-                    Swal.fire({
-                          icon: 'success',
-                          title: 'Stage completed!',
-                          showConfirmButton:false,
-                    });
-                };
+                jQuery('#content').load(location.href + " " + '#content > *');  
                 setTimeout(function(){
-                    window.location.reload();
-                }, 2600);
-            }, 400);
+                    if(level == jQuery('#ticket-type').val() || jQuery('#ticket-type').val() == 1 ){
+                        Swal.fire({
+                              icon: 'error',
+                              title: 'Stage not completed!',
+                              showConfirmButton:false,
+                        });
+                    } else {
+                        Swal.fire({
+                              icon: 'success',
+                              title: 'Stage completed!',
+                              showConfirmButton:false,
+                        });
+                    };
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+                },200);
+            }, time);
+            
+            
         };
      
         var modal = jQuery("#help-modal");
