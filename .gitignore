@@ -1,5 +1,16 @@
-# sphinx build folder
-/build/
+# sphinx 
+/docs/sphinx/build
+/docs/sphinx/myenv
+
+# omeka files
+/omeka/files
+
+# omeka config files
+/omeka/application/config
+/omeka/.htaccess
+
+# netbeans project
+/omeka/nbproject
 
 # Log Files
 *.log
