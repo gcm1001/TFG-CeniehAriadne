@@ -191,8 +191,10 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
                     }
                     
                     $file = $db->getTable('CollectionFile')->find($fileId);
-                    $file->order = $fileOrder;
-                    $file->save();
+                    if($file){
+                        $file->order = $fileOrder;
+                        $file->save();
+                    }
                 }
             }
             

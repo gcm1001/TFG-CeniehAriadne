@@ -19,27 +19,27 @@ echo head(array(
                 <div class="steps">
                     <form class="option-submission" method="post">
                         <div class="submission first-step">
-                            <p>Select the type of record you would like manage.</p>
+                            <p><?php echo __('Select the type of record you would like manage.'); ?></p>
                             <label class="input">
                                 <?php echo $this->formSelect('record_type', null, array('id' => 'record-type'), $options_for_select_type); ?> <br/><br/>
                             </label>
-                            <button class="first next">Continue</button>
+                            <button class="first next"><?php echo __('Continue'); ?></button>
                         </div>
                         <div class="submission second-step">
-                            <p>Choose the specific record.</p>
+                            <p><?php echo __('Choose the specific record.'); ?> </p>
                             <label class="input">              
                                 <?php echo $this->formSelect('collection', null, array('id' => 'record-id-col'), $options_for_select_collection); ?> 
                                 <?php echo $this->formSelect('item', null, array('id' => 'record-id-item'), $options_for_select_item); ?> <br/><br/>
                             </label>
-                            <button class="second next">Continue</button>
+                            <button class="second next"><?php echo __('Continue'); ?></button>
                         </div>
                         <div id="last-form" class="submission third-step" method="post">
-                            <h5>Selected record : <span class="selected-record"></span></h5>
-                            <p> Now select one of the fundamental ARIADNE categories which belongs to.</p>
+                            <h5><?php echo __('Selected record : '); ?><span class="selected-record"></span></h5>
+                            <p> <?php echo __('Now select one of the fundamental ARIADNE categories which belongs to. '); ?></p>
                             <label class="input"> 
                                 <?php echo $this->formSelect('ariadne_category', null, array('id' => 'ariadne-category'), $options_for_select_category); ?> <br/><br/>
                             </label>
-                            <button type="submit" class="third next">Continue</button>
+                            <button type="submit" class="third next"><?php echo __('Continue'); ?></button>
                         </div>
                     </form>
                     </div>

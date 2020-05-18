@@ -23,10 +23,10 @@
                     <td><?php echo $logEntry->added; ?></td>
                     <td colspan="2">
                         <a href="<?php
-                        echo url(array(
+                        echo html_escape(url(array(
                                 'type' => Inflector::tableize($logEntry->record_type),
                                 'id' => $logEntry->record_id,
-                            ), 'ariadneplus_record_log'); ?>"><?php
+                            ), 'ariadneplus_record_log')); ?>"><?php
                             echo $logEntry->record_type;
                             echo ' ';
                             echo $logEntry->record_id;
@@ -42,10 +42,10 @@
                  if ($limit > 0 && count($logEntries) >= $limit):?>
                 <tr>
                     <td>
-                        <a href="<?php echo url(array(
+                        <a href="<?php echo html_escape(url(array(
                                     'type' => Inflector::tableize($logEntry->record_type),
                                     'id' => $logEntry->record_id,
-                                ), 'ariadneplus_record_log'); ?>">
+                                ), 'ariadneplus_record_log')); ?>">
                             <strong><?php echo __('See more'); ?></strong>
                         </a>
                     </td>

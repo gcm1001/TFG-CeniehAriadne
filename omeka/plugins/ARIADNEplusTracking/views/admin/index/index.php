@@ -8,7 +8,7 @@ echo head(array(
 <div id="primary">
     <?php echo flash(); ?>
     <div id="explanation">
-        <img alt="ARIADNE+ Logo" id="ariadnelogo" src="<?php echo img('ariadne-tracking-logo.png'); ?>" />
+        <img alt="ARIADNE+ Logo" id="ariadnelogo" src="<?php echo html_escape(img('ariadne-tracking-logo.png')); ?>" />
         <p>In this window you can manage the tracking tickets for imports to <br> ARIADNEplus.</p>
     </div>
     <h2><?php echo __('Step 1: Select an existing ticket...'); ?></h2>

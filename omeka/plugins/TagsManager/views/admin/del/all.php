@@ -1,6 +1,5 @@
 <?php
-$title = option('site_title');
-$title = urlencode($title);
+$title = urlencode(option('site_title'));
 $canDelete = is_allowed('Tags', 'delete');
 
 if($canDelete){

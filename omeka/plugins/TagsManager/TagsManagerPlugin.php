@@ -34,16 +34,17 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
     }
     
     public function hookConfig($args) {
-        set_option('tagsmanager_sync', $_POST['sync']);
-        set_option('tagsmanager_delbutton', $_POST['delbutton']);
+        $post = $args['post'];
+        set_option('tagsmanager_sync', $post['sync']);
+        set_option('tagsmanager_delbutton', $post['delbutton']);
     }
     
-    function hookAdminTagsBrowse($tags) {    
+    function hookAdminTagsBrowse($args) { 
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
-            if ((isset($_GET['like']) || isset($_GET['type']))  && count($tags)) {
-                echo "<a class='button red' style='margin-top:20px;' href='".url('tags-manager/del/all', $_GET)."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>";            
+            if (isset($_GET['like']) || isset($_GET['type'])) {
+                echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $_GET))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>";            
             } else {
-                echo "<a class='button red' style='margin-top:20px;' href='".url('tags-manager/del/all')."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>";
+                echo "<a class='button red' style='margin-top:20px;' href='".html_escape(uurl('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>";
             }
         }
     }

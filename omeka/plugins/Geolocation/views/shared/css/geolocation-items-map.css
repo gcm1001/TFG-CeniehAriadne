@@ -9,16 +9,16 @@
 }
 
 #map_browse {
-    height: 436px; 
+    height: 436px;
 }
 
 #map-links ul {
-    margin-left:0;
+    margin-left: 0;
     padding: 0;
 }
 
 #map-links li {
-    overflow:hidden; 
+    overflow: hidden;
     width: 100% !important;
     display: inline-block;
     border-radius: 3px;
@@ -26,14 +26,14 @@
     box-sizing: border-box;
     margin-bottom: 10px;
 }
-    
+
 #map-links {
     padding: 10px 0 10px 0;
 }
 
 #map-links li a {
-    display:block;
-    text-decoration:none; 
+    display: block;
+    text-decoration: none;
     border-bottom: 0 !important;
 }
 
@@ -42,22 +42,23 @@
 }
 
 /* The map for the items page needs a bit of styling on it */
+
 #address_balloon dt {
     font-weight: bold;
 }
+
 #address_balloon {
     width: 100px;
 }
 
 div.map-notification {
-    display:block;
+    display: block;
     border: 1px dotted #ccc;
-    text-align:center;
+    text-align: center;
     font-size: 2em;
 }
 
 @media screen and (min-width:768px) {
-
     #map-links {
         padding: 0 10px 10px 10px;
         -moz-box-sizing: border-box !important;
@@ -68,19 +69,16 @@ div.map-notification {
         overflow-y: auto;
         margin-bottom: 0 !important;
     }
-
     #map-links ul {
         margin: 0;
         padding: 0;
     }
-
     #map-links li {
         overflow: hidden;
     }
-
-    #map_browse { 
-        float:left;
-        width:70%;
+    #map_browse {
+        float: left;
+        width: 70%;
         margin-bottom: 0 !important;
     }
 }

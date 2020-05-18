@@ -188,11 +188,6 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
      * @return type
      */
     public function ticketAction(){
-        if ($this->_getParam('user') && !$this->_helper->acl->isAllowed('browse', 'Users')) {
-            $this->_setParam('user', null);
-            unset($_GET['user'], $_POST['user']);
-        }
-        
         $this->view->params = $this->getAllParams();
         // Respect only GET parameters when browsing.
         $this->getRequest()->setParamSources(array('_GET'));

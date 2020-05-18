@@ -453,8 +453,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             'detailed' => isset($post['detailed']) ? $post['detailed'] : array(),
         );
         set_option('ariadneplus_tracking_admin_items_browse', json_encode($settings));
-        set_option('ariadneplus_tracking_name', $_POST['ariadneplus_tracking_name']);
-        set_option('ariadneplus_tracking_email', $_POST['ariadneplus_tracking_email']);
         
         if(get_option('ariadneplus_tracking_hide_elements')){
             $hideSettings = json_decode(get_option('hide_elements_settings'), true);

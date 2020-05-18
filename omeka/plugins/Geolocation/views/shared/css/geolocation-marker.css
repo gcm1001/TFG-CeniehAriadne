@@ -11,6 +11,7 @@
 #geolocation_address {
     width: 80%;
 }
+
 button#geolocation_find_location_by_address {
     float: none;
 }
@@ -20,24 +21,26 @@ div#geolocation {
 }
 
 .info-panel .map {
-    margin-top:-18px;
-    display:block;
-    margin-left:-18px;
-    margin-bottom:0;
-    border-top:3px solid #eae9db;
+    margin-top: -18px;
+    display: block;
+    margin-left: -18px;
+    margin-bottom: 0;
+    border-top: 3px solid #eae9db;
     padding:0;
 }
 
 .geolocation_balloon {
     width: 200px;
 }
+
 .geolocation_balloon img {
     max-width: 100%;
 }
+
 .geolocation_balloon_title {
-    font-weight:bold;
-    font-size:18px;
-    margin-bottom:0px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 0px;
 }
 
 img.leaflet-tile,

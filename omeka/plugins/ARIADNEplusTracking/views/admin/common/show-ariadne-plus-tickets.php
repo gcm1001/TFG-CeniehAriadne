@@ -17,23 +17,23 @@
                 <?php $key = 0; 
                 foreach ($tickets as $ticket): ?>
                 <tr class="ariadneplus-ticket <?php echo ++$key%2 == 1 ? 'odd' : 'even'; ?>">
-                    <td><?php echo $ticket->lastmod; ?></td>
+                    <td><?php echo html_escape($ticket->lastmod); ?></td>
                     <td colspan="2">
                         <a href="<?php
-                        echo url(array(
+                        echo html_escape(url(array(
                                 'type' => Inflector::tableize($ticket->record_type),
                                 'id' => $ticket->record_id,
-                            ), 'ariadneplus_record_log'); ?>"><?php
-                            echo $ticket->record_type;
+                            ), 'ariadneplus_record_log')); ?>"><?php
+                            echo html_escape($ticket->record_type);
                             echo ' ';
-                            echo $ticket->record_id;
+                            echo html_escape($ticket->record_id);
                         ?></a>
-                        <div class="record-title"><?php echo $ticket->displayCurrentTitle(); ?></div>
-                        <form id="form-row-<?php echo ($key-1); ?>" method="post"><input type="hidden" name="record_type" value="<?php echo $ticket->record_type; ?>" />
-                        <input type="hidden" name="record_id" value="<?php echo $ticket->record_id; ?>" /></form>
+                        <div class="record-title"><?php echo html_escape($ticket->displayCurrentTitle()); ?></div>
+                        <form id="form-row-<?php echo html_escape(($key-1)); ?>" method="post"><input type="hidden" name="record_type" value="<?php echo html_escape($ticket->record_type); ?>" />
+                        <input type="hidden" name="record_id" value="<?php echo html_escape($ticket->record_id); ?>" /></form>
                     </td>
-                    <td><?php echo $ticket->displayUser(); ?></td>
-                    <td><?php echo $ticket->displayStatus(); ?></td>
+                    <td><?php echo html_escape($ticket->displayUser()); ?></td>
+                    <td><?php echo html_escape($ticket->displayStatus()); ?></td>
                 </tr>
                 </form>
                 <?php endforeach; 

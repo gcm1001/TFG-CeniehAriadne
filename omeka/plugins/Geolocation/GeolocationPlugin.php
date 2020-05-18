@@ -127,30 +127,31 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookConfig($args)
     {
+        $post = $args['post'];
         // Use the form to set a bunch of default options in the db
-        set_option('geolocation_default_latitude', $_POST['default_latitude']);
-        set_option('geolocation_default_longitude', $_POST['default_longitude']);
-        set_option('geolocation_default_zoom_level', $_POST['default_zoom_level']);
-        set_option('geolocation_item_map_width', $_POST['item_map_width']);
-        set_option('geolocation_item_map_height', $_POST['item_map_height']);
-        $perPage = (int)$_POST['per_page'];
+        set_option('geolocation_default_latitude', $post['default_latitude']);
+        set_option('geolocation_default_longitude', $post['default_longitude']);
+        set_option('geolocation_default_zoom_level', $post['default_zoom_level']);
+        set_option('geolocation_item_map_width', $post['item_map_width']);
+        set_option('geolocation_item_map_height', $post['item_map_height']);
+        $perPage = (int)$post['per_page'];
         if ($perPage <= 0) {
             $perPage = self::DEFAULT_LOCATIONS_PER_PAGE;
         }
         set_option('geolocation_per_page', $perPage);
-        set_option('geolocation_add_map_to_contribution_form', $_POST['geolocation_add_map_to_contribution_form']);
-        set_option('geolocation_link_to_nav', $_POST['geolocation_link_to_nav']);
-        set_option('geolocation_default_radius', $_POST['geolocation_default_radius']);
-        set_option('geolocation_use_metric_distances', $_POST['geolocation_use_metric_distances']);
-        set_option('geolocation_basemap', $_POST['basemap']);
-        set_option('geolocation_auto_fit_browse', $_POST['auto_fit_browse']);
-        set_option('geolocation_mapbox_access_token', $_POST['mapbox_access_token']);
-        set_option('geolocation_mapbox_map_id', $_POST['mapbox_map_id']);
-        set_option('geolocation_cluster', $_POST['cluster']);
-        set_option('geolocation_draw', $_POST['draw']);
-        set_option('geolocation_sync_spatial', $_POST['geolocation_sync_spatial']);
-        set_option('geolocation_sync_spatial_rev', $_POST['geolocation_sync_spatial_rev']);
-        set_option('geolocation_geocoder', $_POST['geocoder']);
+        set_option('geolocation_add_map_to_contribution_form', $post['geolocation_add_map_to_contribution_form']);
+        set_option('geolocation_link_to_nav', $post['geolocation_link_to_nav']);
+        set_option('geolocation_default_radius', $post['geolocation_default_radius']);
+        set_option('geolocation_use_metric_distances', $post['geolocation_use_metric_distances']);
+        set_option('geolocation_basemap', $post['basemap']);
+        set_option('geolocation_auto_fit_browse', $post['auto_fit_browse']);
+        set_option('geolocation_mapbox_access_token', $post['mapbox_access_token']);
+        set_option('geolocation_mapbox_map_id', $post['mapbox_map_id']);
+        set_option('geolocation_cluster', $post['cluster']);
+        set_option('geolocation_draw', $post['draw']);
+        set_option('geolocation_sync_spatial', $post['geolocation_sync_spatial']);
+        set_option('geolocation_sync_spatial_rev', $post['geolocation_sync_spatial_rev']);
+        set_option('geolocation_geocoder', $post['geocoder']);
     }
 
     public function hookDefineAcl($args)
@@ -790,7 +791,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
         if (is_null($post)) {
-            $post = $_POST;
+            $post = htmlspecialchars($_POST);
         }
 
         $usePost = !empty($post)
@@ -863,7 +864,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'zoomLevel' => $box_zoom,
             'address' => $box_address);
         }
-
+        
+        $options['confirmLocationChange'] = $confirmLocationChange;
+        
         return $view->partial('map/input-partial.php', array(
             'label' => $label,
             'address' => $address,
@@ -875,8 +878,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'height' => $height,
             'zoom' => empty($zoom) ? $box_zoom : $zoom,
         ));
-
-        $options['confirmLocationChange'] = $confirmLocationChange;
     }
 
     protected function _getCenter()
