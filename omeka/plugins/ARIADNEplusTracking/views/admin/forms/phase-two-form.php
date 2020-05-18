@@ -67,7 +67,7 @@
                       <div class="acc-content-inner">
                         <ol id="tuto">
                             <li id="tuto"><b id="title"> Control toolbar and Mapping list</b> <br>
-                                <img src="<?php echo img('map-1.png'); ?>" class="center"/>
+                                <img src="<?php echo htmlspecialchars(img('map-1.png')); ?>" class="center"/>
                                 <ol id="tuto">
                                     <li id="tuto"> Control toolbar – More/Copy XML/Rights</li>
                                     <img src="<?php echo img('map-2.png'); ?>" />

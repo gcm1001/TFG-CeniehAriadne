@@ -22,7 +22,7 @@
  * Typical usage is via the factory() method:
  * 
  * <code>
- * $ingest = Omeka_File_Ingest_AbstractIngest::factory('Url', $collection);
+ * $ingest = CollectionFiles_File_Ingest_AbstractIngest::factory('Url', $collection);
  * $fileRecords = $ingest->ingest('http://www.example.com');
  * </code>
  * 

@@ -61,11 +61,11 @@
                 <?php endif; ?>
 
                     <?php if (metadata($item, 'has files')): ?>
-                    <?php echo link_to_item(item_image('square_thumbnail', array(), 0, $item), array('class' => 'item-thumbnail'), 'show', $item); ?>
+                    <?php echo htmlspecialchars(link_to_item(item_image('square_thumbnail', array(), 0, $item), array('class' => 'item-thumbnail'), 'show', $item)); ?>
                     <?php endif; ?>
 
                     <span class="title">
-                    <?php echo link_to($item,'show',metadata($item, array('Dublin Core', 'Title'))); ?>
+                    <?php echo htmlspecialchars(link_to($item,'show',metadata($item, array('Dublin Core', 'Title')))); ?>
 
                     <?php if(!$item->public): ?>
                     <?php echo __('(Private)'); ?>
@@ -73,11 +73,11 @@
                     </span>
                     <ul class="action-links group">
                         <?php if (is_allowed($item, 'edit')): ?>
-                        <li><?php echo link_to($item,'edit',__('Edit'), array()); ?></li>
+                        <li><?php echo htmlspecialchars(link_to($item,'edit',__('Edit'), array())); ?></li>
                         <?php endif; ?>
 
                         <?php if (is_allowed($item, 'delete')): ?>
-                        <li><?php echo link_to($item,'delete-confirm',__('Delete'), array('class' => 'delete-confirm')); ?></li>
+                        <li><?php echo htmlspecialchars(link_to($item,'delete-confirm',__('Delete'), array('class' => 'delete-confirm'))); ?></li>
                         <?php endif; ?>
                     </ul>
                 </td>
@@ -85,7 +85,7 @@
                 <td>
                     <?php
                     echo ($typeName = metadata($item, 'Item Type Name'))
-                        ? $typeName
+                        ? htmlspecialchars($typeName)
                         : metadata($item, array('Dublin Core', 'Type'), array('snippet' => 35));
                     ?>
                 </td>
@@ -99,7 +99,7 @@
                 <button class="batch-all-toggle" type="button" data-records-count="<?php echo $total; ?>"><?php echo __('Select all %s results', $total); ?></button>
                 <div class="selected"><span class="count">0</span> <?php echo __('items selected'); ?></div>
                 <input type="hidden" name="batch-all" value="1" id="batch-all" disabled>
-                <?php echo $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
+                <?php echo htmlspecialchars($this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams()))); ?>
                 <?php if (is_allowed('Items', 'edit')): ?>
                 <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?php echo __('Edit'); ?>" />
                 <?php endif; ?>

@@ -11,8 +11,7 @@ ul.navigation li {
 ul.navigation a {
   display: block;
   text-decoration: none;
-  transition: backgorund 0.25s, 
-      color 0.25s;
+  transition: backgorund 0.25s, color 0.25s;
 }
 
 ul.navigation ul {
@@ -42,5 +41,5 @@ ul.navigation li:hover > ul {
   left: 100%;
   visibility: visible;
   opacity: 0.8;
-  transform: translateX(0px);
+  transform: translateX(0);
 }
