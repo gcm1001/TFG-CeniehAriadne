@@ -61,7 +61,7 @@ jobs:
     - name: Deploy
       run: |-
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$IMAGE
+        kubectl rollout status deployment ${{ secrets.GKE_DEPLOYMENT }}
         kubectl get services -o wide
 
 
