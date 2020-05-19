@@ -28,7 +28,6 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $this->_log(__('The term "%s" is the last one of the vocabulary of element %s.', $term, $element->name));
             return;
         }
-        $url = $this->_options['url'];
         // All is fine.
         $newTerm = $statusElement['terms'][$key + 1];
         $elementSet = $element->getElementSet();
@@ -65,6 +64,7 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             )),
         ), 0);
         
+        $operation = null;
         if($key==0){
             $incompleteRecords = [];
             $operation = ARIADNEplusLogEntry::OPERATION_ASSIGN;
@@ -72,9 +72,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $operation = ARIADNEplusLogEntry::OPERATION_STAGE;
         } elseif ($key == 6) {
             $operation = ARIADNEplusLogEntry::OPERATION_REFRESH;
-        } else {
-            $operation = null;
+        } 
+        
+        if($operation === null){
+          return;
         }
+        
         $logentry = new ARIADNEplusLogEntry();
         $logentry->logEvent($stageRecord, $operation, current_user());
         
@@ -83,7 +86,6 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         // CHECK: Incomplete > Complete 
         if($key == 1 || $key == 0){
             $mandatoryElementsDC = $view->tracking()->getMandatoryDCElements();
-            $this->_log(print_r($mandatoryElementsDC));
             foreach ($records as $k => $record) {
                 //CHECK: DC
                 foreach($mandatoryElementsDC as $elementDC) {

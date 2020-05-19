@@ -43,10 +43,9 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
     
     protected function beforeSave($args)
     {
-        if (is_null($this->mode)) {
+        if ($this->mode === null) {
             $this->mode = 'UNDEFINED';
         }
-
     }
     
     public function newTrackingTicket($record, $status, $user)
@@ -64,7 +63,6 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
         }
 
         $userId = is_object($user) ? $user->id : $user;
-        
         $this->setUserId($userId);
         
         return true;
@@ -89,10 +87,10 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
     
     public function isValidRecord($recordType = null, $recordId = null)
     {
-        if (is_null($recordType)) {
+        if ($recordType === null) {
             $recordType = $this->record_type;
         }
-        if (is_null($recordId)) {
+        if ($recordId === null) {
             $recordId = $this->record_id;
         }
         $recordId = (integer) $recordId;
@@ -124,7 +122,7 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
     
     protected function _isStatusValid($status = null)
     {
-        if (is_null($status)) {
+        if ($status === null) {
             $status = $this->status;
         }
         return in_array($status, $this->_validStatus);
@@ -139,7 +137,7 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
     
     protected function _isModeValid($mode = null)
     {
-        if (is_null($mode)) {
+        if ($mode === null) {
             $mode= $this->mode;
         }
         return in_array($mode, $this->_validModes);
@@ -147,14 +145,12 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
     
     public function getRecord($record = null)
     {
-        if (is_null($record)) {
+        if ($record === null) {
             $recordType = $this->record_type;
             $recordId = $this->record_id;
-        }
-        elseif (is_object($record)) {
+        } elseif (is_object($record)) {
             return $record;
-        }
-        elseif (is_array($record)) {
+        } elseif (is_array($record)) {
             if (isset($record['record_type']) && isset($record['record_id'])) {
                 $recordType = $record['record_type'];
                 $recordId = $record['record_id'];
@@ -174,8 +170,7 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
             else {
                 return;
             }
-        }
-        else {
+        } else {
             return;
         }
 

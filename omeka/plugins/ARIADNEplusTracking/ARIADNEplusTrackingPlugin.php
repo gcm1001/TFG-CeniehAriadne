@@ -99,7 +99,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         // Add terms for simple vocabs and the flags "unique" and "steppable".
         $es = $elementSet->getElements();
         foreach ($es as $e) {
-            foreach ($elements as $key => $element) {
+            foreach ($elements as $element) {
                 if ($element['name'] == $e->name) {
                     // Set / unset the flag for unique.
                     if (empty($element['unique'])) {
@@ -152,10 +152,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
-        $db = $this->_db;
+        $database = $this->_db;
         
         // Log entries
-        $db->query("CREATE TABLE IF NOT EXISTS `{$db->ARIADNEplusLogEntry}` (
+        $database->query("CREATE TABLE IF NOT EXISTS `{$database->ARIADNEplusLogEntry}` (
                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                     `record_type` enum('Item', 'Collection') NOT NULL,
                     `record_id` int(10) unsigned NOT NULL,
@@ -169,7 +169,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
         
         // Associated table to log changes of each element.
-        $db->query("CREATE TABLE IF NOT EXISTS `{$db->ARIADNEplusLogMsgs}` (
+        $database->query("CREATE TABLE IF NOT EXISTS `{$database->ARIADNEplusLogMsgs}` (
                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                     `entry_id` int(10) unsigned NOT NULL,
                     `msg` mediumtext COLLATE utf8_unicode_ci NOT NULL,
@@ -178,7 +178,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
         
         // Tracking Tickets
-        $db->query("CREATE TABLE IF NOT EXISTS `{$db->ARIADNEplusTrackingTicket}` (
+        $database->query("CREATE TABLE IF NOT EXISTS `{$database->ARIADNEplusTrackingTicket}` (
             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
             `record_type` enum('Item', 'Collection') NOT NULL,
             `record_id` int(10) unsigned NOT NULL,
@@ -199,7 +199,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     protected function _addNewElements()
     {
-        $db = $this->_db;
+        $database = $this->_db;
 
         // Load elements to add.
         require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'elements.php';
@@ -237,7 +237,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             $steppables = json_decode(get_option('ariadneplus_tracking_elements_steppable'), true) ?: array();
             $defaultTerms = json_decode(get_option('ariadneplus_tracking_elements_default'), true) ?: array();
             foreach ($newElements as $key => $element) {
-                $e = $db->getTable('Element')
+                $e = $database->getTable('Element')
                     ->findByElementSetNameAndElementName($elementSetMetadata['name'], $element['name']);
 
                 if (!empty($element['unique'])) {
@@ -269,13 +269,13 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     protected function _removeOldElements($elementsToRemove = array())
     {
-        $db = $this->_db;
+        $database = $this->_db;
 
         $uniques = json_decode(get_option('ariadneplus_tracking_elements_unique'), true) ?: array();
         $steppables = json_decode(get_option('ariadneplus_tracking_elements_steppable'), true) ?: array();
         $defaultTerms = json_decode(get_option('ariadneplus_tracking_elements_default'), true) ?: array();
 
-        $elementTable = $db->getTable('Element');
+        $elementTable = $database->getTable('Element');
         $vocabTable = $this->_db->getTable('SimpleVocabTerm');
         foreach ($elementsToRemove as $elementName) {
             $e = $elementTable->findByElementSetNameAndElementName($this->_elementSetName, $elementName);
@@ -304,12 +304,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     protected function _updateVocab($elementsToUpdate)
     {
-        $db = $this->_db;
+        $database = $this->_db;
 
         // Prepare the elements.
         $elements = $this->_getElementsList();
 
-        $elementTable = $db->getTable('Element');
+        $elementTable = $database->getTable('Element');
         $vocabTable = $this->_db->getTable('SimpleVocabTerm');
         foreach ($elementsToUpdate as $elementName) {
             $e = $elementTable->findByElementSetNameAndElementName($this->_elementSetName, $elementName);
@@ -358,10 +358,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
-        $db = $this->_db;
-        $db->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogEntry}`");
-        $db->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogMsg}`");
-        $db->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusTrackingTicket}`");
+        $database = $this->_db;
+        $database->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogEntry}`");
+        $database->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogMsg}`");
+        $database->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusTrackingTicket}`");
     }
 
     /**
@@ -494,14 +494,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_printStatus(array('record'=> $args['item'], 'view' => $args['view']));
     }
 
-    protected function _adminItemsBrowseDisplay($args, $location)
+    protected function _adminItemsBrowseDisplay($args, $location) 
     {
         $currentElements = json_decode(get_option('ariadneplus_tracking_admin_items_browse'), true) ?: array();
         if (empty($currentElements[$location])) {
             return;
         }
-
-        $view = $args['view'];
         $item = $args['item'];
         foreach ($currentElements[$location] as $elementSetName => $displayElements) {
             $html = '';
@@ -604,7 +602,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
 
         $stem = 'new-elements' . "[$elementTempId]";
         $elementNameName = $stem . '[name]';
-        $elementDescriptionName = $stem . '[description]';
+        $elementDescName = $stem . '[description]';
         $elementOrderName = $stem . '[order]';
         $elementCommentName = $stem . '[comment]';
         $elementUniqueName = $stem . '[unique]';
@@ -615,7 +613,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $options = array(
             'element_name_name' => $elementNameName,
             'element_name_value' => $elementName,
-            'element_description_name' => $elementDescriptionName,
+            'element_description_name' => $elementDescName,
             'element_description_value' => $elementDescription,
             'element_order_name' => $elementOrderName,
             'element_order_value' => $elementOrder,
@@ -978,14 +976,14 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             }
         }
         
-        $db = get_db();
+        $database = get_db();
         $sql = "
         SELECT COUNT(f.id)
-        FROM $db->CollectionFile f
+        FROM $database->CollectionFile f
         WHERE f.collection_id = ?";
-        $has_files = (int) $db->fetchOne($sql, array((int) $record->id));
+        $has_files = (int) $database->fetchOne($sql, array((int) $record->id));
         
-        $files = $db->getTable('CollectionFile')->findByCollection($record->id);
+        $files = $database->getTable('CollectionFile')->findByCollection($record->id);
         
         // Update the tab.
         $tab = preg_replace($patterns, $replacements, $tab);
@@ -1173,10 +1171,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookBeforeSaveCollection($args)
     {
         $collection = $args['record'];
-        $post = $args['post'];
+        $post = $args['post'];        
         if(!empty(metadata($collection, array('Monitor','Metadata Status')))){
             if(!empty($post)){
-                if (!empty($_FILES['collectionfile'])) {
+                if ($this->isset_file('collectionfile')) {
                     $jsonfiles = $this->_db->getTable('CollectionFile')->findByCollection($collection->id);
                     $file = array_pop($jsonfiles);
                     if($file){
@@ -1209,7 +1207,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterSaveCollection($args)
     {
         $collection = $args['record'];
-        $db = get_db();
         $items = get_records('Item',array('collection'=> $collection->id),9999);
         $elementTexts = [];
         // METADATA STATUS
@@ -1276,7 +1273,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['record'];
         $post = $args['post'];
         if(!empty($post)){
-            if (!empty($_FILES['file'])) {
+            if ($this->isset_file('file')) {
                 $status = metadata($item,array('Monitor','Metadata Status'));
                 if($status){
                     $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
@@ -1312,7 +1309,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAfterSaveItem($args){
         $item = $args['record'];
-        if (isset($_FILES['file'])) {
+        if ($this->isset_file('file')) {
             if(!empty(metadata($item, array('Monitor','Metadata Status')))){
                 $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
                 if(count($jsonfiles) > 1){
@@ -1338,7 +1335,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
-    
+    protected function isset_file($name){
+        return empty($name) ? false : isset($_FILES[$name]);
+    }
     /**
      * Adds status badge to the collections browse view.
      * 
@@ -1357,7 +1356,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args
      */
-    public function hookAdminCollectionsBrowse($args){
+    public function hookAdminCollectionsBrowse(){
         echo '<script type="text/javascript">
                 jQuery(document).ready(function(){
                     jQuery(".details").hide();
@@ -1492,7 +1491,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                   'view' => $view, 'record' => $collection));
             }
             echo $view->partial('common/restrict-scripts.php', array(
-            'sections' => $sections,
+            'sections' => $blocks,
             'view' => $view,));
         }
     }

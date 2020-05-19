@@ -24,7 +24,7 @@
                             <span> Default Content <div id="msg-content" class="div-textarea"><?php echo $body; ?></div></span>
                             <button id="modify-button">Change content</button>
                             </div>
-                            <input type="submit" value="Send" id="send-button" class="send">
+                            <input type="submit" value="Send" id="send-button" class="send-mail">
                             </form>
                             <div id="mod-content" style="display: none;" >
                                 <div class="wysiwyg">
@@ -66,7 +66,7 @@
                                     <div class="htmlview"></div>
                                   </div>
                             </div>
-                            <input style="display: none;" type="submit" value="Save" id="save-button" class="send">
+                            <input style="display: none;" type="submit" value="Save" id="save-button" class="send-mail">
                         </div>
                         <div class = "bottom-mail"></div>			
                         <div class = "left-mail"></div>

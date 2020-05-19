@@ -156,7 +156,6 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      */
     public function getRecordTrackingTicket($record)
     {
-        $db = get_db();
         $tickets = $this->_ticketTable->findBy(array('record_id' => $record->id));
         return reset($tickets);
     }

@@ -245,7 +245,6 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $this->view->params = $params;
             
         $db = get_db();
-        $firstTerm = '';
         foreach($params['element'] as $elementId){
             $terms =  explode("\n", $db->query("SELECT terms FROM `$db->SimpleVocabTerm` WHERE element_id = '$elementId'")->fetch()['terms']);
             foreach($terms as $term){
@@ -267,14 +266,31 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
                 }
             }
         }
+        if (empty($result)) {
+            $this->view->results = array();
+            return;
+        }
+     
+        $stats = array();
+        $by = 'All';
+        
+        foreach ($statusElements as $elementId => $element) {
+            $stats[$elementId][$by] = array_fill_keys($element['terms'], 0);
+        }
+        // Convert the results in the new array.
+        foreach ($result as $row) {
+            $stats[$row['element_id']][$by][$row['text']] = $row['Count'];
+        }
+        
+        // Reduce memory?
+        unset($result);
+        $this->view->results = $stats;
+        
         $elementId = reset($params['element']);
         $this->view->elementId = $elementId;
         
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            $metadata = array(
-                        Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
-            );
             if($level == 2){
                 if(isset($post['mode'])){
                     $ticket->setMode($post['mode']);
@@ -308,25 +324,7 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
             } 
         }
         
-        if (empty($result)) {
-            $this->view->results = array();
-            return;
-        }
-     
-        $stats = array();
-        $by = 'All';
         
-        foreach ($statusElements as $elementId => $element) {
-            $stats[$elementId][$by] = array_fill_keys($element['terms'], 0);
-        }
-        // Convert the results in the new array.
-        foreach ($result as $key => $row) {
-            $stats[$row['element_id']][$by][$row['text']] = $row['Count'];
-        }
-        
-        // Reduce memory?
-        unset($result);
-        $this->view->results = $stats;
         
     }
     
@@ -340,7 +338,6 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $elementId = $this->getParam('element');
         $term = $this->getParam('term');
         $record_id = $this->getParam('record_id');
-        $url = $this->getParam('url');
         $record_type = $this->getParam('record_type');
         if (!empty($elementId) && !empty($term) && !empty($record_id) && !empty($record_type)) {
             $statusElement = get_view()->tracking()
@@ -355,7 +352,6 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
                     $options['record_id'] = $record_id;
                     $options['element'] = $element->id;
                     $options['term'] = $term;
-                    $options['url'] = $url;
                     $jobDispatcher = Zend_Registry::get('bootstrap')->getResource('jobs');
                     $jobDispatcher->setQueueName(ARIADNEplusTracking_Job_Stage::QUEUE_NAME);
                     $jobDispatcher->sendLongRunning('ARIADNEplusTracking_Job_Stage', $options);
@@ -394,10 +390,9 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $options = array('' => __('Select below'));
         foreach ($collections as $collection) {
             if($this->_isValidNewRecord($collection,false)){
+                $col =  $collection->id.'. Untitled';
                 if (metadata($collection,array('Dublin Core', 'Title'))) {
                     $col =  $collection->id.'. '.metadata($collection,array('Dublin Core', 'Title'));
-                } else {
-                    $col =  $collection->id.'. No title';
                 }
                 $options[$collection->id] = $col;
                 release_object($collection);
@@ -417,11 +412,10 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $options = array('' => __('Select below'));
         foreach ($items as $item) {
             if($this->_isValidNewRecord($item,false)){
+                $it =  $item->id.'. Untitled';
                 if (metadata($item,array('Dublin Core', 'Title'))) {
                     $it =  $item->id.'. '.metadata($item,array('Dublin Core', 'Title'));
-                } else {
-                    $it =  $item->id.'. No title';
-                }
+                } 
                 $options[$item->id] = $it;
                 release_object($item);
             }

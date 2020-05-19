@@ -21,10 +21,10 @@ class BoxLocation extends Omeka_Record_AbstractRecord implements Zend_Acl_Resour
      */
     protected function beforeSave($args)
     {
-        if (is_null($this->map_type)) {
+        if ($this->map_type === null) {
             $this->map_type = '';
         }
-        if (is_null($this->address)) {
+        if ($this->address === null) {
             $this->address = '';
         }
     }

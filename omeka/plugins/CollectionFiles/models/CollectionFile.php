@@ -230,7 +230,7 @@ class CollectionFile extends Omeka_Record_AbstractRecord implements Zend_Acl_Res
      */
     public function getPath($type = 'original')
     {
-        $fn = $this->getDerivativeFilename();
+        $filename = $this->getDerivativeFilename();
         if ($this->stored) {
             throw new RuntimeException(__('Cannot get the local path for a stored file.'));
         }
@@ -238,7 +238,7 @@ class CollectionFile extends Omeka_Record_AbstractRecord implements Zend_Acl_Res
         if ($type == 'original') {
             return $dir . '/' . $this->filename;
         } else {
-            return $dir . "/{$type}_{$fn}";
+            return $dir . "/{$type}_{$filename}";
         }
     }
 
@@ -302,7 +302,7 @@ class CollectionFile extends Omeka_Record_AbstractRecord implements Zend_Acl_Res
      * 
      * @param string
      */
-    public function setDefaults($filepath, array $options = array())
+    public function setDefaults($filepath)
     {
         $this->size = filesize($filepath);
         $this->authentication = md5_file($filepath);
@@ -419,8 +419,6 @@ class CollectionFile extends Omeka_Record_AbstractRecord implements Zend_Acl_Res
     public function storeFiles()
     {
         $storage = $this->getStorage();
-        $filename = $this->filename;
-        $derivativeFilename = $this->getDerivativeFilename();
         $storage->store($this->getPath('original'), $this->getStoragePath('original'));
         if ($this->has_derivative_image) {
             $types = array_keys(self::$_pathsByType);
@@ -444,14 +442,14 @@ class CollectionFile extends Omeka_Record_AbstractRecord implements Zend_Acl_Res
     {
         $storage = $this->getStorage();
         if ($type == 'original') {
-            $fn = $this->filename;
+            $filename = $this->filename;
         } else {
-            $fn = $this->getDerivativeFilename();
+            $filename = $this->getDerivativeFilename();
         }
         if (!isset(self::$_pathsByType[$type])) {
             throw new RuntimeException(__('"%s" is not a valid file derivative.', $type));
         }
-        return $storage->getPathByType($fn, self::$_pathsByType[$type]);
+        return $storage->getPathByType($filename, self::$_pathsByType[$type]);
     }
 
     /**

@@ -62,9 +62,9 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookInstall()
     {
-        $db = get_db();
+        $database = get_db();
         $sql = "
-        CREATE TABLE IF NOT EXISTS `$db->CollectionFile` (
+        CREATE TABLE IF NOT EXISTS `$database->CollectionFile` (
             `id` int unsigned NOT NULL auto_increment,
             `collection_id` int unsigned NOT NULL,
             `order` int(10) unsigned DEFAULT NULL,
@@ -82,7 +82,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
             PRIMARY KEY  (`id`),
             KEY `collection_id` (`collection_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-          $db->query($sql);
+          $database->query($sql);
         
     }
 
@@ -92,8 +92,8 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookUninstall()
     {
         // Drop the Location table
-        $db = get_db();
-        $db->query("DROP TABLE IF EXISTS `$db->CollectionFile`");
+        $database = get_db();
+        $database->query("DROP TABLE IF EXISTS `$database->CollectionFile`");
     }
 
     /**
@@ -118,7 +118,6 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
  
     public function filterAdminCollectionsFormTabs($tabs, $args)
     {
-        $tab = $tabs[$this->_elementSetName];
         $record = $args['collection'];
         $view = get_view();
         
@@ -133,19 +132,19 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     }
     
     private function collection_has_files($record){
-        $db = get_db();
+        $database = get_db();
         $sql = "
         SELECT COUNT(f.id)
-        FROM $db->CollectionFile f
+        FROM $database->CollectionFile f
         WHERE f.collection_id = ?";
-        $has_files = (int) $db->fetchOne($sql, array((int) $record->id));
+        $has_files = (int) $database->fetchOne($sql, array((int) $record->id));
         
         return (bool) $has_files;
     }
     
     private function get_collection_files($record){
-        $db = get_db();
-        $files = $db->getTable('CollectionFile')->findByCollection($record->id);
+        $database = get_db();
+        $files = $database->getTable('CollectionFile')->findByCollection($record->id);
         return $files;
     }
     
@@ -153,7 +152,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         try {
             $collection = $args['record'];
 
-            if (!empty($_FILES['collectionfile'])) {
+            if ($this->isset_file('collectionfile')) {
                 $files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
                 
                 foreach ($files as $key => $file) {
@@ -167,6 +166,11 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addError('File Upload', $e->getMessage());
         }
     }
+    
+    protected function isset_file($name){
+        return empty($name) ? false : isset($_FILES[$name]);
+    }
+    
     private function insert_files_for_collection($collection, $transferStrategy, $files, $options = array())
     {
         $builder = new Builder_CollectionFiles(get_db());
@@ -177,7 +181,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterSaveCollection($args)
     {
         $collection = $args['record'];
-        $db = get_db();
+        $database = get_db();
         if ($args['post']) {
             $post = $args['post'];
             
@@ -190,7 +194,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
                         $fileOrder = null;
                     }
                     
-                    $file = $db->getTable('CollectionFile')->find($fileId);
+                    $file = $database->getTable('CollectionFile')->find($fileId);
                     if($file){
                         $file->order = $fileOrder;
                         $file->save();
@@ -201,7 +205,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
             // Delete files that have been designated by passing an array of IDs
             // through the form.
             if (isset($post['delete_files']) && ($files = $post['delete_files'])) {
-                $filesToDelete = $db->getTable('CollectionFile')->findByCollection($collection->id, $files, 'id');
+                $filesToDelete = $database->getTable('CollectionFile')->findByCollection($collection->id, $files, 'id');
                 foreach ($filesToDelete as $fileRecord) {
                     $fileRecord->delete();
                 }

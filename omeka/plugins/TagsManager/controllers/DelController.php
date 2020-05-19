@@ -2,29 +2,32 @@
 
 class TagsManager_DelController extends Omeka_Controller_AbstractActionController {
 
-    public function allAction() {
-        $search = false;
-        $db = get_db();
-        $tagTable = $db->getTable('Tag');
+    public function allAction() {        
         $params = $this->getAllParams();
+        $this->view->result = $this->_getResult($params);
+        $this->view->search = (isset($params['like']) || isset($params['type']));
+        
+    }
+    
+    private function _getResult($params){
+        $database = get_db();
+        $tagTable = $database->getTable('Tag');
         if (isset($params['like']) && isset($params['type'])) {
-            $r1 = $db->query("SELECT id FROM `$db->Tags` WHERE name LIKE CONCAT('%', ?, '%')",$params['like'])->fetchAll();
-            $r2 = $db->query("SELECT tag_id FROM `$db->RecordsTags` WHERE record_type=?",$params['type'])->fetchAll();
-            $result = array_intersect($r1,$r2);
-            $search = true;
+            $query1 = $database->query("SELECT id FROM `$database->Tags` WHERE name LIKE CONCAT('%', ?, '%')",$params['like'])->fetchAll();
+            $query2 = $database->query("SELECT tag_id FROM `$database->RecordsTags` WHERE record_type=?",$params['type'])->fetchAll();
+            $result = array_intersect($query1,$query2);
+            return $result;
         } else if (isset($params['like']) || isset($params['type'])){
             if (isset($params['like'])){
-                $result = $db->query("SELECT id FROM `$db->Tags` WHERE name LIKE CONCAT('%', ?, '%')",$params['like'])->fetchAll();
+                $result = $database->query("SELECT id FROM `$database->Tags` WHERE name LIKE CONCAT('%', ?, '%')",$params['like'])->fetchAll();
             }
             if (isset($params['type'])){
-                $result = $db->query("SELECT tag_id FROM `$db->RecordsTags` WHERE record_type=?",$params['type'])->fetchAll();
+                $result = $database->query("SELECT tag_id FROM `$database->RecordsTags` WHERE record_type=?",$params['type'])->fetchAll();
             }
-            $search = true;
-        } else {
-            $result = $tagTable->findAll();
-        }
-        $this->view->result = $result;
-        $this->view->search = $search;
+            return $result;
+        } 
+        return $result = $tagTable->findAll();
+        
     }
   
 }

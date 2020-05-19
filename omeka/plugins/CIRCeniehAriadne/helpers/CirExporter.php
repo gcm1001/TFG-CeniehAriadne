@@ -24,12 +24,9 @@
      *@param int $collectionID Identificador de la colección a exportar
      *@return void
      */
-    public function exportCollectionMeta($collectionID) {
-        $collection = get_record_by_id("collection",$collectionID);
-        
+    public function exportCollectionMeta($collectionID) {        
         $this->_generateCirHeader();
         $this->_generateCirBody($collectionID,"Collection",false);
-        
         $this->_generateCirFooter(false);
     }
     
@@ -40,7 +37,6 @@
      *@return void
      */
     public function exportCollectionFull($collectionID) {
-        $collection = get_record_by_id("collection",$collectionID);
         $items = get_records('Item',array('collection'=>$collectionID),999);
 
         $this->_generateCirHeader();
@@ -153,15 +149,12 @@
 
       	    echo ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n";
 
-            if($flag) {
-      	       ob_end_flush();
-      	    } else {
-      	       ob_end_clean();
-            }
+            $this->_free_buffer($flag);
         }
-        if($full) echo ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n";
+        if($full) {
+          echo ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n";
+        }
     }
-
 
     private function _generateCirFooter($full = True) {
         if($full) echo "\t\t</records>";
@@ -177,17 +170,15 @@
     private function _generateCir($itemID) {
         if(!is_numeric($itemID)) {
             echo "ERROR: Invalid item ID";
-            die();
+            return;
         }
 
         $item = get_record_by_id("item",$itemID);
 
-        if(is_null($item)||empty($item)) {
+        if($item === null || empty($item)) {
             echo "ERROR: Invalid item ID";
-            die();
+            return;
         }
-
-        $type = $item->getItemType();
 
         $unqualified = array(
             'title', 'creator', 'subject', 'description', 'publisher',
@@ -245,17 +236,19 @@
         	      }
             }
 
-            if($flag){
-                ob_end_flush();
-            } else {
-                ob_end_clean();
-            }
+            $this->_free_buffer($flag);
         }
 
         echo "\t</metadata>\n";
         echo "</Record>\n";
     }
 
+    private function _free_buffer($flag = True){
+        if($flag) {
+      	    return ob_end_flush();
+      	}
+        return ob_end_clean();
+    }
     /**
      *Devuelve el slug para un conjunto de datos determinado
      *
@@ -281,32 +274,20 @@
      *@param string $elementName Nombre del elemento
      *@return string Nombre del conjunto al que pertenece
      */
-    private function _getElementSlug($elementName,$elementSetName='') {
+    private function _getElementSlug($elementName) {
         $dces = new DublinCoreExtendedPlugin;
         foreach ($dces->getElements() as $elementDces) {
-            if ($elementName == $elementDces['label']) return $elementDces['name'];
+            if ($elementName == $elementDces['label']) {
+              return $elementDces['name'];
+            }
         }
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $elementName));
     }
 
 
 
-    /**
-     *Determine whether a given metadata element set is
-     *recognized or not based on its slug
-     *
-     *@param string $eSSlug Identificador del conjunto de datos
-     *@return bool True si el conjunto de elementos es deconocido, False si no
-     */
-    private function _is_type_other($eSSlug) {
-        if($eSSlug==="unknown"){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
+    
+    
  }
 
 ?>

@@ -42,9 +42,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInstall()
     {
-        $db = get_db();
+        $database = get_db();
         $sql = "
-        CREATE TABLE IF NOT EXISTS `$db->Location` (
+        CREATE TABLE IF NOT EXISTS `$database->Location` (
         `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
         `item_id` BIGINT UNSIGNED NOT NULL ,
         `latitude` DOUBLE NOT NULL ,
@@ -53,10 +53,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         `map_type` VARCHAR( 255 ) NOT NULL ,
         `address` TEXT NOT NULL ,
         INDEX (`item_id`)) ENGINE = InnoDB";
-        $db->query($sql);
+        $database->query($sql);
 
         $sqlBox = "
-        CREATE TABLE IF NOT EXISTS `$db->BoxLocation` (
+        CREATE TABLE IF NOT EXISTS `$database->BoxLocation` (
         `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
         `item_id` BIGINT UNSIGNED NOT NULL ,
         `latitude` DOUBLE NOT NULL ,
@@ -67,7 +67,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         `map_type` VARCHAR( 255 ) NOT NULL ,
         `address` TEXT NOT NULL ,
         INDEX (`item_id`)) ENGINE = InnoDB";
-        $db->query($sqlBox);
+        $database->query($sqlBox);
 
         set_option('geolocation_default_latitude', '55.673730');
         set_option('geolocation_default_longitude', '12.561809');
@@ -105,9 +105,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         // This is for older versions of Geolocation, which used to store a Google Map API key.
         delete_option('geolocation_gmaps_key');
         // Drop the Location table
-        $db = get_db();
-        $db->query("DROP TABLE IF EXISTS `$db->Location`");
-        $db->query("DROP TABLE IF EXISTS `$db->BoxLocation`");
+        $database = get_db();
+        $database->query("DROP TABLE IF EXISTS `$database->Location`");
+        $database->query("DROP TABLE IF EXISTS `$database->BoxLocation`");
 
     }
 
@@ -116,7 +116,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookConfigForm($args)
     {
-        $view = $args['view'];
         include 'config_form.php';
     }
 
@@ -319,7 +318,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookAfterSaveItem($args) {
     	$item = $args['record'];
-    	$spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
     	$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
@@ -447,7 +445,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookItemsBrowseSql($args)
     {
-        $db = $this->_db;
+        $database = $this->_db;
         $select = $args['select'];
         $alias = $this->_db->getTable('Location')->getTableAlias();
 
@@ -462,13 +460,13 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             || !empty($args['params']['geolocation-address'])
         ) {
             $select->joinInner(
-                array($alias => $db->Location),
+                array($alias => $database->Location),
                 "$alias.item_id = items.id",
                 array()
             );
         } else if ($isMapped === false) {
             $select->joinLeft(
-                array($alias => $db->Location),
+                array($alias => $database->Location),
                 "$alias.item_id = items.id",
                 array()
             );
@@ -495,9 +493,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                     $earthRadius = 3959;
                 }
 
-                $radius = $db->quote($radius, Zend_Db::FLOAT_TYPE);
-                $lat = $db->quote($lat, Zend_Db::FLOAT_TYPE);
-                $lng = $db->quote($lng, Zend_Db::FLOAT_TYPE);
+                $radius = $database->quote($radius, Zend_Db::FLOAT_TYPE);
+                $lat = $database->quote($lat, Zend_Db::FLOAT_TYPE);
+                $lng = $database->quote($lng, Zend_Db::FLOAT_TYPE);
 
                 $sqlMathExpression =
                     new Zend_Db_Expr(
@@ -767,16 +765,14 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
      * @param Item $item
      * @param string $label if empty string, a default string will be used. Set
      * null if you don't want a label.
-     * @param boolean $confirmLocationChange
+     * @param boolean $confirmLocChange
      * @param Omeka_View $view
      * @param array $post
      * @return string Html string.
      */
-    protected function _mapForm($item, $label = '', $confirmLocationChange = true, $view = null, $post = null)
+    protected function _mapForm($item, $label = '', $confirmLocChange = true, $view = null, $post = null)
     {
-        $html = '';
-
-        if (is_null($view)) {
+        if ($view === null) {
             $view = get_view();
         }
 
@@ -789,9 +785,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
 
         $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
-
-        if (is_null($post)) {
-            $post = htmlspecialchars($_POST);
+        
+        if ($post === null) {
+            $request = Zend_Controller_Front::getInstance()->getRequest();
+            $post = htmlspecialchars($request->getPost());
         }
 
         $usePost = !empty($post)
@@ -865,7 +862,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'address' => $box_address);
         }
         
-        $options['confirmLocationChange'] = $confirmLocationChange;
+        $options['confirmLocationChange'] = $confirmLocChange;
         
         return $view->partial('map/input-partial.php', array(
             'label' => $label,

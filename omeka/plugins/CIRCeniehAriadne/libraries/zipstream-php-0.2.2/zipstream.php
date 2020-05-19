@@ -359,7 +359,7 @@ class ZipStream {
       $crc = unpack('V', hash_final($hash_ctx, true));
       $crc = $crc[1];
     } else {
-      die("unknown large_file_method: $meth_str");
+      return;
     }
 
     # send file header
