@@ -6,8 +6,8 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
 <?php foreach($elements as $element):
         if(in_array($element->name,$mandatoryDCElements) || in_array($element->name,$mandatoryMonElements)): ?>
             var errors = false;
-            var elementId = "<?php echo html_escape($element->id); ?>";
-            var elementName = "<?php echo html_escape($element->name); ?>" ;
+            var elementId = "<?= htmlspecialchars($element->id); ?>";
+            var elementName = "<?= htmlspecialchars($element->name); ?>" ;
             if(!jQuery.trim(jQuery('#Elements-' + elementId + '-0-text').val()).length){
                 jQuery('textarea[id^=Elements-' + elementId + '-]').addClass('mandatory-empty');
             } else {

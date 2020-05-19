@@ -1,69 +1,67 @@
-<?php
-$pageTitle = __('ARIADNEplus Tracking');
-echo head(array(
-    'title' => $pageTitle,
-));
+<?= head(array(
+    'title' => __('ARIADNEplus Tracking'),
+    ));
 ?>
 <?php if(!empty($ticket)): ?>
-<input id="ticket-type" type="hidden" value="<?php echo $level; ?>">
+<input id="ticket-type" type="hidden" value="<?= $level; ?>">
 <div id="primary">
-    <?php echo flash(); ?>
-    <h2><?php echo __('Step 2: Complete all phases.'); ?></h2>
+    <?= flash(); ?>
+    <h2><?= __('Step 2: Complete all phases.'); ?></h2>
     <div class="phases">
     <ul class="phases-container">
-        <li id="phase-1" style="width:100/6%;" <?php if($level >= 0): echo "class='activated'"; endif;?> >
+        <li id="phase-1" style="width:100/6%;" <?php if($level >= 0): ?> class='activated' <?php endif;?> >
             <div class="phase">
                 <div id="phase-image-1" class="phase-image"><span id="phase-span-1"></span></div>
-                <div class="phase-current">Phase 1</div>
-                <div class="phase-description">Metadata</div>
+                <div class="phase-current"><?= htmlspecialchars(_('Phase 1')); ?></div>
+                <div class="phase-description"><?= htmlspecialchars(_('Metadata')); ?></div>
             </div>
         </li>
-        <li id="phase-2" style="width:100/6%;" <?php if($level >= 2): echo "class='activated'"; endif;?> >
+        <li id="phase-2" style="width:100/6%;" <?php if($level >= 2): ?> class='activated' <?php endif;?> >
             <div class="phase">
                 <div id="phase-image-2" class="phase-image"><span id="phase-span-2"></span></div>
-                <div class="phase-current">Phase 2</div>
-                <div class="phase-description">Map</div>
+                <div class="phase-current"><?= htmlspecialchars(_('Phase 2')); ?></div>
+                <div class="phase-description"><?= htmlspecialchars(_('Map')); ?></div>
             </div>
         </li>
-        <li id="phase-3" style="width:100/6%;" <?php if($level >= 3): echo "class='activated'"; endif;?> >
+        <li id="phase-3" style="width:100/6%;" <?php if($level >= 3): ?> class='activated' <?php endif;?> >
             <div class="phase">
                 <div id="phase-image-3" class="phase-image"><span id="phase-span-3"></span></div>
-                <div class="phase-current">Phase 3</div>
-                <div class="phase-description">Enrich</div>
+                <div class="phase-current"><?= htmlspecialchars(_('Phase 3')); ?></div>
+                <div class="phase-description"><?= htmlspecialchars(_('Enrich')); ?></div>
             </div>
         </li>
-        <li id="phase-4" style="width:100/6%;" <?php if($level >= 4): echo "class='activated'"; endif;?> >
+        <li id="phase-4" style="width:100/6%;" <?php if($level >= 4): ?> class='activated' <?php endif;?> >
             <div class="phase">
                 <div id="phase-image-4" class="phase-image"><span id="phase-span-4"></span></div>
-                <div class="phase-current">Phase 4</div>
-                <div class="phase-description">Communicate</div>
+                <div class="phase-current"><?= htmlspecialchars(_('Phase 4')); ?></div>
+                <div class="phase-description"><?= htmlspecialchars(_('Communicate')); ?></div>
             </div>
         </li>
-        <li id="phase-5" style="width:100/6%;" <?php if($level >= 5): echo "class='activated'"; endif;?> >
+        <li id="phase-5" style="width:100/6%;" <?php if($level >= 5): ?> class='activated' <?php endif;?> >
             <div class="phase">
                 <div id="phase-image-5" class="phase-image"><span id="phase-span-5"></span></div>
-                <div class="phase-current">Phase 5</div>
-                <div class="phase-description">Publish</div>
+                <div class="phase-current"><?= htmlspecialchars(_('Phase 5')); ?></div>
+                <div class="phase-description"><?= htmlspecialchars(_('Publish')); ?></div>
             </div>
         </li>
-        <li id="phase-6" style="width:100/6%;" <?php if($level >= 6): echo "class='activated'"; endif;?> >
+        <li id="phase-6" style="width:100/6%;" <?php if($level >= 6): ?> class='activated' <?php endif;?> >
             <div class="phase">
                 <div id="phase-image-5" class="phase-image"><span id="phase-span-6"></span></div>
-                <div class="phase-current">Phase 6</div>
-                <div class="phase-description">Done</div>
+                <div class="phase-current"><?= htmlspecialchars(_('Phase 6')); ?></div>
+                <div class="phase-description"><?= htmlspecialchars(_('Done')); ?></div>
             </div>
         </li>
     </ul>
-    <div class="phase-bar" style="width: <?php echo (($level > 0) ? $level*(100/6) : 100/6).'%' ?>;"></div>
+    <div class="phase-bar" style="width: <?= (($level > 0) ? $level*(100/6) : 100/6).'%' ?>;"></div>
     </div>
     <div id="phase-content">
-    <?php echo $this->Tracking()->showPhase(array('phase' => $level > 0 ? $level : 1 , 'record' => $record, 'results' => $results)); ?>
+    <?= $this->Tracking()->showPhase(array('phase' => $level > 0 ? $level : 1 , 'record' => $record, 'results' => $results)); ?>
             
     </div>
     <div class="next">
-        <a id="next-btn" href="<?php echo html_escape(url('ariadn-eplus-tracking/index/stage', array('url' => WEB_ROOT,'record_type' => get_class($record), 'element' => $elementId, 
+        <a id="next-btn" href="<?= html_escape(url('ariadn-eplus-tracking/index/stage', array('url' => WEB_ROOT,'record_type' => get_class($record), 'element' => $elementId, 
                                                             'record_id' => $record->id , 'term' => $ticket->status)));?> " class="btn btn-1">
-            <span class="txt">Next Phase</span>
+            <span class="txt"><?= htmlspecialchars(_('Next Phase')); ?></span>
             <span class="round"><i class="fa fa-chevron-right"></i></span>
         </a>
     </div>
@@ -236,7 +234,7 @@ echo head(array(
    
 </script>
 <?php else: ?>
-<h2><?php echo __('ERROR: Ticket not found');?></h2>
-<p><?php echo __('Go back to %sARIADNEplus Tracking%s.', '<a href="' . 
+<h2><?= __('ERROR: Ticket not found');?></h2>
+<p><?= __('Go back to %sARIADNEplus Tracking%s.', '<a href="' . 
                 html_escape(url('ariadn-eplus-tracking')) . '">', '</a>'); ?></p>
 <?php endif; ?>

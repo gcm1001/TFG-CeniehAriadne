@@ -4,33 +4,33 @@
         <form method="post" id="form-phase-2" action="#"> 
         <div class="section"><span>1</span>Download the metadata</div> 
         <div class="inner-wrap">
-          <input id="value-mode" type="hidden" value="<?php echo htmlspecialchars($ticket->mode); ?>">
-                <a href="#" style="display:none;" id="change-mode"> Change mode </a> <br>
-                <label id='export-label'>Export mode  <select id="mode" name="mode">
-                                    <option value=''>Select...</option>
+          <input id="value-mode" type="hidden" value="<?= htmlspecialchars($ticket->mode); ?>">
+                <a href="#" style="display:none;" id="change-mode"> <?= htmlspecialchars(__('Change mode')); ?> </a> <br>
+                <label id='export-label'><?= htmlspecialchars(__('Export mode')); ?> <select id="mode" name="mode">
+                                    <option value=''><?= htmlspecialchars(__('Select...')); ?></option>
                                     <option value='OAI-PMH'>OAI-PMH</option>
                                     <option value='XML'>XML</option>
                                     </select></label>
-                <a href="#" class="download-xml-button" style="display:none;" download><span>Download</span><span id="format-file"></span></a>
+                <a href="#" class="download-xml-button" style="display:none;" download><span><?= htmlspecialchars(__('Download')); ?></span><span id="format-file"></span></a>
         </div> 
-        <div class="section"><span>2</span>Access to D4Science</div>
+        <div class="section"><span>2</span><?= htmlspecialchars(__('Access to D4Science')); ?></div>
         <div class="inner-wrap">
-            <p>Login using your d4science credentials:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> Mapping Tool </a> </p>
+            <p><?= htmlspecialchars(__('Login using your d4science credentials')); ?>:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> Mapping Tool </a> </p>
         </div>
 
-        <div class="section"><span>3</span>Create the map</div>
+        <div class="section"><span>3</span><?= htmlspecialchars(__('Create the map')); ?></div>
             <div class="inner-wrap">
-                <p>Map the data to the AO-Cat using the <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool">X3ML mapping tool</a>   </p>
+                <p><?= htmlspecialchars(__('Map the data to the AO-Cat using the')); ?><a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> X3ML mapping tool</a>   </p>
         </div>
-        <div class="section"><span>4</span>Set the identifier of the map</div>
+        <div class="section"><span>4</span><?= htmlspecialchars(__('Set the identifier of the map')); ?></div>
             <div class="inner-wrap">
-                <label>Your mapping identifier<input type="textarea" id="map-identifier" name="map-identifier" 
-                                                     value="<?php echo metadata($record,array('Monitor','ID of your metadata transformation'));?>" placeholder="For example: Mapping/111" required></label>
+                <label><?= htmlspecialchars(__('Your mapping identifier')); ?><input type="textarea" id="map-identifier" name="map-identifier" 
+                                                     value="<?= metadata($record,array('Monitor','ID of your metadata transformation'));?>" placeholder="<?= htmlspecialchars(__('For example:')); ?> Mapping/111" required></label>
         </div>
         </form>
         <div class="button-section">
          <!-- Modal button -->
-            <button class="form-button" id="btn-help-modal"> Helper </button>
+            <button class="form-button" id="btn-help-modal"><?= htmlspecialchars(__('Helper')); ?> </button>
             <!-- The Modal -->
             <div id="help-modal" class="modal">
               <!-- Modal content -->
@@ -46,14 +46,14 @@
                           <h4>If you are a new user you first need to register to the ARIADNEplus Mappings VRE on D4Science:</h4>
                           <ol>
                               <li>Go <a href="https://ariadne.d4science.org/explore"> here </a>​​. You will see: </li>
-                                  <img src="<?php echo htmlspecialchars(img('register-1.png')); ?>" class="center"/>
+                                  <img src="<?= htmlspecialchars(img('register-1.png')); ?>" class="center"/>
                               <li> Click on “Request Access” for the <b>ARIADNEplus_Mappings</b></li>
                               <li>You’ll be asked to login. If it is your first time using D4Science, you’ll be
                                   prompted with the terms of use that you have to read and accept (Click on the
                                   “I agree” button on the bottom left).</li>
                               <li>Once logged in you’ll have to confirm the request by clicking on the “Confirm
                                   Request” button on the window that will be prompted.</li>
-                                  <img src="<?php echo htmlspecialchars(img('register-2.png')); ?>" />
+                                  <img src="<?= htmlspecialchars(img('register-2.png')); ?>" />
                               <li> You will receive a notification email when the moderators accept your request.
                                   As soon as you receive the email you can access the environment and use
                                   the <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" >3M mapping tool</a></li>
@@ -66,52 +66,52 @@
                       <div class="acc-content-inner">
                         <ol id="tuto">
                             <li id="tuto"><b id="title"> Control toolbar and Mapping list</b> <br>
-                                <img src="<?php echo htmlspecialchars(img('map-1.png')); ?>" class="center"/>
+                                <img src="<?= htmlspecialchars(img('map-1.png')); ?>" class="center"/>
                                 <ol id="tuto">
                                     <li id="tuto"> Control toolbar – More/Copy XML/Rights</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-2.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-2.png')); ?>" />
                                     <li id="tuto">Search and Filter</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-3.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-3.png')); ?>" />
                                     <li id="tuto">Manual</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-4.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-4.png')); ?>" />
                                 </ol>
                             </li>
                             <li id="tuto"><b id="title"> Setting up a New Mapping</b>
                                 <ol id="tuto">
                                     <li id="tuto">Give Title and choose Target Schemas</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-5.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-5.png')); ?>" />
                                     <li id="tuto">Edit/view Info Tab</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-6.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-6.png')); ?>" />
                                     <li id="tuto">Add Generic Mapping Metadata</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-7.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-7.png')); ?>" />
                                     <li id="tuto">Adding Source Schema</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-8.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-8.png')); ?>" />
                                     <li id="tuto">Adding Sample Data</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-9.png')); ?>" />
-                                    <img src="<?php echo htmlspecialchars(img('map-10.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-9.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-10.png')); ?>" />
                                     <li id="tuto">Adding Target Schemas</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-11.png')); ?>" />
-                                    <img src="<?php echo htmlspecialchars(img('map-12.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-11.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-12.png')); ?>" />
                                 </ol>
                             </li>
                             <li id="tuto"><b id="title"> Matching Table Operation</b>
                                 <ol id="tuto">
                                     <li id="tuto">Accessing the Matching Table</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-13.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-13.png')); ?>" />
                                     <li id="tuto">Adding a New Map</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-14.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-14.png')); ?>" />
                                     <p> Adding Map Example</p>
-                                    <img src="<?php echo htmlspecialchars(img('map-15.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-15.png')); ?>" />
                                     <li id="tuto">Adding a New Link</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-16.png')); ?>" /><br>
+                                    <img src="<?= htmlspecialchars(img('map-16.png')); ?>" /><br>
                                     <p> Example</p>
-                                    <img src="<?php echo htmlspecialchars(img('map-17.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-17.png')); ?>" />
                                     <li id="tuto">Copy and Deleting Maps and Links</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-18.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-18.png')); ?>" />
                                     <li id="tuto">How to comment</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-19.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-19.png')); ?>" />
                                     <li id="tuto">View Records</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-20.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-20.png')); ?>" />
                                 </ol>
                             </li>
                             <li id="tuto"><b id="title"> Mapping Patterns </b>
@@ -131,35 +131,35 @@
                                             between human author and machine executor.</li>
                                     </ul>
                                     <li id="tuto"> Mapping Source Root to Target Domain</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-21.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-21.png')); ?>" />
                                     <p> Example </p>
-                                    <img src="<?php echo htmlspecialchars(img('map-22.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-22.png')); ?>" />
                                     <p> Simple Field Mapping: Creating and Equivalent Proposition</p>
-                                    <img src="<?php echo htmlspecialchars(img('map-23.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-23.png')); ?>" />
                                     <li id="tuto"> Simple Field Mapping (One to One) </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-24.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-24.png')); ?>" />
                                     <p> Example </p>
-                                    <img src="<?php echo htmlspecialchars(img('map-25.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-25.png')); ?>" />
                                     <li id="tuto"> Mapping to Paths: Introducing intermediate nodes</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-26.png')); ?>" />
-                                    <img src="<?php echo htmlspecialchars(img('map-27.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-26.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-27.png')); ?>" />
                                     <p> Example </p>
-                                    <img src="<?php echo htmlspecialchars(img('map-28.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-28.png')); ?>" />
                                     <li id="tuto"> Mapping to Paths: Introducing constant expressions</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-29.png')); ?>" />
-                                    <img src="<?php echo htmlspecialchars(img('map-30.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-29.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-30.png')); ?>" />
                                     <p> Example </p>
-                                    <img src="<?php echo htmlspecialchars(img('map-31.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-31.png')); ?>" />
                                     <li id="tuto"> Using variables </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-32.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-32.png')); ?>" />
                                     <li id="tuto"> Joining Maps</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-33.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-33.png')); ?>" />
                                     <li id="tuto"> Multiple instantiation </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-34.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-34.png')); ?>" />
                                     <p> Example </p>
-                                    <img src="<?php echo htmlspecialchars(img('map-35.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-35.png')); ?>" />
                                     <li id="tuto"> Mapping under conditions - If rules</li>
-                                    <img src="<?php echo htmlspecialchars(img('map-36.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-36.png')); ?>" />
                                 </ol>
                             </li>
                             <li id="tuto"><b id="title"> Instance and label Generators</b>
@@ -178,20 +178,20 @@
                                         as well. This is also done through the instance generator. </p>
 
                                     <li id="tuto"> Defining instance generation functions/patterns (offline) </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-37.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-37.png')); ?>" />
                                     <p> Adding generator file (info tab) </p>
-                                    <img src="<?php echo htmlspecialchars(img('map-38.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-38.png')); ?>" />
                                     <li id="tuto"> Opening up the generator editor </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-39.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-39.png')); ?>" />
                                     <li id="tuto"> Specifying Instance Generators </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-40.png')); ?>" /> <br/>
-                                    <img src="<?php echo htmlspecialchars(img('map-41.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-40.png')); ?>" /> <br/>
+                                    <img src="<?= htmlspecialchars(img('map-41.png')); ?>" />
                                     <li id="tuto"> Testing Transforms </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-42.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-42.png')); ?>" />
                                     <li id="tuto"> Visualize transformed records </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-43.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-43.png')); ?>" />
                                     <li id="tuto"> RDF visualizer </li>
-                                    <img src="<?php echo htmlspecialchars(img('map-44.png')); ?>" />
+                                    <img src="<?= htmlspecialchars(img('map-44.png')); ?>" />
                                 </ol>
                             </li>
                         </ol>
@@ -204,9 +204,9 @@
                             <h4>Steps:</h4>
                             <ol>
                                 <li>Go <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> here </a>​​. When you log in, you will see: </li>
-                                <img src="<?php echo htmlspecialchars(img('mapid-1.png')); ?>" class="center"/>
+                                <img src="<?= htmlspecialchars(img('mapid-1.png')); ?>" class="center"/>
                                 <li> Search the map you created in the previous step and copy the "id" field.</li>
-                                <img src="<?php echo htmlspecialchars(img('mapid-2.png')); ?>" class="center"/>
+                                <img src="<?= htmlspecialchars(img('mapid-2.png')); ?>" class="center"/>
                             </ol>
                           </div>
                         </div>
@@ -235,10 +235,10 @@
         
         var setMode = function($mode){
             if($mode === 'OAI-PMH'){
-                var link = "<?php echo WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record->id; ?>";
+                var link = "<?= WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record->id; ?>";
                 jQuery('#format-file').html($mode);
             } else if ($mode === 'XML') {
-                var link = "<?php echo WEB_ROOT.'/'.strtolower(get_class($record)).'s/show/'.$record->id.'?output=CIRfull'; ?>" ;
+                var link = "<?= WEB_ROOT.'/'.strtolower(get_class($record)).'s/show/'.$record->id.'?output=CIRfull'; ?>" ;
                 jQuery('#format-file').html($mode);
             } else {
                 return;

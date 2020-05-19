@@ -1,22 +1,21 @@
 <fieldset id="ariadne-plus-tracking-item-metadata">
-    <h2><?php echo __('ARIADNEplus Tracking'); ?></h2>
+    <h2><?= htmlspecialchars(__('ARIADNEplus Tracking')); ?></h2>
     <p class="explanation">
-        <?php echo __('Set these status for the selected items.'); ?>
-        <?php echo __('Note that some elements may be automatically set.'); ?>
+        <?= htmlspecialchars(__('Set these status for the selected items.')); ?>
+        <?= htmlspecialchars(__('Note that some elements may be automatically set.')); ?>
     </p>
 <?php foreach ($statusTermsElements as $elementId => $statusElement): ?>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $this->formLabel('ariadne-plus-tracking-element-' . $elementId, $statusElement['name']); ?>
+            <?= $this->formLabel('ariadne-plus-tracking-element-' . $elementId, $statusElement['name']); ?>
         </div>
         <div class='inputs five columns omega'>
             <?php
             $options = array();
             $options[''] = __('Select Below');
             $options += $statusElement['terms'];
-            $options['remove'] = __('[Remove value]');
-            echo $this->formSelect('custom[ariadneplustracking][statusterms][element-' . $elementId. ']', null, array(), $options);
-            ?>
+            $options['remove'] = __('[Remove value]');?>
+            <?= $this->formSelect('custom[ariadneplustracking][statusterms][element-' . $elementId. ']', null, array(), $options); ?>
         </div>
     </div>
 <?php endforeach; ?>

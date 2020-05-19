@@ -1,4 +1,4 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
+<?= '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <kml xmlns="http://earth.google.com/kml/2.0">
     <Document>
         <name>Omeka Items KML</name>
@@ -19,24 +19,23 @@
         $location = $locations[$item->id];
         ?>
         <Placemark>
-            <name><![CDATA[<?php echo metadata('item', array('Dublin Core', 'Title'));?>]]></name>
-            <namewithlink><![CDATA[<?php echo link_to_item(metadata('item' , array('Dublin Core', 'Title')), array('class' => 'view-item')); ?>]]></namewithlink>
-            <Snippet maxLines="2"><![CDATA[<?php
-            echo metadata('item', array('Dublin Core', 'Description'), array('snippet' => 150));
+            <name><![CDATA[<?= metadata('item', array('Dublin Core', 'Title'));?>]]></name>
+            <namewithlink><![CDATA[<?= link_to_item(metadata('item' , array('Dublin Core', 'Title')), array('class' => 'view-item')); ?>]]></namewithlink>
+            <Snippet maxLines="2"><![CDATA[<?= metadata('item', array('Dublin Core', 'Description'), array('snippet' => 150));
             ?>]]></Snippet>    
             <description><![CDATA[<?php 
             // @since 3/26/08: movies do not display properly on the map in IE6, 
             // so can't use display_files(). Description field contains the HTML 
             // for displaying the first file (if possible).
-            if (metadata($item, 'has thumbnail')) {
-                echo link_to_item(item_image('thumbnail'), array('class' => 'view-item'));                
-            }
+            if (metadata($item, 'has thumbnail')): ?>
+                <?= link_to_item(item_image('thumbnail'), array('class' => 'view-item')); ?>            
+            <?php endif; ?>
             ?>]]></description>
             <Point>
-                <coordinates><?php echo $location['longitude']; ?>,<?php echo $location['latitude']; ?></coordinates>
+                <coordinates><?= htmlspecialchars($location['longitude']); ?>,<?= htmlspecialchars($location['latitude']); ?></coordinates>
             </Point>
             <?php if ($location['address']): ?>
-            <address><![CDATA[<?php echo $location['address']; ?>]]></address>
+            <address><![CDATA[<?= htmlspecialchars($location['address']); ?>]]></address>
             <?php endif; ?>
         </Placemark>
         <?php endforeach; ?>

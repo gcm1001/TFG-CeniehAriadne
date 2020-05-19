@@ -1,17 +1,17 @@
 <div id="div-phase-3">
     <div class="form-style-10">
         <form method="post" id="form-phase-3" action="#"> 
-        <input type="hidden" id="json" value="<?php echo metadata($record, array('Monitor','GettyAAT mapping'));?>">
+          <input type="hidden" id="json" value="<?= htmlspecialchars(metadata($record, array('Monitor','GettyAAT mapping')));?>">
         <h1 id="h1-phase" >Metadata enrichment<span>To enrich your metadata, follow these steps.</span></h1>
         <div class="section"><span>1</span>Create Period0 period definitions</div>
         <div class="inner-wrap">
-           <label>Your period0 collection url<input id="periodo" value="<?php echo metadata($record,array('Monitor','URL of your PeriodO collection'));?>" type="text" name="periodo" /></label>
+           <label>Your period0 collection url<input id="periodo" value="<?= htmlspecialchars(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" type="text" name="periodo" /></label>
         </div>
         <div class="section"><span>2</span>Create AAT subject mappings</div>
         <div class="inner-wrap">
             <p> You have created the matching between your local terms and Getty AAT with the <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/vocabulary-matching-tool" > Vocabulary Matching Tool</a>​. </p>
             <p> Save the output on your folder <a href="https://data.d4science.net/smpr">​here on the d4science workspace</a>​ (Workspace > VRE Folders > ARIADNEplus_Mappings > Matched Vocabularies - login required). </p>
-            <p> You should save the output <?php echo link_to($record,'edit','here'); ?> too (Monitor Tab >  JSON file of your matchings to Getty AAT ). </p>
+            <p> You should save the output <?= link_to($record,'edit','here'); ?> too (Monitor Tab >  JSON file of your matchings to Getty AAT ). </p>
         </div>
         </form>
         <div class="button-section">

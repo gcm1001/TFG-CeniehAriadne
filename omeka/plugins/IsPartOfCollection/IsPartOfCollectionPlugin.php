@@ -29,4 +29,4 @@ class IsPartOfCollectionPlugin extends Omeka_Plugin_AbstractPlugin
      }
 
 }
-?>
+

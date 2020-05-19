@@ -15,13 +15,13 @@
                     <div  class = "frame">
                         <div id = "button_open_envelope">View</div>
                        <div id="default-message" class = "message">
-                            <form id="msg-form" action="<?php echo html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
+                            <form id="msg-form" action="<?= html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
                             <div id="default-content">
-                            <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" value="<?php echo __("%s - Ingest", get_option('site_title'));?>" ></span>
-                            <input type="hidden" id="msg_content" name="msg_content" value="<?php echo $body; ?>" form="msg-form">
-                            <input type="hidden" id="record_id" name="record_id" value="<?php echo $record->id; ?>" form="msg-form">
-                            <input type="hidden" id="record_type" name="record_type" value="<?php echo get_class($record); ?>" form="msg-form">
-                            <span> Default Content <div id="msg-content" class="div-textarea"><?php echo $body; ?></div></span>
+                            <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" value="<?= __("%s - Ingest", get_option('site_title'));?>" ></span>
+                            <input type="hidden" id="msg_content" name="msg_content" value="<?= htmlspecialchars($body); ?>" form="msg-form">
+                            <input type="hidden" id="record_id" name="record_id" value="<?= htmlspecialchars($record->id); ?>" form="msg-form">
+                            <input type="hidden" id="record_type" name="record_type" value="<?= htmlspecialchars(get_class($record)); ?>" form="msg-form">
+                            <span> Default Content <div id="msg-content" class="div-textarea"><?= htmlspecialchars($body); ?></div></span>
                             <button id="modify-button">Change content</button>
                             </div>
                             <input type="submit" value="Send" id="send-button" class="send-mail">
@@ -62,7 +62,7 @@
                                         <button type="button" id="forecolor"><i class="fa fa-tint"></i></button>
                                       </div>
                                     </div>
-                                    <div class="editor" contentEditable><?php echo $body; ?></div>
+                                  <div class="editor" contentEditable><?= htmlspecialchars($body); ?></div>
                                     <div class="htmlview"></div>
                                   </div>
                             </div>
