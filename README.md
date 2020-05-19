@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://ariadne-infrastructure.eu/" target="_blank">
-    <img src="/docs/readme/images/readme-ariadne.png" alt="ARIADNEplus Logo" />
+    <img src="/docs/readme/images/readme-ariadne.png" alt="ARIADNEplus Logo" width="550"/>
   </a>
 </h1>
 <h2 align="center">
@@ -41,7 +41,8 @@
   * [**Otros**](#otros)
 
 [**Licencia**](#licencia)
-<img align="right" src="/docs/readme/gifs/readme-desc.gif" />
+
+<img align="right" src="/docs/readme/gifs/readme-desc.gif" width="450"/>
 
 ## Descripción
 
@@ -91,7 +92,7 @@ Desde este instante, la aplicación será accesible desde el navegador. El últi
 
 ### Docker
 
-<img align="right" src="/docs/readme/readme-docker.png" width="240">
+<img align="right" src="/docs/readme/images/readme-docker.png" width="240">
 
 He optado por desarrollar un entorno con tecnología Docker para facilitar el despliegue de la aplicación. En este caso, los **requisitos** son:
 
@@ -250,4 +251,3 @@ Desde este instante la aplicación debería ser accesible desde el navegador (pu
 
 
 ## Licencia
-
