@@ -11,10 +11,9 @@ $title = __('Browse Items on the Map') . ' ' . __('(%s total)', $totalItems);?>
     <?= public_nav_items(); ?>
 </nav>
 
-<?php
-echo item_search_filters();
-echo pagination_links();
-?>
+<?= item_search_filters(); ?>
+<?= pagination_links(); ?>
+
 
 <div id="geolocation-browse">
     <?= $this->geolocationMapBrowse('map_browse', array('list' => 'map-links', 'params' => $params)); ?>

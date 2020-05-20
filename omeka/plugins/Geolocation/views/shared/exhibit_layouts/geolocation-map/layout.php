@@ -37,11 +37,11 @@ endforeach;
 <script type="text/javascript">
 jQuery(window).on('load', function () {
     var geolocation_map = new OmekaMap(
-        <?php echo json_encode($divId); ?>,
-        <?php echo json_encode($center); ?>,
-        <?php echo $this->geolocationMapOptions(); ?>);
+        <?= json_encode($divId); ?>,
+        <?= json_encode($center); ?>,
+        <?= $this->geolocationMapOptions(); ?>);
     geolocation_map.initMap();
-    var map_locations = <?php echo json_encode($locations); ?>;
+    var map_locations = <?= json_encode($locations); ?>;
     for (var i = 0; i < map_locations.length; i++) {
         var locationData = map_locations[i];
         geolocation_map.addMarker(
@@ -53,4 +53,4 @@ jQuery(window).on('load', function () {
     geolocation_map.fitMarkers();
 });
 </script>
-<div id="<?php echo $divId; ?>" class="geolocation-map exhibit-geolocation-map"></div>
+<div id="<?= $divId; ?>" class="geolocation-map exhibit-geolocation-map"></div>

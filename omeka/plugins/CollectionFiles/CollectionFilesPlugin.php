@@ -13,6 +13,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
 {
     protected $_elementSetName = 'Monitor';
 
+    private $_files;
     /**
      * @var array Hooks for the plugin.
      */
@@ -149,21 +150,15 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     }
     
     public function hookBeforeSaveCollection($args){
+        $collection = $args['record'];
         try {
-            $collection = $args['record'];
-
-            if ($this->isset_file('collectionfile')) {
-                $files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
-                
-                foreach ($files as $key => $file) {
-                    $file->collection_id = $collection->id;
-                    $file->save();
-                    // Make sure we can't save it twice by mistake.
-                    unset($files[$key]);
-                }
+            if ($this->isset_file('collectionfile')){
+                $this->_files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
+            } else {
+              $collection->addError('File Upload','Create the collection first!');
             }
         } catch (Omeka_File_Ingest_InvalidException $e) {
-            $this->addError('File Upload', $e->getMessage());
+            $collection->addError('File Upload', $e->getMessage());
         }
     }
     
@@ -180,11 +175,16 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookAfterSaveCollection($args)
     {
-        $collection = $args['record'];
         $database = get_db();
         if ($args['post']) {
             $post = $args['post'];
-            
+            $collection = $args['record'];
+            foreach ($this->_files as $key => $file) {
+                $file->collection_id = $collection->id;
+                $file->save();
+                // Make sure we can't save it twice by mistake.
+                unset($this->_files[$key]);
+            }
             // Update file order for this item.
             if (isset($post['order'])) {
                 foreach ($post['order'] as $fileId => $fileOrder) {

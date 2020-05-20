@@ -44,5 +44,5 @@ COPY /omeka/themes /var/www/html/themes
 
 COPY /omeka/plugins /var/www/html/plugins
 
-RUN a2enmod rewrite && service apache2 restart
+RUN a2enmod rewrite
 

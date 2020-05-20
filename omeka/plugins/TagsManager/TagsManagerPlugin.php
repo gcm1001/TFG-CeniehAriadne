@@ -44,10 +44,10 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         $params = $request->getParams();
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
             if (isset($params['like']) || isset($params['type'])) {
-                echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>";            
-            } else {
-                echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>";
-            }
+                echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>";      
+                return;
+            } 
+            echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"; 
         }
     }
     

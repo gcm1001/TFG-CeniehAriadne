@@ -3,11 +3,11 @@ $center = js_escape($center);
 $options = $this->geolocationMapOptions($options);
 ?>
 
-<input type="hidden" name="geolocation[latitude]" value="<?= htmlspecialchars($lat); ?>">
-<input type="hidden" name="geolocation[longitude]" value="<?= htmlspecialchars($lng); ?>">
-<input type="hidden" name="geolocation[width]" value="<?= htmlspecialchars($width); ?>">
-<input type="hidden" name="geolocation[height]" value="<?= htmlspecialchars($height); ?>">
-<input type="hidden" name="geolocation[zoom_level]" value="<?= htmlspecialchars($zoom); ?>">
+<input type="hidden" name="geolocation[latitude]" value="<?= $lat; ?>">
+<input type="hidden" name="geolocation[longitude]" value="<?= $lng; ?>">
+<input type="hidden" name="geolocation[width]" value="<?= $width; ?>">
+<input type="hidden" name="geolocation[height]" value="<?= $height; ?>">
+<input type="hidden" name="geolocation[zoom_level]" value="<?= $zoom; ?>">
 <input type="hidden" name="geolocation[map_type]" value="Leaflet">
 
 <div class="field">
@@ -16,7 +16,7 @@ $options = $this->geolocationMapOptions($options);
     </div>
     <div class="inputs five columns omega">
         <input type="text" name="geolocation[address]" id="geolocation_address" value="<?= htmlspecialchars($address); ?>">
-        <button type="button" name="geolocation_find_location_by_address" id="geolocation_find_location_by_address"><?= htmlspecialchars(__('Find')); ?></button>
+        <button type="button" name="geolocation_find_location_by_address" id="geolocation_find_location_by_address"><?= __('Find'); ?></button>
     </div>
 </div>
 <div id="omeka-map-form" class="geolocation-map"></div>
@@ -24,8 +24,8 @@ $options = $this->geolocationMapOptions($options);
 <?= js_tag('geocoder');?>
 <?php $geocoder = json_encode(get_option('geolocation_geocoder')); ?>
 <script type="text/javascript">
-var omekaGeolocationForm = new OmekaMapForm('omeka-map-form', <?= htmlspecialchars($center); ?>, <?= htmlspecialchars($options); ?>);
-var geocoder = new OmekaGeocoder(<?= htmlspecialchars($geocoder); ?>);
+var omekaGeolocationForm = new OmekaMapForm('omeka-map-form', <?= $center; ?>, <?= $options; ?>);
+var geocoder = new OmekaGeocoder(<?= $geocoder; ?>);
 jQuery(document).on('omeka:tabselected', function () {
     omekaGeolocationForm.resize();
 });

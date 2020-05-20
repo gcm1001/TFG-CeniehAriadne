@@ -29,16 +29,15 @@
 ## Tabla de contenidos
 
 [**Descripción**](#descripción)
-
 [**Despliegue**](#descripción)
-  * [**1 - Manual**](#manual)
-  * [**2 - Docker**](#docker)
-  * [**3 - Kubernetes**](#kubernetes)
+* [**1 - Manual**](#manual)
+* [**2 - Docker**](#docker)
+* [**3 - Kubernetes**](#kubernetes)
 
 [**Plugins**](#plugins)
-  * [**Plugins propios**](#plugins-propios)
-  * [**Plugins modificados**](#plugins-modificados)
-  * [**Otros**](#otros)
+* [**Plugins propios**](#plugins-propios)
+* [**Plugins modificados**](#plugins-modificados)
+* [**Otros**](#otros)
 
 [**Licencia**](#licencia)
 
@@ -48,7 +47,6 @@
 
 En el presente TFG se propone una infraestructura software capaz de gestionar los conjuntos de datos del CENIEH para posteriormente ser integrados en la plataforma Ariadne+. La aplicación escogida para llevar a cabo este cometido ha sido [Omeka Classic](https://omeka.org/classic/). Sobre esta se han realizado una serie de desarrollos propios (_plugins_) con el fin de adaptar dicha aplicación a las necesidades del proyecto.
 
-
 ## Despliegue
 
 Existen tres posibilidades distintas para desplegar la aplicación a tu servidor.
@@ -57,34 +55,38 @@ Existen tres posibilidades distintas para desplegar la aplicación a tu servidor
 
 Si escoges está opción deberás estar seguro de que tu servidor cumple con todos y cada uno de los siguientes **requisitos**:
 
-- Sistema Operativo Linux
-- Apache HTTP Server (con el módulo ***mod_rewrite*** activado)
-- MySQL / MariaDB v5.0 o superior.
-- PHP v5.4 o superior con las sisguientes extensiones instaladas:
+  * Sistema Operativo Linux
+  * Apache HTTP Server (con el módulo _rewrite_ activado)
+  * MySQL / MariaDB v5.0 o superior.
+  * PHP v5.4 o superior con las sisguientes extensiones instaladas:
     - mysqli
     - exif 
     - curl
     - pdo
-- ImageMagick (Tratamiento de imágenes)
+
+  * ImageMagick (Tratamiento de imágenes)
 
 El siguiente consistirá en **configurar tu servidor**. Para ello, hay que seguir una serie de pasos:
 
-1. **Crear la base de datos MySQL** desde un usuario con permisos suficientes como para poder realizar operaciones sobre ella.
-    - Conviene que apuntes por separado los siguientes datos:
-        - Hostname.
-        - Nombre de la BD.
-        - Nombre del usuario de la BD.
-        - Contraseña de usuario de la BD.
-    - La base de datos ha de estar codificada en `utf8`. Actualmente la opción más recomendable para ello es mediante el siguiente comando:
-    ```
-    CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-    ```
-2. **Descargar** la última version de **Omeka**, desde su [web oficial](https://omeka.org/classic/download/) o desde su [repositorio](http://github.com/omeka/Omeka) en GitHub.
-3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio donde podamos trabajar.
-4. Buscar el fichero `db.ini` y sustituir los valores 'XXXXX' por los datos de la base de datos (anotados en el paso 1).
+ 1. **Crear la base de datos MySQL** desde un usuario con permisos suficientes como para poder realizar operaciones sobre ella.
+    * Conviene que apuntes por separado los siguientes datos:
+      - Hostname.
+      - Nombre de la BD.
+      - Nombre del usuario de la BD.
+      - Contraseña de usuario de la BD.
+    
+    * La base de datos ha de estar codificada en `utf8`. Actualmente la opción más recomendable para ello es mediante el siguiente comando:
+
+   ```
+   CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
+
+ 2. **Descargar** la última version de **Omeka**, desde su [web oficial](https://omeka.org/classic/download/) o desde su [repositorio](http://github.com/omeka/Omeka) en GitHub.
+ 3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio donde podamos trabajar.
+ 4. Buscar el fichero `db.ini` y sustituir los valores 'XXXXX' por los datos de la base de datos (anotados en el paso 1).
     - No es necesario modificar los parámetros `prefix` o `port`.
-5. Movemos todo el contenido a la carpeta al servidor.
-6. **Dar permisos de escritura sobre la carpeta `files`**.
+ 5. Movemos todo el contenido a la carpeta al servidor.
+ 6. **Dar permisos de escritura sobre la carpeta `files`**.
 
 Desde este instante, la aplicación será accesible desde el navegador. El último paso consistiría en completar la instalación guiada desde el navegador, disponible a través de tu dirección URL (e.g. http://mydomain.org/install).
 
@@ -96,8 +98,8 @@ Desde este instante, la aplicación será accesible desde el navegador. El últi
 
 He optado por desarrollar un entorno con tecnología Docker para facilitar el despliegue de la aplicación. En este caso, los **requisitos** son:
 
- - Docker (Testado con la versión 19.03.6).
- - Configurar el host como _swarm_.
+- Docker (Testado con la versión 19.03.6).
+- Configurar el host como _swarm_.
 
 Para proceder al despliegue **debes descargar**, de este repositorio, los siguientes ficheros:
 

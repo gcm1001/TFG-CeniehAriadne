@@ -59,15 +59,23 @@ class OaiPmhRepository_ResponseGenerator extends OaiPmhRepository_OaiXmlGenerato
         $this->document->formatOutput = true;
         $this->document->xmlStandalone = true;
         
+        //creating an xslt adding processing line
+        $xslt = $this->document->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="'.img('oai2.xsl').'"');
+        
+        //adding it to the document
+        $this->document->appendChild($xslt);
+        
         $root = $this->document->createElementNS(self::OAI_PMH_NAMESPACE_URI,
             'OAI-PMH');
         $this->document->appendChild($root);
         
         $root->declareSchemaLocation(self::OAI_PMH_NAMESPACE_URI, self::OAI_PMH_SCHEMA_URI);
-    
+        
         $responseDate = $this->document->createElement('responseDate', 
             OaiPmhRepository_Date::unixToUtc(time()));
         $root->appendChild($responseDate);
+        
+        
         
         $this->metadataFormats = $this->getFormats();
         

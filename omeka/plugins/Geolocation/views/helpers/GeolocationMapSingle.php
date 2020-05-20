@@ -29,9 +29,9 @@ class Geolocation_View_Helper_GeolocationMapSingle extends Zend_View_Helper_Abst
             $style = "width: $width; height: $height";
             $html = '<div id="' . $divId . '" class="map geolocation-map" style="' . $style . '"></div>';
             
-            $js = "var " . Inflector::variablize($divId) . ";";
-            $js .= "OmekaMapSingle = new OmekaMapSingle(" . js_escape($divId) . ", $center, $options); ";
-            $html .= "<script type='text/javascript'>$js</script>";
+            $javas = "var " . Inflector::variablize($divId) . ";";
+            $javas .= "OmekaMapSingle = new OmekaMapSingle(" . js_escape($divId) . ", $center, $options); ";
+            $html .= "<script type='text/javascript'>$javas</script>";
         } else {
             $html = '<p class="map-notification">'.__('This item has no location info associated with it.').'</p>';
         }

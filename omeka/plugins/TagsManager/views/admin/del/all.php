@@ -16,4 +16,4 @@ if($canDelete){
 }
 
 header('Location: /admin/tags');
-exit;
+return;

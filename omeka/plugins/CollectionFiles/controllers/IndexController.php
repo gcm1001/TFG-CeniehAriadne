@@ -62,7 +62,7 @@ class CollectionFiles_IndexController extends Omeka_Controller_AbstractActionCon
     
     protected function _getDeleteConfirmMessage($record)
     {
-        return __('This will delete the file and its associated metadata.');
+        return __('This will delete the file (#%d) and its associated metadata.',$record->id);
     }
     
     protected function _redirectAfterDelete($record)

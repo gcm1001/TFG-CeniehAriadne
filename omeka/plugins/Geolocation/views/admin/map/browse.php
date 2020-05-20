@@ -14,7 +14,7 @@ $title = __("Browse Items on the Map").' (' . html_escape($totalItems).' '.__('t
 </div>
 
 <div id="search_block">
-    <?=  items_search_form(array('id'=>'search'), $_SERVER['REQUEST_URI']); ?>
+    <?=  items_search_form(array('id'=>'search'), filter_input(INPUT_SERVER,'REQUEST_URI')); ?>
 </div><!-- end search_block -->
 
 <?= foot(); ?>

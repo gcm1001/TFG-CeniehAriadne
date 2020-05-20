@@ -19,7 +19,7 @@
 
 #map-links li {
   overflow: hidden;
-  width: 100% !important;
+  width: 100%;
   display: inline-block;
   border-radius: 3px;
   padding: 5px;
@@ -34,11 +34,11 @@
 #map-links li a {
   display: block;
   text-decoration: none;
-  border-bottom: 0 !important;
+  border-bottom: 0;
 }
 
 #map-links h2:first-child {
-  margin-top: 0 !important;
+  margin-top: 0;
 }
 
 /* The map for the items page needs a bit of styling on it */
@@ -61,24 +61,27 @@ div.map-notification {
 @media screen and (min-width: 768px) {
   #map-links {
     padding: 0 10px 10px 10px;
-    -moz-box-sizing: border-box !important;
-    box-sizing: border-box !important;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     height: 436px;
     width: 30%;
     float: left;
     overflow-y: auto;
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
   }
+  
   #map-links ul {
     margin: 0;
     padding: 0;
   }
+  
   #map-links li {
     overflow: hidden;
   }
+  
   #map_browse {
     float: left;
     width: 70%;
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
   }
 }

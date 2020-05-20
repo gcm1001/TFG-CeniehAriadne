@@ -772,14 +772,11 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
      */
     protected function _mapForm($item, $label = '', $confirmLocChange = true, $view = null, $post = null)
     {
-        if ($view === null) {
-            $view = get_view();
-        }
+        if ($view === null) $view = get_view();
 
         // Need to be translated.
-        if ($label == '') {
-            $label = __('Find a Location by Address:');
-        }
+        if ($label == '') $label = __('Find a Location by Address:');
+
         $center = $this->_getCenter();
         $center['show'] = false;
 
@@ -788,16 +785,17 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         
         if ($post === null) {
             $request = Zend_Controller_Front::getInstance()->getRequest();
-            $post = htmlspecialchars($request->getPost());
+            $post = $request->getPost();
         }
 
-        $usePost = !empty($post)
-                    && !empty($post['geolocation'])
-                    && $post['geolocation']['longitude'] != ''
-                    && $post['geolocation']['latitude'] != ''
-                    && $post['geolocation']['width'] == ''
-                    && $post['geolocation']['height'] == '';
-        if ($usePost) {
+        $usePost = !empty($post) && !empty($post['geolocation'])
+                     && $post['geolocation']['longitude'] != ''
+                     && $post['geolocation']['latitude'] != '';
+        $usePostBox = false;
+        if($usePost) $usePostBox = $post['geolocation']['width'] != ''
+                               && $post['geolocation']['height'] != '';   
+        
+        if ($usePost && !$usePostBox) {
             $lng  = empty($post['geolocation']['longitude']) ? '' : (double) $post['geolocation']['longitude'];
             $lat  = empty($post['geolocation']['latitude']) ? '' : (double) $post['geolocation']['latitude'];
             $zoom = empty($post['geolocation']['zoom_level']) ? '' : (int) $post['geolocation']['zoom_level'];
@@ -812,21 +810,14 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
               $lng = $lat = $zoom = $address = '';
             }
         }
-
-        $usePostBox = !empty($post)
-                    && !empty($post['geolocation'])
-                    && $post['geolocation']['latitude'] != ''
-                    && $post['geolocation']['longitude'] != ''
-                    && $post['geolocation']['width'] != ''
-                    && $post['geolocation']['height'] != '';
-        if ($usePostBox){
+        
+        if ($usePost && $usePostBox){
             $box_lat  = empty($post['geolocation']['latitude']) ? '' : (double) $post['geolocation']['latitude'];
             $box_lon  = empty($post['geolocation']['longitude']) ? '' : (double) $post['geolocation']['longitude'];
             $width  = empty($post['geolocation']['width']) ? '' : (double) $post['geolocation']['width'];
             $height  = empty($post['geolocation']['height']) ? '' : (double) $post['geolocation']['height'];
             $box_zoom = empty($post['geolocation']['zoom_level']) ? '' : (int) $post['geolocation']['zoom_level'];
             $box_address = html_escape($post['geolocation']['address']);
-
         } else {
             if ($boxlocation) {
                 $box_lat  = (double) $boxlocation['latitude'];
@@ -839,11 +830,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 $box_lat = $box_lon = $box_address = $width = $height = $box_zoom = '';
             }
         }
-
         // Prepare javascript.
         $options = array();
-        $options['form'] = array('id' => 'location_form',
-                'posted' => $usePost);
+        $options['form'] = array('id' => 'location_form','posted' => $usePost);
         if ($location or $usePost) {
             $options['point'] = array(
                 'latitude' => $lat,
@@ -852,7 +841,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             $center = $options['point'];
         }
         if($boxlocation or $usePostBox){
-
           $options['points'] = array (
             'latitude' => $box_lat,
             'longitude' => $box_lon,
@@ -861,11 +849,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'zoomLevel' => $box_zoom,
             'address' => $box_address);
         }
-        
         $options['confirmLocationChange'] = $confirmLocChange;
-        
-        return $view->partial('map/input-partial.php', array(
-            'label' => $label,
+        return $view->partial('map/input-partial.php', array('label' => $label,
             'address' => $address,
             'center' => $center,
             'options' => $options,

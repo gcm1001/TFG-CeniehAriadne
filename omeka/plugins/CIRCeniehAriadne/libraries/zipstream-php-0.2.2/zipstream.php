@@ -358,7 +358,8 @@ class ZipStream {
       fclose($fh);
       $crc = unpack('V', hash_final($hash_ctx, true));
       $crc = $crc[1];
-    } else {
+    }
+    if(!isset($crc)){
       return;
     }
 

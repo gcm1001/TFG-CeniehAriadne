@@ -46,7 +46,7 @@ div#geolocation {
 img.leaflet-tile,
 img.leaflet-marker-icon,
 img.leaflet-marker-shadow {
-  padding: 0 !important;
-  border: 0 !important;
-  background-color: transparent !important;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
 }
