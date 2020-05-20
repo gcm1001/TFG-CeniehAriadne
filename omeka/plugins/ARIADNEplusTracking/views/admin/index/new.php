@@ -15,7 +15,7 @@
                   <div class="step third"> <img alt="Step 3" id="step-3" src="<?= htmlspecialchars(img('step-3.png')); ?>" /></div>
                 </div>
                 <div class="steps">
-                    <form class="option-submission" method="post">
+                    <form id="new-form" class="option-submission" method="post">
                         <div class="submission first-step">
                             <p><?= htmlspecialchars(__('Select the type of record you would like manage.')); ?></p>
                             <label class="input">
@@ -95,6 +95,20 @@
             jQuery(".container-step").addClass("third third-active-area");
             event.preventDefault();
         });
-
+        
+        jQuery("#new-form").submit(function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'The ticket has been created successfully!',
+                text: 'Wait a moment, please...',
+                showConfirmButton:false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            });
+            setTimeout(function(){
+                return true;
+            }, 2000);
+        });
     });   
 </script>

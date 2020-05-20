@@ -103,14 +103,14 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
         $this->record_type = $type;
     }
 
-    public function setRecordId($id)
+    public function setRecordId($record_id)
     {
-        $this->record_id = (integer) $id;
+        $this->record_id = (integer) $record_id;
     }
     
-    public function setUserId($id)
+    public function setUserId($user_id)
     {
-        $this->user_id = (integer) $id;
+        $this->user_id = (integer) $user_id;
     }
 
     public function setStatus($status)

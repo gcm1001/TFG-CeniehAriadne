@@ -33,6 +33,7 @@
             <button class="form-button" id="btn-help-modal"><?= htmlspecialchars(__('Helper')); ?> </button>
             <!-- The Modal -->
             <div id="help-modal" class="modal">
+              <p> HOLAAA </p>
               <!-- Modal content -->
                 <div class="modal-content">
                 <span id="help" class="close">&times;</span>
@@ -234,9 +235,19 @@
         };
         
         var setMode = function($mode){
+            var type = "<?= get_class($record); ?>";
             if($mode === 'OAI-PMH'){
-                var link = "<?= WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record->id; ?>";
-                jQuery('#format-file').html($mode);
+                if(type == 'Collection'){
+                  var link = "<?= WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record->id; ?>";
+                  jQuery('#format-file').html($mode);
+                } else {
+                  jQuery('#mode').val('');
+                  jQuery('#mode').notify('Items cannot be exported with this mode.',{ 
+                        className: 'error' ,
+                        position: 'top left'
+                  });
+                  return;
+                }
             } else if ($mode === 'XML') {
                 var link = "<?= WEB_ROOT.'/'.strtolower(get_class($record)).'s/show/'.$record->id.'?output=CIRfull'; ?>" ;
                 jQuery('#format-file').html($mode);

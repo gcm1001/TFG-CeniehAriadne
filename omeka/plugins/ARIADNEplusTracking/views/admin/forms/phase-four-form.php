@@ -21,8 +21,8 @@
                             <input type="hidden" id="msg_content" name="msg_content" value="<?= htmlspecialchars($body); ?>" form="msg-form">
                             <input type="hidden" id="record_id" name="record_id" value="<?= htmlspecialchars($record->id); ?>" form="msg-form">
                             <input type="hidden" id="record_type" name="record_type" value="<?= htmlspecialchars(get_class($record)); ?>" form="msg-form">
-                            <span> Default Content <div id="msg-content" class="div-textarea"><?= htmlspecialchars($body); ?></div></span>
-                            <button id="modify-button">Change content</button>
+                            <span> Default Content <div id="msg-content" class="div-textarea"><?= $body; ?></div></span>
+                            <button id="edit-button" class="edit-button">Change content</button>
                             </div>
                             <input type="submit" value="Send" id="send-button" class="send-mail">
                             </form>
@@ -62,7 +62,7 @@
                                         <button type="button" id="forecolor"><i class="fa fa-tint"></i></button>
                                       </div>
                                     </div>
-                                  <div class="editor" contentEditable><?= htmlspecialchars($body); ?></div>
+                                  <div class="editor" contentEditable><?= $body; ?></div>
                                     <div class="htmlview"></div>
                                   </div>
                             </div>
@@ -121,7 +121,7 @@
 		jQuery('.message').addClass('pull-mail');
         });
         
-        jQuery('#modify-button').click(function(e){
+        jQuery('#edit-button').click(function(e){
             e.preventDefault();
             jQuery('div#default-content').hide();
             jQuery('input#send-button').hide();

@@ -21,7 +21,7 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
                 }
             });
             <?php endif; 
-endforeach; ?>
+      endforeach; ?>
         jQuery.notify.addStyle('mandatoryWarn', {
           html: 
             "<div>" +
@@ -58,5 +58,5 @@ endforeach; ?>
                 });
             };    
         });
-       
+    
 </script>

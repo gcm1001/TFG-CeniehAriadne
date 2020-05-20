@@ -10,11 +10,10 @@ $logs = $this->Tracking()->showlogs($record, 0);
     <?=  flash(); ?>
     <div>
 <?php
-if (!empty($logs)):
-    echo $logs;
-    ?>
+if (!empty($logs)):?>
+    <?= $logs; ?>
     <?php if (is_object($record)): ?>
-    <p><?=  htmlspecialchars(__('Go back to the ')); ?> 
+    <p><?= htmlspecialchars(__('Go back to the ')); ?> 
       <?= link_to($record, null, __('record')); ?></p>
     <?php else: ?>
     <p><?=  htmlspecialchars(__('This record has been deleted.')); ?></p>

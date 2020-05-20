@@ -23,19 +23,19 @@
                     <td><?= htmlspecialchars($logEntry->added); ?></td>
                     <td colspan="2">
                         <a href="<?=
-                            htmlspecialchars(url(array(
-                                'type' => Inflector::tableize($logEntry->record_type),
-                                'id' => $logEntry->record_id,
-                            ), 'ariadneplus_record_log')); ?>">
-                            <?= htmlspecialchars($ticket->record_type); ?>  
-                            <?= htmlspecialchars($ticket->record_id); ?>
+                            htmlspecialchars(url('ariadn-eplus-tracking/index/ticket',array(
+                                'record_type' => $record_type,
+                                strtolower($record_type) => $record_id,
+                            ))); ?>">
+                            <?= $record_type; ?>  
+                            <?= $record_id; ?>
                         </a>
                         <div class="record-title"><?= $logEntry->displayCurrentTitle(); ?></div>
                     </td>
-                    <td><?= htmlspecialchars($logEntry->displayPartOf(true)); ?></td>
+                    <td><?= $logEntry->displayPartOf(true); ?></td>
                     <td><?= htmlspecialchars($logEntry->displayUser()); ?></td>
                     <td><?= htmlspecialchars($logEntry->displayOperation()); ?></td>
-                    <td><?= htmlspecialchars(nl2br($logEntry->displayMsgs(), true)); ?></td>
+                    <td><?= nl2br($logEntry->displayMsgs(), true); ?></td>
                 </tr>
                 <?php endforeach; 
                  if ($limit > 0 && count($logEntries) >= $limit):?>

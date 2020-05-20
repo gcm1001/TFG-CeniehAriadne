@@ -5,6 +5,7 @@
         </p>
     </div>
     <div class="items">
+    <?= pagination_links(); ?>
     <form action="<?= htmlspecialchars((url('items/batch-edit'))); ?>" method="post" accept-charset="utf-8">
         <div class="table-actions batch-edit-option">
             <?php if (is_allowed('Items', 'edit') || is_allowed('Items', 'delete')): ?>
@@ -37,7 +38,7 @@
         </thead>
         <tbody>
             <?php $key = 0; ?>
-            <?php foreach ($items as $item):?>
+            <?php foreach (loop('Item') as $item):?>
             <tr class="item <?php if(++$key%2==1): ?> odd <?php else: ?> even <?php endif; ?> 
             <?= htmlspecialchars(strtolower(metadata($item, array('Monitor','Metadata Status'))));?>">
                 <?php $id = $item->id; ?>
@@ -108,6 +109,7 @@
             <?php endif; ?>
         </div>
     </form>
+    <?= pagination_links(); ?>
     </div>
 
 </div>

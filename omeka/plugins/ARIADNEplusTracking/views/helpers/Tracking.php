@@ -246,13 +246,12 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
 
         $logEntries = $this->_logTable->findBy($params, $limit);
      
-        $markup = $this->view->partial('common/show-ariadne-plus-log.php', array(
+        return $this->view->partial('common/show-ariadne-plus-log.php', array(
             'record_type' => $params['record_type'],
             'record_id' => $params['record_id'],
             'limit' => $limit,
             'logEntries' => $logEntries,
         ));
-        return $markup;
     }
     
     /**
@@ -263,7 +262,6 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      */
     public function showTickets($limit = 5)
     {
-        $markup = '';
         $params = array();
         // Reverse order because the most needed infos are recent ones.
         $params['sort_field'] = 'added';
@@ -271,12 +269,10 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
 
         $tickets = $this->_ticketTable->findBy($params, $limit);
      
-        $markup = $this->view->partial('common/show-ariadne-plus-tickets.php', array(
+        return $this->view->partial('common/show-ariadne-plus-tickets.php', array(
             'limit' => $limit,
             'tickets' => $tickets,
         ));
-        
-        return $markup;
     }
     
     /**
@@ -286,7 +282,7 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $limit Phase limit
      * @return type View
      */
-    public function showPhase($args, $limit = 15)
+    public function showPhase($args, $limit = 10)
     {
         $markup = ''; 
         $phase = $args['phase'];
@@ -296,23 +292,13 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         }
         $record_type = get_class($record);
         $ticket = $this->getRecordTrackingTicket($record);
-        
-        if($phase == 0 || $phase == 1){
-            $results = $args['results'];
-            $statusElements = $this->getStatusElements();
-            foreach ($results as $elementId => $result){
-                $element = $statusElements[$elementId]['element'];
-                if($element->name == 'Metadata Status'){
-                    $element_id = $element->id;
-                    $n = $result['All']['Proposed'];
-                    $n += $result['All']['Incomplete'];
-                    $n += $result['All']['Complete'];
-                    break;
-                }
-            }
-            if(!isset($element_id) || !isset($n)){
+          
+        if($phase == 0 || $phase == 1){            
+            if(!isset($args['results'])){
                 return;
             }
+            $elements = $this->_elementSet;
+            $element_id = reset($elements);
             $advancedFilterProp = array(
                                 array(
                                     'element_id' => $element_id,
@@ -339,9 +325,7 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
                     break;
                 case 'Item':
                     $status = metadata($record,array('Monitor','Metadata Status'));
-                    if($status == 'Proposed' ){
-                        $items = array($record);
-                    }
+                    $items = array($record);
                     break;
                 default:
                     $items = array();
@@ -350,9 +334,9 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
             $markup = $this->view->partial('forms/phase-one-form.php',array(
                                             'record' => $record,
                                             'items' => $items,
-                                            'total' => count($items),
+                                            'total' => $args['results'],
                                             ));
-        } else if($phase == 2){
+        } else if($phase == 2 ){
             $markup = $this->view->partial('forms/phase-two-form.php',array(
                                         'record' => $record,
                                         'ticket' => $ticket,
@@ -390,10 +374,15 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         $body .= "<p>";
         $body .= __("%s %s",$record_type, $record_id);
         $body .= __("<br> ARIADNE Category: %s",metadata($record,array('Monitor', 'ARIADNEplus Category')));
-        if($mode == 'OAI-PMH'){
+        switch($mode){
+          case 'OAI-PMH':
             $body .= __("<br> OAI-PMH url: %s", WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record_id);
-        } else {
+            break;
+          case 'XML':
             $body .= __("<br> XML url: %s", WEB_ROOT.'/'.strtolower($record_type).'s/show/'.$record_id.'?output=CIRfull');
+            break;
+          default:
+            $body .= __("No record available");
         }
         $body .= __("<br> Mapping Identifier: %s",metadata($record,array('Monitor', 'ID of your metadata transformation')));
         $jsonurl = metadata($record,array('Monitor', 'GettyAAT mapping'));
@@ -402,7 +391,6 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         }
         $body .= __("<br> PeriodO Collection: %s",metadata($record,array('Monitor', 'URL of your PeriodO collection')));
         $body .= "</p>";
-       
         return $body;
     }
     /**
