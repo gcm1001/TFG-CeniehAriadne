@@ -57,6 +57,7 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $this->view->options_for_select_collection = $this->_getOptionsForSelectCollection();
         $this->view->options_for_select_item = $this->_getOptionsForSelectItem();
         $terms = $this->view->tracking()->getTermsByName('ARIADNEplus Category');
+        $this->view->terms = $terms;
         $this->view->options_for_select_category = $this->_getOptions(array('options' => $terms));
         
         if (!$this->getRequest()->isPost()) {

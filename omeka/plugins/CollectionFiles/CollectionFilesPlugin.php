@@ -154,8 +154,6 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         try {
             if ($this->isset_file('collectionfile')){
                 $this->_files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
-            } else {
-              $collection->addError('File Upload','Create the collection first!');
             }
         } catch (Omeka_File_Ingest_InvalidException $e) {
             $collection->addError('File Upload', $e->getMessage());

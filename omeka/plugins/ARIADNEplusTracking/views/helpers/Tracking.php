@@ -475,7 +475,7 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @return type Terms
      */
     public function getTermsByName($name){
-        $statusElements = $this->getStatusElements(true,false,true,false);
+        $statusElements = $this->getStatusElements(true);
         foreach($statusElements as $element){
             if($element['element']->name == $name){
                 return $element['terms'];

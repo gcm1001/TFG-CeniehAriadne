@@ -140,7 +140,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
     }
 
-    protected function _actualizeOptions(){
+    protected function _actualizeOptions($args){
         $elset = $args['elset'];
         $elements = $args['elements'];
         
@@ -182,6 +182,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_options['ariadneplus_tracking_elements_default'] = json_encode($this->_options['ariadneplus_tracking_elements_default']);
         $this->_options['ariadneplus_tracking_admin_items_browse'] = json_encode($this->_options['ariadneplus_tracking_admin_items_browse']);
         $this->_installOptions();
+        
+        return true;
     }
     /**
      * Helper to add new element automatically.

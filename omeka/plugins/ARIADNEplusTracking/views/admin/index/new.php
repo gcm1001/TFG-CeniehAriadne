@@ -35,6 +35,7 @@
                             <h5><?= __('Selected record : '); ?><span class="selected-record"></span></h5>
                             <p> <?= __('Now select one of the fundamental ARIADNE categories which belongs to. '); ?></p>
                             <label class="input"> 
+                              
                                 <?= $this->formSelect('ariadne_category', null, array('id' => 'ariadne-category'), $options_for_select_category); ?> <br/><br/>
                             </label>
                             <button type="submit" class="third next"><?= htmlspecialchars(__('Continue')); ?></button>
@@ -56,15 +57,15 @@
 
         jQuery(".first").click(function (event) {
             typeval = type.val();
-            if (typeval == "") {
+            if (typeval === '') {
                 Swal.fire({
                     icon: 'error',
-                    title: 'No type!',
+                    title: 'Please, select the type of record!',
                     showConfirmButton:false,
                 });
                 return false;
             }   
-            if(typeval == "Collection"){
+            if(typeval === "Collection"){
                 jQuery("#record-id-item").remove();
                 record = jQuery("#record-id-col");
             } else {
@@ -81,7 +82,7 @@
             if (recordval == "") {
                 Swal.fire({
                     icon: 'error',
-                    title: 'No record!',
+                    title: 'Please, select a record!',
                     showConfirmButton:false,
                 });
                 return false;
@@ -101,7 +102,7 @@
                 icon: 'success',
                 title: 'The ticket has been created successfully!',
                 text: 'Wait a moment, please...',
-                showConfirmButton:false,
+                showConfirmButton: false,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false,
