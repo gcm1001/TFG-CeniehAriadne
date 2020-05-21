@@ -2,8 +2,10 @@
 .add-new {
   background: #ebeadc;
   background: -webkit-linear-gradient(top, #f5f3ec, #e9e5da);
+  background: -webkit-gradient(top, #f5f3ec, #e9e5da);
   background: -moz-linear-gradient(top, #f5f3ec, #e9e5da);
   background: -o-linear-gradient(top, #f5f3ec, #e9e5da);
+  background: -ms-linear-gradient(top, #f5f3ec, #e9e5da);
   background: linear-gradient(to bottom, #f5f3ec, #e9e5da);
   -webkit-box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.1),

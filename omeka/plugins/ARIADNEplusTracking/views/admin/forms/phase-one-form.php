@@ -6,18 +6,18 @@
     </div>
     <div class="items">
     <?= pagination_links(); ?>
-    <form action="<?= htmlspecialchars((url('items/batch-edit'))); ?>" method="post" accept-charset="utf-8">
+    <form action="<?= html_escape(url('items/batch-edit')); ?>" method="post" accept-charset="utf-8">
         <div class="table-actions batch-edit-option">
             <?php if (is_allowed('Items', 'edit') || is_allowed('Items', 'delete')): ?>
-                <button class="batch-all-toggle" type="button" data-records-count="<?= htmlspecialchars($total); ?>"><?= htmlspecialchars(__('Select all %s results', $total)); ?></button>
+                <button class="batch-all-toggle" type="button" data-records-count="<?= html_escape($total); ?>"><?= html_escape(__('Select all %s results', $total)); ?></button>
                 <div class="selected"><span class="count">0</span> <?= __('items selected'); ?></div>
                 <input type="hidden" name="batch-all" value="1" id="batch-all" disabled>
                 <?= $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
                 <?php if (is_allowed('Items', 'edit')): ?>
-                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?= htmlspecialchars(__('Edit')); ?>" />
+                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?= __('Edit'); ?>" />
                 <?php endif; ?>
                 <?php if (is_allowed('Items', 'delete')): ?>
-                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?= htmlspecialchars(__('Delete')); ?>">
+                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?= __('Delete'); ?>">
                 <?php endif; ?>
             <?php endif; ?>
         </div>
@@ -25,7 +25,7 @@
         <thead>
             <tr>
                 <?php if (is_allowed('Items', 'edit')): ?>
-                <th class="batch-edit-heading"><?= htmlspecialchars(__('Select all rows')); ?></th>
+                <th class="batch-edit-heading"><?= __('Select all rows'); ?></th>
                 <?php endif; ?>
                 <?php
                 $browseHeadings[__('Title')] = 'Dublin Core,Title';
@@ -40,13 +40,13 @@
             <?php $key = 0; ?>
             <?php foreach (loop('Item') as $item):?>
             <tr class="item <?php if(++$key%2==1): ?> odd <?php else: ?> even <?php endif; ?> 
-            <?= htmlspecialchars(strtolower(metadata($item, array('Monitor','Metadata Status'))));?>">
+            <?= html_escape(strtolower(metadata($item, array('Monitor','Metadata Status'))));?>">
                 <?php $id = $item->id; ?>
 
                 <?php if (is_allowed($item, 'edit') || is_allowed($item, 'tag')): ?>
                 <td class="batch-edit-check">
                     <input type="checkbox" name="items[]" value="<?= $id; ?>"
-                        aria-label="<?= htmlspecialchars(
+                        aria-label="<?= html_escape(
                             __('Select item "%s"',
                                 metadata($item, 'display_title', array('no_escape' => true))
                             )
@@ -69,7 +69,7 @@
                     <?= link_to($item,'show',metadata($item, array('Dublin Core', 'Title'))); ?>
 
                     <?php if(!$item->public): ?>
-                    <?= htmlspecialchars(__('(Private)')); ?>
+                    <?= __('(Private)'); ?>
                     <?php endif; ?>
                     </span>
                     <ul class="action-links group">
@@ -85,8 +85,8 @@
                 <td><?= strip_formatting(metadata($item, array('Dublin Core', 'Creator'))); ?></td>
                 <td>
                     <?= ($typeName = metadata($item, 'Item Type Name'))
-                        ? htmlspecialchars($typeName)
-                        : htmlspecialchars(metadata($item, array('Dublin Core', 'Type'), array('snippet' => 35)));
+                        ? html_escape($typeName)
+                        : html_escape(metadata($item, array('Dublin Core', 'Type'), array('snippet' => 35)));
                     ?>
                 </td>
                 <td><?= format_date(metadata($item, 'added')); ?></td>
@@ -96,15 +96,15 @@
         </table>
         <div class="table-actions batch-edit-option">
             <?php if (is_allowed('Items', 'edit') || is_allowed('Items', 'delete')): ?>
-                <button class="batch-all-toggle" type="button" data-records-count="<?= htmlspecialchars($total); ?>"><?= htmlspecialchars(__('Select all %s results', $total)); ?></button>
-                <div class="selected"><span class="count">0</span> <?= htmlspecialchars(__('items selected')); ?></div>
+                <button class="batch-all-toggle" type="button" data-records-count="<?= html_escape($total); ?>"><?= __('Select all %s results', $total); ?></button>
+                <div class="selected"><span class="count">0</span> <?= __('items selected'); ?></div>
                 <input type="hidden" name="batch-all" value="1" id="batch-all" disabled>
                 <?= $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
                 <?php if (is_allowed('Items', 'edit')): ?>
-                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?= htmlspecialchars(__('Edit')); ?>" />
+                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?= __('Edit'); ?>" />
                 <?php endif; ?>
                 <?php if (is_allowed('Items', 'delete')): ?>
-                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?= htmlspecialchars(__('Delete')); ?>">
+                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?= __('Delete'); ?>">
                 <?php endif; ?>
             <?php endif; ?>
         </div>

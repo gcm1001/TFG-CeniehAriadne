@@ -23,7 +23,7 @@
                     <td><?= htmlspecialchars($logEntry->added); ?></td>
                     <td colspan="2">
                         <a href="<?=
-                            htmlspecialchars(url('ariadn-eplus-tracking/index/ticket',array(
+                            html_escape(url('ariadn-eplus-tracking/index/ticket',array(
                                 'record_type' => $record_type,
                                 strtolower($record_type) => $record_id,
                             ))); ?>">
@@ -33,19 +33,19 @@
                         <div class="record-title"><?= $logEntry->displayCurrentTitle(); ?></div>
                     </td>
                     <td><?= $logEntry->displayPartOf(true); ?></td>
-                    <td><?= htmlspecialchars($logEntry->displayUser()); ?></td>
-                    <td><?= htmlspecialchars($logEntry->displayOperation()); ?></td>
+                    <td><?= html_escape($logEntry->displayUser()); ?></td>
+                    <td><?= html_escape($logEntry->displayOperation()); ?></td>
                     <td><?= nl2br($logEntry->displayMsgs(), true); ?></td>
                 </tr>
                 <?php endforeach; 
                  if ($limit > 0 && count($logEntries) >= $limit):?>
                 <tr>
                     <td>
-                        <a href="<?= htmlspecialchars(url(array(
+                        <a href="<?= html_escape(url(array(
                                     'type' => Inflector::tableize($logEntry->record_type),
                                     'id' => $logEntry->record_id,
                                 ), 'ariadneplus_record_log')); ?>">
-                            <strong><?= htmlspecialchars(__('See more')); ?></strong>
+                            <strong><?= __('See more'); ?></strong>
                         </a>
                     </td>
                 </tr>

@@ -530,8 +530,8 @@ class ZipStream {
     if ($this->need_headers)
       $this->send_http_headers();
     $this->need_headers = false;
-
-    echo $str;
+    ?>
+    <?= $str; ?> <?php
   }
 
   #

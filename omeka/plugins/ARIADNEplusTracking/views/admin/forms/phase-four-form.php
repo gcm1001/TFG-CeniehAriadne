@@ -1,6 +1,6 @@
 <div id="div-phase-4">
     <div class="form-style-10">
-    <h1 id="h1-phase" >It's almost done!<span>Please, follow these steps.</span></h1>
+    <h1 class="h1-phase" >It's almost done!<span class="span-form">Please, follow these steps.</span></h1>
         <div class="section"><span>1</span>Inform WP4 leader of the new records.</div>
         <div class="inner-wrap">
             <div id="btn-mail-modal">
@@ -18,9 +18,9 @@
                             <form id="msg-form" action="<?= html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
                             <div id="default-content">
                             <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" value="<?= __("%s - Ingest", get_option('site_title'));?>" ></span>
-                            <input type="hidden" id="msg_content" name="msg_content" value="<?= htmlspecialchars($body); ?>" form="msg-form">
-                            <input type="hidden" id="record_id" name="record_id" value="<?= htmlspecialchars($record->id); ?>" form="msg-form">
-                            <input type="hidden" id="record_type" name="record_type" value="<?= htmlspecialchars(get_class($record)); ?>" form="msg-form">
+                            <input type="hidden" id="msg_content" name="msg_content" value="<?= html_escape($body); ?>" form="msg-form">
+                            <input type="hidden" id="record_id" name="record_id" value="<?= html_escape($record->id); ?>" form="msg-form">
+                            <input type="hidden" id="record_type" name="record_type" value="<?= html_escape(get_class($record)); ?>" form="msg-form">
                             <span> Default Content <div id="msg-content" class="div-textarea"><?= $body; ?></div></span>
                             <button id="edit-button" class="edit-button">Change content</button>
                             </div>

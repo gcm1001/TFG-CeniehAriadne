@@ -13,22 +13,22 @@ $logs = $this->Tracking()->showlogs($record, 0);
 if (!empty($logs)):?>
     <?= $logs; ?>
     <?php if (is_object($record)): ?>
-    <p><?= htmlspecialchars(__('Go back to the ')); ?> 
+    <p><?= __('Go back to the '); ?> 
       <?= link_to($record, null, __('record')); ?></p>
     <?php else: ?>
-    <p><?=  htmlspecialchars(__('This record has been deleted.')); ?></p>
+    <p><?= __('This record has been deleted.'); ?></p>
     <?php endif; ?>
 <?php else: ?>
-    <p><?= htmlspecialchars(__('No log for this record.')); ?></p>
+    <p><?= __('No log for this record.'); ?></p>
     <?php if (is_object($record)): ?>
-    <p><?=  htmlspecialchars(__('Go back to the ')); ?>
+    <p><?=  __('Go back to the '); ?>
       <?= link_to($record, null, __('record')); ?> </p>
     <?php else: ?>
-    <p><?= htmlspecialchars(__('This record does not exist and is not logged.')); ?></p>
+    <p><?= __('This record does not exist and is not logged.'); ?></p>
     <?php endif; ?>
 <?php endif; ?>
-    <p><?= htmlspecialchars(__('Go back to ')); ?>
-      <a href="<?= htmlspecialchars(url('ariadn-eplus-tracking')); ?>">ARIADNEplus Tracking </a> </p>
+    <p><?= __('Go back to '); ?>
+      <a href="<?= html_escape(url('ariadn-eplus-tracking')); ?>">ARIADNEplus Tracking </a> </p>
     </div>
 </div>
 <?= foot(); ?>

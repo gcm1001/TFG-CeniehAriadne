@@ -8,6 +8,9 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
 
     private $_logentry;
     private $_statusElement;
+    private $_metadata = array(
+                Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
+            );
     
     public function perform()
     {
@@ -80,7 +83,7 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         // Stages
         $flag = true;
         if($key == 1 || $key == 0){
-            list($records,$incompleteRecords) = $this->_checkMetadataElements($records, $view, $logentry);
+            list($records,$incompleteRecords) = $this->_checkMetadataElements($records, $view);
             $flag = empty($incompleteRecords);
             $newTerm = $statusElement['terms'][2];
         } else if($key == 2){
@@ -91,12 +94,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             if(!$flag) $records = [];
         } 
         // Stage Sub Records (If any)
-        $this->_stageSubRecords(array('records' => $records,
+        $newTerm = $this->_stageSubRecords(array('records' => $records,
             'incompleteRecords' => $incompleteRecords,
             'term' => $newTerm));
         // Stage Record
-        $this->_stageRecord(array('term' => $newTerm, 
-            'key' => $key, 'stageRecord' => $stageRecord, 'flag' => $flag));
+        $this->_stageRecord(array('key' => $key, 'stageRecord' => $stageRecord, 
+            'flag' => $flag, 'newTerm' => $newTerm));
     }
     
     
@@ -107,17 +110,16 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         
         $statusElement = $this->_statusElement;
         $element = $statusElement['element'];
-        $metadata = array(
-            Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
-        );
+        $elementSet = $element->getElementSet();
+
         $elementTexts = [];
-        $elementTexts[$element->getElementSet()->name][$element->name][] = array(
+        $elementTexts[$elementSet->name][$element->name][] = array(
             'text' => $newTerm,
             'html' => false,
         );
         $count = count($records);
         foreach ($records as $k => $record) {
-            $record = update_item($record, $metadata, $elementTexts);
+            $record = update_item($record, $this->_metadata, $elementTexts);
             $msg = __('Element #%d ("%s") of record #%d staged to "%s" (%d/%d).',
                 $element->id, $element->name, $record->id, $newTerm, $k + 1, $count);
             $this->_log($msg);
@@ -135,42 +137,38 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
                 'html' => false,
             );
             foreach ($incompleteRecords as $k => $record) {
-                $record = update_item($record, $metadata, $elementTexts);
+                $record = update_item($record, $this->_metadata, $elementTexts);
                 $msg = __('Element #%d ("%s") of record #%d staged to "%s".',
                 $element->id, $element->name, $record->id, 'Incomplete');
                 $this->_log($msg);
                 release_object($record);
-                $count += 1;
             }
         }
+        return $newTerm;
     }
     
     protected function _stageRecord($args){
         $stageRecord = $args['stageRecord'];
-        $newTerm = $args['term'];
         $key = $args['key'];
         $flag = $args['flag'];
+        $newTerm = $args['newTerm'];
         //ticket
         $ticket = get_view()->tracking()->getRecordTrackingTicket($stageRecord);
         $statusElement = $this->_statusElement;
         $element = $statusElement['element'];
-       
-        $metadata = array(
-            Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
-        );
+        
         $elementTexts = [];
         $elementTexts[$element->getElementSet()->name][$element->name][] = array(
             'text' => $newTerm,
             'html' => false,
         );
-        
         $record_type = get_class($stageRecord);
         if($record_type == 'Collection' && ($flag || $key == 0)){
             $collectionid = $stageRecord->id;
             $colState = metadata($stageRecord, array('Monitor', 'Metadata Status'));
             if($colState == $statusElement['terms'][$key]){
                 release_object($stageRecord);
-                $stageRecord = update_collection(get_record_by_id('Collection',$collectionid),$metadata,$elementTexts);
+                $stageRecord = update_collection(get_record_by_id('Collection',$collectionid),$this->_metadata,$elementTexts);
                 $msg = __('Collection #%d staged to "%s".', $stageRecord->id, $newTerm);
                 $this->_log($msg);
                 if($newTerm == 'Complete'){

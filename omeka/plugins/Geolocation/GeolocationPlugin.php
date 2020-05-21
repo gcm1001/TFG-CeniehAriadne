@@ -400,7 +400,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                   . '<div style="margin: 14px 0">'
                   . $view->geolocationMapSingle($item, '100%', '270px' )
                   . '</div></div>';
-            echo $html;
+            $this->_p_html($html);
         }
     }
 
@@ -417,7 +417,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             $html .= '<h2>'.__('Geolocation').'</h2>';
             $html .= $view->geolocationMapSingle($item, $width, $height);
             $html .= "</div>";
-            echo $html;
+            $this->_p_html( $html);
         }
     }
 
@@ -429,7 +429,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminItemsSearch($args)
     {
         $view = $args['view'];
-        echo $view->partial('map/advanced-search-partial.php');
+        $this->_p_html( $view->partial('map/advanced-search-partial.php'));
     }
 
     /**
@@ -440,7 +440,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookPublicItemsSearch($args)
     {
         $view = $args['view'];
-        echo $view->partial('map/advanced-search-partial.php');
+        $this->_p_html( $view->partial('map/advanced-search-partial.php'));
     }
 
     public function hookItemsBrowseSql($args)
@@ -668,7 +668,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         if (get_option('geolocation_add_map_to_contribution_form')) {
             $contributionType = $args['type'];
             $view = $args['view'];
-            echo $this->_mapForm(null, __('Find A Geographic Location For The %s:', $contributionType->display_name), false, $view, null);
+            $this->_p_html( $this->_mapForm(null, __('Find A Geographic Location For The %s:', $contributionType->display_name), false, $view, null));
         }
     }
 
@@ -869,5 +869,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'longitude'=> (double) get_option('geolocation_default_longitude'),
             'zoomLevel'=> (double) get_option('geolocation_default_zoom_level'),
         );
+    }
+    
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
     }
 }

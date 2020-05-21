@@ -1,6 +1,6 @@
 <div id="div-phase-5">
     <div class="form-style-10">
-    <h1 id="h1-phase" > - <span> - </span></h1>
+    <h1 class="h1-phase" > - <span class="span-form"> - </span></h1>
         <div class="section"><span>1</span> - </div>
         <div class="inner-wrap">
             

@@ -44,10 +44,10 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         $params = $request->getParams();
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
             if (isset($params['like']) || isset($params['type'])) {
-                echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>";      
+                $this->_p_html("<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>");      
                 return;
             } 
-            echo "<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"; 
+            $this->_p_html("<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"); 
         }
     }
     
@@ -55,8 +55,7 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         if (get_option('tagsmanager_sync')) {
             $item = $args['record'];
             $itemId = metadata($item, 'id');
-            $subjects = metadata($item, array('Dublin Core', 'Subject'), array('all' => true));
-            
+            $subjects = array_unique(metadata($item, array('Dublin Core', 'Subject'), array('all' => true)));
             $database = get_db();
             
             $tagsIds = array();
@@ -70,14 +69,16 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
                 }
                 $tagsIds[$subject] = $tagId['id'];
             }
-            
             $database->query("DELETE FROM `$database->RecordsTags` WHERE record_id = ? AND record_type='Item'",$itemId);
 
-            foreach ($tagsIds as $id) {
+            foreach (array_unique($tagsIds) as $id) {
                 $database->query("INSERT INTO `$database->RecordsTags` (record_id, record_type, tag_id) VALUES ($itemId, 'Item', $id)");
             }
         }
     }
     
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
+    }
 }
     

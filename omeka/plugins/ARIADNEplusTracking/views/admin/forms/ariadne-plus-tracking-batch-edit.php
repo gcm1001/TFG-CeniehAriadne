@@ -1,8 +1,8 @@
 <fieldset id="ariadne-plus-tracking-item-metadata">
-    <h2><?= htmlspecialchars(__('ARIADNEplus Tracking')); ?></h2>
+    <h2><?= __('ARIADNEplus Tracking'); ?></h2>
     <p class="explanation">
-        <?= htmlspecialchars(__('Set these status for the selected items.')); ?>
-        <?= htmlspecialchars(__('Note that some elements may be automatically set.')); ?>
+        <?= __('Set these status for the selected items.'); ?>
+        <?= __('Note that some elements may be automatically set.'); ?>
     </p>
 <?php foreach ($statusTermsElements as $elementId => $statusElement): ?>
     <div class="field">

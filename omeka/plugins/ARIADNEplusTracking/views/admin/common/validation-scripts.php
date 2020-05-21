@@ -3,25 +3,48 @@ $mandatoryDCElements = $view->tracking()->getMandatoryDCElements();
 $mandatoryMonElements = $view->tracking()->getAllElementNames();
 ?>
 <script type="text/javascript" charset="utf-8">
-<?php foreach($elements as $element):
-        if(in_array($element->name,$mandatoryDCElements) || in_array($element->name,$mandatoryMonElements)): ?>
+      var regexDate = /^Date*/i;
+<?php foreach($elements as $element): ?>
+            var elementId = "<?= html_escape($element->id); ?>";
+            var elementName = "<?= html_escape($element->name); ?>" ;
+             
+        <?php if(in_array($element->name,$mandatoryDCElements) || in_array($element->name,$mandatoryMonElements)): ?>
             var errors = false;
-            var elementId = "<?= htmlspecialchars($element->id); ?>";
-            var elementName = "<?= htmlspecialchars($element->name); ?>" ;
+            
             if(!jQuery.trim(jQuery('#Elements-' + elementId + '-0-text').val()).length){
                 jQuery('textarea[id^=Elements-' + elementId + '-]').addClass('mandatory-empty');
             } else {
                 jQuery('textarea[id^=Elements-' + elementId + '-]').addClass('mandatory-fill');
             };
-            jQuery('#Elements-' + elementId + '-0-text').change(function(){
+            jQuery('#element-' + elementId + ' div label').prepend(
+                    "<img class='supervised' src='<?= img('eye-icon.png'); ?>' width='20'/>    "
+                    );
+        <?php endif; ?>
+            if(elementName.match(regexDate)){
+                jQuery('#element-' + elementId + ' div button#add_element_'+ elementId).remove();
+                var textarea = jQuery('textarea[id^=Elements-' + elementId + '-0-text]');
+                var input = jQuery(document.createElement('input')).attr({
+                  "type": "date",
+                  "name": textarea.attr('name'),
+                  "id": textarea.attr('id'),
+                  "value": textarea.val(),
+                  "class": textarea.attr('class'),
+                });
+                textarea.replaceWith(input); 
+            };
+     <?php endforeach; ?>
+       
+       jQuery('[class^=mandatory-]').change(function(){
                 if(jQuery.trim(jQuery(this).val()).length){
-                    jQuery(this).addClass('mandatory-fill').removeClass('mandatory-empty');
+                    jQuery(this).removeClass().addClass('mandatory-fill');
                 } else {
-                    jQuery(this).addClass('mandatory-empty').removeClass('mandatory-fill');
+                    jQuery(this).removeClass().addClass('mandatory-empty');
                 }
-            });
-            <?php endif; 
-      endforeach; ?>
+        });
+        jQuery('.supervised').mouseover(function(){
+            jQuery(this).notify("Supervised element","info");
+        });
+        
         jQuery.notify.addStyle('mandatoryWarn', {
           html: 
             "<div>" +
@@ -34,6 +57,8 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
               "</div>" +
             "</div>"
         });
+        
+        jQuery('.use-html').remove();
         
         jQuery(document).on('click', '.notifyjs-mandatoryWarn-base .no', function() {
             jQuery(this).trigger('notify-hide');
@@ -58,5 +83,4 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
                 });
             };    
         });
-    
 </script>

@@ -69,16 +69,16 @@ div.map-notification {
     overflow-y: auto;
     margin-bottom: 0;
   }
-  
+
   #map-links ul {
     margin: 0;
     padding: 0;
   }
-  
+
   #map-links li {
     overflow: hidden;
   }
-  
+
   #map_browse {
     float: left;
     width: 70%;

@@ -360,7 +360,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookUninstallMessage()
     {
-        echo __('%sWarning%s: This will remove all the Monitor elements added by this plugin and permanently delete all element texts entered in those fields.%s', '<p><strong>', '</strong>', '</p>');
+        $this->_p_html(__('%sWarning%s: This will remove all the Monitor elements added by this plugin and permanently delete all element texts entered in those fields.%s', '<p><strong>', '</strong>', '</p>'));
     }
 
     /**
@@ -414,12 +414,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $elements = $table->fetchObjects($select);
 
         $view = $args['view'];
-        echo $view->partial(
+        $this->_p_html($view->partial(
             'plugins/ariadne-plus-tracking-config-form.php',
             array(
                 'settings' => $settings,
                 'elements' => $elements,
-        ));
+        )));
     }
 
     /**
@@ -503,9 +503,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
             if ($html) {
-                echo '<div class="ariadne-plus-tracking-items-browse"><span>' . $elementSetName . '</span>';
-                echo $html;
-                echo '</div>';
+                $this->_p_html('<div class="ariadne-plus-tracking-items-browse"><span>' . $elementSetName . '</span>');
+                $this->_p_html($html);
+                $this->_p_html('</div>');
             }
         }
     }
@@ -521,13 +521,13 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $statusTermsElements = $view->tracking()->getStatusElements(null, null, true);
         $statusNoTermElements = $view->tracking()->getStatusElements(null, null, false);
         if ($statusTermsElements || $statusNoTermElements) {
-            echo $view->partial(
+            $this->_p_html($view->partial(
                 'forms/ariadne-plus-tracking-batch-edit.php',
                 array(
                     'statusTermsElements' => $statusTermsElements,
                     'statusNoTermElements' => $statusNoTermElements,
                     'batch_edit_disable' => get_option('batch_edit_disable'),
-            ));
+            )));
         }
     }
 
@@ -620,7 +620,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             'element_default_value' => $elementDefault,
        );
 
-        echo common('add-new-element', $options);
+        $this->_p_html(common('add-new-element', $options));
     }
 
     /**
@@ -674,7 +674,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 true, array('checked' => false));
         }
 
-        echo $html;
+        $this->_p_html($html);
     }
 
     /**
@@ -1339,11 +1339,11 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 $record = get_collection_for_item($record);
             }
         }
-        echo common('show-badge', array(
+        $this->_p_html(common('show-badge', array(
             'status' => $status,
             'record' => $record,
             'type' => $type,
-            'extdiv' => $extdiv ));
+            'extdiv' => $extdiv )));
     }
     
     /**
@@ -1403,9 +1403,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     }
     
     private function _printRestrictScripts($args){
-      echo common('restrict-scripts', array(
+      $this->_p_html(common('restrict-scripts', array(
             'sections' => $args['sections'],
-            'view' => $args['view'],));
+            'view' => $args['view'],)));
     }
     
     /**
@@ -1424,11 +1424,11 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             $elements = $record->getElementsBySetName('Monitor');
         }
         if(isset($elements)){
-          echo common('validation-scripts', array(
+          $this->_p_html(common('validation-scripts', array(
                   'elements' => $elements,
                   'status' => $status,
                   'view' => $view,
-              ));
+              )));
         }
     }
     
@@ -1493,5 +1493,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         if($ticket){
             $ticket->delete();
         }
+    }
+    
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
     }
 }

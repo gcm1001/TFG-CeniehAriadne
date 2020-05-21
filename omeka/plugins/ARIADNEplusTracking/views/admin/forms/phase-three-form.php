@@ -1,11 +1,11 @@
 <div id="div-phase-3">
     <div class="form-style-10">
         <form method="post" id="form-phase-3" action="#"> 
-          <input type="hidden" id="json" value="<?= htmlspecialchars(metadata($record, array('Monitor','GettyAAT mapping')));?>">
-        <h1 id="h1-phase" >Metadata enrichment<span>To enrich your metadata, follow these steps.</span></h1>
+          <input type="hidden" id="json" value="<?= html_escape(metadata($record, array('Monitor','GettyAAT mapping')));?>">
+        <h1 class="h1-phase" >Metadata enrichment<span class="span-form">To enrich your metadata, follow these steps.</span></h1>
         <div class="section"><span>1</span>Create Period0 period definitions</div>
         <div class="inner-wrap">
-           <label>Your period0 collection url<input id="periodo" value="<?= htmlspecialchars(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" type="text" name="periodo" /></label>
+           <label>Your period0 collection url<input id="periodo" value="<?= html_escape(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" type="text" name="periodo" /></label>
         </div>
         <div class="section"><span>2</span>Create AAT subject mappings</div>
         <div class="inner-wrap">

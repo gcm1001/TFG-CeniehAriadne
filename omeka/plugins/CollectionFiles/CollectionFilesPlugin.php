@@ -101,8 +101,8 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
      * Display the uninstall message.
      */
     public function hookUninstallMessage()
-    {
-        echo __('%sWarning%s: This will remove all the collection files %s', '<p><strong>', '</strong>', '</p>');
+    { ?>
+        <?= __('%sWarning%s: This will remove all the collection files %s', '<p><strong>', '</strong>', '</p>'); ?> <?php
     }
 
     /**
@@ -211,35 +211,39 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
-    public function hookAdminCollectionsForm($args){
-        echo '<script type="text/javascript">
+    public function hookAdminCollectionsForm($args){ ?>
+         <?= '<script type="text/javascript">
                 jQuery(document).ready(function () {
                     Omeka.Collections.makeFileWindow();
                     Omeka.Collections.enableSorting();
                     Omeka.Collections.enableAddFiles('.js_escape(__('Add Another File')).');
                 });
-              </script>';
+              </script>' ?>
+        <?php
     }
     
     public function hookAdminCollectionsShowSidebar($args){
-        $collection = $args['collection'];
+        $collection = $args['collection']; 
         
-        echo '<div class="panel">
+        $this->_p_html('<div class="panel">
         <h4>'.__('Collection Files').'</h4>
-        <div id="file-list">';
+        <div id="file-list">');
         
-        if (!$this->collection_has_files($collection)){
-            echo '<p>'.__('There are no files for this collection yet.').link_to_collection(__('Add a File'), array(), 'edit').'.</p>';
+        if (!$this->collection_has_files($collection)){ 
+            $this->_p_html('<p>'.__('There are no files for this collection yet.').link_to_collection(__('Add a File'), array(), 'edit').'.</p>'); 
         } else {
-            $files = $this->get_collection_files($collection);
-            echo '<ul>';
-            foreach ($files as $file){
-                echo link_to($file,'show', $file->original_filename);
-                echo "<br>";
-            }
-            echo '</ul>';            
-        }
-        echo '</div> </div>';
+            $files = $this->get_collection_files($collection); 
+            $this->_p_html('<ul>'); 
+            foreach ($files as $file){ 
+                 $this->_p_html(link_to($file,'show', $file->original_filename)); 
+                 $this->_p_html("<br>"); 
+            } 
+            $this->_p_html('</ul>');     
+        } 
+        $this->_p_html('</div> </div>'); 
     }
     
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
+    }
 }

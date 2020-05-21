@@ -78,16 +78,16 @@
 
 
     private function _generateCirHeader() {
-        echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+        $this->_p_html('<?xml version="1.0" encoding="UTF-8"?>'."\n");
         //--------------------
         // HEADER
         //--------------------
-        echo '<Collections ';
-        echo 'xmlns:dc="http://purl.org/dc/elements/1.1/" ';
-        echo 'xmlns:dcterms="http://purl.org/dc/terms/" ';
-        echo 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
-        echo 'xmlns:cir="http://www.cir.cenieh.es" ';
-        echo ">\n";
+        $this->_p_html('<Collections ');
+        $this->_p_html('xmlns:dc="http://purl.org/dc/elements/1.1/" ');
+        $this->_p_html('xmlns:dcterms="http://purl.org/dc/terms/" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
+        $this->_p_html( 'xmlns:cir="http://www.cir.cenieh.es" ');
+        $this->_p_html( ">\n");
 
     }
   
@@ -97,7 +97,7 @@
         //--------------------
         //METADATA
         //--------------------
-        echo ($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n";
+        $this->_p_html( ($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n");
 
         $elementArray = $record->getAllElements();
 
@@ -110,7 +110,7 @@
 
             $eSSlug=$this->_getElementSetSlug($elementSetName);
 
-            echo ($recordType == "Collection") ? "\t\t<metadata>\n" : "\t\t\t\t<metadata>\n";
+            $this->_p_html( ($recordType == "Collection") ? "\t\t<metadata>\n" : "\t\t\t\t<metadata>\n");
 
             if($eSSlug!=="") $eSSlug .= ":";
 
@@ -141,25 +141,25 @@
                             $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
                         }
                     }
-                    echo (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ($preElement."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">");
-          		      echo htmlspecialchars($elementText->text);
-                    echo (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n";
+                    $this->_p_html( (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ($preElement."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">"));
+          		      $this->_p_html( htmlspecialchars($elementText->text));
+                    $this->_p_html( (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n");
         	      }
       	    }
 
-      	    echo ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n";
+      	    $this->_p_html( ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n");
 
             $this->_free_buffer($flag);
         }
         if($full) {
-          echo ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n";
+          $this->_p_html( ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n");
         }
     }
 
     private function _generateCirFooter($full = True) {
-        if($full) echo "\t\t</records>";
-        echo "\n\t</collection>\n";
-        echo "</Collection>\n";
+        if($full) $this->_p_html( "\t\t</records>");
+        $this->_p_html( "\n\t</collection>\n");
+        $this->_p_html( "</Collection>\n");
     }
 
     /**
@@ -169,14 +169,14 @@
      */
     private function _generateCir($itemID) {
         if(!is_numeric($itemID)) {
-            echo "ERROR: Invalid item ID";
+            $this->_p_html( "ERROR: Invalid item ID");
             return;
         }
 
         $item = get_record_by_id("item",$itemID);
 
         if($item === null || empty($item)) {
-            echo "ERROR: Invalid item ID";
+            $this->_p_html( "ERROR: Invalid item ID");
             return;
         }
 
@@ -185,16 +185,16 @@
             'contributor', 'date', 'type', 'format', 'identifier',
             'source', 'language', 'relation', 'coverage', 'rights' );
 
-        echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+        $this->_p_html( '<?xml version="1.0" encoding="UTF-8"?>'."\n");
         //--------------------
         // HEADER
         //--------------------
-        echo '<Record ';
-        echo 'xmlns:dc="http://purl.org/dc/elements/1.1/" ';
-        echo 'xmlns:dcterms="http://purl.org/dc/terms/" ';
-        echo 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
-        echo 'xmlns:cir="http://www.cir.cenieh.es" ';
-        echo ">\n";
+        $this->_p_html( '<Record ');
+        $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
+        $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
+        $this->_p_html( 'xmlns:cir="http://www.cir.cenieh.es" ');
+        $this->_p_html( ">\n");
         //--------------------
         //METADATA
         //--------------------
@@ -206,7 +206,7 @@
 
             $eSSlug=$this->_getElementSetSlug($elementSetName);
 
-            echo "\t<metadata>\n";
+            $this->_p_html( "\t<metadata>\n");
 
             if($eSSlug!=="") $eSSlug .= ":";
 
@@ -230,17 +230,17 @@
                             $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
                         }
                     }
-                    echo (in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ("\t\t\t<"."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">");
-                    echo htmlspecialchars($elementText->text);
-                    echo (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n";
+                    $this->_p_html((in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ("\t\t\t<"."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">"));
+                    $this->_p_html(htmlspecialchars($elementText->text));
+                    $this->_p_html((in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n");
         	      }
             }
 
             $this->_free_buffer($flag);
         }
 
-        echo "\t</metadata>\n";
-        echo "</Record>\n";
+        $this->_p_html("\t</metadata>\n");
+        $this->_p_html("</Record>\n");
     }
 
     private function _free_buffer($flag = True){
@@ -284,10 +284,9 @@
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $elementName));
     }
 
-
-
-    
-    
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
+    }
  }
 
-?>
+
