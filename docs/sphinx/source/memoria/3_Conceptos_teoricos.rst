@@ -124,16 +124,17 @@ La infraestructura software desarrollada se corresponde con esta definición.
 
 Dublin Core
 -----------
-*Dublin Core* es un esquema de metadatos elaborado por la *DCMI* [#]_ (*Dublin Core Metadata Initiative*), organización cuya misión principal es facilitar la compartición de recursos on-line por medio del desarrollo de un modelo de metadatos "base", capaz de proporcionar información descriptiva básica sobre cualquier recurso, sin importar el formato de origen, área de especialización u origen cultural. Dispone de 15 elementos descriptivos, los cuales pueden ser repetidos, aparecer en cualquier orden y no tienen por qué existir (son opcionales).
+*Dublin Core* es un esquema de metadatos elaborado por la *DCMI* [#]_ (*Dublin Core Metadata Initiative*), organización cuya misión principal es facilitar la compartición de recursos on-line por medio del desarrollo de un modelo de metadatos "base", capaz de proporcionar información descriptiva básica sobre cualquier recurso, sin importar el formato de origen, área de especialización u origen cultural. Dispone de 15 elementos descriptivos, los cuales pueden ser repetidos, aparecer en cualquier orden y son opcionales.
+
 
 Dublin Core Extended
 --------------------
-Dado que el modelo *Dublin Core* puede resultar algo escueto, se presenta el esquema *Dublin Core Extended*, el cual cuenta con los elementos descriptivos básicos y, además, añade una serie de elementos adicionales/complementarios [#]_ que satisfacen las necesidades que el modelo básico no cubre.
+Dado que el modelo *Dublin Core* puede resultar algo escueto, se presenta como solución el esquema *Dublin Core Extended*, el cual cuenta con los elementos descriptivos básicos y, además, añade una serie de elementos adicionales/complementarios [#]_ que satisfacen las necesidades que el modelo básico no cubre.
 He optado por utilizar este esquema en la infraestructura software que he desarrollado ya que se adapta perfectamente a las necesidades del proyecto.
 
 Geolocalización
 ---------------
-La geolocalización es la capacidad para obtener la ubicación geográfica real de un objeto [#]_. Uno de los requisitos fundamentales de ARIADNEplus es que todos los datos introducidos en su plataforma han de estar geolocalizados, es decir, tienen que tener, al menos, un elemento descriptivo que indique la ubicación actual del objeto. 
+La geolocalización es la capacidad para obtener la ubicación geográfica real de un objeto [#]_. Uno de los requisitos fundamentales de ARIADNEplus es que todos los datos introducidos en su plataforma han de estar geolocalizados, es decir, tienen que tener, al menos, un elemento descriptivo que indique la ubicación actual del objeto.
 Nuestra plataforma cuenta con el elemento "Spatial Coverage" del modelo "Dublin Core Extended" para cubrir este requisito.
 
 WGS84
@@ -146,8 +147,9 @@ Protocolo OAI-PMH
 El protocolo *Open Archive Initiative-Protocol for Metadata Harvesting* (OAI-PMH) tiene como objetivo desarrollar y promover estándares de interoperabilidad que faciliten la difusión eficiente de contenidos en Internet. Permite transmitir metadatos entre diferentes tipos de infraestructuras software (repositorios, gestores, etc.) siempre y cuando éstos se codifiquen en Dublin Core.
 Una de las opciones de importación que ARIADNEplus aconseja es mediante la utilización de este protocolo. 
 
-Estados de integración
+Fases de integración
 ----------------------
+
 
 
 Conceptos teóricos relativos a la integración

@@ -74,6 +74,11 @@ Los objetivos planteados para este *sprint* fueron: finalizar la formación en *
 
 *Sprint* 3 (17/04/2020 - 08/05/2020)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Los objetivos planteados para este *sprint* fueron: seguir con el análisis e implementación de la "Integración Continua" en el proyecto, finalizar el desarrollo del plugin "ARIADNEplus Monitor", desplegar la infraestructura sobre el servidor del CENIEH, actualizar el fichero README y avanzar con la documentación.
 
+`Listado de tareas <https://github.com/gcm1001/TFG-CeniehAriadne/milestone/4>`__ asociadas al *Sprint* 3.
 
-
+.. image:: ../_static/images/sprint03.png
+   :alt: Diagrama *burndown* del *sprint* 4.
+   :scale: 80%
+   :align: center
