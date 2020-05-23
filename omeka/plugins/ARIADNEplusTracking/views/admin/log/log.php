@@ -1,34 +1,34 @@
 <?php
 $logs = $this->Tracking()->showlogs($record, 0);
-
-echo head(array(
+?>
+<?= head(array(
     'title' => __('ARIADNEplus Log'),
     'bodyclass' => 'ariadneplus-log entries',
 ));
 ?>
 <div id="primary">
-    <?php echo flash(); ?>
+    <?=  flash(); ?>
     <div>
 <?php
-if (!empty($logs)):
-    echo $logs;
-    ?>
+if (!empty($logs)):?>
+    <?= $logs; ?>
     <?php if (is_object($record)): ?>
-    <p><?php echo __('Go back to the %s.', link_to($record, null, __('record'))); ?></p>
+    <p><?= __('Go back to the '); ?> 
+      <?= link_to($record, null, __('record')); ?></p>
     <?php else: ?>
-    <p><?php echo __('This record has been deleted.'); ?></p>
+    <p><?= __('This record has been deleted.'); ?></p>
     <?php endif; ?>
 <?php else: ?>
-    <p><?php echo __('No log for this record.'); ?></p>
+    <p><?= __('No log for this record.'); ?></p>
     <?php if (is_object($record)): ?>
-    <p><?php echo __('Go back to the %s.', link_to($record, null, __('record'))); ?></p>
+    <p><?=  __('Go back to the '); ?>
+      <?= link_to($record, null, __('record')); ?> </p>
     <?php else: ?>
-    <p><?php echo __('This record does not exist and is not logged.'); ?></p>
+    <p><?= __('This record does not exist and is not logged.'); ?></p>
     <?php endif; ?>
 <?php endif; ?>
-    <p><?php echo __('Go back to %sARIADNEplus Tracking%s.', '<a href="' . 
-                html_escape(url('ariadn-eplus-tracking')) . '">', '</a>'); ?></p>
+    <p><?= __('Go back to '); ?>
+      <a href="<?= html_escape(url('ariadn-eplus-tracking')); ?>">ARIADNEplus Tracking </a> </p>
     </div>
 </div>
-<?php
-echo foot();
+<?= foot(); ?>

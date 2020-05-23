@@ -13,11 +13,11 @@
 
     $cirExporter = new CirExporter(); // inicializamos un objeto de tipo CirExporter
 
-    if(!isset($collectionID)) die('ERROR: collection ID not set'); // se comprueba que existe la colección
+    if(!isset($collectionID)) return 'ERROR: collection ID not set'; // se comprueba que existe la colección
 
-    try{
-        echo $cirExporter->exportCollectionFull($collectionID);  // imprimimos todo el contenido generado sobre el fichero xml
-    } catch (Exception $e) {
-        die($e->getMessage());
-    }
+      try{ ?>
+      <?= $cirExporter->exportCollectionFull($collectionID); ?>
+<?php } catch(Exception $e) {
+          return $e->getMessage();
+      } 
 ?>

@@ -7,108 +7,104 @@
     list-style: none outside none;
 }
 </style>
-<fieldset id="fieldset-ariadneplus-tracking-contact"><legend><?php echo __('AriadnePlus contact details'); ?></legend>
+<fieldset id="fieldset-ariadneplus-tracking-contact"><legend><?= __('AriadnePlus contact details'); ?></legend>
     <p class="explanation">
     	
     </p>
     <div class="field">
         <div class="two columns alpha">
-            <label for="ariadneplus_tracking_name"><?php echo __('Contact Name'); ?></label>
+            <label for="ariadneplus_tracking_name"><?= __('Contact Name'); ?></label>
         </div>
         <div class="inputs five columns omega">
-            <p class="explanation"><?php echo __("The name of the person who is responsible for metadata imports to AriadnePlus."); ?></p>
-            <?php echo $view->formText('ariadneplus_tracking_name', get_option('ariadneplus_tracking_name')); ?>
+            <p class="explanation"><?= __("The name of the person who is responsible for metadata imports to AriadnePlus."); ?></p>
+            <?= $view->formText('ariadneplus_tracking_name', get_option('ariadneplus_tracking_name')); ?>
         </div>
 	</div>
 	
 	<div class="field">
         <div class="two columns alpha">
-            <label for="ariadneplus_tracking_email"><?php echo __('Contact email'); ?></label>
+            <label for="ariadneplus_tracking_email"><?= __('Contact email'); ?></label>
         </div>
         <div class="inputs five columns omega">
-            <p class="explanation"><?php echo __("The e-mail of the contact person.");?></p>
-            <?php echo $view->formText('ariadneplus_tracking_email', get_option('ariadneplus_tracking_email')); ?>
+            <p class="explanation"><?= __("The e-mail of the contact person.");?></p>
+            <?= $view->formText('ariadneplus_tracking_email', get_option('ariadneplus_tracking_email')); ?>
         </div>
 	</div>
 </fieldset>
-<fieldset id="fieldset-ariadneplus-tracking-elements"><legend><?php echo __('Elements'); ?></legend>
+<fieldset id="fieldset-ariadneplus-tracking-elements"><legend><?= __('Elements'); ?></legend>
     <?php $monitorElementSet = $this->tracking()->getElementSet(); ?>
-    <p class="explanation"><?php echo __('To manage elements (repeatable or not, steppable or not, with list of terms or not...), go to %sSettings%s, then %sElement Sets%s, then %sMonitor%s.',
-            '<a href="' . url('settings') . '">', '</a>',
-            '<a href="' . url('element-sets') . '">', '</a>',
-            '<a href="' . url('element-sets/edit/' . $monitorElementSet->id) . '">', '</a>'); ?></p>
+    <p class="explanation"><?= __('To manage elements (repeatable or not, steppable or not, with list of terms or not...), go to '); ?>
+      <a href="<?= html_escape(url('settings')) ?> " > <?= __('Settings'); ?> </a>, <?= __('then'); ?> 
+      <a href="<?= html_escape(url('element-sets')) ?> " > <?= __('Element Sets'); ?> </a>, <?= __('then'); ?> 
+      <a href="<?= html_escape(url('element-sets/edit/' . $monitorElementSet->id)) ?> " > <?= __('Monitor'); ?> </a>
+    </p>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $this->formLabel('ariadneplus_tracking_display_remove',
+            <?= $this->formLabel('ariadneplus_tracking_display_remove',
                 __('Display Remove Checkbox')); ?>
         </div>
         <div class="inputs five columns omega">
             <p class="explanation">
-                <?php
-                echo __('If set, a checkbox will be displayed the next time in the page above to remove any existing element of the Monitor Element Set.');
-                echo '<br />';
-                echo __('Warning: All data of the selected fields will be removed and will not be recoverable easily.');
-                echo ' ' . __('So, check first if your backups are up to date and working.');
+                <?= __('If set, a checkbox will be displayed the next time in the page above to remove any existing element of the Monitor Element Set.'); ?>
+                <br />
+                <?= __('Warning: All data of the selected fields will be removed and will not be recoverable easily.'); ?>
+                <?= ' '. __('So, check first if your backups are up to date and working.'); ?>
                 ?>
             </p>
-            <?php echo $this->formCheckbox('ariadneplus_tracking_display_remove', true,
+            <?= $this->formCheckbox('ariadneplus_tracking_display_remove', true,
                 array('checked' => false)); ?>
         </div>
     </div>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $this->formLabel('ariadneplus_tracking_hide_elements',
+            <?= $this->formLabel('ariadneplus_tracking_hide_elements',
                 __('Hide unnecessary Dublin Core elements')); ?>
         </div>
         <div class="inputs five columns omega">
             <p class="explanation">
-                <?php
-                echo __('If set, all unnecessary Dublin Core elements will be hidden.');
-                echo '<br />';
-                ?>
+                <?= __('If set, all unnecessary Dublin Core elements will be hidden.');?>
+              <br/>
             </p>
-            <?php echo $this->formCheckbox('ariadneplus_tracking_hide_elements', true,
-                array('checked' => get_option('ariadneplus_tracking_hide_elements')) ); 
-                            echo __('</br><b>Info</b>: You can check which elements have been hidden on the "Hide Elements" plugin %s configuration page %s.',
-                                    '<a href="' . url('plugins/config', array('name' => 'HideElements')) . '">', '</a>');?>
+            <?= $this->formCheckbox('ariadneplus_tracking_hide_elements', true,
+                array('checked' => get_option('ariadneplus_tracking_hide_elements')) ); ?>
+              </br><b><?= __('Info'); ?> </b>: <?= __('You can check which elements have been hidden on the "Hide Elements" plugin') ?>
+              <a href="<?= html_escape(url('plugins/config', array('name' => 'HideElements'))) ?> " > <?= __('configuration page'); ?> </a>
         </div>
     </div>
 </fieldset>
-<fieldset id="fieldset-ariadneplus-tracking-elements"><legend><?php echo __('Permissions'); ?></legend>
+<fieldset id="fieldset-ariadneplus-tracking-elements"><legend><?= __('Permissions'); ?></legend>
     <div class="field">
         <div class="two columns alpha">
-            <?php echo $this->formLabel('batch_edit_disable',
+            <?= $this->formLabel('batch_edit_disable',
                 __('Disable Batch Edit tool')); ?>
         </div>
         <div class="inputs five columns omega">
             <p class="explanation">
-                <?php
-                echo __('If set, batch edit tool will be disabled.');
-                echo '<br />';
-                ?>
+                <?= __('If set, batch edit tool will be disabled.'); ?>
+              <br/>
             </p>
-            <?php echo $this->formCheckbox('batch_edit_disable', true,
+            <?= $this->formCheckbox('batch_edit_disable', true,
                 array('checked' => get_option('batch_edit_disable')) ); ?>
         </div>
     </div>    
 </fieldset>
-<fieldset id="fieldset-ariadneplus-tracking-admin-display"><legend><?php echo __('Specific admin display'); ?></legend>
+<fieldset id="fieldset-ariadneplus-tracking-admin-display"><legend><?= __('Specific admin display'); ?></legend>
     <div class="field">
-        <?php echo $this->formLabel('ariadneplus_tracking_admin_items_browse', __('Display elements')); ?>
+        <?= $this->formLabel('ariadneplus_tracking_admin_items_browse', __('Display elements')); ?>
         <p class="explanation">
-            <?php echo __('The content of checked elements will be displayed in the main cell or in the detailed part of the main cell of each item.'); ?>
+            <?= __('The content of checked elements will be displayed in the main cell or in the detailed part of the main cell of each item.'); ?>
         </p>
         <table id="hide-elements-table">
             <thead>
                 <tr>
-                    <th class="ariadneplus-tracking-boxes" rowspan="2"><?php echo __('Element'); ?></th>
-                    <th class="ariadneplus-tracking-boxes" colspan="5"><?php echo __('Display in items/browse:'); ?></th>
+                    <th class="ariadneplus-tracking-boxes" rowspan="2"><?= __('Element'); ?></th>
+                    <th class="ariadneplus-tracking-boxes" colspan="5"><?= __('Display in items/browse:'); ?></th>
                 </tr>
                 <tr>
-                    <th class="ariadneplus-tracking-boxes"><?php echo __('Search'); ?></th>
-                    <th class="ariadneplus-tracking-boxes"><?php echo __('Filter'); ?></th>
-                    <th class="ariadneplus-tracking-boxes"><?php echo __('Directly'); ?></th>
-                    <th class="ariadneplus-tracking-boxes"><?php echo __('Details'); ?></th>
+                    <th class="ariadneplus-tracking-boxes"><?= __('Search'); ?></th>
+                    <th class="ariadneplus-tracking-boxes"><?= __('Filter'); ?></th>
+                    <th class="ariadneplus-tracking-boxes"><?= __('Directly'); ?></th>
+                    <th class="ariadneplus-tracking-boxes"><?= __('Details'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -119,15 +115,15 @@
                     $current_element_set = $element->set_name; ?>
                 <tr>
                     <th colspan="6">
-                        <strong><?php echo __($current_element_set); ?></strong>
+                        <strong><?= html_escape(__($current_element_set)); ?></strong>
                     </th>
                 </tr>
                 <?php endif; ?>
                 <tr>
-                    <td><?php echo __($element->name); ?></td>
+                    <td><?= html_escape(__($element->name)); ?></td>
                     <?php if ($current_element_set == 'Monitor'): ?>
                     <td class="ariadneplus-tracking-boxes">
-                        <?php echo $this->formCheckbox(
+                        <?= $this->formCheckbox(
                             "search[{$element->set_name}][{$element->id}]",
                             '1', array(
                                 'disableHidden' => true,
@@ -136,7 +132,7 @@
                         ); ?>
                     </td>
                     <td class="ariadneplus-tracking-boxes">
-                        <?php echo $this->formCheckbox(
+                        <?= $this->formCheckbox(
                             "filter[{$element->set_name}][{$element->id}]",
                             '1', array(
                                 'disableHidden' => true,
@@ -149,7 +145,7 @@
                     <td></td>
                     <?php endif; ?>
                     <td class="ariadneplus-tracking-boxes">
-                        <?php echo $this->formCheckbox(
+                        <?= $this->formCheckbox(
                             "simple[{$element->set_name}][{$element->name}]",
                             '1', array(
                                 'disableHidden' => true,
@@ -158,7 +154,7 @@
                         ); ?>
                     </td>
                     <td class="ariadneplus-tracking-boxes">
-                        <?php echo $this->formCheckbox(
+                        <?= $this->formCheckbox(
                             "detailed[{$element->set_name}][{$element->name}]",
                             '1', array(
                                 'disableHidden' => true,

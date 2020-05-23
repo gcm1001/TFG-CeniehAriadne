@@ -1,45 +1,44 @@
-<?php
-$pageTitle = __('ARIADNEplus Tracking');
-echo head(array(
-    'title' => $pageTitle,
-));
+<?= head(array(
+    'title' => __('ARIADNEplus Tracking'),
+    ));
 ?>
 <div id="primary">
-    <?php echo flash(); ?>
-    <h2><?php echo __('Step 1: Create a new ticket'); ?></h2>
+    <?= flash(); ?>
+    <h2><?= __('Step 1: Create a new ticket'); ?></h2>
 <div id="selectoptions">
     <div class="center-div-step">
         <div id="questionsdiv">
             <div class="container-step initial-active-area">
                 <div class="line">
-                  <div class="step first"><img alt="Step 1" id="step-1" src="<?php echo img('step-1.png'); ?>" /></i></div>
-                  <div class="step second"> <img alt="Step 2" id="step-2" src="<?php echo img('step-2.png'); ?>" /></div>
-                  <div class="step third"> <img alt="Step 3" id="step-3" src="<?php echo img('step-3.png'); ?>" /></div>
+                  <div class="step first"><img alt="Step 1" id="step-1" src="<?= html_escape(img('step-1.png')); ?>" /></i></div>
+                  <div class="step second"> <img alt="Step 2" id="step-2" src="<?= html_escape(img('step-2.png')); ?>" /></div>
+                  <div class="step third"> <img alt="Step 3" id="step-3" src="<?= html_escape(img('step-3.png')); ?>" /></div>
                 </div>
                 <div class="steps">
-                    <form class="option-submission" method="post">
+                    <form id="new-form" class="option-submission" method="post">
                         <div class="submission first-step">
-                            <p>Select the type of record you would like manage.</p>
+                            <p><?= __('Select the type of record you would like manage.'); ?></p>
                             <label class="input">
-                                <?php echo $this->formSelect('record_type', null, array('id' => 'record-type'), $options_for_select_type); ?> <br/><br/>
+                                <?= $this->formSelect('record_type', null, array('id' => 'record-type'), $options_for_select_type); ?> <br/><br/>
                             </label>
-                            <button class="first next">Continue</button>
+                            <button class="first next"><?= __('Continue'); ?></button>
                         </div>
                         <div class="submission second-step">
-                            <p>Choose the specific record.</p>
+                            <p><?= __('Choose the specific record.'); ?> </p>
                             <label class="input">              
-                                <?php echo $this->formSelect('collection', null, array('id' => 'record-id-col'), $options_for_select_collection); ?> 
-                                <?php echo $this->formSelect('item', null, array('id' => 'record-id-item'), $options_for_select_item); ?> <br/><br/>
+                                <?= $this->formSelect('collection', null, array('id' => 'record-id-col'), $options_for_select_collection); ?> 
+                                <?= $this->formSelect('item', null, array('id' => 'record-id-item'), $options_for_select_item); ?> <br/><br/>
                             </label>
-                            <button class="second next">Continue</button>
+                            <button class="second next"><?= __('Continue'); ?></button>
                         </div>
                         <div id="last-form" class="submission third-step" method="post">
-                            <h5>Selected record : <span class="selected-record"></span></h5>
-                            <p> Now select one of the fundamental ARIADNE categories which belongs to.</p>
+                            <h5><?= __('Selected record : '); ?><span class="selected-record"></span></h5>
+                            <p> <?= __('Now select one of the fundamental ARIADNE categories which belongs to. '); ?></p>
                             <label class="input"> 
-                                <?php echo $this->formSelect('ariadne_category', null, array('id' => 'ariadne-category'), $options_for_select_category); ?> <br/><br/>
+                              
+                                <?= $this->formSelect('ariadne_category', null, array('id' => 'ariadne-category'), $options_for_select_category); ?> <br/><br/>
                             </label>
-                            <button type="submit" class="third next">Continue</button>
+                            <button type="submit" id="new-button" class="third next"><?= __('Continue'); ?></button>
                         </div>
                     </form>
                     </div>
@@ -58,15 +57,15 @@ echo head(array(
 
         jQuery(".first").click(function (event) {
             typeval = type.val();
-            if (typeval == "") {
+            if (typeval === '') {
                 Swal.fire({
                     icon: 'error',
-                    title: 'No type!',
+                    title: 'Please, select the type of record!',
                     showConfirmButton:false,
                 });
                 return false;
             }   
-            if(typeval == "Collection"){
+            if(typeval === "Collection"){
                 jQuery("#record-id-item").remove();
                 record = jQuery("#record-id-col");
             } else {
@@ -83,7 +82,7 @@ echo head(array(
             if (recordval == "") {
                 Swal.fire({
                     icon: 'error',
-                    title: 'No record!',
+                    title: 'Please, select a record!',
                     showConfirmButton:false,
                 });
                 return false;
@@ -97,6 +96,20 @@ echo head(array(
             jQuery(".container-step").addClass("third third-active-area");
             event.preventDefault();
         });
-
+        
+        jQuery("#new-form").submit(function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'The ticket has been created successfully!',
+                text: 'Wait a moment, please...',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            });
+            setTimeout(function(){
+                return true;
+            }, 2000);
+        });
     });   
 </script>

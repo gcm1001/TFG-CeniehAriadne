@@ -7,13 +7,13 @@ class Table_ARIADNEplusLogMsg extends Omeka_Db_Table
     public function getSelect()
     {
         $select = parent::getSelect();
-        $db = $this->_db;
+        $database = $this->_db;
 
         $alias = $this->getTableAlias();
-        $aliasEntry = $this->_db->getTable('ARIADNEplusLogEntry')->getTableAlias();
+        $aliasEntry = $database->getTable('ARIADNEplusLogEntry')->getTableAlias();
 
         $select->joinInner(
-            array($aliasEntry => $db->ARIADNEplusLogEntry),
+            array($aliasEntry => $database->ARIADNEplusLogEntry),
             "`$aliasEntry`.`id` = `$alias`.`entry_id`",
             array());
 
@@ -23,7 +23,6 @@ class Table_ARIADNEplusLogMsg extends Omeka_Db_Table
 
     public function findByEntry($entry, $sort = 'id')
     {
-        $alias = $this->getTableAlias();
         $select = $this->getSelect();
 
         $this->filterByEntry($select, $entry);
@@ -59,7 +58,7 @@ class Table_ARIADNEplusLogMsg extends Omeka_Db_Table
     public function orderMsgsBy($select, $sort = 'id', $dir = 'ASC')
     {
         $alias = $this->getTableAlias();
-        $dir = ($dir == 'DESC') ? 'DESC' : 'ASC';
+        $dir = 'DESC' ?: 'ASC';
         switch($sort) {
             case 'entry':
             case 'entry_id':

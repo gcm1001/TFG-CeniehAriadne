@@ -8,32 +8,30 @@
                     $browseHeadings[__('Type')] = 'record_type';
                     $browseHeadings[__('Id')] = 'record_id';
                     $browseHeadings[__('User')] = 'user';
-                    $browseHeadings[__('Status')] = 'status';
-                    echo browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => ''));
-                    ?>
+                    $browseHeadings[__('Status')] = 'status';?>
+                    <?= browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => '')); ?>
+                    
                 </tr>
             </thead>
             <tbody>
                 <?php $key = 0; 
                 foreach ($tickets as $ticket): ?>
-                <tr class="ariadneplus-ticket <?php echo ++$key%2 == 1 ? 'odd' : 'even'; ?>">
-                    <td><?php echo $ticket->lastmod; ?></td>
+                <tr class="ariadneplus-ticket <?= ++$key%2 == 1 ? 'odd' : 'even'; ?>">
+                    <td><?= html_escape($ticket->lastmod); ?></td>
                     <td colspan="2">
-                        <a href="<?php
-                        echo url(array(
+                        <a href="<?= html_escape(url(array(
                                 'type' => Inflector::tableize($ticket->record_type),
                                 'id' => $ticket->record_id,
-                            ), 'ariadneplus_record_log'); ?>"><?php
-                            echo $ticket->record_type;
-                            echo ' ';
-                            echo $ticket->record_id;
-                        ?></a>
-                        <div class="record-title"><?php echo $ticket->displayCurrentTitle(); ?></div>
-                        <form id="form-row-<?php echo ($key-1); ?>" method="post"><input type="hidden" name="record_type" value="<?php echo $ticket->record_type; ?>" />
-                        <input type="hidden" name="record_id" value="<?php echo $ticket->record_id; ?>" /></form>
+                            ), 'ariadneplus_record_log')); ?>">
+                            <?= html_escape($ticket->record_type); ?>  
+                            <?= html_escape($ticket->record_id); ?>
+                        </a>
+                      <div class="record-title"><?= html_escape($ticket->displayCurrentTitle()); ?></div>
+                        <form id="form-row-<?= html_escape(($key-1)); ?>" method="post"><input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
+                        <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" /></form>
                     </td>
-                    <td><?php echo $ticket->displayUser(); ?></td>
-                    <td><?php echo $ticket->displayStatus(); ?></td>
+                    <td><?= html_escape($ticket->displayUser()); ?></td>
+                    <td><?= html_escape($ticket->displayStatus()); ?></td>
                 </tr>
                 </form>
                 <?php endforeach; 
@@ -41,7 +39,7 @@
                 <tr>
                     <td>
                         <a href="">
-                            <strong><?php echo __('See more'); ?></strong>
+                            <strong><?= __('See more'); ?></strong>
                         </a>
                     </td>
                 </tr>

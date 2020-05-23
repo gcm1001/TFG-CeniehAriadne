@@ -18,6 +18,7 @@ class CollectionFiles_IndexController extends Omeka_Controller_AbstractActionCon
     public function init()
     {
         $this->_helper->db->setDefaultModelName('CollectionFile');
+        $this->_redirector = $this->_helper->getHelper('Redirector');
     }
     
     public function indexAction()
@@ -49,9 +50,9 @@ class CollectionFiles_IndexController extends Omeka_Controller_AbstractActionCon
         
         // Remove legacy file element sets that will most likely be phased out
         // in later versions.
-        $legacyElementSetNames = array('Omeka Image File', 'Omeka Video File');
+        $legacyElemSetNam = array('Omeka Image File', 'Omeka Video File');
         foreach ($elementSets as $key => $elementSet) {
-            if (in_array($elementSet->name, $legacyElementSetNames)) {
+            if (in_array($elementSet->name, $legacyElemSetNam)) {
                 unset($elementSets[$key]);
             }
         }
@@ -61,13 +62,13 @@ class CollectionFiles_IndexController extends Omeka_Controller_AbstractActionCon
     
     protected function _getDeleteConfirmMessage($record)
     {
-        return __('This will delete the file and its associated metadata.');
+        return __('This will delete the file (#%d) and its associated metadata.',$record->id);
     }
     
     protected function _redirectAfterDelete($record)
     {
         // Redirect back to the item show page for this file
         $this->_helper->flashMessenger(__('The file was successfully deleted.'), 'success');
-        $this->_helper->redirector('show', 'collections', null, array('id' => $record->collection_id));
+        $this->_redirector->gotoUrl(('collections/show/id/'.$record->collection_id));
     }
 }

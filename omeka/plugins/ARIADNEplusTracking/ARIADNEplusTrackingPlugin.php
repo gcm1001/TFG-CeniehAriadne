@@ -29,8 +29,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         'admin_items_show_sidebar',
         'admin_collections_panel_fields',
         'admin_collections_show_sidebar',
-        'admin_collections_browse',
-        'admin_collections_browse_each',
         'admin_items_batch_edit_form',
         'items_batch_edit_custom',
         'admin_element_sets_form',
@@ -76,17 +74,14 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     /**
      * Install the plugin.
      */
-    public function hookInstall()
-    {
+    public function hookInstall() {
         // Load elements to add.
         require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'elements.php';
-
         $elementSet = get_record('ElementSet', array('name' => $elementSetMetadata['name']));
         if ($elementSet) {
             throw new Omeka_Plugin_Exception(__('An element set by the name "%s" already exists. You must delete that element set before to install this plugin.',
                 $elementSetMetadata['name']));
         }
-
         $elements = $this->_getElementsList();
         unset($elementSetMetadata['elements']);
 
@@ -95,55 +90,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         if (!$elementSet) {
             throw new Omeka_Plugin_Exception(__('Unable to build the element set "%s".', $elementSetMetadata['name']));
         }
-
         // Add terms for simple vocabs and the flags "unique" and "steppable".
-        $es = $elementSet->getElements();
-        foreach ($es as $e) {
-            foreach ($elements as $key => $element) {
-                if ($element['name'] == $e->name) {
-                    // Set / unset the flag for unique.
-                    if (empty($element['unique'])) {
-                        unset($this->_options['ariadneplus_tracking_elements_unique'][$e->id]);
-                    }
-                    // Add the flag.
-                    else {
-                        $this->_options['ariadneplus_tracking_elements_unique'][$e->id] = true;
-                    }
-
-                    // Set / unset the flag for process.
-                    if (empty($element['steppable'])) {
-                        unset($this->_options['ariadneplus_tracking_elements_steppable'][$e->id]);
-                    }
-                    // Add the flag.
-                    else {
-                        $this->_options['ariadneplus_tracking_elements_steppable'][$e->id] = true;
-                    }
-
-                    // Set / unset the list of terms.
-                    if (!empty($element['terms'])) {
-                        $vocabTerm = new SimpleVocabTerm();
-                        $vocabTerm->element_id = $e->id;
-                        $vocabTerm->terms = implode(PHP_EOL, $element['terms']);
-                        $vocabTerm->save();
-                    }
-
-                    // Set / unset the default term.
-                    if (empty($element['default']) || !in_array($element['default'], $element['terms'])) {
-                        unset($this->_options['ariadneplus_tracking_elements_default'][$e->id]);
-                    }
-                    // Add the default.
-                    else {
-                        $this->_options['ariadneplus_tracking_elements_default'][$e->id] = $element['default'];
-                    }
-                }
-            }
-        }
-
-        $this->_options['ariadneplus_tracking_elements_unique'] = json_encode($this->_options['ariadneplus_tracking_elements_unique']);
-        $this->_options['ariadneplus_tracking_elements_steppable'] = json_encode($this->_options['ariadneplus_tracking_elements_steppable']);
-        $this->_options['ariadneplus_tracking_elements_default'] = json_encode($this->_options['ariadneplus_tracking_elements_default']);
-        $this->_options['ariadneplus_tracking_admin_items_browse'] = json_encode($this->_options['ariadneplus_tracking_admin_items_browse']);
-        $this->_installOptions();
+        $elset = $elementSet->getElements();
+        
+        $this->_actualizeOptions(array('elset' => $elset, 'elements' => $elements));
         
         // JSON Element
         $hideSettings = json_decode(get_option('hide_elements_settings'), true);
@@ -152,10 +102,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
-        $db = $this->_db;
-        
+        $database = $this->_db;
         // Log entries
-        $db->query("CREATE TABLE IF NOT EXISTS `{$db->ARIADNEplusLogEntry}` (
+        $database->query("CREATE TABLE IF NOT EXISTS `{$database->ARIADNEplusLogEntry}` (
                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                     `record_type` enum('Item', 'Collection') NOT NULL,
                     `record_id` int(10) unsigned NOT NULL,
@@ -167,18 +116,16 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                      INDEX `record_type_record_id` (`record_type`, `record_id`),
                      INDEX (`added`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-        
         // Associated table to log changes of each element.
-        $db->query("CREATE TABLE IF NOT EXISTS `{$db->ARIADNEplusLogMsgs}` (
+        $database->query("CREATE TABLE IF NOT EXISTS `{$database->ARIADNEplusLogMsgs}` (
                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                     `entry_id` int(10) unsigned NOT NULL,
                     `msg` mediumtext COLLATE utf8_unicode_ci NOT NULL,
                      PRIMARY KEY (`id`),
                      INDEX (`entry_id`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-        
         // Tracking Tickets
-        $db->query("CREATE TABLE IF NOT EXISTS `{$db->ARIADNEplusTrackingTicket}` (
+        $database->query("CREATE TABLE IF NOT EXISTS `{$database->ARIADNEplusTrackingTicket}` (
             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
             `record_type` enum('Item', 'Collection') NOT NULL,
             `record_id` int(10) unsigned NOT NULL,
@@ -191,15 +138,59 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
              INDEX `record_type_record_id` (`record_type`, `record_id`),
              INDEX (`lastmod`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-        
     }
 
+    protected function _actualizeOptions($args){
+        $elset = $args['elset'];
+        $elements = $args['elements'];
+        
+        foreach ($elset as $e) {
+            foreach ($elements as $element) {
+                if ($element['name'] == $e->name) {
+                    // Set / unset the flag for unique.
+                    if (empty($element['unique'])) {
+                        unset($this->_options['ariadneplus_tracking_elements_unique'][$e->id]);
+                    }
+                    // Add the flag.
+                    else {
+                        $this->_options['ariadneplus_tracking_elements_unique'][$e->id] = true;
+                    }
+                     // Set / unset the flag for process.
+                    if (empty($element['steppable'])) {
+                        unset($this->_options['ariadneplus_tracking_elements_steppable'][$e->id]);
+                    } else { // Add the flag.
+                        $this->_options['ariadneplus_tracking_elements_steppable'][$e->id] = true;
+                    }
+                    // Set / unset the list of terms.
+                    if (!empty($element['terms'])) {
+                        $vocabTerm = new SimpleVocabTerm();
+                        $vocabTerm->element_id = $e->id;
+                        $vocabTerm->terms = implode(PHP_EOL, $element['terms']);
+                        $vocabTerm->save();
+                    }
+                    // Set / unset the default term.
+                    if (empty($element['default']) || !in_array($element['default'], $element['terms'])) {
+                        unset($this->_options['ariadneplus_tracking_elements_default'][$e->id]);
+                    } else { // Add the default.
+                        $this->_options['ariadneplus_tracking_elements_default'][$e->id] = $element['default'];
+                    }
+                }
+            }
+        }
+        $this->_options['ariadneplus_tracking_elements_unique'] = json_encode($this->_options['ariadneplus_tracking_elements_unique']);
+        $this->_options['ariadneplus_tracking_elements_steppable'] = json_encode($this->_options['ariadneplus_tracking_elements_steppable']);
+        $this->_options['ariadneplus_tracking_elements_default'] = json_encode($this->_options['ariadneplus_tracking_elements_default']);
+        $this->_options['ariadneplus_tracking_admin_items_browse'] = json_encode($this->_options['ariadneplus_tracking_admin_items_browse']);
+        $this->_installOptions();
+        
+        return true;
+    }
     /**
      * Helper to add new element automatically.
      */
     protected function _addNewElements()
     {
-        $db = $this->_db;
+        $database = $this->_db;
 
         // Load elements to add.
         require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'elements.php';
@@ -209,14 +200,14 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         unset($elementSetMetadata['elements']);
 
         $elementSet = get_record('ElementSet', array('name' => $elementSetMetadata['name']));
-        $es = $elementSet->getElements();
+        $elset = $elementSet->getElements();
 
         // Add new elements, but they may have been created manually, so a
         // check is needed to avoid an error.
         $newElements = array();
         foreach ($elements as $key => $element) {
             $flag = false;
-            foreach ($es as $e) {
+            foreach ($elset as $e) {
                 if ($element['name'] == $e->name) {
                     $flag = true;
                     break;
@@ -237,7 +228,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             $steppables = json_decode(get_option('ariadneplus_tracking_elements_steppable'), true) ?: array();
             $defaultTerms = json_decode(get_option('ariadneplus_tracking_elements_default'), true) ?: array();
             foreach ($newElements as $key => $element) {
-                $e = $db->getTable('Element')
+                $e = $database->getTable('Element')
                     ->findByElementSetNameAndElementName($elementSetMetadata['name'], $element['name']);
 
                 if (!empty($element['unique'])) {
@@ -269,13 +260,13 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     protected function _removeOldElements($elementsToRemove = array())
     {
-        $db = $this->_db;
+        $database = $this->_db;
 
         $uniques = json_decode(get_option('ariadneplus_tracking_elements_unique'), true) ?: array();
         $steppables = json_decode(get_option('ariadneplus_tracking_elements_steppable'), true) ?: array();
         $defaultTerms = json_decode(get_option('ariadneplus_tracking_elements_default'), true) ?: array();
 
-        $elementTable = $db->getTable('Element');
+        $elementTable = $database->getTable('Element');
         $vocabTable = $this->_db->getTable('SimpleVocabTerm');
         foreach ($elementsToRemove as $elementName) {
             $e = $elementTable->findByElementSetNameAndElementName($this->_elementSetName, $elementName);
@@ -304,12 +295,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     protected function _updateVocab($elementsToUpdate)
     {
-        $db = $this->_db;
+        $database = $this->_db;
 
         // Prepare the elements.
         $elements = $this->_getElementsList();
 
-        $elementTable = $db->getTable('Element');
+        $elementTable = $database->getTable('Element');
         $vocabTable = $this->_db->getTable('SimpleVocabTerm');
         foreach ($elementsToUpdate as $elementName) {
             $e = $elementTable->findByElementSetNameAndElementName($this->_elementSetName, $elementName);
@@ -358,10 +349,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
-        $db = $this->_db;
-        $db->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogEntry}`");
-        $db->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogMsg}`");
-        $db->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusTrackingTicket}`");
+        $database = $this->_db;
+        $database->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogEntry}`");
+        $database->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusLogMsg}`");
+        $database->query("DROP TABLE IF EXISTS `{$this->_db->ARIADNEplusTrackingTicket}`");
     }
 
     /**
@@ -369,7 +360,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookUninstallMessage()
     {
-        echo __('%sWarning%s: This will remove all the Monitor elements added by this plugin and permanently delete all element texts entered in those fields.%s', '<p><strong>', '</strong>', '</p>');
+        $this->_p_html(__('%sWarning%s: This will remove all the Monitor elements added by this plugin and permanently delete all element texts entered in those fields.%s', '<p><strong>', '</strong>', '</p>'));
     }
 
     /**
@@ -423,12 +414,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $elements = $table->fetchObjects($select);
 
         $view = $args['view'];
-        echo $view->partial(
+        $this->_p_html($view->partial(
             'plugins/ariadne-plus-tracking-config-form.php',
             array(
                 'settings' => $settings,
                 'elements' => $elements,
-        ));
+        )));
     }
 
     /**
@@ -453,8 +444,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             'detailed' => isset($post['detailed']) ? $post['detailed'] : array(),
         );
         set_option('ariadneplus_tracking_admin_items_browse', json_encode($settings));
-        set_option('ariadneplus_tracking_name', $_POST['ariadneplus_tracking_name']);
-        set_option('ariadneplus_tracking_email', $_POST['ariadneplus_tracking_email']);
         
         if(get_option('ariadneplus_tracking_hide_elements')){
             $hideSettings = json_decode(get_option('hide_elements_settings'), true);
@@ -496,14 +485,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_printStatus(array('record'=> $args['item'], 'view' => $args['view']));
     }
 
-    protected function _adminItemsBrowseDisplay($args, $location)
+    protected function _adminItemsBrowseDisplay($args, $location) 
     {
         $currentElements = json_decode(get_option('ariadneplus_tracking_admin_items_browse'), true) ?: array();
         if (empty($currentElements[$location])) {
             return;
         }
-
-        $view = $args['view'];
         $item = $args['item'];
         foreach ($currentElements[$location] as $elementSetName => $displayElements) {
             $html = '';
@@ -516,9 +503,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
             if ($html) {
-                echo '<div class="ariadne-plus-tracking-items-browse"><span>' . $elementSetName . '</span>';
-                echo $html;
-                echo '</div>';
+                $this->_p_html('<div class="ariadne-plus-tracking-items-browse"><span>' . $elementSetName . '</span>');
+                $this->_p_html($html);
+                $this->_p_html('</div>');
             }
         }
     }
@@ -534,13 +521,13 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $statusTermsElements = $view->tracking()->getStatusElements(null, null, true);
         $statusNoTermElements = $view->tracking()->getStatusElements(null, null, false);
         if ($statusTermsElements || $statusNoTermElements) {
-            echo $view->partial(
+            $this->_p_html($view->partial(
                 'forms/ariadne-plus-tracking-batch-edit.php',
                 array(
                     'statusTermsElements' => $statusTermsElements,
                     'statusNoTermElements' => $statusNoTermElements,
                     'batch_edit_disable' => get_option('batch_edit_disable'),
-            ));
+            )));
         }
     }
 
@@ -552,7 +539,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookItemsBatchEditCustom($args)
     {
         $item = $args['item'];
-        $statusTerms = array_filter($args['custom']['ariadneplustracking']['statusterms'], function ($v) { return strlen($v) > 0; });
+        $statusTerms = array_filter($args['custom']['ariadneplustracking']['statusterms'], function ($vec) { return strlen($vec) > 0; });
         if (!empty($statusTerms)) {
             $statusTermsElements = get_view()->tracking()->getStatusElements(null, null, true);
             foreach ($statusTerms as $elementId => $termId) {
@@ -606,7 +593,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
 
         $stem = 'new-elements' . "[$elementTempId]";
         $elementNameName = $stem . '[name]';
-        $elementDescriptionName = $stem . '[description]';
+        $elementDescName = $stem . '[description]';
         $elementOrderName = $stem . '[order]';
         $elementCommentName = $stem . '[comment]';
         $elementUniqueName = $stem . '[unique]';
@@ -617,7 +604,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $options = array(
             'element_name_name' => $elementNameName,
             'element_name_value' => $elementName,
-            'element_description_name' => $elementDescriptionName,
+            'element_description_name' => $elementDescName,
             'element_description_value' => $elementDescription,
             'element_order_name' => $elementOrderName,
             'element_order_value' => $elementOrder,
@@ -633,7 +620,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             'element_default_value' => $elementDefault,
        );
 
-        echo common('add-new-element', $options);
+        $this->_p_html(common('add-new-element', $options));
     }
 
     /**
@@ -687,7 +674,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 true, array('checked' => false));
         }
 
-        echo $html;
+        $this->_p_html($html);
     }
 
     /**
@@ -815,63 +802,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
         $view = get_view();
         $tab = $tabs[$this->_elementSetName];
-
-        // This hack uses a simple preg_replace.
-        $patterns = array();
-        $replacements = array();
-
-        // Indicate the last change for each element of the Monitor element set.
         $listElements = $view->tracking()->getStatusElementNamesById();
-        $lastChanges = $this->_db->getTable('HistoryLogChange')
-            ->getLastChanges($record, array_keys($listElements), true);
 
-        // The "input" button has been replaced by a button between Omeka 2.4.1
-        // and Omeka 2.5.
-        if (version_compare(OMEKA_VERSION, '2.5', '<')) {
-            $inputString = '(<input type="submit" name="add_element_(%s)" .*? class="add-element">)';
-        }
-        // From Omeka 2.5.
-        else {
-            $inputString = '(<button name="add_element_(%s)" .*?<\/button>)';
-        }
-
-        // Add a message only for created/updated elements.
-        foreach ($lastChanges as $change) {
-            $pattern = sprintf($inputString, $change->element_id);
-            $patterns[] = '~' . $pattern . '~';
-            $replacement = '$1<p class="last-change">';
-            switch ($change->type) {
-                case HistoryLogChange::TYPE_CREATE:
-                    $replacement .= __('Set by %s on %s', $change->displayUser(), $change->displayAdded());
-                    break;
-                case HistoryLogChange::TYPE_UPDATE:
-                    $replacement .= __('Updated by %s on %s', $change->displayUser(), $change->displayAdded());
-                    break;
-                case HistoryLogChange::TYPE_DELETE:
-                    $replacement .= __('Removed by %s on %s', $change->displayUser(), $change->displayAdded());
-                    break;
-                case HistoryLogChange::TYPE_NONE:
-                default:
-                    $replacement .= __('Logged by %s on %s', $change->displayUser(), $change->displayAdded());
-                    break;
-            }
-            $replacement .= '</p>';
-            $replacements[] = $replacement;
-        }
-
-        // Remove all buttons "Add element" and "Remove element" for non
-        // repeatable elements.
-        $listUnique = $view->tracking()->getStatusElementNamesById(true);
-        $pattern =
-            // This first part of pattern removes all listed buttons "Add element".
-            sprintf($inputString, implode('|', array_keys($listUnique)))
-            // The second part allows to keep the dropdown.
-            . '(.*?)'
-            // The last part removes all listed buttons "Remove element".
-            . '(' . '<div class="controls"><input type="submit" name="" value="' . __('Remove') . '" class="remove-element red button"><\/div>' . ')';
-        // The pattern is multiline.
-        $patterns[] = '~' . $pattern . '~s';
-        $replacements[] = '$3';
+        list($patterns, $replacements) = $this->_lastChange(array(
+                'view' => $view,
+                'record' => $record,
+                'listElements' => $listElements));
 
         // If this is a new record, set the default values.
         if (empty($record->id)) {
@@ -900,16 +836,57 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             unset($tabs[$this->_elementSetName]);
             return $tabs;
         }
-        
         $tab = $tabs[$this->_elementSetName];
         $view = get_view();
+        $listElements = $view->tracking()->getStatusElementNamesById();
+
+        list($patterns, $replacements) = $this->_lastChange(array(
+                'view' => $view,
+                'record' => $record,
+                'listElements' => $listElements));
+
+        $gettyaatElementId = '';
         
+        foreach($listElements as $elementId => $element){
+            if($element == 'GettyAAT mapping'){
+                $gettyaatElementId = $elementId;
+            }
+        }
+        
+        $database = get_db();
+        $sql = "
+        SELECT COUNT(f.id)
+        FROM $database->CollectionFile f
+        WHERE f.collection_id = ?";
+        $has_files = (int) $database->fetchOne($sql, array((int) $record->id));
+        
+        $files = $database->getTable('CollectionFile')->findByCollection($record->id);
+        
+        // Update the tab.
+        $tab = preg_replace($patterns, $replacements, $tab);
+        $tabs[$this->_elementSetName] = $tab.$view->partial('file/gettyAATcollection.php', array(
+            'collection' => $record,
+            'has_files' => (bool) $has_files,
+            'files' => $files,
+        ));
+        
+        return $tabs;
+    }
+  
+    /**
+     * 
+     * @param type $args
+     * @return type
+     */
+    protected function _lastChange($args){
+        $view = $args['view'];
+        $record = $args['record'];
+        $listElements = $args['listElements'];
         // This hack uses a simple preg_replace.
         $patterns = array();
         $replacements = array();
         
         // Indicate the last change for each element of the Monitor element set.
-        $listElements = $view->tracking()->getStatusElementNamesById();
         $lastChanges = $this->_db->getTable('HistoryLogChange')
         ->getLastChanges($record, array_keys($listElements), true);
         
@@ -973,33 +950,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
         }
-        $gettyaatElementId = '';
-        foreach($listElements as $elementId => $element){
-            if($element == 'GettyAAT mapping'){
-                $gettyaatElementId = $elementId;
-            }
-        }
         
-        $db = get_db();
-        $sql = "
-        SELECT COUNT(f.id)
-        FROM $db->CollectionFile f
-        WHERE f.collection_id = ?";
-        $has_files = (int) $db->fetchOne($sql, array((int) $record->id));
-        
-        $files = $db->getTable('CollectionFile')->findByCollection($record->id);
-        
-        // Update the tab.
-        $tab = preg_replace($patterns, $replacements, $tab);
-        $tabs[$this->_elementSetName] = $tab.$view->partial('file/gettyAATcollection.php', array(
-            'collection' => $record,
-            'has_files' => (bool) $has_files,
-            'files' => $files,
-        ));
-        
-        return $tabs;
+        return array($patterns, $replacements);
     }
-  
+    
     /**
      * Set / unset a value in the list of unique fields.
      *
@@ -1175,10 +1129,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookBeforeSaveCollection($args)
     {
         $collection = $args['record'];
-        $post = $args['post'];
+        $post = $args['post'];        
         if(!empty(metadata($collection, array('Monitor','Metadata Status')))){
             if(!empty($post)){
-                if (!empty($_FILES['collectionfile'])) {
+                if ($this->isset_file('collectionfile')) {
                     $jsonfiles = $this->_db->getTable('CollectionFile')->findByCollection($collection->id);
                     $file = array_pop($jsonfiles);
                     if($file){
@@ -1211,7 +1165,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterSaveCollection($args)
     {
         $collection = $args['record'];
-        $db = get_db();
         $items = get_records('Item',array('collection'=> $collection->id),9999);
         $elementTexts = [];
         // METADATA STATUS
@@ -1278,7 +1231,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['record'];
         $post = $args['post'];
         if(!empty($post)){
-            if (!empty($_FILES['file'])) {
+            if ($this->isset_file('file')) {
                 $status = metadata($item,array('Monitor','Metadata Status'));
                 if($status){
                     $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
@@ -1314,7 +1267,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAfterSaveItem($args){
         $item = $args['record'];
-        if (isset($_FILES['file'])) {
+        if ($this->isset_file('file')) {
             if(!empty(metadata($item, array('Monitor','Metadata Status')))){
                 $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
                 if(count($jsonfiles) > 1){
@@ -1340,41 +1293,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
-    
-    /**
-     * Adds status badge to the collections browse view.
-     * 
-     * @param type $args
-     */
-    public function hookAdminCollectionsBrowseEach($args){
-        $collection = $args['collection'];
-        $view = $args['view'];
-        echo '<div class="details">';
-        $this->_printStatus(array('record'=> $collection, 'view' => $view));
-        echo '</div>';
-    }
-    
-    /**
-     * Updates collection state.
-     * 
-     * @param type $args
-     */
-    public function hookAdminCollectionsBrowse($args){
-        echo '<script type="text/javascript">
-                jQuery(document).ready(function(){
-                    jQuery(".details").hide();
-                    jQuery(".action-links").prepend("<li class=\'details-link\'>Details</li>");
-
-                    jQuery(".collection").each(function() {
-                        var colDetails = jQuery(this).find(".details");
-                        if (jQuery.trim(colDetails.html()) != "") {
-                            jQuery(this).find(".details-link").css({"color": "#4E7181", "cursor": "pointer"}).click(function() {
-                                colDetails.slideToggle("fast");
-                            });
-                        }
-                    }); 
-                });
-              </script>';
+    protected function isset_file($name){
+        return empty($name) ? false : isset($_FILES[$name]);
     }
     
     /**
@@ -1385,9 +1305,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminCollectionsShowSidebar($args){
         $collection = $args['collection'];
         $view = $args['view'];
-        echo '<div class="panel">';
-        $this->_printStatus(array('record'=> $collection, 'view' => $view));
-        echo '</div>';
+        $this->_printStatus(array('record'=> $collection, 'view' => $view,
+                'extdiv' => 'panel'));
     }
     
     /**
@@ -1398,9 +1317,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminItemsShowSidebar($args){
         $item = $args['item'];
         $view = $args['view'];
-        echo '<div class="panel">';
-        $this->_printStatus(array('record'=> $item, 'view' => $view));
-        echo '</div>';
+        $this->_printStatus(array('record'=> $item, 'view' => $view, 
+            'extdiv' => 'panel'));
     }
 
     /**
@@ -1413,32 +1331,19 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $view = $args['view'];
         $status = metadata($record,array('Monitor','Metadata Status'));
         $type = strtolower(get_class($record));
+        $extdiv = isset($args['extdiv']) ? $args['extdiv'] : '';
         
-        echo "<h4> Ariadne+ Status</h4>";
-        if($status) {
-            if($type == 'item'){
-                if(!$view->tracking()->getRecordTrackingTicket($record)){
-                    $type = 'collection';
-                    $record = get_collection_for_item($record);
-                }
+        if($status && $type == 'item'){
+            if(!$view->tracking()->getRecordTrackingTicket($record)){
+                $type = 'collection';
+                $record = get_collection_for_item($record);
             }
-            $link = html_escape(url('ariadn-eplus-tracking/index/ticket', 
-                            array('record_type'=> ucfirst($type) , 
-                                   $type => $record->id)));
-            echo '<div class="badge">';
-            echo '<a href='.$link.'>';
-            echo '<div class="name"><span><img alt="A+" id="logo-badge" src="'.img('ariadne-logo-badge.png').'" /></span></div>';
-            echo '<div class="status '.trim(strtolower($status)).'"> <span>'.$status.'</span> </div>';
-            echo '</a></div>';
-        } else {
-            echo '<div class="badge">';
-            printf('<a href="%s">',
-                html_escape(url('ariadn-eplus-tracking/index/new')));
-            echo '<div class="name"><span><img alt="A+" id="logo-badge" src="'.img('ariadne-logo-badge.png').'" /></span></div>';
-            echo '<div class="status noprogress"><span>Propose the '.$type.'</span></div>';
-            echo '</a></div> <div></div>';
         }
-        
+        $this->_p_html(common('show-badge', array(
+            'status' => $status,
+            'record' => $record,
+            'type' => $type,
+            'extdiv' => $extdiv )));
     }
     
     /**
@@ -1464,9 +1369,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $item));
             }
-            echo $view->partial('common/restrict-scripts.php', array(
-            'sections' => $blocks,
-            'view' => $view));
+            $this->_printRestrictScripts(array('sections' => $blocks,
+                'view' => $view));
         }
     }
     
@@ -1493,10 +1397,15 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $collection));
             }
-            echo $view->partial('common/restrict-scripts.php', array(
-            'sections' => $sections,
-            'view' => $view,));
+            $this->_printRestrictScripts(array('sections' => $blocks,
+                'view' => $view));
         }
+    }
+    
+    private function _printRestrictScripts($args){
+      $this->_p_html(common('restrict-scripts', array(
+            'sections' => $args['sections'],
+            'view' => $args['view'],)));
     }
     
     /**
@@ -1511,19 +1420,16 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $record = $args['record'];
         if($status == 'Incomplete'){
             $elements = $record->getElementsBySetName('Dublin Core');
-            echo $view->partial('common/validation-scripts.php', array(
-                'elements' => $elements,
-                'status' => $status,
-                'view' => $view,
-            ));
         } else if ($status == 'Complete' || $status == 'Mapped'){
             $elements = $record->getElementsBySetName('Monitor');
-            echo $view->partial('common/validation-scripts.php', array(
-                'elements' => $elements,
-                'status' => $status,
-                'view' => $view,
-            ));
-        } 
+        }
+        if(isset($elements)){
+          $this->_p_html(common('validation-scripts', array(
+                  'elements' => $elements,
+                  'status' => $status,
+                  'view' => $view,
+              )));
+        }
     }
     
     /**
@@ -1587,5 +1493,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         if($ticket){
             $ticket->delete();
         }
+    }
+    
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
     }
 }

@@ -5,18 +5,17 @@
     text-align: center;
 }
 </style>
-<h2><?php echo __("Organizes navigation menu entries into sections.");?></h2>
+<h2><?= htmlspecialchars(__("Organizes navigation menu entries into sections."));?></h2>
 <table id="hide-elements-table">
     <thead>
         <tr>
-            <th class="hide-boxes" rowspan="2"><?php echo __('Entry'); ?></th>
-            <th class="hide-boxes" colspan=<?php echo __(count($sections))?>><?php echo __('Sections'); ?></th>
+            <th class="hide-boxes" rowspan="2"><?= htmlspecialchars(__('Entry')); ?></th>
+            <th class="hide-boxes" colspan=<?= htmlspecialchars(__(count($sections)));?>><?= htmlspecialchars(__('Sections')); ?></th>
         </tr>
         <tr>
             <?php
-            foreach (array_keys($sections) as $section):;
-            echo __('<th class="hide-boxes">'.str_replace('-', ' ', $section).'</th>');
-            ?>
+            foreach (array_keys($sections) as $section):;?>
+            <?= htmlspecialchars(__('<th class="hide-boxes">'.str_replace('-', ' ', $section).'</th>'));?>
             <?php endforeach; ?>
         </tr>
     </thead>
@@ -26,12 +25,12 @@
         if($entry!='Dashboard'):
     ?>
         <tr>
-            <td><?php echo __($entry); ?></td>
+            <td><?= htmlspecialchars(__($entry)); ?></td>
             <?php
             foreach (array_keys($sections) as $section):;
             ?>
             <td class="hide-boxes">
-                <?php echo $view->formCheckbox(
+                <?= $view->formCheckbox(
                     $section."[{$entry}]",
                     '1', array(
                         'disableHidden' => true,

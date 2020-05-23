@@ -5,18 +5,19 @@
         </p>
     </div>
     <div class="items">
-    <form action="<?php echo html_escape(url('items/batch-edit')); ?>" method="post" accept-charset="utf-8">
+    <?= pagination_links(); ?>
+    <form action="<?= html_escape(url('items/batch-edit')); ?>" method="post" accept-charset="utf-8">
         <div class="table-actions batch-edit-option">
             <?php if (is_allowed('Items', 'edit') || is_allowed('Items', 'delete')): ?>
-                <button class="batch-all-toggle" type="button" data-records-count="<?php echo $total; ?>"><?php echo __('Select all %s results', $total); ?></button>
-                <div class="selected"><span class="count">0</span> <?php echo __('items selected'); ?></div>
+                <button class="batch-all-toggle" type="button" data-records-count="<?= html_escape($total); ?>"><?= html_escape(__('Select all %s results', $total)); ?></button>
+                <div class="selected"><span class="count">0</span> <?= __('items selected'); ?></div>
                 <input type="hidden" name="batch-all" value="1" id="batch-all" disabled>
-                <?php echo $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
+                <?= $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
                 <?php if (is_allowed('Items', 'edit')): ?>
-                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?php echo __('Edit'); ?>" />
+                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?= __('Edit'); ?>" />
                 <?php endif; ?>
                 <?php if (is_allowed('Items', 'delete')): ?>
-                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?php echo __('Delete'); ?>">
+                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?= __('Delete'); ?>">
                 <?php endif; ?>
             <?php endif; ?>
         </div>
@@ -24,28 +25,28 @@
         <thead>
             <tr>
                 <?php if (is_allowed('Items', 'edit')): ?>
-                <th class="batch-edit-heading"><?php echo __('Select all rows'); ?></th>
+                <th class="batch-edit-heading"><?= __('Select all rows'); ?></th>
                 <?php endif; ?>
                 <?php
                 $browseHeadings[__('Title')] = 'Dublin Core,Title';
                 $browseHeadings[__('Creator')] = 'Dublin Core,Creator';
                 $browseHeadings[__('Type')] = null;
-                $browseHeadings[__('Date Added')] = 'added';
-                echo browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => ''));
-                ?>
+                $browseHeadings[__('Date Added')] = 'added'; ?>
+                <?= browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => '')); ?>
+                
             </tr>
         </thead>
         <tbody>
             <?php $key = 0; ?>
-            <?php foreach ($items as $item):?>
-            <tr class="item <?php if(++$key%2==1) echo 'odd '; else echo 'even '; 
-            echo strtolower(metadata($item, array('Monitor','Metadata Status')));?>">
+            <?php foreach (loop('Item') as $item):?>
+            <tr class="item <?php if(++$key%2==1): ?> odd <?php else: ?> even <?php endif; ?> 
+            <?= html_escape(strtolower(metadata($item, array('Monitor','Metadata Status'))));?>">
                 <?php $id = $item->id; ?>
 
                 <?php if (is_allowed($item, 'edit') || is_allowed($item, 'tag')): ?>
                 <td class="batch-edit-check">
-                    <input type="checkbox" name="items[]" value="<?php echo $id; ?>"
-                        aria-label="<?php echo html_escape(
+                    <input type="checkbox" name="items[]" value="<?= $id; ?>"
+                        aria-label="<?= html_escape(
                             __('Select item "%s"',
                                 metadata($item, 'display_title', array('no_escape' => true))
                             )
@@ -61,54 +62,54 @@
                 <?php endif; ?>
 
                     <?php if (metadata($item, 'has files')): ?>
-                    <?php echo link_to_item(item_image('square_thumbnail', array(), 0, $item), array('class' => 'item-thumbnail'), 'show', $item); ?>
+                    <?= link_to_item(item_image('square_thumbnail', array(), 0, $item), array('class' => 'item-thumbnail'), 'show', $item); ?>
                     <?php endif; ?>
 
                     <span class="title">
-                    <?php echo link_to($item,'show',metadata($item, array('Dublin Core', 'Title'))); ?>
+                    <?= link_to($item,'show',metadata($item, array('Dublin Core', 'Title'))); ?>
 
                     <?php if(!$item->public): ?>
-                    <?php echo __('(Private)'); ?>
+                    <?= __('(Private)'); ?>
                     <?php endif; ?>
                     </span>
                     <ul class="action-links group">
                         <?php if (is_allowed($item, 'edit')): ?>
-                        <li><?php echo link_to($item,'edit',__('Edit'), array()); ?></li>
+                        <li><?= link_to($item,'edit',__('Edit'), array()); ?></li>
                         <?php endif; ?>
 
                         <?php if (is_allowed($item, 'delete')): ?>
-                        <li><?php echo link_to($item,'delete-confirm',__('Delete'), array('class' => 'delete-confirm')); ?></li>
+                        <li><?= link_to($item,'delete-confirm',__('Delete'), array('class' => 'delete-confirm')); ?></li>
                         <?php endif; ?>
                     </ul>
                 </td>
-                <td><?php echo strip_formatting(metadata($item, array('Dublin Core', 'Creator'))); ?></td>
+                <td><?= strip_formatting(metadata($item, array('Dublin Core', 'Creator'))); ?></td>
                 <td>
-                    <?php
-                    echo ($typeName = metadata($item, 'Item Type Name'))
-                        ? $typeName
-                        : metadata($item, array('Dublin Core', 'Type'), array('snippet' => 35));
+                    <?= ($typeName = metadata($item, 'Item Type Name'))
+                        ? html_escape($typeName)
+                        : html_escape(metadata($item, array('Dublin Core', 'Type'), array('snippet' => 35)));
                     ?>
                 </td>
-                <td><?php echo format_date(metadata($item, 'added')); ?></td>
+                <td><?= format_date(metadata($item, 'added')); ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
         </table>
         <div class="table-actions batch-edit-option">
             <?php if (is_allowed('Items', 'edit') || is_allowed('Items', 'delete')): ?>
-                <button class="batch-all-toggle" type="button" data-records-count="<?php echo $total; ?>"><?php echo __('Select all %s results', $total); ?></button>
-                <div class="selected"><span class="count">0</span> <?php echo __('items selected'); ?></div>
+                <button class="batch-all-toggle" type="button" data-records-count="<?= html_escape($total); ?>"><?= __('Select all %s results', $total); ?></button>
+                <div class="selected"><span class="count">0</span> <?= __('items selected'); ?></div>
                 <input type="hidden" name="batch-all" value="1" id="batch-all" disabled>
-                <?php echo $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
+                <?= $this->formHidden('params', json_encode(Zend_Controller_Front::getInstance()->getRequest()->getParams())); ?>
                 <?php if (is_allowed('Items', 'edit')): ?>
-                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?php echo __('Edit'); ?>" />
+                <input type="submit" class="edit-items small batch-action button" name="submit-batch-edit" value="<?= __('Edit'); ?>" />
                 <?php endif; ?>
                 <?php if (is_allowed('Items', 'delete')): ?>
-                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?php echo __('Delete'); ?>">
+                <input type="submit" class="small batch-action button" name="submit-batch-delete" value="<?= __('Delete'); ?>">
                 <?php endif; ?>
             <?php endif; ?>
         </div>
     </form>
+    <?= pagination_links(); ?>
     </div>
 
 </div>

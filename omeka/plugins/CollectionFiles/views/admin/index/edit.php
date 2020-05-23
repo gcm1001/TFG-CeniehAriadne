@@ -5,23 +5,24 @@ if ($fileTitle != '') {
 } else {
     $fileTitle = '';
 }
-$fileTitle = __('Edit File #%s', metadata('collection_file', 'id')) . $fileTitle;
-
+$fileTitle = __('Edit File #%s', metadata('collection_file', 'id')) . $fileTitle; 
 queue_js_file(array('vendor/tinymce/tinymce.min', 'elements', 'tabs'));
-echo head(array('title' => $fileTitle, 'bodyclass' => 'files edit'));
-include 'form-tabs.php';
-echo flash();
 ?>
+
+<?= head(array('title' => $fileTitle, 'bodyclass' => 'files edit')); ?>
+<?php include 'form-tabs.php'; ?>
+<?= flash(); ?>
+
 <form method="post" action="">
     <section class="seven columns alpha" id="edit-form">
-        <?php echo file_markup($collection_file); ?>
+        <?= file_markup($collection_file); ?>
         <div id="file-metadata">
             <?php foreach ($tabs as $tabName => $tabContent): ?>
             <?php if (!empty($tabContent)): ?>
-                <div id="<?php echo text_to_id(html_escape($tabName)); ?>-metadata">
+                <div id="<?= text_to_id(html_escape($tabName)); ?>-metadata">
                     <fieldset class="set">
-                        <h2><?php echo html_escape(__($tabName)); ?></h2>
-                        <?php echo $tabContent; ?>
+                        <h2><?= htmlspecialchars(__($tabName)); ?></h2>
+                        <?= htmlspecialchars($tabContent); ?>
                     </fieldset>
                 </div>
             <?php endif; ?>
@@ -29,12 +30,12 @@ echo flash();
         </div> <!-- end file-metadata div -->
         <?php fire_plugin_hook('admin_collection_files_form', array('file' => $collection_file, 'view' => $this)); ?>
     </section>
-    <?php echo $csrf; ?>
+    <?= $csrf; ?>
     <section class="three columns omega">
         <div id="save" class="panel">
-            <input type="submit" name="submit" class="submit big green button" value="<?php echo __('Save Changes'); ?>" id="file_edit" /> 
+            <input type="submit" name="submit" class="submit big green button" value="<?= __('Save Changes'); ?>" id="file_edit" /> 
             <?php if (is_allowed('Files', 'delete')): ?>
-                <?php echo link_to($collection_file, 'delete-confirm', __('Delete'), array('class' => 'big red button delete-confirm')); ?>
+                <?= link_to($collection_file, 'delete-confirm', __('Delete'), array('class' => 'big red button delete-confirm')); ?>
             <?php endif; ?>
         </div>
     </section>
@@ -52,8 +53,8 @@ jQuery(document).ready(function () {
 });
 
 jQuery(document).bind('omeka:elementformload', function (event) {
-    Omeka.Elements.makeElementControls(event.target, <?php echo js_escape(url('elements/element-form')); ?>,'File'<?php if ($id = metadata('collection_file', 'id')) echo ', '.$id; ?>);
+    Omeka.Elements.makeElementControls(event.target, <?= js_escape(url('elements/element-form')); ?>,'File'<?php if ($id = metadata('collection_file', 'id')):?> <?=', '.$id; ?> <?php endif; ?>);
     Omeka.Elements.enableWysiwyg(event.target);
 });
 </script>
-<?php echo foot(); ?>
+<?= foot(); ?>

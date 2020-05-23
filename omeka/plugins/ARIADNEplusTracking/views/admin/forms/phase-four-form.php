@@ -1,6 +1,6 @@
 <div id="div-phase-4">
     <div class="form-style-10">
-    <h1 id="h1-phase" >It's almost done!<span>Please, follow these steps.</span></h1>
+    <h1 class="h1-phase" >It's almost done!<span class="span-form">Please, follow these steps.</span></h1>
         <div class="section"><span>1</span>Inform WP4 leader of the new records.</div>
         <div class="inner-wrap">
             <div id="btn-mail-modal">
@@ -15,16 +15,16 @@
                     <div  class = "frame">
                         <div id = "button_open_envelope">View</div>
                        <div id="default-message" class = "message">
-                            <form id="msg-form" action="<?php echo html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
+                            <form id="msg-form" action="<?= html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
                             <div id="default-content">
-                            <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" value="<?php echo __("%s - Ingest", get_option('site_title'));?>" ></span>
-                            <input type="hidden" id="msg_content" name="msg_content" value="<?php echo $body; ?>" form="msg-form">
-                            <input type="hidden" id="record_id" name="record_id" value="<?php echo $record->id; ?>" form="msg-form">
-                            <input type="hidden" id="record_type" name="record_type" value="<?php echo get_class($record); ?>" form="msg-form">
-                            <span> Default Content <div id="msg-content" class="div-textarea"><?php echo $body; ?></div></span>
-                            <button id="modify-button">Change content</button>
+                            <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" value="<?= __("%s - Ingest", get_option('site_title'));?>" ></span>
+                            <input type="hidden" id="msg_content" name="msg_content" value="<?= html_escape($body); ?>" form="msg-form">
+                            <input type="hidden" id="record_id" name="record_id" value="<?= html_escape($record->id); ?>" form="msg-form">
+                            <input type="hidden" id="record_type" name="record_type" value="<?= html_escape(get_class($record)); ?>" form="msg-form">
+                            <span> Default Content <div id="msg-content" class="div-textarea"><?= $body; ?></div></span>
+                            <button id="edit-button" class="edit-button">Change content</button>
                             </div>
-                            <input type="submit" value="Send" id="send-button" class="send">
+                            <input type="submit" value="Send" id="send-button" class="send-mail">
                             </form>
                             <div id="mod-content" style="display: none;" >
                                 <div class="wysiwyg">
@@ -62,11 +62,11 @@
                                         <button type="button" id="forecolor"><i class="fa fa-tint"></i></button>
                                       </div>
                                     </div>
-                                    <div class="editor" contentEditable><?php echo $body; ?></div>
+                                  <div class="editor" contentEditable><?= $body; ?></div>
                                     <div class="htmlview"></div>
                                   </div>
                             </div>
-                            <input style="display: none;" type="submit" value="Save" id="save-button" class="send">
+                            <input style="display: none;" type="submit" value="Save" id="save-button" class="send-mail">
                         </div>
                         <div class = "bottom-mail"></div>			
                         <div class = "left-mail"></div>
@@ -121,7 +121,7 @@
 		jQuery('.message').addClass('pull-mail');
         });
         
-        jQuery('#modify-button').click(function(e){
+        jQuery('#edit-button').click(function(e){
             e.preventDefault();
             jQuery('div#default-content').hide();
             jQuery('input#send-button').hide();

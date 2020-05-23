@@ -35,14 +35,14 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
         $this->_mixins[] = new Mixin_Timestamp($this, 'added', null);
     }
 
-    public function prepareNewEvent($record, $updateType = 'record')
+    public function prepareNewEvent($record)
     {
         $result = $this->_logRecord($record);
 
         return !empty($result);
     }
 
-    public function logEvent($record, $operation, $user, $msg = null)
+    public function logEvent($record, $operation, $user)
     {
         if (empty($this->record_type) || empty($this->record_id)) {
             $result = $this->_logRecord($record);
@@ -86,9 +86,9 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
         $this->record_type = $type;
     }
 
-    public function setRecordId($id)
+    public function setRecordId($record_id)
     {
-        $this->record_id = (integer) $id;
+        $this->record_id = (integer) $record_id;
     }
 
     public function setPartOf($partOf)
@@ -108,9 +108,9 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
         }
     }
 
-    public function setUserId($id)
+    public function setUserId($user_id)
     {
-        $this->user_id = (integer) $id;
+        $this->user_id = (integer) $user_id;
     }
 
     public function setOperation($operation)
@@ -122,14 +122,12 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
 
     public function getRecord($record = null)
     {
-        if (is_null($record)) {
+        if ($record === null) {
             $recordType = $this->record_type;
             $recordId = $this->record_id;
-        }
-        elseif (is_object($record)) {
+        } elseif (is_object($record)) {
             return $record;
-        }
-        elseif (is_array($record)) {
+        } elseif (is_array($record)) {
             if (isset($record['record_type']) && isset($record['record_id'])) {
                 $recordType = $record['record_type'];
                 $recordId = $record['record_id'];
@@ -149,8 +147,7 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
             else {
                 return;
             }
-        }
-        else {
+        } else {
             return;
         }
 
@@ -176,14 +173,14 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
 
     public function isLoggable($recordType = null, $recordId = null)
     {
-        if (is_null($recordType)) {
+        if ($recordType === null) {
             $recordType = $this->record_type;
         }
-        if (is_null($recordId)) {
+        if ($recordId === null) {
             $recordId = $this->record_id;
         }
-        $recordId = (integer) $recordId;
-        return !empty($recordId)
+        $intrecordid = (integer) $recordId;
+        return !empty($intrecordid)
             && in_array($recordType, $this->_validRecordTypes);
     }
 
@@ -261,14 +258,13 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
 
     protected function _isOperationValid($operation = null)
     {
-        if (is_null($operation)) {
+        if ($operation === null) {
             $operation = $this->operation;
         }
         return in_array($operation, array(
             AriadnePlusLogEntry::OPERATION_ASSIGN,
             AriadnePlusLogEntry::OPERATION_STAGE,
             AriadnePlusLogEntry::OPERATION_REFRESH,
-
         ));
     }
     
@@ -276,9 +272,8 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
     {
         if($property == 'record') {
             return $this->getRecord();
-        } else {
-            return parent::getProperty($property);
         }
+        return parent::getProperty($property);
     }
 
     public function getMsgs()

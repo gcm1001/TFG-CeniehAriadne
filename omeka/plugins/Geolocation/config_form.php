@@ -1,45 +1,44 @@
 <?php $view = get_view(); ?>
 <fieldset>
-<legend><?php echo __('General Settings'); ?></legend>
+<legend><?= __('General Settings'); ?></legend>
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="default_latitude"><?php echo __('Default Latitude'); ?></label>
+        <label for="default_latitude"><?= __('Default Latitude'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __("Latitude of the map's initial center point, in degrees. Must be between -90 and 90."); ?></p>
-        <?php echo $view->formText('default_latitude', get_option('geolocation_default_latitude')); ?>
+        <p class="explanation"><?= __("Latitude of the map's initial center point, in degrees. Must be between -90 and 90."); ?></p>
+        <?= $view->formText('default_latitude', get_option('geolocation_default_latitude')); ?>
     </div>
 </div>
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="default_longitude"><?php echo __('Default Longitude'); ?></label>
+        <label for="default_longitude"><?= __('Default Longitude'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __("Longitude of the map's initial center point, in degrees. Must be between -180 and 180.");?></p>
-        <?php echo $view->formText('default_longitude', get_option('geolocation_default_longitude')); ?>
+        <p class="explanation"><?= __("Longitude of the map's initial center point, in degrees. Must be between -180 and 180.");?></p>
+        <?= $view->formText('default_longitude', get_option('geolocation_default_longitude')); ?>
     </div>
 </div>
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="default_zoom_level"><?php echo __('Default Zoom Level'); ?></label>
+        <label for="default_zoom_level"><?= __('Default Zoom Level'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('An integer greater than or equal to 0, where 0 represents the most zoomed out scale.'); ?></p>
-        <?php echo $view->formText('default_zoom_level', get_option('geolocation_default_zoom_level')); ?>
+        <p class="explanation"><?= __('An integer greater than or equal to 0, where 0 represents the most zoomed out scale.'); ?></p>
+        <?= $view->formText('default_zoom_level', get_option('geolocation_default_zoom_level')); ?>
     </div>
 </div>
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="basemap"><?php echo __('Base Map'); ?></label>
+        <label for="basemap"><?= __('Base Map'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('The type of map to display'); ?></p>
-        <?php
-        echo $view->formSelect('basemap', get_option('geolocation_basemap'), array(), array(
+        <p class="explanation"><?= __('The type of map to display'); ?></p>
+        <?= $view->formSelect('basemap', get_option('geolocation_basemap'), array(), array(
             __('OpenStreetMap') => array(
                 'OpenStreetMap' => __('Standard'),
                 'OpenStreetMap.HOT' => __('Humanitarian'),
@@ -85,44 +84,38 @@
 
 <div class="field mapbox-settings">
     <div class="two columns alpha">
-        <label for="mapbox_access_token"><?php echo __('Mapbox Access Token'); ?></label>
+        <label for="mapbox_access_token"><?= __('Mapbox Access Token'); ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation">
-        <?php
-        echo __('Mapbox access token. A token is required when Mapbox is selected as the basemap. Get your token at %s.',
-            '<a target="_blank" href="https://www.mapbox.com/account/access-tokens/">https://www.mapbox.com/account/access-tokens/</a>'
-
-        );
-        ?>
+        <?= htmlspecialchars(__('Mapbox access token. A token is required when Mapbox is selected as the basemap. Get your token at ')); ?>
+          <a target="_blank" href="https://www.mapbox.com/account/access-tokens/">https://www.mapbox.com/account/access-tokens/</a>
         </p>
-        <?php echo $view->formText('mapbox_access_token', get_option('geolocation_mapbox_access_token')); ?>
+        <?= $view->formText('mapbox_access_token', get_option('geolocation_mapbox_access_token')); ?>
     </div>
 </div>
 <div class="field mapbox-settings">
     <div class="two columns alpha">
-        <label for="mapbox_map_id"><?php echo __('Mapbox Map ID'); ?></label>
+        <label for="mapbox_map_id"><?= __('Mapbox Map ID'); ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation">
-        <?php
-        echo __('Mapbox Map ID for the map to display as the basemap. The default "mapbox.streets" map will be used if nothing is entered here.');
+        <?= htmlspecialchars(__('Mapbox Map ID for the map to display as the basemap. The default "mapbox.streets" map will be used if nothing is entered here.'));
         ?>
         </p>
-        <?php echo $view->formText('mapbox_map_id', get_option('geolocation_mapbox_map_id')); ?>
+        <?= $view->formText('mapbox_map_id', get_option('geolocation_mapbox_map_id')); ?>
     </div>
 </div>
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="geocoder"><?php echo __('Geocoder'); ?></label>
+        <label for="geocoder"><?= __('Geocoder'); ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation">
-            <?php echo __('Service to use for looking up coordinates from addresses.'); ?>
+            <?= __('Service to use for looking up coordinates from addresses.'); ?>
         </p>
-        <?php
-        echo $view->formSelect('geocoder', get_option('geolocation_geocoder'), array(), array(
+        <?= $view->formSelect('geocoder', get_option('geolocation_geocoder'), array(), array(
             'nominatim' => __('OpenStreetMap Nominatim'),
             'photon' => __('Photon'),
         ));
@@ -132,75 +125,71 @@
 </fieldset>
 
 <fieldset>
-<legend><?php echo __('Browse Map Settings'); ?></legend>
+<legend><?= __('Browse Map Settings'); ?></legend>
 <div class="field">
     <div class="two columns alpha">
-        <label for="per_page"><?php echo __('Number of Locations Per Page'); ?></label>
+        <label for="per_page"><?= __('Number of Locations Per Page'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('The number of locations displayed per page when browsing the map.'); ?></p>
-        <?php echo $view->formText('per_page', get_option('geolocation_per_page')); ?>
+        <p class="explanation"><?= __('The number of locations displayed per page when browsing the map.'); ?></p>
+        <?= $view->formText('per_page', get_option('geolocation_per_page')); ?>
     </div>
 </div>
 <div class="field">
     <div class="two columns alpha">
-        <label for="auto_fit_browse"><?php echo __('Auto-fit to Locations'); ?></label>
+        <label for="auto_fit_browse"><?= __('Auto-fit to Locations'); ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation">
-            <?php echo __('If checked, the default location and zoom settings '
+            <?= __('If checked, the default location and zoom settings '
                 . 'will be ignored on the browse map. Instead, the map will '
                 . 'automatically pan and zoom to fit the locations displayed '
                 . 'on each page.');
             ?>
         </p>
-        <?php
-        echo $view->formCheckbox('auto_fit_browse', true,
+        <?= $view->formCheckbox('auto_fit_browse', true,
             array('checked' => (boolean) get_option('geolocation_auto_fit_browse')));
         ?>
     </div>
 </div>
 <div class="field">
     <div class="two columns alpha">
-        <label for="per_page"><?php echo __('Default Radius'); ?></label>
+        <label for="per_page"><?= __('Default Radius'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('The size of the default radius to use on the items advanced search page. See below for whether to measure in miles or kilometers.'); ?></p>
-        <?php echo $view->formText('geolocation_default_radius', get_option('geolocation_default_radius')); ?>
+        <p class="explanation"><?= __('The size of the default radius to use on the items advanced search page. See below for whether to measure in miles or kilometers.'); ?></p>
+        <?= $view->formText('geolocation_default_radius', get_option('geolocation_default_radius')); ?>
     </div>
 </div>
 <div class="field">
     <div class="two columns alpha">
-        <label for="geolocation_use_metric_distances"><?php echo __('Use metric distances'); ?></label>
+        <label for="geolocation_use_metric_distances"><?= __('Use metric distances'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('Use metric distances in proximity search.'); ?></p>
-        <?php
-        echo $view->formCheckbox('geolocation_use_metric_distances', true,
+        <p class="explanation"><?= __('Use metric distances in proximity search.'); ?></p>
+        <?= $view->formCheckbox('geolocation_use_metric_distances', true,
             array('checked' => (boolean) get_option('geolocation_use_metric_distances')));
         ?>
     </div>
 </div>
 <div class="field">
     <div class="two columns alpha">
-        <label for="cluster"><?php echo __('Enable marker clustering'); ?></label>
+        <label for="cluster"><?= __('Enable marker clustering'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('Show close or overlapping markers as clusters.'); ?></p>
-        <?php
-        echo $view->formCheckbox('cluster', true,
+        <p class="explanation"><?= __('Show close or overlapping markers as clusters.'); ?></p>
+        <?= $view->formCheckbox('cluster', true,
             array('checked' => (boolean) get_option('geolocation_cluster')));
         ?>
     </div>
 </div>
 <div class="field">
     <div class="two columns alpha">
-        <label for="draw"><?php echo __('Enable draw plugin'); ?></label>
+        <label for="draw"><?= __('Enable draw plugin'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('Adds support for drawing and editing vectors and markers on edit map.'); ?></p>
-        <?php
-        echo get_view()->formCheckbox('draw', true,
+        <p class="explanation"><?= __('Adds support for drawing and editing vectors and markers on edit map.'); ?></p>
+        <?= get_view()->formCheckbox('draw', true,
             array('checked' => (boolean) get_option('geolocation_draw')));
         ?>
     </div>
@@ -208,38 +197,37 @@
 </fieldset>
 
 <fieldset>
-<legend><?php echo __('Item Map Settings'); ?></legend>
+<legend><?= __('Item Map Settings'); ?></legend>
 <div class="field">
     <div class="two columns alpha">
-        <label for="item_map_width"><?php echo __('Width for Item Map'); ?></label>
+        <label for="item_map_width"><?= __('Width for Item Map'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('The width of the map displayed on your items/show page. If left blank, the default width of 100% will be used.'); ?></p>
-        <?php echo $view->formText('item_map_width', get_option('geolocation_item_map_width')); ?>
+        <p class="explanation"><?= __('The width of the map displayed on your items/show page. If left blank, the default width of 100% will be used.'); ?></p>
+        <?= $view->formText('item_map_width', get_option('geolocation_item_map_width')); ?>
     </div>
 </div>
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="item_map_height"><?php echo __('Height for Item Map'); ?></label>
+        <label for="item_map_height"><?= __('Height for Item Map'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('The height of the map displayed on your items/show page. If left blank, the default height of 300px will be used.'); ?></p>
-        <?php echo $view->formText('item_map_height', get_option('geolocation_item_map_height')); ?>
+        <p class="explanation"><?= __('The height of the map displayed on your items/show page. If left blank, the default height of 300px will be used.'); ?></p>
+        <?= $view->formText('item_map_height', get_option('geolocation_item_map_height')); ?>
     </div>
 </div>
 </fieldset>
 
 <fieldset>
-<legend><?php echo __('Map Integration'); ?></legend>
+<legend><?= htmlspecialchars(__('Map Integration')); ?></legend>
 <div class="field">
     <div class="two columns alpha">
-        <label for="geolocation_link_to_nav"><?php echo __('Add Link to Map on Items/Browse Navigation'); ?></label>
+        <label for="geolocation_link_to_nav"><?= htmlspecialchars(__('Add Link to Map on Items/Browse Navigation')); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('Add a link to the items map on all the items/browse pages.'); ?></p>
-        <?php
-        echo get_view()->formCheckbox('geolocation_link_to_nav', true,
+        <p class="explanation"><?= __('Add a link to the items map on all the items/browse pages.'); ?></p>
+        <?= get_view()->formCheckbox('geolocation_link_to_nav', true,
             array('checked' => (boolean) get_option('geolocation_link_to_nav')));
         ?>
     </div>
@@ -247,12 +235,11 @@
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="geolocation_add_map_to_contribution_form"><?php echo __('Add Map To Contribution Form'); ?></label>
+        <label for="geolocation_add_map_to_contribution_form"><?= htmlspecialchars(__('Add Map To Contribution Form')); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('If the Contribution plugin is installed and activated, Geolocation  will add a geolocation map field to the contribution form to associate a location to a contributed item.'); ?></p>
-        <?php
-        echo get_view()->formCheckbox('geolocation_add_map_to_contribution_form', true,
+        <p class="explanation"><?= htmlspecialchars(__('If the Contribution plugin is installed and activated, Geolocation  will add a geolocation map field to the contribution form to associate a location to a contributed item.')); ?></p>
+        <?= get_view()->formCheckbox('geolocation_add_map_to_contribution_form', true,
             array('checked' => (boolean) get_option('geolocation_add_map_to_contribution_form')));
         ?>
     </div>
@@ -260,24 +247,22 @@
 
 <div class="field">
     <div class="two columns alpha">
-        <label for="geolocation_sync_spatial"><?php echo __('\'Spatial Coverage\' synchronization'); ?></label>
+        <label for="geolocation_sync_spatial"><?= htmlspecialchars(__('\'Spatial Coverage\' synchronization')); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('Whenever an item is saved, this option will allow update the item\'s Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation. WARN: This option will OVERWRITE any element texts in Spatial Coverage.'); ?></p>
-        <?php
-        echo get_view()->formCheckbox('geolocation_sync_spatial', true,
+        <p class="explanation"><?= htmlspecialchars(__('Whenever an item is saved, this option will allow update the item\'s Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation. WARN: This option will OVERWRITE any element texts in Spatial Coverage.')); ?></p>
+        <?= get_view()->formCheckbox('geolocation_sync_spatial', true,
             array('checked' => (boolean) get_option('geolocation_sync_spatial')));
         ?>
     </div>
 </div>
 <div class="field">
     <div class="two columns alpha">
-        <label for="geolocation_sync_spatial_rev"><?php echo __('Reverse \'Spatial Coverage\' synchronization'); ?></label>
+        <label for="geolocation_sync_spatial_rev"><?= htmlspecialchars(__('Reverse \'Spatial Coverage\' synchronization')); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?php echo __('Whenever an item is saved, this option will allow update the map with a new Location based on item\'s Dublin Core "Spatial Coverage" metadata.'); ?></p>
-        <?php
-        echo get_view()->formCheckbox('geolocation_sync_spatial_rev', true,
+      <p class="explanation"><?= htmlspecialchars(__('Whenever an item is saved, this option will allow update the map with a new Location based on item\'s Dublin Core "Spatial Coverage" metadata.')); ?></p>
+        <?= get_view()->formCheckbox('geolocation_sync_spatial_rev', true,
             array('checked' => (boolean) get_option('geolocation_sync_spatial_rev')));
         ?>
     </div>

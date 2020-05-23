@@ -78,8 +78,8 @@ class Table_CollectionFile extends Omeka_Db_Table
     public function getSelect()
     {
         $select = parent::getSelect();
-        $db = $this->getDb();
-        $select->joinInner(array('collections' => $db->Collection), 'collections.id = collection_files.collection_id', array());
+        $database = $this->getDb();
+        $select->joinInner(array('collections' => $database->Collection), 'collections.id = collection_files.collection_id', array());
 
         $permissions = new Omeka_Db_Select_PublicPermissions('Collections');
         $permissions->apply($select, 'collections');

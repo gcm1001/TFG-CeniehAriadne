@@ -9,7 +9,7 @@ class Table_Location extends Omeka_Db_Table
      **/
     public function findLocationByItem($item, $findOnlyOne = false)
     {
-        $db = get_db();
+        $database = get_db();
         
         if (($item instanceof Item) && !$item->exists()) {
             return array();
@@ -18,7 +18,7 @@ class Table_Location extends Omeka_Db_Table
         }
         $alias = $this->getTableAlias();
         // Create a SELECT statement for the Location table
-        $select = $db->select()->from(array($alias => $db->Location), "$alias.*");
+        $select = $database->select()->from(array($alias => $database->Location), "$alias.*");
         
         // Create a WHERE condition that will pull down all the location info
         if (is_array($item)) {

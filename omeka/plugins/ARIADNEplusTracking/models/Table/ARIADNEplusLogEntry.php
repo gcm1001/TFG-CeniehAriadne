@@ -41,10 +41,9 @@ class Table_ARIADNEplusLogEntry extends Omeka_Db_Table
     public function applySearchFilters($select, $params)
     {
         $alias = $this->getTableAlias();
-        $boolean = new Omeka_Filter_Boolean;
         $genericParams = array();
         foreach ($params as $key => $value) {
-            if ($value === null || (is_string($value) && trim($value) == '')) {
+            if ($value === null || (is_string($value) && trim($value) === '')) {
                 continue;
             }
             switch ($key) {

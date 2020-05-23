@@ -40,8 +40,8 @@ class Geolocation_View_Helper_GeolocationMapBrowse extends Zend_View_Helper_Abst
         ));
 
         $html = '<div ' . tag_attributes($divAttrs) . '></div>';
-        $js = "var $varDivId" . "OmekaMapBrowse = new OmekaMapBrowse(" . js_escape($divId) .", $center, $options); ";
-        $html .= "<script type='text/javascript'>$js</script>";
+        $javascrip = "var $varDivId" . "OmekaMapBrowse = new OmekaMapBrowse(" . js_escape($divId) .", $center, $options); ";
+        $html .= "<script type='text/javascript'>$javascrip</script>";
         return $html;
     }
 }

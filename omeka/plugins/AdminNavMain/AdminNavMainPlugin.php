@@ -143,4 +143,3 @@ class AdminNavMainPlugin extends Omeka_Plugin_AbstractPlugin {
     }
     
 }
-?>

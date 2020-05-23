@@ -24,12 +24,9 @@
      *@param int $collectionID Identificador de la colección a exportar
      *@return void
      */
-    public function exportCollectionMeta($collectionID) {
-        $collection = get_record_by_id("collection",$collectionID);
-        
+    public function exportCollectionMeta($collectionID) {        
         $this->_generateCirHeader();
         $this->_generateCirBody($collectionID,"Collection",false);
-        
         $this->_generateCirFooter(false);
     }
     
@@ -40,7 +37,6 @@
      *@return void
      */
     public function exportCollectionFull($collectionID) {
-        $collection = get_record_by_id("collection",$collectionID);
         $items = get_records('Item',array('collection'=>$collectionID),999);
 
         $this->_generateCirHeader();
@@ -82,16 +78,16 @@
 
 
     private function _generateCirHeader() {
-        echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+        $this->_p_html('<?xml version="1.0" encoding="UTF-8"?>'."\n");
         //--------------------
         // HEADER
         //--------------------
-        echo '<Collections ';
-        echo 'xmlns:dc="http://purl.org/dc/elements/1.1/" ';
-        echo 'xmlns:dcterms="http://purl.org/dc/terms/" ';
-        echo 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
-        echo 'xmlns:cir="http://www.cir.cenieh.es" ';
-        echo ">\n";
+        $this->_p_html('<Collections ');
+        $this->_p_html('xmlns:dc="http://purl.org/dc/elements/1.1/" ');
+        $this->_p_html('xmlns:dcterms="http://purl.org/dc/terms/" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
+        $this->_p_html( 'xmlns:cir="http://www.cir.cenieh.es" ');
+        $this->_p_html( ">\n");
 
     }
   
@@ -101,7 +97,7 @@
         //--------------------
         //METADATA
         //--------------------
-        echo ($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n";
+        $this->_p_html( ($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n");
 
         $elementArray = $record->getAllElements();
 
@@ -114,7 +110,7 @@
 
             $eSSlug=$this->_getElementSetSlug($elementSetName);
 
-            echo ($recordType == "Collection") ? "\t\t<metadata>\n" : "\t\t\t\t<metadata>\n";
+            $this->_p_html( ($recordType == "Collection") ? "\t\t<metadata>\n" : "\t\t\t\t<metadata>\n");
 
             if($eSSlug!=="") $eSSlug .= ":";
 
@@ -145,28 +141,25 @@
                             $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
                         }
                     }
-                    echo (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ($preElement."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">");
-          		      echo htmlspecialchars($elementText->text);
-                    echo (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n";
+                    $this->_p_html( (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ($preElement."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">"));
+          		      $this->_p_html( htmlspecialchars($elementText->text));
+                    $this->_p_html( (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n");
         	      }
       	    }
 
-      	    echo ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n";
+      	    $this->_p_html( ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n");
 
-            if($flag) {
-      	       ob_end_flush();
-      	    } else {
-      	       ob_end_clean();
-            }
+            $this->_free_buffer($flag);
         }
-        if($full) echo ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n";
+        if($full) {
+          $this->_p_html( ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n");
+        }
     }
 
-
     private function _generateCirFooter($full = True) {
-        if($full) echo "\t\t</records>";
-        echo "\n\t</collection>\n";
-        echo "</Collection>\n";
+        if($full) $this->_p_html( "\t\t</records>");
+        $this->_p_html( "\n\t</collection>\n");
+        $this->_p_html( "</Collection>\n");
     }
 
     /**
@@ -176,34 +169,32 @@
      */
     private function _generateCir($itemID) {
         if(!is_numeric($itemID)) {
-            echo "ERROR: Invalid item ID";
-            die();
+            $this->_p_html( "ERROR: Invalid item ID");
+            return;
         }
 
         $item = get_record_by_id("item",$itemID);
 
-        if(is_null($item)||empty($item)) {
-            echo "ERROR: Invalid item ID";
-            die();
+        if($item === null || empty($item)) {
+            $this->_p_html( "ERROR: Invalid item ID");
+            return;
         }
-
-        $type = $item->getItemType();
 
         $unqualified = array(
             'title', 'creator', 'subject', 'description', 'publisher',
             'contributor', 'date', 'type', 'format', 'identifier',
             'source', 'language', 'relation', 'coverage', 'rights' );
 
-        echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+        $this->_p_html( '<?xml version="1.0" encoding="UTF-8"?>'."\n");
         //--------------------
         // HEADER
         //--------------------
-        echo '<Record ';
-        echo 'xmlns:dc="http://purl.org/dc/elements/1.1/" ';
-        echo 'xmlns:dcterms="http://purl.org/dc/terms/" ';
-        echo 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
-        echo 'xmlns:cir="http://www.cir.cenieh.es" ';
-        echo ">\n";
+        $this->_p_html( '<Record ');
+        $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
+        $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
+        $this->_p_html( 'xmlns:cir="http://www.cir.cenieh.es" ');
+        $this->_p_html( ">\n");
         //--------------------
         //METADATA
         //--------------------
@@ -215,7 +206,7 @@
 
             $eSSlug=$this->_getElementSetSlug($elementSetName);
 
-            echo "\t<metadata>\n";
+            $this->_p_html( "\t<metadata>\n");
 
             if($eSSlug!=="") $eSSlug .= ":";
 
@@ -239,23 +230,25 @@
                             $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
                         }
                     }
-                    echo (in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ("\t\t\t<"."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">");
-                    echo htmlspecialchars($elementText->text);
-                    echo (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n";
+                    $this->_p_html((in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ("\t\t\t<"."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">"));
+                    $this->_p_html(htmlspecialchars($elementText->text));
+                    $this->_p_html((in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n");
         	      }
             }
 
-            if($flag){
-                ob_end_flush();
-            } else {
-                ob_end_clean();
-            }
+            $this->_free_buffer($flag);
         }
 
-        echo "\t</metadata>\n";
-        echo "</Record>\n";
+        $this->_p_html("\t</metadata>\n");
+        $this->_p_html("</Record>\n");
     }
 
+    private function _free_buffer($flag = True){
+        if($flag) {
+      	    return ob_end_flush();
+      	}
+        return ob_end_clean();
+    }
     /**
      *Devuelve el slug para un conjunto de datos determinado
      *
@@ -281,32 +274,19 @@
      *@param string $elementName Nombre del elemento
      *@return string Nombre del conjunto al que pertenece
      */
-    private function _getElementSlug($elementName,$elementSetName='') {
+    private function _getElementSlug($elementName) {
         $dces = new DublinCoreExtendedPlugin;
         foreach ($dces->getElements() as $elementDces) {
-            if ($elementName == $elementDces['label']) return $elementDces['name'];
+            if ($elementName == $elementDces['label']) {
+              return $elementDces['name'];
+            }
         }
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $elementName));
     }
 
-
-
-    /**
-     *Determine whether a given metadata element set is
-     *recognized or not based on its slug
-     *
-     *@param string $eSSlug Identificador del conjunto de datos
-     *@return bool True si el conjunto de elementos es deconocido, False si no
-     */
-    private function _is_type_other($eSSlug) {
-        if($eSSlug==="unknown"){
-            return true;
-        } else {
-            return false;
-        }
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
     }
-
-
  }
 
-?>
+

@@ -6,6 +6,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
 {
     const QUEUE_NAME = 'ariadneplus_tracking_stage';
 
+    private $_logentry;
+    private $_statusElement;
+    private $_metadata = array(
+                Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
+            );
+    
     public function perform()
     {
         $this->_db = get_db();
@@ -13,11 +19,10 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         $element = $this->_options['element'];
         $statusElement = $view->tracking()
             ->getStatusElement($element, true, true, true);
-
+        $this->_statusElement = $statusElement;
         if (empty($statusElement)) {
             throw new RuntimeException(__('Element "%s" is not a workflow, has no vocabulary or is a repeatable field.', $element));
         }
-
         $element = $statusElement['element'];
         $term = $this->_options['term'];
         if (!in_array($term, $statusElement['terms'])) {
@@ -28,19 +33,14 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $this->_log(__('The term "%s" is the last one of the vocabulary of element %s.', $term, $element->name));
             return;
         }
-        $url = $this->_options['url'];
         // All is fine.
         $newTerm = $statusElement['terms'][$key + 1];
         $elementSet = $element->getElementSet();
-        $metadata = array(
-            Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
-        );
         // Record
         $record_type = $this->_options['record_type'];
         $record_id = $this->_options['record_id'];
         $stageRecord = get_record_by_id($record_type, $record_id);
-        //ticket
-        $ticket = $view->tracking()->getRecordTrackingTicket($stageRecord);
+        
         // Ids
         switch($record_type){
             case 'Collection':
@@ -54,7 +54,6 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             default:
                 break;
         }
-        
         //Get all items 
         $records = get_records('Item', array('collection' => $collectionId,
                 'range' => $itemId,
@@ -64,117 +63,114 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
                 'terms' => $term,
             )),
         ), 0);
-        
+        // Operation
+        $operation = null;
+        $incompleteRecords = [];
         if($key==0){
-            $incompleteRecords = [];
             $operation = ARIADNEplusLogEntry::OPERATION_ASSIGN;
         } elseif ($key > 0 && $key < 6) {
             $operation = ARIADNEplusLogEntry::OPERATION_STAGE;
         } elseif ($key == 6) {
             $operation = ARIADNEplusLogEntry::OPERATION_REFRESH;
-        } else {
-            $operation = null;
+        } 
+        if($operation === null){
+          return;
         }
-        $logentry = new ARIADNEplusLogEntry();
-        $logentry->logEvent($stageRecord, $operation, current_user());
-        
-        $logentry->save();
+        //Logs
+        $this->_logentry = new ARIADNEplusLogEntry();
+        $this->_logentry->logEvent($stageRecord, $operation, current_user());
+        $this->_logentry->save();
+        // Stages
         $flag = true;
-        // CHECK: Incomplete > Complete 
         if($key == 1 || $key == 0){
-            $mandatoryElementsDC = $view->tracking()->getMandatoryDCElements();
-            $this->_log(print_r($mandatoryElementsDC));
-            foreach ($records as $k => $record) {
-                //CHECK: DC
-                foreach($mandatoryElementsDC as $elementDC) {
-                    if(empty(metadata($record,array('Dublin Core', $elementDC)))){
-                        if($key == 0) {
-                            $incompleteRecords[] = $record;
-                        }
-                        unset($records[$k]);
-                        $msg = __('Record #%d is not valid. %s is empty.', $record->id, $elementDC);
-                        $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
-                        $this->_log($msg);
-                        $flag = false;
-                        break;
-                    }
-                }
-            }
+            list($records,$incompleteRecords) = $this->_checkMetadataElements($records, $view);
+            $flag = empty($incompleteRecords);
             $newTerm = $statusElement['terms'][2];
         } else if($key == 2){
-            $elementM = 'ID of your metadata transformation';
-            if(empty(metadata($stageRecord,array('Monitor', $elementM)))){
-                $records = [];
-                $msg = __('%s #%d is not mapped,  %s is empty.',$record_type, $stageRecord->id, $elementM);
-                $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
-                $this->_log($msg);
-                $flag = false;
-            }
-            $newTerm = $statusElement['terms'][3];
+            $flag = $this->_isMapped($stageRecord);
+            if(!$flag) $records = [];
         } else if($key == 3){
-            $elementM = 'URL of your PeriodO collection';
-            if(empty(metadata($stageRecord,array('Monitor', $elementM)))){
-                $records = [];
-                $msg = __('%s #%d is not enriched, %s is empty.',$record_type, $stageRecord->id, $elementM);
-                $this->_log($msg);
-                $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
-                $flag = false;
-            }
-            $newTerm = $statusElement['terms'][4];
-        } else if($key == 4){
-            $newTerm = $statusElement['terms'][5];
-        } else if($key == 5){
-            $newTerm = $statusElement['terms'][6];
-        } else if($key == 6){
-            $newTerm = $statusElement['terms'][0];
-        }
+            $flag = $this->_isEnriched($stageRecord);
+            if(!$flag) $records = [];
+        } 
+        // Stage Sub Records (If any)
+        $newTerm = $this->_stageSubRecords(array('records' => $records,
+            'incompleteRecords' => $incompleteRecords,
+            'term' => $newTerm));
+        // Stage Record
+        $this->_stageRecord(array('key' => $key, 'stageRecord' => $stageRecord, 
+            'flag' => $flag, 'newTerm' => $newTerm));
+    }
+    
+    
+    protected function _stageSubRecords($args){
+        $newTerm = $args['term'];
+        $records = $args['records'];
+        $incompleteRecords = $args['incompleteRecords'];
         
-        // Exec Stage
+        $statusElement = $this->_statusElement;
+        $element = $statusElement['element'];
+        $elementSet = $element->getElementSet();
+
         $elementTexts = [];
         $elementTexts[$elementSet->name][$element->name][] = array(
             'text' => $newTerm,
             'html' => false,
         );
-        
         $count = count($records);
         foreach ($records as $k => $record) {
-            $record = update_item($record, $metadata, $elementTexts);
+            $record = update_item($record, $this->_metadata, $elementTexts);
             $msg = __('Element #%d ("%s") of record #%d staged to "%s" (%d/%d).',
                 $element->id, $element->name, $record->id, $newTerm, $k + 1, $count);
             $this->_log($msg);
-            $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
             if($newTerm == 'Complete'){
                 $record->public = true;
                 $record->save();
             }
             release_object($record);
-        }     
-        if($key==0 && !empty($incompleteRecords)){
+        }  
+        if(!empty($incompleteRecords)){
             $elementTexts = [];
-            $newTerm = $statusElement['terms'][1];
+            $newTerm = 'Incomplete';
             $elementTexts[$elementSet->name][$element->name][] = array(
                 'text' => $newTerm,
                 'html' => false,
             );
             foreach ($incompleteRecords as $k => $record) {
-                $record = update_item($record, $metadata, $elementTexts);
+                $record = update_item($record, $this->_metadata, $elementTexts);
                 $msg = __('Element #%d ("%s") of record #%d staged to "%s".',
                 $element->id, $element->name, $record->id, 'Incomplete');
                 $this->_log($msg);
-                $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
                 release_object($record);
-                $count += 1;
             }
         }
-        if($record_type == 'Collection' && ($flag || ($key == 0))){
+        return $newTerm;
+    }
+    
+    protected function _stageRecord($args){
+        $stageRecord = $args['stageRecord'];
+        $key = $args['key'];
+        $flag = $args['flag'];
+        $newTerm = $args['newTerm'];
+        //ticket
+        $ticket = get_view()->tracking()->getRecordTrackingTicket($stageRecord);
+        $statusElement = $this->_statusElement;
+        $element = $statusElement['element'];
+        
+        $elementTexts = [];
+        $elementTexts[$element->getElementSet()->name][$element->name][] = array(
+            'text' => $newTerm,
+            'html' => false,
+        );
+        $record_type = get_class($stageRecord);
+        if($record_type == 'Collection' && ($flag || $key == 0)){
+            $collectionid = $stageRecord->id;
             $colState = metadata($stageRecord, array('Monitor', 'Metadata Status'));
-            if($colState == $statusElement['terms'][$key] ){
+            if($colState == $statusElement['terms'][$key]){
                 release_object($stageRecord);
-                $stageRecord = update_collection(get_record_by_id('Collection',$collectionId),$metadata,$elementTexts);
-                $msg = __('Element #%d ("%s") of collection #%d staged to "%s".',
-                    $element->id, $element->name, $stageRecord->id, $newTerm);
+                $stageRecord = update_collection(get_record_by_id('Collection',$collectionid),$this->_metadata,$elementTexts);
+                $msg = __('Collection #%d staged to "%s".', $stageRecord->id, $newTerm);
                 $this->_log($msg);
-                $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
                 if($newTerm == 'Complete'){
                     $stageRecord->public = true;
                     $stageRecord->save();
@@ -182,18 +178,13 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
                 release_object($stageRecord);
                 $ticket->setStatus($newTerm);
                 $ticket->save();
-                $count += 1;
-                
             }
         } else if($flag && $record_type == 'Item'){
             $ticket->setStatus($newTerm);
             $ticket->save();
         }
-        $msg = __('%d records staged to "%s" for element "%s" (#%d).',
-            $count, $newTerm, $element->name, $element->id);
-        $this->_log($msg);
-        $this->createLogMsg(array('entry_id' => $logentry->id, 'msg' => $msg));
     }
+    
 
     /**
      * Log a message with generic info.
@@ -204,14 +195,52 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
     protected function _log($msg, $priority = Zend_Log::INFO)
     {
         $prefix = "[ARIADNEplusTracking][Stage]";
+        $this->createLogMsg($msg);
         _log("$prefix $msg", $priority);
     }
 
-    private function createLogMsg($args){
+    private function createLogMsg($msg){
         $logmsg = new ARIADNEplusLogMsg();
-        $logmsg->entry_id = $args['entry_id'];
-        $logmsg->msg = $args['msg'];
+        $logmsg->entry_id = $this->_logentry->id;
+        $logmsg->msg = $msg;
         $logmsg->save();
     }
 
+    protected function _checkMetadataElements($records, $view){
+        $mandatoryElementsDC = $view->tracking()->getMandatoryDCElements();
+        $incompleteRecords = [];
+        foreach ($records as $k => $record) {
+            //CHECK: DC
+            foreach($mandatoryElementsDC as $elementDC) {
+                if(empty(metadata($record,array('Dublin Core', $elementDC)))){
+                    $incompleteRecords[] = $record;
+                    unset($records[$k]);
+                    $msg = __('Record #%d is not valid. %s is empty.', $record->id, $elementDC);
+                    $this->_log($msg);
+                    break;
+                }
+            }
+        }
+        return array($records, $incompleteRecords);
+    }
+    
+    protected function _isMapped($record){
+        $elementM = 'ID of your metadata transformation';
+        if(empty(metadata($record,array('Monitor', $elementM)))){
+            $msg = __('%s #%d is not mapped,  %s is empty.',get_class($record), $record->id, $elementM);
+            $this->_log($msg);
+            return false;
+        }
+        return true;
+    }
+    
+    protected function _isEnriched($record){
+        $elementM = 'URL of your PeriodO collection';
+        if(empty(metadata($record,array('Monitor', $elementM)))){
+            $msg = __('%s #%d is not enriched, %s is empty.',get_class($record), $record->id, $elementM);
+            $this->_log($msg);
+            return false;
+        }
+        return true;
+    }
 }

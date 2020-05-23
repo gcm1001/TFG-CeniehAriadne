@@ -18,7 +18,7 @@ $tabs = apply_filters('admin_collection_files_form_tabs', $tabs, array('file' =>
 <ul id="section-nav" class="navigation tabs">
     <?php foreach ($tabs as $tabName => $tabContent): ?>
         <?php if (!empty($tabContent)): // Don't display tabs with no content. '?>
-            <li><a href="#<?php echo html_escape(text_to_id($tabName) . '-metadata'); ?>"><?php echo html_escape(__($tabName)); ?></a></li>
+  <li><a href="#<?= htmlspecialchars(text_to_id($tabName) . '-metadata'); ?>"><?= htmlspecialchars(__($tabName)); ?></a></li>
         <?php endif; ?> 
     <?php endforeach; ?>
 </ul>

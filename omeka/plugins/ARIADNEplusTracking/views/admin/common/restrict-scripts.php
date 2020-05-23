@@ -8,9 +8,9 @@ $elementId = array_key_first($statusTermsElements);
         jQuery('#public').attr('disabled',true); 
         jQuery('#featured').attr('disabled',true);
         <?php foreach($sections as $section): ?>
-               var section = "<?php echo $section; ?>";
+               var section = "<?= html_escape($section); ?>";
                if(section == 'mapped'){
-                    var elementId = "<?php echo ($elementId + 1); ?>";
+                    var elementId = "<?= html_escape(($elementId + 1)); ?>";
                     jQuery("textarea#Elements-" + elementId + "-0-text").attr("readonly",true);
                     jQuery("input#Elements-" + elementId + "-0-html").attr("readonly",true);
                 } else if (section == 'files' || section == 'tags' || section == 'item-type-metadata'){

@@ -358,8 +358,9 @@ class ZipStream {
       fclose($fh);
       $crc = unpack('V', hash_final($hash_ctx, true));
       $crc = $crc[1];
-    } else {
-      die("unknown large_file_method: $meth_str");
+    }
+    if(!isset($crc)){
+      return;
     }
 
     # send file header
@@ -529,8 +530,8 @@ class ZipStream {
     if ($this->need_headers)
       $this->send_http_headers();
     $this->need_headers = false;
-
-    echo $str;
+    ?>
+    <?= $str; ?> <?php
   }
 
   #

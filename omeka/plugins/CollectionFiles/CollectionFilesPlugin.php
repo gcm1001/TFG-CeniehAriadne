@@ -13,6 +13,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
 {
     protected $_elementSetName = 'Monitor';
 
+    private $_files;
     /**
      * @var array Hooks for the plugin.
      */
@@ -62,9 +63,9 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookInstall()
     {
-        $db = get_db();
+        $database = get_db();
         $sql = "
-        CREATE TABLE IF NOT EXISTS `$db->CollectionFile` (
+        CREATE TABLE IF NOT EXISTS `$database->CollectionFile` (
             `id` int unsigned NOT NULL auto_increment,
             `collection_id` int unsigned NOT NULL,
             `order` int(10) unsigned DEFAULT NULL,
@@ -82,7 +83,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
             PRIMARY KEY  (`id`),
             KEY `collection_id` (`collection_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-          $db->query($sql);
+          $database->query($sql);
         
     }
 
@@ -92,16 +93,16 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookUninstall()
     {
         // Drop the Location table
-        $db = get_db();
-        $db->query("DROP TABLE IF EXISTS `$db->CollectionFile`");
+        $database = get_db();
+        $database->query("DROP TABLE IF EXISTS `$database->CollectionFile`");
     }
 
     /**
      * Display the uninstall message.
      */
     public function hookUninstallMessage()
-    {
-        echo __('%sWarning%s: This will remove all the collection files %s', '<p><strong>', '</strong>', '</p>');
+    { ?>
+        <?= __('%sWarning%s: This will remove all the collection files %s', '<p><strong>', '</strong>', '</p>'); ?> <?php
     }
 
     /**
@@ -118,7 +119,6 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
  
     public function filterAdminCollectionsFormTabs($tabs, $args)
     {
-        $tab = $tabs[$this->_elementSetName];
         $record = $args['collection'];
         $view = get_view();
         
@@ -133,40 +133,37 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     }
     
     private function collection_has_files($record){
-        $db = get_db();
+        $database = get_db();
         $sql = "
         SELECT COUNT(f.id)
-        FROM $db->CollectionFile f
+        FROM $database->CollectionFile f
         WHERE f.collection_id = ?";
-        $has_files = (int) $db->fetchOne($sql, array((int) $record->id));
+        $has_files = (int) $database->fetchOne($sql, array((int) $record->id));
         
         return (bool) $has_files;
     }
     
     private function get_collection_files($record){
-        $db = get_db();
-        $files = $db->getTable('CollectionFile')->findByCollection($record->id);
+        $database = get_db();
+        $files = $database->getTable('CollectionFile')->findByCollection($record->id);
         return $files;
     }
     
     public function hookBeforeSaveCollection($args){
+        $collection = $args['record'];
         try {
-            $collection = $args['record'];
-
-            if (!empty($_FILES['collectionfile'])) {
-                $files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
-                
-                foreach ($files as $key => $file) {
-                    $file->collection_id = $collection->id;
-                    $file->save();
-                    // Make sure we can't save it twice by mistake.
-                    unset($files[$key]);
-                }
+            if ($this->isset_file('collectionfile')){
+                $this->_files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
             }
         } catch (Omeka_File_Ingest_InvalidException $e) {
-            $this->addError('File Upload', $e->getMessage());
+            $collection->addError('File Upload', $e->getMessage());
         }
     }
+    
+    protected function isset_file($name){
+        return empty($name) ? false : isset($_FILES[$name]);
+    }
+    
     private function insert_files_for_collection($collection, $transferStrategy, $files, $options = array())
     {
         $builder = new Builder_CollectionFiles(get_db());
@@ -176,11 +173,16 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookAfterSaveCollection($args)
     {
-        $collection = $args['record'];
-        $db = get_db();
+        $database = get_db();
         if ($args['post']) {
             $post = $args['post'];
-            
+            $collection = $args['record'];
+            foreach ($this->_files as $key => $file) {
+                $file->collection_id = $collection->id;
+                $file->save();
+                // Make sure we can't save it twice by mistake.
+                unset($this->_files[$key]);
+            }
             // Update file order for this item.
             if (isset($post['order'])) {
                 foreach ($post['order'] as $fileId => $fileOrder) {
@@ -190,16 +192,18 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
                         $fileOrder = null;
                     }
                     
-                    $file = $db->getTable('CollectionFile')->find($fileId);
-                    $file->order = $fileOrder;
-                    $file->save();
+                    $file = $database->getTable('CollectionFile')->find($fileId);
+                    if($file){
+                        $file->order = $fileOrder;
+                        $file->save();
+                    }
                 }
             }
             
             // Delete files that have been designated by passing an array of IDs
             // through the form.
             if (isset($post['delete_files']) && ($files = $post['delete_files'])) {
-                $filesToDelete = $db->getTable('CollectionFile')->findByCollection($collection->id, $files, 'id');
+                $filesToDelete = $database->getTable('CollectionFile')->findByCollection($collection->id, $files, 'id');
                 foreach ($filesToDelete as $fileRecord) {
                     $fileRecord->delete();
                 }
@@ -207,35 +211,39 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
-    public function hookAdminCollectionsForm($args){
-        echo '<script type="text/javascript">
+    public function hookAdminCollectionsForm($args){ ?>
+         <?= '<script type="text/javascript">
                 jQuery(document).ready(function () {
                     Omeka.Collections.makeFileWindow();
                     Omeka.Collections.enableSorting();
                     Omeka.Collections.enableAddFiles('.js_escape(__('Add Another File')).');
                 });
-              </script>';
+              </script>' ?>
+        <?php
     }
     
     public function hookAdminCollectionsShowSidebar($args){
-        $collection = $args['collection'];
+        $collection = $args['collection']; 
         
-        echo '<div class="panel">
+        $this->_p_html('<div class="panel">
         <h4>'.__('Collection Files').'</h4>
-        <div id="file-list">';
+        <div id="file-list">');
         
-        if (!$this->collection_has_files($collection)){
-            echo '<p>'.__('There are no files for this collection yet.').link_to_collection(__('Add a File'), array(), 'edit').'.</p>';
+        if (!$this->collection_has_files($collection)){ 
+            $this->_p_html('<p>'.__('There are no files for this collection yet.').link_to_collection(__('Add a File'), array(), 'edit').'.</p>'); 
         } else {
-            $files = $this->get_collection_files($collection);
-            echo '<ul>';
-            foreach ($files as $file){
-                echo link_to($file,'show', $file->original_filename);
-                echo "<br>";
-            }
-            echo '</ul>';            
-        }
-        echo '</div> </div>';
+            $files = $this->get_collection_files($collection); 
+            $this->_p_html('<ul>'); 
+            foreach ($files as $file){ 
+                 $this->_p_html(link_to($file,'show', $file->original_filename)); 
+                 $this->_p_html("<br>"); 
+            } 
+            $this->_p_html('</ul>');     
+        } 
+        $this->_p_html('</div> </div>'); 
     }
     
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
+    }
 }

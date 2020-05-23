@@ -66,9 +66,8 @@ class ARIADNEplusLogMsg extends Omeka_Record_AbstractRecord
         $entry = $this->getEntry();
         if ($entry) {
             return $entry->isOwnedBy($user);
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function getProperty($property)

@@ -65,7 +65,7 @@ abstract class CollectionFiles_File_Ingest_AbstractSourceIngest extends Collecti
         } elseif (is_string($files)) {
             $infoArray = array(array('source' => $files));
         } else {
-            throw new Omeka_File_Ingest_Exception('File info is incorrectly formatted!');
+            throw new CollectionFiles_File_Ingest_Exception('File info is incorrectly formatted!');
         }
 
         return $infoArray;
@@ -131,7 +131,7 @@ abstract class CollectionFiles_File_Ingest_AbstractSourceIngest extends Collecti
         // If the transferred file is invalid, delete it.
         try {
             $this->_validateFile($fileDestinationPath, $fileInfo);
-        } catch (Omeka_File_Ingest_InvalidException $e) {
+        } catch (CollectionFiles_File_Ingest_InvalidException $e) {
             unlink($fileDestinationPath);
             throw $e;
         }

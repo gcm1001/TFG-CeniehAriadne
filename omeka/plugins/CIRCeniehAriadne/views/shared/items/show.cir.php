@@ -14,11 +14,11 @@
 
     $cirExporter = new CirExporter(); // inicializamos un objeto de tipo CirExporter
 
-    if(!isset($itemID)) die('ERROR: item ID not set'); // se comprueba que existe el ítem
+    if(!isset($itemID)) return 'ERROR: item ID not set'; // se comprueba que existe el ítem
 
-    try{
-        echo $cirExporter->exportItem($itemID); // imprimimos todo el contenido generado sobre el fichero xml
-    } catch (Exception $e) {
-        $this->flashMessenger->addMessage($e->getMessage(),'error');;
-    }
+      try{ ?>
+        <?= $cirExporter->exportItem($itemID); ?>
+<?php } catch (Exception $e) {
+        $this->flashMessenger->addMessage($e->getMessage(),'error');
+      }
 ?>

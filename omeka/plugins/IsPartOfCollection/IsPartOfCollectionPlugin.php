@@ -11,8 +11,8 @@ class IsPartOfCollectionPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookAfterSaveItem($args)
     {
-        $db = get_db(); //Base de datos
-        $elementTable = $db->getTable('Element'); // Tabla 'Element'
+        $database = get_db(); //Base de datos
+        $elementTable = $database->getTable('Element'); // Tabla 'Element'
         $ispartofElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Is Part Of'); // Elemento 'Is Part Of'
         $item = $args['record']; // Ítem
         $collection = get_collection_for_item($item); // Colección asociada al ítem
@@ -29,4 +29,4 @@ class IsPartOfCollectionPlugin extends Omeka_Plugin_AbstractPlugin
      }
 
 }
-?>
+

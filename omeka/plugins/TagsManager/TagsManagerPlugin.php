@@ -34,17 +34,20 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
     }
     
     public function hookConfig($args) {
-        set_option('tagsmanager_sync', $_POST['sync']);
-        set_option('tagsmanager_delbutton', $_POST['delbutton']);
+        $post = $args['post'];
+        set_option('tagsmanager_sync', $post['sync']);
+        set_option('tagsmanager_delbutton', $post['delbutton']);
     }
     
-    function hookAdminTagsBrowse($tags) {    
+    function hookAdminTagsBrowse($args) { 
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $params = $request->getParams();
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
-            if ((isset($_GET['like']) || isset($_GET['type']))  && count($tags)) {
-                echo "<a class='button red' style='margin-top:20px;' href='".url('tags-manager/del/all', $_GET)."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>";            
-            } else {
-                echo "<a class='button red' style='margin-top:20px;' href='".url('tags-manager/del/all')."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>";
-            }
+            if (isset($params['like']) || isset($params['type'])) {
+                $this->_p_html("<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>");      
+                return;
+            } 
+            $this->_p_html("<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"); 
         }
     }
     
@@ -52,29 +55,30 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         if (get_option('tagsmanager_sync')) {
             $item = $args['record'];
             $itemId = metadata($item, 'id');
-            $subjects = metadata($item, array('Dublin Core', 'Subject'), array('all' => true));
-            
-            $db = get_db();
+            $subjects = array_unique(metadata($item, array('Dublin Core', 'Subject'), array('all' => true)));
+            $database = get_db();
             
             $tagsIds = array();
             foreach ($subjects as $id => $subject) {
                 $subject = str_replace("'", "''", $subject);
-                $tagId = $db->query("SELECT id FROM `$db->Tags` WHERE name = '$subject'")->fetch();
+                $tagId = $database->query("SELECT id FROM `$database->Tags` WHERE name = '$subject'")->fetch();
 
                 if (empty($tagId)) {
-                    $db->query("INSERT INTO `$db->Tags` (name) VALUES('$subject')");
-                    $tagId['id'] = $db->getAdapter()->lastInsertId();
+                    $database->query("INSERT INTO `$database->Tags` (name) VALUES('$subject')");
+                    $tagId['id'] = $database->getAdapter()->lastInsertId();
                 }
                 $tagsIds[$subject] = $tagId['id'];
             }
-            
-            $db->query("DELETE FROM `$db->RecordsTags` WHERE record_id = ? AND record_type='Item'",$itemId);
+            $database->query("DELETE FROM `$database->RecordsTags` WHERE record_id = ? AND record_type='Item'",$itemId);
 
-            foreach ($tagsIds as $id) {
-                $db->query("INSERT INTO `$db->RecordsTags` (record_id, record_type, tag_id) VALUES ($itemId, 'Item', $id)");
+            foreach (array_unique($tagsIds) as $id) {
+                $database->query("INSERT INTO `$database->RecordsTags` (record_id, record_type, tag_id) VALUES ($itemId, 'Item', $id)");
             }
         }
     }
     
+    private function _p_html($html){ ?>
+      <?= $html ?> <?php
+    }
 }
     
