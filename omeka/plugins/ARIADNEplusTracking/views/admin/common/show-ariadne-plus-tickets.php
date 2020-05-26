@@ -10,7 +10,7 @@
                     $browseHeadings[__('User')] = 'user';
                     $browseHeadings[__('Status')] = 'status';?>
                     <?= browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => '')); ?>
-                    
+                  <th> Action </th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +32,13 @@
                     </td>
                     <td><?= html_escape($ticket->displayUser()); ?></td>
                     <td><?= html_escape($ticket->displayStatus()); ?></td>
+                  <td style="width:35px;">
+                    <form id="form-remove-<?= html_escape(($key-1)); ?>" method="post" action="<?= html_escape(url('ariadn-eplus-tracking/index/remove'))?>">
+                      <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" />
+                      <input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
+                    </form>
+                    <span class="delete-row table-remove remove-lg">x</span>
+                  </td>
                 </tr>
                 </form>
                 <?php endforeach; 
@@ -50,9 +57,42 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery("#ariadne-tickets tbody tr").click(function(){
-            var row_id = jQuery(this).index();
-            jQuery("#form-row-" + row_id).submit();
+        
+        jQuery("#ariadne-tickets tbody tr td:not(:last-child)").click( function () {
+             var row_id = jQuery(this).parent('tr').index();
+            jQuery('#form-row-'+row_id).submit();
         });
+        
+        jQuery('.table-remove').click(function () {
+            var row = jQuery(this).closest('tr');
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result.value) {
+                var idx = row.index();
+                row.hide(1500);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: 'Your ticket has been deleted.',
+                    showConfirmButton:false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                });
+                setTimeout(function(){
+                    jQuery('#form-remove-'+idx).submit();
+                }, 2000);
+                
+              }
+            });
+        });
+
     });
 </script>

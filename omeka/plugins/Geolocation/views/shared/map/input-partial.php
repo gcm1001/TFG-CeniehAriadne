@@ -3,19 +3,19 @@ $center = js_escape($center);
 $options = $this->geolocationMapOptions($options);
 ?>
 
-<input type="hidden" name="geolocation[latitude]" value="<?= $lat; ?>">
-<input type="hidden" name="geolocation[longitude]" value="<?= $lng; ?>">
-<input type="hidden" name="geolocation[width]" value="<?= $width; ?>">
-<input type="hidden" name="geolocation[height]" value="<?= $height; ?>">
-<input type="hidden" name="geolocation[zoom_level]" value="<?= $zoom; ?>">
+<input type="hidden" name="geolocation[latitude]" value="<?= html_escape($lat); ?>">
+<input type="hidden" name="geolocation[longitude]" value="<?= html_escape($lng); ?>">
+<input type="hidden" name="geolocation[width]" value="<?= html_escape($width); ?>">
+<input type="hidden" name="geolocation[height]" value="<?= html_escape($height); ?>">
+<input type="hidden" name="geolocation[zoom_level]" value="<?= html_escape($zoom); ?>">
 <input type="hidden" name="geolocation[map_type]" value="Leaflet">
 
 <div class="field">
     <div id="location_form" class="two columns alpha">
-        <label><?= htmlspecialchars($label); ?></label>
+        <label><?= html_escape($label); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <input type="text" name="geolocation[address]" id="geolocation_address" value="<?= htmlspecialchars($address); ?>">
+        <input type="text" name="geolocation[address]" id="geolocation_address" value="<?= html_escape($address); ?>">
         <button type="button" name="geolocation_find_location_by_address" id="geolocation_find_location_by_address"><?= __('Find'); ?></button>
     </div>
 </div>

@@ -58,7 +58,7 @@ class CsvImportPlus_Form_Mapping extends Omeka_Form
                 'element',
                 array(
                     'class' => 'map-element',
-                    'multiOptions' => $elementsByElementSetName,
+                    'multiOptions' => array('' => 'Ignore') + $elementsByElementSetName,
                     'multiple' => false, // see ZF-8452
             ));
             $selectElement->setIsArray(true);

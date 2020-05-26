@@ -55,7 +55,8 @@
     <div class="phase-bar" style="width: <?= (($level > 0) ? $level*(100/6) : 100/6).'%' ?>;"></div>
     </div>
     <div id="phase-content">
-    <?= $this->Tracking()->showPhase(array('phase' => $level > 0 ? $level : 1 , 'record' => $record, 'results' => isset($total_results) ? $total_results : '')); ?>
+    <?= $this->Tracking()->showPhase(array('phase' => $level > 0 ? $level : 1 , 'record' => $record, 
+        'results' => isset($total_results) ? $total_results : '', 'hide' => $hide )); ?>
     </div>
     
     <div class="next">

@@ -15,7 +15,7 @@
         <tr>
             <?php
             foreach (array_keys($sections) as $section):;?>
-            <?= htmlspecialchars(__('<th class="hide-boxes">'.str_replace('-', ' ', $section).'</th>'));?>
+            <?= __('<th class="hide-boxes">'.str_replace('-', ' ', $section).'</th>');?>
             <?php endforeach; ?>
         </tr>
     </thead>

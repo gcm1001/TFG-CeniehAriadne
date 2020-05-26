@@ -466,7 +466,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAdminHead()
     {
-        queue_css_file('ariadneplustracking'); 
+        queue_css_file('ariadne-plus-tracking'); 
         queue_js_file('notify');
         queue_js_file('sweetalert2.all.min');
     }
@@ -1231,9 +1231,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['record'];
         $post = $args['post'];
         if(!empty($post)){
-            if ($this->isset_file('file')) {
-                $status = metadata($item,array('Monitor','Metadata Status'));
-                if($status){
+            $status = metadata($item,array('Monitor','Metadata Status'));
+            if($status){
+                if ($this->isset_file('file')) {
                     $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
                     $file = array_pop($jsonfiles);
                     if($file){
@@ -1253,6 +1253,11 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                             $file->delete();
                         }
                     }
+                }
+                if($status == 'Incomplete'){
+                    $statusElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'Metadata Status');
+                    $item->deleteElementTextsByElementId(array($statusElement->id));
+                    $item->addTextForElement($statusElement,'Proposed');
                 }
             } 
         }
@@ -1495,6 +1500,11 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
+    /**
+     * Prints HTML code.
+     * 
+     * @param type $html HTML code
+     */
     private function _p_html($html){ ?>
       <?= $html ?> <?php
     }

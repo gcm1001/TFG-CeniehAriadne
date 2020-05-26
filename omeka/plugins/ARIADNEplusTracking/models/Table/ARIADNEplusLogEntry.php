@@ -1,7 +1,5 @@
 <?php
-/**
- * The table for AriadnePlus Log Entries.
- */
+
 class Table_ARIADNEplusLogEntry extends Omeka_Db_Table
 {
     protected $_target = 'ARIADNEplusLogEntry';

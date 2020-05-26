@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * An ARIADNEplus Log Message
+ *
+ * @package ARIADNEplusTracking
+ *
+ */
 class ARIADNEplusLogMsg extends Omeka_Record_AbstractRecord
 {
     const TYPE_ASSIGN = 'assign';

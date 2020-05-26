@@ -5,7 +5,7 @@ $title = __('Browse Items on the Map') . ' ' . __('(%s total)', $totalItems);?>
 <?= head(array('title' => $title, 'bodyclass' => 'map browse')); ?>
 
 
-<h1><?= htmlspecialchars($title); ?></h1>
+<h1><?= html_escape($title); ?></h1>
 
 <nav class="items-nav navigation secondary-nav">
     <?= public_nav_items(); ?>
@@ -17,7 +17,7 @@ $title = __('Browse Items on the Map') . ' ' . __('(%s total)', $totalItems);?>
 
 <div id="geolocation-browse">
     <?= $this->geolocationMapBrowse('map_browse', array('list' => 'map-links', 'params' => $params)); ?>
-  <div id="map-links"><h2><?= htmlspecialchars(__('Find An Item on the Map')); ?></h2></div>
+  <div id="map-links"><h2><?= html_escape(__('Find An Item on the Map')); ?></h2></div>
 </div>
 
 <?= foot(); ?>

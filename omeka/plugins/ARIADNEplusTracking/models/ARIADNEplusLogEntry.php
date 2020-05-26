@@ -1,9 +1,8 @@
 <?php
 /**
- * A History Log entry
+ * An ARIADNEplus Log entry
  *
- * @package Historylog
- *
+ * @package ARIADNEplusTracking
  */
 class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
 {
@@ -127,30 +126,7 @@ class ARIADNEplusLogEntry extends Omeka_Record_AbstractRecord
             $recordId = $this->record_id;
         } elseif (is_object($record)) {
             return $record;
-        } elseif (is_array($record)) {
-            if (isset($record['record_type']) && isset($record['record_id'])) {
-                $recordType = $record['record_type'];
-                $recordId = $record['record_id'];
-            }
-            elseif (isset($record['type']) && isset($record['id'])) {
-                $recordType = $record['type'];
-                $recordId = $record['id'];
-            }
-            elseif (count($record) == 1) {
-                $recordId = reset($record);
-                $recordType = key($record);
-            }
-            elseif (count($record) == 2) {
-                $recordType = array_shift($record);
-                $recordId = array_shift($record);
-            }
-            else {
-                return;
-            }
-        } else {
-            return;
-        }
-
+        } 
         if (class_exists($recordType)) {
             return $this->getTable($recordType)->find($recordId);
         }

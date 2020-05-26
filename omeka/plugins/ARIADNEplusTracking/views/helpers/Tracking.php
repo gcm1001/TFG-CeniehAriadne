@@ -1,8 +1,8 @@
 <?php
 /**
- * Helpers for AriadnePlusMonitor.
+ * Helpers for ARIADNEplus Tracking.
  *
- * @package AriadnePlusMonitor
+ * @package ARIADNEplusTracking
  */
 class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
 {
@@ -224,7 +224,6 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      */
     public function showlogs($record, $limit = 2)
     {
-        $markup = '';
         $params = array();
         if (is_object($record)) {
             $params['record_type'] = get_class($record);
@@ -297,44 +296,13 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
             if(!isset($args['results'])){
                 return;
             }
-            $elements = $this->_elementSet;
-            $element_id = reset($elements);
-            $advancedFilterProp = array(
-                                array(
-                                    'element_id' => $element_id,
-                                    'type' => 'is exactly',
-                                    'terms' => 'Proposed'
-                                ),
-                                array(
-                                    'joiner' => 'or',
-                                    'element_id' => $element_id,
-                                    'type' => 'is exactly',
-                                    'terms' => 'Incomplete'
-                                ),
-                                array(
-                                    'joiner' => 'or',
-                                    'element_id' => $element_id,
-                                    'type' => 'is exactly',
-                                    'terms' => 'Complete'
-                                ),
-                              );     
-            switch($record_type){
-                case 'Collection':
-                    $items = get_records('Item',array('collection' => $record->id, 
-                        'advanced' => $advancedFilterProp), $limit);
-                    break;
-                case 'Item':
-                    $status = metadata($record,array('Monitor','Metadata Status'));
-                    $items = array($record);
-                    break;
-                default:
-                    $items = array();
-            }
-
+            $elements = $this->getStatusElements(true);
+            $element = reset($elements);
             $markup = $this->view->partial('forms/phase-one-form.php',array(
                                             'record' => $record,
-                                            'items' => $items,
+                                            'elementId' => $element['element']->id,
                                             'total' => $args['results'],
+                                            'hide' => $args['hide'],
                                             ));
         } else if($phase == 2 ){
             $markup = $this->view->partial('forms/phase-two-form.php',array(

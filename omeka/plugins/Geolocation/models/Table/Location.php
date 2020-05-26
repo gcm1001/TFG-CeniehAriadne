@@ -46,7 +46,7 @@ class Table_Location extends Omeka_Db_Table
         // However, if in the future, an item can have multiple locations, then we cannot just associate a single location with a single item_id;
         // Instead, in the future, we would have to associate an array of locations with a single item_id.         
         $indexedLocations = array();
-        foreach ($locations as $k => $loc) {
+        foreach ($locations as $loc) {
             $indexedLocations[$loc['item_id']] = $loc;
         }
         return $indexedLocations;

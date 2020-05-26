@@ -1,8 +1,8 @@
 <?php
 /**
- * Controller for Ariadneplus Tracking.
+ * Controller for ARIADNEplus Tracking.
  *
- * @package AriadneplusTracking
+ * @package ARIADNEPlusTracking
  */
 class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActionController
 {
@@ -18,22 +18,16 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
     
 
     /**
-     * Main view of the tracking.
+     * Main view of the tracking plugin.
      *
-     * This administrative metadata will enable the project to keep accurate
-     * statistics on progress, identify documents that are ready for the next
-     * stage in workflow, and select documents ready to be published at each
-     * quarter without having to create a separate control database or system.
      */
     public function indexAction()
     {   
-        if (!$this->getRequest()->isPost()) {
-            return;
-        }
-          
-        //TABLEPOST
+        if (!$this->getRequest()->isPost()) return;
+        
+        // TABLEPOST
         $post = $this->getRequest()->getPost();
-
+        // RECORD INFO
         $record_type = $post['record_type'];
         $record_id = $post['record_id'];
         
@@ -43,22 +37,19 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
             $this->_helper->flashMessenger(__('Something is wrong.'), 'error');
             return;
         }
-        
     }
     
     /**
-     * Shows the new Form for create a new ticket.
+     * Shows the new Form to create a new ticket.
      *
-     * @return type
      */
     public function newAction(){
         
-        $this->view->options_for_select_type = $this->_getOptions(array('options' => array('' => 'Select below', 'Collection' => 'Collection', 'Item' => 'Item')));
+        $this->view->options_for_select_type = array('' => 'Select below', 'Collection' => 'Collection', 'Item' => 'Item');
         $this->view->options_for_select_collection = $this->_getOptionsForSelectCollection();
         $this->view->options_for_select_item = $this->_getOptionsForSelectItem();
         $terms = $this->view->tracking()->getTermsByName('ARIADNEplus Category');
-        $this->view->terms = $terms;
-        $this->view->options_for_select_category = $this->_getOptions(array('options' => $terms));
+        $this->view->options_for_select_category = (array('' => 'Select below') + $terms);
         
         if (!$this->getRequest()->isPost()) {
             return;
@@ -92,7 +83,6 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
      * Update a record.
      * 
      * @param type $args Record & Element Set Name & Element Texts to update
-     * @return type
      */
     protected function _updateRecord($args){
         $record = $args['record'];
@@ -223,7 +213,8 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $this->view->record = $record;
         $this->view->ticket = $ticket;
         $this->view->level = $level;
-     
+        $this->view->hide = isset($params['advanced']); 
+        
         if($level == 0 || $level == 1){
           $this->_helper->db->setDefaultModelName('Item');
           parent::browseAction();
@@ -270,10 +261,10 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
     
     /**
      * Update selected records into the next term.
-     * 
      */
     public function stageAction()
     {
+        if (!$this->getRequest()->isGet()) return;
         $flashMessenger = $this->_helper->FlashMessenger;
         $elementId = $this->getParam('element');
         $term = $this->getParam('term');
@@ -308,6 +299,43 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         
         return $this->redirect($search);
     }
+    
+    /**
+     * Removes a ticket.
+     */
+    public function removeAction(){
+        if (!$this->getRequest()->isPost()) return;
+        
+        //TABLEPOST
+        $post = $this->getRequest()->getPost();
+
+        $record_type = $post['record_type'];
+        $record_id = $post['record_id'];
+        
+        if($record_type && $record_id){
+            $record = get_record_by_id($record_type, $record_id);
+            $ticket = $this->view->Tracking()->getRecordTrackingTicket($record);
+            if($ticket && $record){
+              $ticket->delete();
+              $elementSet = $this->view->Tracking()->getElementSet();
+              $elements = $elementSet->getElements();
+              $ids = [];
+              foreach($elements as $element) {
+                  $ids[] = $element->id;
+              }
+              $record->deleteElementTextsByElementId($ids);
+              return $this->redirect('ariadn-eplus-tracking');
+            }
+        }
+        $this->_helper->FlashMessenger->addMessage(__('ERROR: Ticket could not be removed'), 'error');
+        return $this->redirect('ariadn-eplus-tracking');
+    }
+    
+    /**
+     * Returns a message with some information about the stage.
+     * 
+     * @param type $args 
+     */
     private function _getStageMessage($args){
         $key = $args['key'];
         if($key == 0){
@@ -320,6 +348,7 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
                 . ' ' . __('This may take a while.');                       
         }
     }
+    
     /**
      * Returns options for the select that is used to choose a collection.
      * 
@@ -363,27 +392,4 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         }
         return $options;
     }
-  
-    /**
-     * Returns options for a given array.
-     * 
-     * @param type $args
-     * @return type
-     */
-    private function _getOptions($args)
-    {
-        $options = $args['options'];
-        
-        if(empty($args['opSel'])){
-            return $options;
-        }
-        if (array_key_exists($args['opSel'], $options)){
-            $opSel = $args['opSel'];
-            unset($options[$opSel]);
-            unset($options['']);
-            $options = array($opSel => $args['options'][$opSel]) + $options;
-        }
-        return $options;
-    }
-    
 }

@@ -4,14 +4,21 @@
  */
 class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
 {
+    /* Queue name */
     const QUEUE_NAME = 'ariadneplus_tracking_stage';
 
+    /* Log Entry to store log messages*/
     private $_logentry;
+    /* Status Element (Metadata Status) */
     private $_statusElement;
+    /* Option to update items/collections */
     private $_metadata = array(
                 Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
             );
     
+    /**
+     * Execute the stage.
+     */
     public function perform()
     {
         $this->_db = get_db();
@@ -61,8 +68,13 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
                 'element_id' => $element->id,
                 'type' => 'is exactly',
                 'terms' => $term,
-            )),
-        ), 0);
+                 ),array(
+                   'joiner' => 'or',
+                  'element_id' => $element->id,
+                  'type' => 'is exactly',
+                  'terms' => 'Proposed'
+                ))
+                ), 0);
         // Operation
         $operation = null;
         $incompleteRecords = [];
@@ -102,7 +114,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             'flag' => $flag, 'newTerm' => $newTerm));
     }
     
-    
+    /**
+     * Stage the records.
+     * 
+     * @param type $args Parameters
+     * @return string New term
+     */
     protected function _stageSubRecords($args){
         $newTerm = $args['term'];
         $records = $args['records'];
@@ -147,6 +164,11 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         return $newTerm;
     }
     
+    /**
+     * Stage the master record.
+     * 
+     * @param type $args
+     */
     protected function _stageRecord($args){
         $stageRecord = $args['stageRecord'];
         $key = $args['key'];
@@ -199,6 +221,11 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         _log("$prefix $msg", $priority);
     }
 
+    /**
+     * Create an ARIADNEplus log message.
+     * 
+     * @param type $msg Message
+     */
     private function createLogMsg($msg){
         $logmsg = new ARIADNEplusLogMsg();
         $logmsg->entry_id = $this->_logentry->id;
@@ -206,6 +233,13 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         $logmsg->save();
     }
 
+    /**
+     * Checks all metadata elements of a given record.
+     * 
+     * @param type $records Records
+     * @param type $view View
+     * @return type Array with valid records and incomplete records
+     */
     protected function _checkMetadataElements($records, $view){
         $mandatoryElementsDC = $view->tracking()->getMandatoryDCElements();
         $incompleteRecords = [];
@@ -224,6 +258,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         return array($records, $incompleteRecords);
     }
     
+    /**
+     * Check if record is mapped.
+     * 
+     * @param type $record Record
+     * @return boolean Is mapped?
+     */
     protected function _isMapped($record){
         $elementM = 'ID of your metadata transformation';
         if(empty(metadata($record,array('Monitor', $elementM)))){
@@ -234,6 +274,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         return true;
     }
     
+    /**
+     * Check if record is enriched.
+     * 
+     * @param type $record Record
+     * @return boolean Is Enriched?
+     */
     protected function _isEnriched($record){
         $elementM = 'URL of your PeriodO collection';
         if(empty(metadata($record,array('Monitor', $elementM)))){

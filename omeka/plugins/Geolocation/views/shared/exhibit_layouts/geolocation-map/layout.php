@@ -53,4 +53,4 @@ jQuery(window).on('load', function () {
     geolocation_map.fitMarkers();
 });
 </script>
-<div id="<?= $divId; ?>" class="geolocation-map exhibit-geolocation-map"></div>
+<div id="<?= html_escape($divId); ?>" class="geolocation-map exhibit-geolocation-map"></div>

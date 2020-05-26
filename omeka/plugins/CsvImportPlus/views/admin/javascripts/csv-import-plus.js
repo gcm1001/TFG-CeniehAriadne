@@ -125,6 +125,21 @@ Omeka.CsvImportPlus = {};
         };
     };
 
+    Omeka.CsvImportPlus.showHelpPopups = function(imgurl) {
+        $('div.field').each(function(){
+            var helpP = $(this).find('p.explanation');
+            var label = $(this).find('label');
+            label.prepend( "<div class='popup'>" +
+                    "<h3>Helper</h3><p>" + 
+                    helpP.text() + 
+                    "</p> </div>" +
+                    "<img class='help-popup' src='"+ imgurl +"' width='20'/>"
+
+                    );
+                    
+            helpP.remove();
+        });
+    };
     /**
      * Enable/disable options after loading.
      */

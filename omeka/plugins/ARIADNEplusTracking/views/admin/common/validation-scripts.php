@@ -60,12 +60,12 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
         
         jQuery('.use-html').remove();
         
-        jQuery(document).on('click', '.notifyjs-mandatoryWarn-base .no', function() {
+        jQuery('.notifyjs-mandatoryWarn-base .no').click( function() {
             jQuery(this).trigger('notify-hide');
             return false;
         }); 
      
-        jQuery(document).on('click', '.notifyjs-mandatoryWarn-base .yes', function() {
+        jQuery('.notifyjs-mandatoryWarn-base .yes').click( function() {
             jQuery(this).trigger('notify-hide');
         }); 
         

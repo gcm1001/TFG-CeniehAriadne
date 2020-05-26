@@ -1,7 +1,7 @@
 <div id="div-phase-4">
     <div class="form-style-10">
     <h1 class="h1-phase" >It's almost done!<span class="span-form">Please, follow these steps.</span></h1>
-        <div class="section"><span>1</span>Inform WP4 leader of the new records.</div>
+        <div class="section"><span class="span-form-step">1</span>Inform WP4 leader of the new records.</div>
         <div class="inner-wrap">
             <div id="btn-mail-modal">
                 <span class="at"></span>
@@ -13,7 +13,8 @@
                 <span id="mail" class="close">&times;</span>
                 <div id="help-button-popup" class="help-popup">
                     <div  class = "frame">
-                        <div id = "button_open_envelope">View</div>
+                       <div class="close-mail" style="display: none;"><a href="#" id="close-button" class="close-button"></a></div>
+                       <div id = "button_open_envelope">View</div>
                        <div id="default-message" class = "message">
                             <form id="msg-form" action="<?= html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
                             <div id="default-content">
@@ -22,7 +23,7 @@
                             <input type="hidden" id="record_id" name="record_id" value="<?= html_escape($record->id); ?>" form="msg-form">
                             <input type="hidden" id="record_type" name="record_type" value="<?= html_escape(get_class($record)); ?>" form="msg-form">
                             <span> Default Content <div id="msg-content" class="div-textarea"><?= $body; ?></div></span>
-                            <button id="edit-button" class="edit-button">Change content</button>
+                            <div class="edit-button"> <a href="#" id="edit-button"><i class="fa fa-edit"></i></a> </div>
                             </div>
                             <input type="submit" value="Send" id="send-button" class="send-mail">
                             </form>
@@ -77,7 +78,7 @@
               </div>
             </div>
         </div>
-        <div class="section"><span>2</span>SPARQL endpoint</div>
+        <div class="section"><span class="span-form-step">2</span>SPARQL endpoint</div>
         <div class="inner-wrap">
             <form id="sparql-ghost-form" action="#" method='post'>
             <label>Ghost SPARQL endpoint <input id="sparql_ghost"  type="text" name="sparql_ghost" /></label>
@@ -101,6 +102,7 @@
         jQuery('#submit-mail').hide();
         
         var modal = jQuery("#mail-modal");
+        var close = jQuery("#close-button");
         var btn = jQuery("#btn-mail-modal");
         var span = jQuery("#mail.close");
         btn.click(function() {
@@ -111,14 +113,18 @@
             modal.hide();
         });
         jQuery(window).click(function(event) {
-            if (jQuery(event.target).is(modal)) {
+            if (jQuery(event.target).is(modal) || jQuery(event.target).is(close)) {
                 modal.hide();
-            }
+                jQuery('.top-mail').removeClass('open-mail');
+		jQuery('.message').removeClass('pull-mail');
+                jQuery('.close-mail').hide();
+            };
         });
         
 	jQuery('.frame').click(function(){
 		jQuery('.top-mail').addClass('open-mail');
 		jQuery('.message').addClass('pull-mail');
+                jQuery('.close-mail').show(3000);
         });
         
         jQuery('#edit-button').click(function(e){
