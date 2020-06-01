@@ -7,10 +7,7 @@
     list-style: none outside none;
 }
 </style>
-<fieldset id="fieldset-ariadneplus-tracking-contact"><legend><?= __('AriadnePlus contact details'); ?></legend>
-    <p class="explanation">
-    	
-    </p>
+<fieldset id="fieldset-ariadneplus-tracking-contact"><legend><?= __('ARIADNEplus contact details'); ?></legend>
     <div class="field">
         <div class="two columns alpha">
             <label for="ariadneplus_tracking_name"><?= __('Contact Name'); ?></label>
@@ -20,13 +17,12 @@
             <?= $view->formText('ariadneplus_tracking_name', get_option('ariadneplus_tracking_name')); ?>
         </div>
 	</div>
-	
 	<div class="field">
         <div class="two columns alpha">
             <label for="ariadneplus_tracking_email"><?= __('Contact email'); ?></label>
         </div>
         <div class="inputs five columns omega">
-            <p class="explanation"><?= __("The e-mail of the contact person.");?></p>
+            <p class="explanation"><?= __("E-mail of the contact person.");?></p>
             <?= $view->formText('ariadneplus_tracking_email', get_option('ariadneplus_tracking_email')); ?>
         </div>
 	</div>

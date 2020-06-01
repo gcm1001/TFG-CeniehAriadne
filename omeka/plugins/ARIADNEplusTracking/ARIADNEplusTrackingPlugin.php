@@ -15,6 +15,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * @var array Hooks for the plugin.
      */
     protected $_hooks = array(
+        'initialize',
         'install',
         'uninstall',
         'uninstall_message',
@@ -72,6 +73,18 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     );
 
     /**
+     * Add the security options.
+     */
+    public function hookInitialize()
+    {
+        // Get the backend settings from the security.ini file.
+        if (!Zend_Registry::isRegistered('ariadn_eplus_tracking')) {
+            $iniFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'security.ini';
+            $settings = new Zend_Config_Ini($iniFile, 'ariadn-eplus-tracking');
+            Zend_Registry::set('ariadn_eplus_tracking', $settings);
+        }
+    }
+    /**
      * Install the plugin.
      */
     public function hookInstall() {
@@ -98,7 +111,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         // JSON Element
         $hideSettings = json_decode(get_option('hide_elements_settings'), true);
         if(!isset($hideSettings['form']['Monitor'])){
-            $hideSettings['form']['Monitor'] = array('Metadata Status' => '1','GettyAAT mapping' => '1');
+            $hideSettings['form']['Monitor'] = array('Metadata Status' => '1','GettyAAT mapping' => '1', 'Ghost SPARQL' => '1');
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
@@ -131,7 +144,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             `record_id` int(10) unsigned NOT NULL,
             `user_id` int(10) unsigned NOT NULL,
             `status` enum('Proposed', 'Incomplete', 'Complete', 'Mapped',
-                          'Enriched', 'Ready to publish', 'Published') NOT NULL,
+                          'Enriched', 'Ready to Publish', 'Published') NOT NULL,
             `lastmod` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `mode` enum('XML', 'OAI-PMH', 'UNDEFINED') NOT NULL,
              PRIMARY KEY (`id`),
@@ -466,6 +479,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAdminHead()
     {
+
+        queue_js_file('tickets');
         queue_css_file('ariadne-plus-tracking'); 
         queue_js_file('notify');
         queue_js_file('sweetalert2.all.min');
@@ -1369,7 +1384,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             if($status == 'Mapped'){
               array_push($blocks,'mapped');  
             }
-            if($status == 'Enriched' || $status == 'Incomplete'){
+            if($status == 'Enriched' || $status == 'Incomplete' || $status == 'Proposed'){
               array_push($blocks,'monitor');
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $item));
@@ -1397,7 +1412,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             if($status == 'Mapped'){
               array_push($blocks,'mapped');  
             }
-            if($status == 'Enriched' || $status == 'Incomplete'){
+            if($status == 'Enriched' || $status == 'Incomplete' || $status == 'Proposed'){
               array_push($blocks,'monitor');
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $collection));
@@ -1423,7 +1438,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $status = $args['status'];
         $view = $args['view'];
         $record = $args['record'];
-        if($status == 'Incomplete'){
+        if($status == 'Incomplete' || $status = 'Proposed'){
             $elements = $record->getElementsBySetName('Dublin Core');
         } else if ($status == 'Complete' || $status == 'Mapped'){
             $elements = $record->getElementsBySetName('Monitor');

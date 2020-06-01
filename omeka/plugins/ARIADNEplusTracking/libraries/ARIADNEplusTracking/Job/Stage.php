@@ -40,9 +40,7 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $this->_log(__('The term "%s" is the last one of the vocabulary of element %s.', $term, $element->name));
             return;
         }
-        // All is fine.
-        $newTerm = $statusElement['terms'][$key + 1];
-        $elementSet = $element->getElementSet();
+        $newTerm = $statusElement['terms'][$key+1];
         // Record
         $record_type = $this->_options['record_type'];
         $record_id = $this->_options['record_id'];
@@ -63,18 +61,20 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         }
         //Get all items 
         $records = get_records('Item', array('collection' => $collectionId,
-                'range' => $itemId,
-                'advanced' => array(array(
-                'element_id' => $element->id,
-                'type' => 'is exactly',
-                'terms' => $term,
-                 ),array(
-                   'joiner' => 'or',
-                  'element_id' => $element->id,
-                  'type' => 'is exactly',
-                  'terms' => 'Proposed'
-                ))
-                ), 0);
+                    'range' => $itemId,
+                    'advanced' => array(
+                        array(
+                        'element_id' => $element->id,
+                        'type' => 'is exactly',
+                        'terms' => $term,
+                         ),
+                        array(
+                        'joiner' => 'or',
+                        'element_id' => $element->id,
+                        'type' => 'is exactly',
+                        'terms' => 'Proposed'
+                        ))
+                    ), 0);
         // Operation
         $operation = null;
         $incompleteRecords = [];
@@ -84,7 +84,7 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $operation = ARIADNEplusLogEntry::OPERATION_STAGE;
         } elseif ($key == 6) {
             $operation = ARIADNEplusLogEntry::OPERATION_REFRESH;
-        } 
+        }  
         if($operation === null){
           return;
         }
@@ -247,11 +247,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             //CHECK: DC
             foreach($mandatoryElementsDC as $elementDC) {
                 if(empty(metadata($record,array('Dublin Core', $elementDC)))){
-                    $incompleteRecords[] = $record;
-                    unset($records[$k]);
+                    if(isset($records[$k])){
+                      unset($records[$k]);
+                      $incompleteRecords[] = $record;
+                    }
                     $msg = __('Record #%d is not valid. %s is empty.', $record->id, $elementDC);
                     $this->_log($msg);
-                    break;
                 }
             }
         }

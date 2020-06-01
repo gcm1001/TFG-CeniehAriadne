@@ -57,42 +57,6 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        
-        jQuery("#ariadne-tickets tbody tr td:not(:last-child)").click( function () {
-             var row_id = jQuery(this).parent('tr').index();
-            jQuery('#form-row-'+row_id).submit();
-        });
-        
-        jQuery('.table-remove').click(function () {
-            var row = jQuery(this).closest('tr');
-            Swal.fire({
-              title: 'Are you sure?',
-              text: "You won't be able to revert this!",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-              if (result.value) {
-                var idx = row.index();
-                row.hide(1500);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Deleted!',
-                    text: 'Your ticket has been deleted.',
-                    showConfirmButton:false,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                });
-                setTimeout(function(){
-                    jQuery('#form-remove-'+idx).submit();
-                }, 2000);
-                
-              }
-            });
-        });
-
+        Omeka.Tickets.removeTicket();
     });
 </script>

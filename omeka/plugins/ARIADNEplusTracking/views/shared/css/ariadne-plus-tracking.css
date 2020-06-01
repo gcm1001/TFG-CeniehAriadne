@@ -526,7 +526,7 @@ a.btn .round i {
   text-align: center;
 }
 
-.form-style-10 h1 {
+.form-style-10 h1.h1-phase {
   background: #2a88ad;
   padding: 20px 30px 15px 30px;
   margin: -30px -30px 30px -30px;
@@ -909,61 +909,71 @@ b#title {
 /* MAIL BUTTON */
 
 #btn-mail-modal {
-  margin: 0 auto;
+  top: 50%;
+  left: 56%;
+  margin-top: 25px;
+  margin-left: -75px;
+  background-color: antiquewhite;
+  background-image: linear-gradient(transparent 0%, burlywood 49%, transparent 50%);
+  position: relative;
   width: 100px;
-  height: 60px;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #58007c;
-  cursor: pointer;
-  top: 100px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  transition: 0.3s all;
+  height: 66.6px;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.3);
+  transition: all .2s ease-in-out;
+  z-index: 1;
+  outline: none;
+}
+
+#btn-mail-modal .flap {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 0.7px;
+  border-top: 0px solid transparent;
+  border-right: 50px solid transparent;
+  border-left: 50px solid transparent;
+  border-top: 33.3px solid beige;
+}
+
+#btn-mail-modal:before {
+  position: absolute;
+  content: "";
+  left: 0px;
+  bottom: 0px;
+  height: 33.3px;
+  width: 100px;
+  background-color: beige;
+  z-index: 2;
+}
+
+.folds:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  left: 0;
+  border-right: 0px solid transparent;
+  border-top: 33.3px solid transparent;
+  border-bottom: 33.3px solid transparent;
+  border-left: 50px solid antiquewhite;
+  z-index: 2;
+}
+
+.folds:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  right: 0;
+  border-left: 0px solid transparent;
+  border-top: 33.3px solid transparent;
+  border-bottom: 33.3px solid transparent;
+  border-right: 50px solid antiquewhite;
+  z-index: 2;
 }
 
 #btn-mail-modal:hover {
-  top: 90px;
-  box-shadow: 0 14px 20px rgba(0, 0, 0, 0.3);
-  transform: scale(1.05);
-}
-
-#btn-mail-modal:active {
-  top: 100px;
-  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
-  transform: scale(0.9);
-}
-
-.letter,
-.letter::before,
-.letter::after {
-  width: 0;
-  height: 0;
-  display: block;
-  position: relative;
-}
-
-.letter {
-  border-top: 28px solid #72069e;
-  border-right: 50px solid transparent;
-  border-left: 50px solid transparent;
-}
-
-.letter::before {
-  content: "";
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
-  border-left: 42px solid #72069e;
-  top: -28px;
-  left: -50px;
-}
-
-.letter::after {
-  content: "";
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
-  border-right: 42px solid #72069e;
-  right: -8px;
-  top: -88px;
+  transform: scale(1.1);
 }
 
 /* MAIL FORM */
@@ -1280,17 +1290,17 @@ input.msg-input {
   width: auto;
 }
 
-.remove-lg, .remove-lg a, .remove-lg a:hover {    
+.remove-lg, .remove-lg a, .remove-lg a:hover {
   height: 20px;
   width: 20px;
-  border:1px solid #ba0000;
+  border: 1px solid #ba0000;
   border-radius: 50%;
   display: inline-block;
   text-align: center;
-  color:#ba0000;
-  font-size:16px;
-  font-weight:500;
-  line-height:18px;
+  color: #ba0000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
   cursor: pointer;
   margin-left: 8px;
 }
@@ -1308,14 +1318,14 @@ input.msg-input {
   height: 50px;
   width: 50px;
   top: 0;
-  left:0;
+  left: 0;
   position: absolute;
   box-sizing: border-box;
   line-height: 50px;
   display: inline-block;
 }
 
-.close-button:before, .close-button:after {
+.close-button::before, .close-button::after {
   transform: rotate(-45deg);
   content: '';
   position: absolute;
@@ -1330,11 +1340,11 @@ input.msg-input {
   transition: all 0.25s ease-out;
 }
 
-.close-button:after {
+.close-button::after {
   transform: rotate(-135deg);
 }
 
-.close-button:hover:before, .close-button:hover:after {
+.close-button:hover::before, .close-button:hover::after {
   transform: rotate(0deg);
 }
 
@@ -1345,4 +1355,425 @@ input.msg-input {
   position: absolute;
   top: 29%;
   left: 92%;
+}
+
+/* Mail inbox */
+
+.homepage{
+  min-height:400px;
+  padding-bottom: 30px;
+}
+.inboxdiv {
+  max-width: 990px;
+  border-top: none;
+  margin: 0 auto;
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  top: 5%;
+  left: 25%;
+}
+    
+.dis-con-time {
+  width: 100%;
+  text-align: right;
+  display: block;
+  font-weight: 400;
+  font-size: 80%;
+}
+    
+.sidebar {
+  position: fixed;
+  left: -100%;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid #dadfe1;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sidebar.active {
+  left: 0;
+}
+    
+.sidebar__inner {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  height: 100%;
+}
+    
+.sidebar__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+    
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1 1 660px;
+  height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.content__title {
+  display: flex;
+  padding: 20px 25px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 31px;
+  color: #4a4a4a;
+  border-bottom: 1px solid #dadfe1;
+  flex: 0 0 58px;
+  box-sizing: border-box;
+}
+
+.content__title a.dis-email>button.btn {
+  margin: auto 10% !important;
+}
+
+.content__inner {
+  width: 100%;
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.messages {
+  flex: 1 1 100%;
+  position: relative;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 10px 25px;
+  width: 660px;
+}
+
+.message__wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0 0 16px 0;
+  width: 80%;
+}
+
+.message__content {
+  flex: 1 0;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.message__sender_and_status {
+  display: block;
+  margin: 0 0 4px 0;
+}
+
+.message__sender_name {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #778594;
+  flex: 1 0;
+}
+
+@media screen and (min-width: 880px) {
+  .sidebar {
+    flex: 1 0 320px;
+    position: static;
+    left: 100%;
+  }
+
+  .open_sidebar {
+    display: none;
+  }
+
+  .inboxdiv {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .24);
+  }
+}
+    
+ .sidebar__dilog_list {
+  flex: 1 1 100%;
+  overflow-y: auto;
+  text-align: left;
+  padding: 0px;
+  max-height: 550px;
+  min-height: 550px;
+}
+
+.sidebar__dilog_list .dialog__item {
+  display: block;
+  width: 100%;
+}
+    
+.sidebar__dilog_list .dialog__item.selected,
+.sidebar__dilog_list .dialog__item:hover {
+  background: rgba(42, 100, 150, 0.1);
+}
+
+.dialog__item_link {
+  padding: 16px;
+  display: flex;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  border-bottom: 1px solid #dadfe1;
+}
+.open_sidebar {
+  border: none;
+  width: 24px;
+  height: 24px;
+  background-color: #778594;
+  cursor: pointer;
+  flex: 0 0 24px;
+  padding: 0;
+  margin: 3px 16px 0 0;
+}
+    
+.dialog__title {
+  font-size: 1.2em;
+  font-weight: 600;
+  flex: 1 1 100%;
+  margin: auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.dialog__item {
+  cursor: pointer;
+}
+
+.dialog__info {
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+.dialog__name {
+  display: block;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #4a4a4a;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0 10px 6px 0;
+}
+
+.dialog__last_message {
+  display: block;
+  width: 100%;
+  font-size: 13px;
+  line-height: 15px;
+  color: #778594;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.dialog_additional_info {
+  flex: 0 0 55px;
+  text-align: right;
+}
+
+.dialog__last_message_date {
+  font-size: 12px;
+  line-height: 14px;
+  color: #4a4a4a;
+  margin: 0 0 2px 0;
+  display: inline-block;
+}
+
+.dialog_unread_counter {
+  min-width: 23px;
+  background-color: #17d04b;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19px;
+  color: #fff;
+  text-align: center;
+  display: inline-block;
+}
+
+.dialog_unread_counter.hidden,
+.chatinitialtwo {
+  display: none;
+}
+
+.mar30-center {
+  margin: 30% auto;
+}
+
+.nomsgimg {
+  margin: 0 auto;
+  max-width: 150px;
+}
+
+.nomsgtext {
+  text-align: center;
+  font-size: 1.1em;
+  color: #85888c;
+}
+
+@media screen and (max-width: 768px) {
+  .hideformobile {
+    display: none;
+  }
+}
+
+/* INBOX BUTTON */
+
+#btn-inbox-modal {
+  top: 50%;
+  left: 56%;
+  margin-top: 25px;
+  margin-left: -75px;
+  background-color: antiquewhite;
+  background-image: linear-gradient(transparent 0%, burlywood 49%, transparent 50%);
+  position: relative;
+  width: 100px;
+  height: 66.6px;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.3);
+  transition: transform 0s;
+  transition-delay: 400ms;
+  z-index: 1;
+  outline: none;
+}
+
+#btn-inbox-modal .flap {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -33.3px;
+  border-top: 0px solid transparent;
+  border-right: 50px solid transparent;
+  border-left: 50px solid transparent;
+  border-bottom: 33.3px solid antiquewhite;
+  transition: transform 300ms linear, border-bottom 3s;
+}
+
+.infoil {
+  position: absolute;
+  bottom: 66.6px;
+  left: 8.5px;
+  border-top: 0px solid transparent;
+  border-right: 42px solid transparent;
+  border-left: 42px solid transparent;
+  border-bottom: 26.6px solid tomato;
+  transition: border-bottom 150ms ease-in;
+}
+
+#btn-inbox-modal:after {
+  position: absolute;
+  content: "";
+  left: 7px;
+  bottom: 33.3px;
+  width: 86.6px;
+  height: 53.3px;
+  background-color: cornsilk;
+  background-image: linear-gradient(transparent 0%, lightgray 100%);
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 0;
+  transition: height 300ms;
+}
+
+#btn-inbox-modal:before {
+  position: absolute;
+  content: "";
+  left: 0px;
+  bottom: 0px;
+  height: 33.3px;
+  width: 100px;
+  background-color: beige;
+  z-index: 2;
+}
+
+#btn-inbox-modal:hover:after{
+  height: 26.64px;
+  bottom: 33.3px;
+}
+
+#btn-inbox-modal:target:after{
+  height: 26.64px;
+  bottom: 33.3px;
+}
+
+#btn-inbox-modal:target .flap{
+  transform: rotateX(180deg);
+  transform-origin: 50% 100%;
+  border-bottom: 33.3px solid white;
+  z-index: 5;
+}
+
+#btn-inbox-modal:target .infoil{
+  border-bottom: 0px solid brown;
+  z-index: 5;
+}
+
+#btn-inbox-modal:target {
+  transform: translateY(-2000px);
+  transition: transform 2s ease-in;
+}
+
+/* RENEW button */
+
+div.renew {
+  display: block;
+  text-align: center;
+}
+
+a.renew-btn {
+  text-decoration: none;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+  padding: 12px 25px 12px 23px;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-weight: bold;
+  position: relative;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  display: inline-block;
+}
+
+.icon {
+  position: absolute;
+  left: 20px;
+}
+
+.renew-txt {
+  font-size: 14px;
+  line-height: 1.45;
+  margin-left: 30px;
+}
+
+.renew-btn .icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.4s ease-in-out;
+}
+
+.renew-btn:hover .icon {
+  transform: rotate(360deg) scale(1.2);
+}
+
+.renew a.renew-btn:hover {
+  padding-left: 38px;
+}
+
+.renew a.renew-btn:hover .round i {
+  left: 4%;
 }

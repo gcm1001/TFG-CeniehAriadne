@@ -1,15 +1,15 @@
 <div id="div-phase-4">
     <div class="form-style-10">
-    <h1 class="h1-phase" > <span class="span-form">Please, follow these steps.</span></h1>
+    <h1 class="h1-phase" > You got it! <span class="span-form">Please, follow these steps.</span></h1>
         <div class="section"><span class="span-form-step">1</span> Check that the data displays OK in the test portal.</div>
         <div class="inner-wrap">
-          
+          <a href="<?= html_Escape(metadata($record, array('Monitor', 'Ghost SPARQL'))); ?>"><img src="<?= html_escape(img('ariadne-logo-ghost.png')) ?>" width="100%"/></a>
         </div>
         <div class="section"><span class="span-form-step">2</span>Give the green light to publish records on the Ariadne+ public portal</div>
         <div class="inner-wrap">
             <div id="btn-mail-modal">
-                <span class="at"></span>
-                <div class="letter"></div>
+                <div class="flap"></div>
+                <div class="folds"></div>
             </div>
              <div id="mail-modal" class="modal">
               <!-- Modal content -->
@@ -17,7 +17,8 @@
                 <span id="mail" class="close">&times;</span>
                 <div id="help-button-popup" class="help-popup">
                     <div  class = "frame">
-                        <div id = "button_open_envelope">View</div>
+                       <div class="close-mail" style="display: none;"><a href="#" id="close-button" class="close-button"></a></div>
+                       <div id = "button_open_envelope">View</div>
                        <div id="default-message" class = "message">
                             <form id="msg-form" action="<?= html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
                             <div id="default-content">
@@ -26,7 +27,7 @@
                             <input type="hidden" id="record_id" name="record_id" value="<?= html_escape($record->id); ?>" form="msg-form">
                             <input type="hidden" id="record_type" name="record_type" value="<?= html_escape(get_class($record)); ?>" form="msg-form">
                             <span> Default Content <div id="msg-content" class="div-textarea"><?= $body; ?></div></span>
-                            <button id="edit-button" class="edit-button">Change content</button>
+                            <div class="edit-button"> <a href="#" id="edit-button"><i class="fa fa-edit"></i></a> </div>
                             </div>
                             <input type="submit" value="Send" id="send-button" class="send-mail">
                             </form>
@@ -81,121 +82,103 @@
               </div>
             </div>
         </div>
-        <div class="button-section">
-            
+        <div class="section"><span class="span-form-step">3</span>Please, wait for a response</div>
+        <div class="inner-wrap">
+        <div id="btn-inbox-modal">
+          <div class="flap"></div>
+          <div class="infoil"></div>
+          <div class="folds"></div>
+        </div>
+        <div id="inbox-modal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-inbox-content">
+          <div class="row">
+            <div class="inboxdiv">
+              <div class="sidebar j-sidebar active">
+                <div class="sidebar__inner">
+                  <div class="sidebar__content">
+                    <ul class="sidebar__dilog_list j-sidebar__dilog_list full">
+                      <?php for($i = $mails->countMessages(); $i >= 1; $i--): 
+                        $message = $mails->getMessage($i);
+                        $view = false;
+                        if ($message->hasFlag(Zend_Mail_Storage::FLAG_SEEN)){
+                          $view = true;
+                        }
+                        $foundPart = $message->getContent();
+                        foreach (new RecursiveIteratorIterator($message) as $part) {
+                            try {
+                                if (strtok($part->contentType, ';') == 'text/plain') {
+                                    $foundPart = $part;
+                                    break;
+                                }
+                            } catch (Zend_Mail_Exception $e) {
+                                // ignore
+                            }
+                        } ?>
+                      <li class="dialog__item j-dialog__item" data-conname="<?= $message->from; ?>" data-conemail="<?= $message->from; ?>" data-conmsg="<?= $foundPart; ?>">
+                        <div class="dialog__item_link"> <span class="dialog__info">
+                            <span class="dialog__name"><?= $message->from; ?></span> <span class="dialog__last_message j-dialog__last_message"><?= $message->subject; ?></span> </span> <span class="dialog_additional_info">
+                            <?php if (!$view): ?><span class="dialog_unread_counter j-dialog_unread_counter">1</span> <?php endif; ?></span>
+                        </div>
+                      </li>
+                      <?php endfor; ?>
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="content j-content chatinitialone">
+                <div class="content__inner j-content__inner">
+                  <div class="messages j-messages">
+                    <div class="message__wrap">
+                      <div class="message__content">
+                        <div class="message__sender_and_status mar30-center">
+                          <?php if($mails->countMessages() == 0): ?>
+                              <img src="<?= html_escape(img('nomsg.svg')); ?>" class="img-responsive nomsgimg">
+                              <div class="nomsgtext">You didn't receive any message</div>
+                          <?php else: ?>
+                              <img src="<?= html_escape(img('yesmsg.svg')); ?>" class="img-responsive nomsgimg">
+                              <div class="nomsgtext">Please select the user to read the message</div>
+                          <?php endif; ?>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content j-content chatinitialtwo">
+                <div class="content__title j-content__title j-dialog">
+                  <button class="open_sidebar j-open_sidebar"></button>
+                  <h1 class="dialog__title j-dialog__title dis-con-name"></h1>
+                  
+                </div>
+                <div class="content__inner j-content__inner">
+                  <div class="messages j-messages">
+                    <div class="message__wrap">
+                      <div class="message__content">
+                        <div class="message__sender_and_status">
+                          <p class="message__sender_name"><span class="dis-con-time">
+                            </span> <b>From</b> : <span class="dis-con-email"></span>
+                            <br> <b>Message</b>:<br> <span class="dis-con-msg"></span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        
-        jQuery('.download-xml-button').click(function(event){
-            event.preventDefault();
-            jQuery(this).notify("You can't change it");
-            return false;
-        });
-        
-        jQuery('#submit-mail').hide();
-        
-        var modal = jQuery("#mail-modal");
-        var btn = jQuery("#btn-mail-modal");
-        var span = jQuery("#mail.close");
-        btn.click(function() {
-            modal.show();
-        });
-        
-        span.click(function() {
-            modal.hide();
-        });
-        jQuery(window).click(function(event) {
-            if (jQuery(event.target).is(modal)) {
-                modal.hide();
-            }
-        });
-        
-	jQuery('.frame').click(function(){
-		jQuery('.top-mail').addClass('open-mail');
-		jQuery('.message').addClass('pull-mail');
-        });
-        
-        jQuery('#edit-button').click(function(e){
-            e.preventDefault();
-            jQuery('div#default-content').hide();
-            jQuery('input#send-button').hide();
-            jQuery('div#mod-content').show();
-            jQuery('input#save-button').show();
-            
-        });
-        
-        jQuery('#save-button').click(function(e){
-            e.preventDefault();
-            var content = jQuery('.editor').html();
-            jQuery('div#msg-content').html(content);
-            jQuery('input#msg-content').val(content);
-            jQuery('div#mod-content').hide();
-            jQuery(this).hide();
-            jQuery('div#default-content').show();
-            jQuery('input#send-button').show();
-        });
-        
-        jQuery('button').click(function(){
-            var id = jQuery(this).attr('id');
-            switch(id){
-              case "createLink":
-                argument = prompt("What is the address of the link?");
-                buttoncommand(id, argument);
-                break;
-              case "insertImage":
-                argument = prompt("Please enter the link to the image");
-                buttoncommand(id, argument);
-                break;
-
-              case "forecolor":
-                argument = prompt("What color ?");
-                buttoncommand(id, argument);
-                break;
-
-              default:
-                buttoncommand(id);
-                break;
-            }
-            refreshes();
-          });
-
-          jQuery('.editor').keyup(function(){
-            refreshes();
-          });
-          
-          jQuery("#sparql_ghost").change(function(){
-            var value = jQuery(this).val();
-            var regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
-            if(value.match(regex)){
-                jQuery(this).notify("Good.", { 
-                        className: 'info' ,
-                        position: 'top left'
-                });
-            } else{
-                jQuery(this).notify("That's not an url.", { 
-                        className: 'error' ,
-                        position: 'top left'
-                });
-            };
-        });
-        
-        jQuery('div#msg-content').click(function(){
-            jQuery(this).notify("Read only", "warn");
-        })
+        Omeka.Tickets.msgModal();
+        Omeka.Tickets.msgEditor();
+        Omeka.Tickets.inboxFunctions();
+        Omeka.Tickets.inboxModal();
     });
-    
-    function buttoncommand(nom, argument){
-        if (typeof argument === 'undefined') {
-          argument = '';
-        }
-        document.execCommand(nom, false, argument);
-      }
-      function refreshes(){
-        var valeur = jQuery('.editor').html();
-        jQuery('.htmlview').text(valeur);
-      }
 </script>

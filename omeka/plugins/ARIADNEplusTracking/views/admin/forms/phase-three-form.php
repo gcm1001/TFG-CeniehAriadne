@@ -47,20 +47,7 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery("#periodo").change(function(){
-            var value = jQuery(this).val();
-            var regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
-            if(value.match(regex)){
-                jQuery(this).notify("Good.", { 
-                        className: 'info' ,
-                        position: 'top left'
-                });
-            } else{
-                jQuery(this).notify("That's not an url.", { 
-                        className: 'error' ,
-                        position: 'top left'
-                });
-            };
-        });
+        Omeka.Tickets.validateUrl(jQuery("#periodo"));
+        Omeka.Tickets.helperModal();
     });
 </script>

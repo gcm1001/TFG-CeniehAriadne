@@ -41,10 +41,8 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
     
     /**
      * Shows the new Form to create a new ticket.
-     *
      */
     public function newAction(){
-        
         $this->view->options_for_select_type = array('' => 'Select below', 'Collection' => 'Collection', 'Item' => 'Item');
         $this->view->options_for_select_collection = $this->_getOptionsForSelectCollection();
         $this->view->options_for_select_item = $this->_getOptionsForSelectItem();
@@ -162,6 +160,7 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
             $name = get_option('ariadneplus_tracking_name');
             $subject = __("%s - Metadata import", $siteTitle);
             $mail = new Zend_Mail('UTF-8');
+            $mail->setBodyText(strip_tags($body));
             $mail->setBodyHtml($body);
             $mail->setFrom($from, "$siteTitle Administrator");
             $mail->addTo($email, $name);
@@ -181,15 +180,12 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
      * @return type
      */
     public function ticketAction(){
-        // Respect only GET parameters when browsing.
         $this->getRequest()->setParamSources(array('_GET'));
         $params = $this->getAllParams();
-        
         $statusElements = $this->view->tracking()->getStatusElements(true, null, true);
         $params['element'] = array_keys($statusElements);
             
         $record_type = (isset($params['record_type'])) ? $params['record_type'] : '';
-        
         switch($record_type){
             case 'Collection':
                 if(!isset($params['collection'])) return;
@@ -214,48 +210,41 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $this->view->ticket = $ticket;
         $this->view->level = $level;
         $this->view->hide = isset($params['advanced']); 
-        
         if($level == 0 || $level == 1){
           $this->_helper->db->setDefaultModelName('Item');
           parent::browseAction();
         }
-  
         $elementId = reset($params['element']);
         $this->view->elementId = $elementId;
-        
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
-            if($level == 2){
-                if(isset($post['mode'])){
-                    $ticket->setMode($post['mode']);
-                    $ticket->save();
-                }
-                if (isset($post['map-identifier'])){
-                    $this->_updateRecord(array('record' => $record,
-                    'elementTexts'=>array('ID of your metadata transformation' => $post['map-identifier']) ,
-                    'elementSet' => 'Monitor'));
-                }
-                if(isset($post['mode']) && isset($post['map-identifier'])){
-                    $this->redirect('ariadn-eplus-tracking/index/stage?'. 
-                                        'url='.WEB_ROOT.
-                                        '&record_type='.get_class($record). 
-                                        '&element='.$elementId. 
-                                        '&record_id='.$record->id. 
-                                        '&term='.$ticket->status);
-                }
-            } else if ($level == 3){
-                if (isset($post['periodo'])){
-                    $this->_updateRecord(array('record' => $record,
-                    'elementTexts'=>array('URL of your PeriodO collection' => $post['periodo']) ,
-                    'elementSet' => 'Monitor'));
-                    $this->redirect('ariadn-eplus-tracking/index/stage?'. 
-                                        'url='.WEB_ROOT.
-                                        '&record_type='.get_class($record). 
-                                        '&element='.$elementId. 
-                                        '&record_id='.$record->id. 
-                                        '&term='.$ticket->status);
-                }
-            } 
+            $this->_redirectByPost(array('post' => $post, 'level' => $level, 'ticket' => $ticket, 'record' => $record, 'elementId' => $elementId));
+        }
+    }
+    
+    protected function _redirectByPost($args){
+        $post = $args['post'];
+        $level = $args['level'];
+        $ticket = $args['ticket'];
+        $record = $args['record'];
+        $elementId = $args['elementId'];
+        if($level == 2){
+            if(isset($post['mode'])){
+                $ticket->setMode($post['mode']);
+                $ticket->save();
+            }
+            if (isset($post['map-identifier'])){
+                $this->_updateRecord(array('record' => $record, 'elementTexts'=>array('ID of your metadata transformation' => $post['map-identifier']) , 'elementSet' => 'Monitor'));
+            }
+            if(isset($post['mode']) && isset($post['map-identifier'])){
+                $this->redirect('ariadn-eplus-tracking/index/stage?url='.WEB_ROOT.'&record_type='.get_class($record).'&element='.$elementId.'&record_id='.$record->id.'&term='.$ticket->status);
+            }
+        } else if ($level == 3 && isset($post['periodo'])){
+            $this->_updateRecord(array('record' => $record, 'elementTexts'=>array('URL of your PeriodO collection' => $post['periodo']), 'elementSet' => 'Monitor'));
+            $this->redirect('ariadn-eplus-tracking/index/stage?'.'url='.WEB_ROOT.'&record_type='.get_class($record).'&element='.$elementId.'&record_id='.$record->id.'&term='.$ticket->status);
+        } else if ($level == 4 && isset($post['sparql'])){
+            $this->_updateRecord(array('record' => $record, 'elementTexts'=>array('Ghost SPARQL' => $post['sparql']) , 'elementSet' => 'Monitor'));
+            $this->redirect('ariadn-eplus-tracking/index/stage?url='.WEB_ROOT.'&record_type='.get_class($record).'&element='.$elementId.'&record_id='.$record->id.'&term='.$ticket->status);
         }
     }
     
@@ -275,9 +264,9 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
                 // Only elements unique, steppable and with terms can be staged.
                 ->getStatusElement($elementId, true, true, true);
             $element = $statusElement['element'];
-            if (!empty($statusElement)) {
+            if (!empty($statusElement)){ 
                 $key = array_search($term, $statusElement['terms']);
-                if ($key < count($statusElement['terms']) - 1) {
+                if($key < count($statusElement['terms']) - 1) {
                     $options = array();
                     $options['record_type'] = $record_type;
                     $options['record_id'] = $record_id;
@@ -328,6 +317,30 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
             }
         }
         $this->_helper->FlashMessenger->addMessage(__('ERROR: Ticket could not be removed'), 'error');
+        return $this->redirect('ariadn-eplus-tracking');
+    }
+    
+    public function renewAction(){
+        if (!$this->getRequest()->isPost()) return;
+        
+        //TABLEPOST
+        $post = $this->getRequest()->getPost();
+
+        $record_type = $post['record_type'];
+        $record_id = $post['record_id'];
+        
+        if($record_type && $record_id){
+            $record = get_record_by_id($record_type, $record_id);
+            $ticket = $this->view->Tracking()->getRecordTrackingTicket($record);
+            if($ticket && $record){
+              $newTerm = 'Proposed';
+              $ticket->setStatus($newTerm);
+              $ticket->save();
+              $this->_updateRecord(array('record' => $record, 'elementTexts'=>array('Metadata Status' => $newTerm) , 'elementSet' => 'Monitor'));
+              return $this->redirect('ariadn-eplus-tracking');
+            }
+        }
+        $this->_helper->FlashMessenger->addMessage(__('ERROR: Ticket could not be renewed'), 'error');
         return $this->redirect('ariadn-eplus-tracking');
     }
     

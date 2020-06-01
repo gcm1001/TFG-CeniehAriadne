@@ -3,13 +3,13 @@ $mandatoryDCElements = $view->tracking()->getMandatoryDCElements();
 $mandatoryMonElements = $view->tracking()->getAllElementNames();
 ?>
 <script type="text/javascript" charset="utf-8">
+  jQuery(document).ready(function(){
       var regexDate = /^Date*/i;
 <?php foreach($elements as $element): ?>
             var elementId = "<?= html_escape($element->id); ?>";
             var elementName = "<?= html_escape($element->name); ?>" ;
              
         <?php if(in_array($element->name,$mandatoryDCElements) || in_array($element->name,$mandatoryMonElements)): ?>
-            var errors = false;
             
             if(!jQuery.trim(jQuery('#Elements-' + elementId + '-0-text').val()).length){
                 jQuery('textarea[id^=Elements-' + elementId + '-]').addClass('mandatory-empty');
@@ -83,4 +83,6 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
                 });
             };    
         });
+        
+  });
 </script>

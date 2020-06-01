@@ -21,7 +21,7 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
         'Complete',
         'Mapped',
         'Enriched',
-        'Ready to publish',
+        'Ready to Publish',
         'Published',
     );
     

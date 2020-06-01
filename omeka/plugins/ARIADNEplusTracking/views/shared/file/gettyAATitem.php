@@ -3,11 +3,9 @@
 </div>
 <div class="drawer-contents">
     <p><?= html_escape(__('The maximum file size is %s.', max_file_size())); ?></p>
-    
     <div class="field two columns alpha" id="gettyatt-input">
         <label><?= __('Find a File'); ?></label>
     </div>
-
     <div class="files four columns omega">
         <input name="file[0]" type="file">
     </div>

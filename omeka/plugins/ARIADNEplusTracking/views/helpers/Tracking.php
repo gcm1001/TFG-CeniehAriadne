@@ -6,6 +6,7 @@
  */
 class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
 {
+    protected $_imap;
     protected $_elementSetName = 'Monitor';
     protected $_elementSet;
     protected $_statusElements;
@@ -27,6 +28,20 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         $this->_logTable = get_db()->getTable('ARIADNEplusLogEntry');
         $this->_ticketTable = get_db()->getTable('ARIADNEplusTrackingTicket');
     }
+    
+    protected function _initImap($imapconfig){
+        if(empty($this->_imap)){
+          $this->_imap = new Zend_Mail_Storage_Imap(array(
+                'host'     => $imapconfig->host,
+                'user'     => $imapconfig->username,
+                'password' => $imapconfig->password,
+                'ssl'      => $imapconfig->ssl,
+                'port'     => $imapconfig->port));
+          return true;
+        }
+        return false;
+    }
+    
     /**
      * Get the helper.
      *
@@ -291,7 +306,6 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         }
         $record_type = get_class($record);
         $ticket = $this->getRecordTrackingTicket($record);
-          
         if($phase == 0 || $phase == 1){            
             if(!isset($args['results'])){
                 return;
@@ -304,23 +318,29 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
                                             'total' => $args['results'],
                                             'hide' => $args['hide'],
                                             ));
-        } else if($phase == 2 ){
-            $markup = $this->view->partial('forms/phase-two-form.php',array(
+        } else if($phase == 2 || $phase == 3){
+            $markup = $this->view->partial($phase == 2 ? 'forms/phase-two-form.php' : 'forms/phase-three-form.php',
+                                        array(
                                         'record' => $record,
                                         'ticket' => $ticket,
                                         ));
-        } else if($phase == 3){
-            $markup = $this->view->partial('forms/phase-three-form.php',array(
+        } else if($phase == 4 || $phase == 5){
+            $imapconfig = Zend_Registry::get('ariadn_eplus_tracking')->imap;
+            $this->_initImap($imapconfig);
+            $markup = $this->view->partial($phase == 4 ? 'forms/phase-four-form.php' : 'forms/phase-five-form.php',
+                                        array(
                                         'record' => $record,
                                         'ticket' => $ticket,
+                                        'mails' => $this->_imap,
+                                        'body' => $this->_generateBodyMail(
+                                                array('mode' => $ticket->mode, 
+                                                    'record_id' => $record->id, 
+                                                    'record_type' => $record_type,
+                                                    'phase' => $phase)),
                                         ));
-        } else if($phase == 4){
-            $markup = $this->view->partial('forms/phase-four-form.php',array(
-                                        'record' => $record,
-                                        'ticket' => $ticket,
-                                        'body' => $this->generateBodyMail(array('mode' => $ticket->mode, 'record_id' => $record->id, 'record_type' => $record_type)),
-                                        ));
-        } 
+        } else if($phase == 6){
+            $markup = $this->view->partial('forms/phase-six-form.php',array('record' => $record));
+        }
         return $markup;
     }
     
@@ -330,37 +350,45 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $args Record Identifier and Record Type
      * @return string Body Mail
      */
-    public function generateBodyMail($args){
+    protected function _generateBodyMail($args){
         $record_id = $args['record_id'];
         $record_type = $args['record_type'];
         $mode = $args['mode'];
+        $phase = $args['phase'];
         if(empty($record_type) || empty($mode)){
             return '';
         }
         $record = get_record_by_id($record_type, $record_id);
         $body = '';
         $body .= "<p>";
-        $body .= __("%s %s",$record_type, $record_id);
-        $body .= __("<br> ARIADNE Category: %s",metadata($record,array('Monitor', 'ARIADNEplus Category')));
-        switch($mode){
-          case 'OAI-PMH':
-            $body .= __("<br> OAI-PMH url: %s", WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record_id);
-            break;
-          case 'XML':
-            $body .= __("<br> XML url: %s", WEB_ROOT.'/'.strtolower($record_type).'s/show/'.$record_id.'?output=CIRfull');
-            break;
-          default:
-            $body .= __("No record available");
+        if($phase == 5){
+            $body .= __("About the collection: %s  <br>",metadata($record,array('Monitor', 'Ghost SPARQL')));
+            $body .= __("We confirm that everything is correct! It can be published whenever you want. <br> <br>");
+            $body .= __("Thank you so much!");
+        } else if($phase == 4){
+            $body .= __("%s %s",$record_type, $record_id);
+            $body .= __("<br> ARIADNE Category: %s",metadata($record,array('Monitor', 'ARIADNEplus Category')));
+            switch($mode){
+              case 'OAI-PMH':
+                $body .= __("<br> OAI-PMH url: %s", WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record_id);
+                break;
+              case 'XML':
+                $body .= __("<br> XML url: %s", WEB_ROOT.'/'.strtolower($record_type).'s/show/'.$record_id.'?output=CENIEHfull');
+                break;
+              default:
+                $body .= __("No record available");
+            }
+            $body .= __("<br> Mapping Identifier: %s",metadata($record,array('Monitor', 'ID of your metadata transformation')));
+            $jsonurl = metadata($record,array('Monitor', 'GettyAAT mapping'));
+            if(!empty($jsonurl)){
+                $body .= __("<br> JSON File (GettyAAT): %s",$jsonurl);
+            }
+            $body .= __("<br> PeriodO Collection: %s",metadata($record,array('Monitor', 'URL of your PeriodO collection')));
         }
-        $body .= __("<br> Mapping Identifier: %s",metadata($record,array('Monitor', 'ID of your metadata transformation')));
-        $jsonurl = metadata($record,array('Monitor', 'GettyAAT mapping'));
-        if(!empty($jsonurl)){
-            $body .= __("<br> JSON File (GettyAAT): %s",$jsonurl);
-        }
-        $body .= __("<br> PeriodO Collection: %s",metadata($record,array('Monitor', 'URL of your PeriodO collection')));
         $body .= "</p>";
         return $body;
     }
+    
     /**
      * Returns 1 if record is in ticket, 2 if is part of a ticket (Collection)
      * and 0 if is not in ticket.
