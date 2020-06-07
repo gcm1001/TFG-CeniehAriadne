@@ -29,9 +29,9 @@ $sections = array(
 
 2. Match the plugins you want with the sections and click on the "Save Changes button".
 
-![Config page](./dm-img/config.png)
+![Config page](./md-img/config.png)
 
 ## View
 
-![View](./dm-img/view.gif)
+![View](./md-img/view.gif)
 
