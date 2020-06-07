@@ -250,10 +250,10 @@
         <label for="geolocation_sync_spatial"><?= htmlspecialchars(__('\'Spatial Coverage\' synchronization')); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?= htmlspecialchars(__('Whenever an item is saved, this option will allow update the item\'s Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation. WARN: This option will OVERWRITE any element texts in Spatial Coverage.')); ?></p>
+        <p class="explanation"><?= htmlspecialchars(__('Whenever an item is saved, this option will allow update the item\'s Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation.')); ?></p>
         <?= get_view()->formCheckbox('geolocation_sync_spatial', true,
             array('checked' => (boolean) get_option('geolocation_sync_spatial')));
-        ?>
+        ?>   
     </div>
 </div>
 <div class="field">

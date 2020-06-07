@@ -260,8 +260,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                     return true;
                 }
             } 
-            // si ha sido rellenado pero el texto no es válido, se elimina el contenido
-            $item->deleteElementTextsByElementId(array($spatialElement->id));
     } else {
         if($location){
         	$location->delete();
@@ -280,9 +278,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         // obtenemos de la tabla 'Location' las características asociadas a la localización del item actual
         $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
-        // eliminamos el texto existente en el elemento 'Spatial Coverage' ya que vamos a actualizar su contenido
-        $item->deleteElementTextsByElementId(array($spatialElement->id));
-
+        $this->_deleteExistingCoords($item);
+        
         if ($location) { //si existe una localización (Point)
             $lon = $location->longitude;
             if ((-100 < $lon) && ($lon < 100)) { //si la parte entera de la longitud está entre -100 y 100
@@ -315,7 +312,30 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $item->saveElementTexts(); //guardo las modificaciones
     }
 
-
+    private function _deleteExistingCoords($item){
+        $etexts = $item->getElementTexts('Dublin Core', 'Spatial Coverage');
+        if(!$etexts) return;
+        foreach ($etexts as $etext){
+            $text = $etext->text;
+            if(preg_match('/\|\|/', $text)){
+                list($min,$max) = explode('||',$text); 
+                list($minlat,$minlon) = explode(',',$min); 
+                list($maxlat,$maxlon) = explode(',',$max); 
+                if(is_numeric($minlat) && is_numeric($maxlat) && is_numeric($minlon) && is_numeric($maxlon)){
+                    $etext->delete();
+                    continue;
+                }
+            }
+            if(count(explode(',',$text)) == 2){
+                list($lat,$lon) = explode(',',$text);
+                if(is_numeric($lat) && is_numeric($lon)){
+                    $etext->delete();
+                    continue;
+                }
+            }
+        }
+    }
+    
     public function hookAfterSaveItem($args) {
     	$item = $args['record'];
     	$location = $this->_db->getTable('Location')->findLocationByItem($item, true);

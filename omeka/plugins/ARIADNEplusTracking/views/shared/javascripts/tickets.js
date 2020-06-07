@@ -141,7 +141,7 @@ Omeka.Tickets = {};
             var level = $('input#ticket-type').val();
             var time = 2000;            
             if(level== 0 || level == 1){
-                time = 3*items;
+                time = 4*items;
             } 
             let timerInterval;
             var extra = (level == 3 || level == 4) ? 6500 : 0;
