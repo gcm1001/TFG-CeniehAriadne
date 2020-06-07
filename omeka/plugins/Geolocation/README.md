@@ -16,20 +16,21 @@ Allows administrative users to save geolocation data for an individual item. The
 
 ## Additional features
 
-- **Bounding Box Area** 
+### Bounding Box Area
+
 **Plugin used**: [Leaflet Draw](http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html)
 
 ![BBox-conf](./md-img/bbox.png)
 
 ![BBox](./md-img/bbox.gif)
 
-- **'Spatial Coverage' synchronization**
+### 'Spatial Coverage' synchronization
 
 ![Sync-conf](./md-img/sync.png)
 
 ![Sync](./md-img/sync.gif)
 
-- **Reverse 'Spatial Coverage' synchronization**
+### Reverse 'Spatial Coverage' synchronization
 
 ![R-Sync-conf](./md-img/rsync.png)
 
