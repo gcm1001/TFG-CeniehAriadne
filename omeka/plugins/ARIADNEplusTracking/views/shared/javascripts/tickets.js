@@ -6,6 +6,20 @@ Omeka.Tickets = {};
 
 (function ($) {
   
+    Omeka.Tickets.hideShowCompleteItems = function (type,id,elementId) {
+        var param1 = "record_type=" + type;
+        var param2 = type.toLowerCase() + "=" + id;
+        $('#hide-items').click( function(e){
+            e.preventDefault();
+            var param3 = "advanced[0][element_id]="+elementId+"&advanced[0][type]=is+not+exactly&advanced[0][terms]=Complete";
+            document.location.search = param1 + "&" + param2 + "&" + param3;
+        });
+        $('#show-items').click( function(e){
+            e.preventDefault();
+            document.location.search = param1 + "&" + param2;
+        });
+    };
+  
     Omeka.Tickets.notifications = function () {
         var level = $('input#ticket-type').val();
         $.notify.addStyle('mandatoryWarn', {
@@ -127,10 +141,10 @@ Omeka.Tickets = {};
             var level = $('input#ticket-type').val();
             var time = 2000;            
             if(level== 0 || level == 1){
-                time = 1*items;
+                time = 3*items;
             } 
             let timerInterval;
-            var extra = (level == 3 || level == 4) ? 7000 : 0;
+            var extra = (level == 3 || level == 4) ? 6500 : 0;
             Swal.fire({
               title: 'Wait please!',
               html: 'Validating information...',

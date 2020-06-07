@@ -4,9 +4,25 @@ class TagsManager_DelController extends Omeka_Controller_AbstractActionControlle
 
     public function allAction() {        
         $params = $this->getAllParams();
-        $this->view->result = $this->_getResult($params);
-        $this->view->search = (isset($params['like']) || isset($params['type']));
-        
+        $result = $this->_getResult($params);
+        $search = (isset($params['like']) || isset($params['type']));
+        $canDelete = is_allowed('Tags', 'delete');
+        if($canDelete){
+            $database = get_db();
+            if ($search) {
+                foreach ( $result as $tagId ) {
+                    $database->query("DELETE FROM `$database->RecordsTags` WHERE tag_id=?",$tagId);
+                    $database->query("DELETE FROM `$database->Tags` WHERE id=?",$tagId);
+                }    
+            } else {
+                $database->query("DELETE FROM `$database->RecordsTags`");
+                $database->query("DELETE FROM `$database->Tags`");
+            }
+            $this->_helper->flashMessenger(__('Tags deleted.'), 'success');
+            $this->redirect('tags');
+        }
+        $this->_helper->flashMessenger(__('You dont have permission to remove tags.'), 'error');
+        $this->redirect('tags');
     }
     
     private function _getResult($params){

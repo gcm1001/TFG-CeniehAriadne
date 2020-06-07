@@ -5,13 +5,13 @@
  * @copyright Copyright (c) 2009-2011 Roy Rosenzweig Center for History and New Media
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
-
 /**
  * Metadata format map for the required oai_dc Dublin Core format
  *
  * @package OaipmhHarvester
  * @subpackage Models
  */
+
 class OaipmhHarvester_Harvest_OaiDc extends OaipmhHarvester_Harvest_Abstract
 {
     /*  XML schema and OAI prefix for the format represented by this class.
@@ -76,7 +76,8 @@ class OaipmhHarvester_Harvest_OaiDc extends OaipmhHarvester_Harvest_Abstract
         foreach ($elements as $element) {
             if (isset($dcMetadata->$element)) {
                 foreach ($dcMetadata->$element as $rawText) {
-                    $text = trim($rawText);
+                    $string = iconv("UTF-8","ISO-8859-1//IGNORE",trim($rawText));
+                    $text = iconv("ISO-8859-1","UTF-8",$string);
                     $elementTexts['Dublin Core'][ucwords($element)][] 
                         = array('text' => (string) $text, 'html' => false);
                 }

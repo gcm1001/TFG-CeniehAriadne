@@ -918,8 +918,8 @@ b#title {
   position: relative;
   width: 100px;
   height: 66.6px;
-  box-shadow: 0 3px 20px rgba(0,0,0,0.3);
-  transition: all .2s ease-in-out;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
   z-index: 1;
   outline: none;
 }
@@ -929,43 +929,42 @@ b#title {
   width: 0;
   height: 0;
   top: 0.7px;
-  border-top: 0px solid transparent;
   border-right: 50px solid transparent;
   border-left: 50px solid transparent;
   border-top: 33.3px solid beige;
 }
 
-#btn-mail-modal:before {
+#btn-mail-modal::before {
   position: absolute;
   content: "";
-  left: 0px;
-  bottom: 0px;
+  left: 0;
+  bottom: 0;
   height: 33.3px;
   width: 100px;
   background-color: beige;
   z-index: 2;
 }
 
-.folds:before {
+.folds::before {
   position: absolute;
   content: "";
   width: 0;
   height: 0;
   left: 0;
-  border-right: 0px solid transparent;
+  border-right: 0 solid transparent;
   border-top: 33.3px solid transparent;
   border-bottom: 33.3px solid transparent;
   border-left: 50px solid antiquewhite;
   z-index: 2;
 }
 
-.folds:after {
+.folds::after {
   position: absolute;
   content: "";
   width: 0;
   height: 0;
   right: 0;
-  border-left: 0px solid transparent;
+  border-left: 0 solid transparent;
   border-top: 33.3px solid transparent;
   border-bottom: 33.3px solid transparent;
   border-right: 50px solid antiquewhite;
@@ -1290,7 +1289,9 @@ input.msg-input {
   width: auto;
 }
 
-.remove-lg, .remove-lg a, .remove-lg a:hover {
+.remove-lg,
+.remove-lg a,
+.remove-lg a:hover {
   height: 20px;
   width: 20px;
   border: 1px solid #ba0000;
@@ -1325,7 +1326,8 @@ input.msg-input {
   display: inline-block;
 }
 
-.close-button::before, .close-button::after {
+.close-button::before,
+.close-button::after {
   transform: rotate(-45deg);
   content: '';
   position: absolute;
@@ -1344,7 +1346,8 @@ input.msg-input {
   transform: rotate(-135deg);
 }
 
-.close-button:hover::before, .close-button:hover::after {
+.close-button:hover::before,
+.close-button:hover::after {
   transform: rotate(0deg);
 }
 
@@ -1359,10 +1362,11 @@ input.msg-input {
 
 /* Mail inbox */
 
-.homepage{
-  min-height:400px;
+.homepage {
+  min-height: 400px;
   padding-bottom: 30px;
 }
+
 .inboxdiv {
   max-width: 990px;
   border-top: none;
@@ -1375,7 +1379,7 @@ input.msg-input {
   top: 5%;
   left: 25%;
 }
-    
+
 .dis-con-time {
   width: 100%;
   text-align: right;
@@ -1383,7 +1387,7 @@ input.msg-input {
   font-weight: 400;
   font-size: 80%;
 }
-    
+
 .sidebar {
   position: fixed;
   left: -100%;
@@ -1435,7 +1439,7 @@ input.msg-input {
   box-sizing: border-box;
 }
 
-.content__title a.dis-email>button.btn {
+.content__title a.dis-email > button.btn {
   margin: auto 10% !important;
 }
 
@@ -1495,17 +1499,21 @@ input.msg-input {
   }
 
   .inboxdiv {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .24);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
   }
 }
     
- .sidebar__dilog_list {
+.sidebar__dilog_list {
   flex: 1 1 100%;
   overflow-y: auto;
   text-align: left;
-  padding: 0px;
+  padding: 0;
   max-height: 550px;
   min-height: 550px;
+}
+
+.dialog__item {
+  cursor: pointer;
 }
 
 .sidebar__dilog_list .dialog__item {
@@ -1525,6 +1533,7 @@ input.msg-input {
   text-decoration: none;
   border-bottom: 1px solid #dadfe1;
 }
+
 .open_sidebar {
   border: none;
   width: 24px;
@@ -1544,10 +1553,6 @@ input.msg-input {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.dialog__item {
-  cursor: pointer;
 }
 
 .dialog__info {
@@ -1672,7 +1677,7 @@ input.msg-input {
   transition: border-bottom 150ms ease-in;
 }
 
-#btn-inbox-modal:after {
+#btn-inbox-modal::after {
   position: absolute;
   content: "";
   left: 7px;
@@ -1681,12 +1686,12 @@ input.msg-input {
   height: 53.3px;
   background-color: cornsilk;
   background-image: linear-gradient(transparent 0%, lightgray 100%);
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   z-index: 0;
   transition: height 300ms;
 }
 
-#btn-inbox-modal:before {
+#btn-inbox-modal::before {
   position: absolute;
   content: "";
   left: 0px;
@@ -1697,25 +1702,25 @@ input.msg-input {
   z-index: 2;
 }
 
-#btn-inbox-modal:hover:after{
+#btn-inbox-modal:hover::after {
   height: 26.64px;
   bottom: 33.3px;
 }
 
-#btn-inbox-modal:target:after{
+#btn-inbox-modal:target::after {
   height: 26.64px;
   bottom: 33.3px;
 }
 
-#btn-inbox-modal:target .flap{
+#btn-inbox-modal:target .flap {
   transform: rotateX(180deg);
   transform-origin: 50% 100%;
   border-bottom: 33.3px solid white;
   z-index: 5;
 }
 
-#btn-inbox-modal:target .infoil{
-  border-bottom: 0px solid brown;
+#btn-inbox-modal:target .infoil {
+  border-bottom: 0 solid brown;
   z-index: 5;
 }
 

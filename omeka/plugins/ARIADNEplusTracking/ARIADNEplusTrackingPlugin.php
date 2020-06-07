@@ -73,13 +73,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     );
 
     /**
-     * Add the security options.
+     * Add the imap options.
      */
     public function hookInitialize()
     {
-        // Get the backend settings from the security.ini file.
         if (!Zend_Registry::isRegistered('ariadn_eplus_tracking')) {
-            $iniFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'security.ini';
+            $iniFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mail.ini';
             $settings = new Zend_Config_Ini($iniFile, 'ariadn-eplus-tracking');
             Zend_Registry::set('ariadn_eplus_tracking', $settings);
         }
@@ -707,7 +706,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         $record = $args['record'];
-
         // There is no post in this view.
         $view = get_view();
 

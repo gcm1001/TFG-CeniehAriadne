@@ -6,7 +6,7 @@
  */
 class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
 {
-    protected $_imap;
+    protected $_mail;
     protected $_elementSetName = 'Monitor';
     protected $_elementSet;
     protected $_statusElements;
@@ -29,17 +29,17 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         $this->_ticketTable = get_db()->getTable('ARIADNEplusTrackingTicket');
     }
     
-    protected function _initImap($imapconfig){
-        if(empty($this->_imap)){
-          $this->_imap = new Zend_Mail_Storage_Imap(array(
-                'host'     => $imapconfig->host,
-                'user'     => $imapconfig->username,
-                'password' => $imapconfig->password,
-                'ssl'      => $imapconfig->ssl,
-                'port'     => $imapconfig->port));
-          return true;
+    protected function _getMail($mailconfig){
+        if(empty($this->_mail)){
+          $this->_mail = new Zend_Mail_Storage_Imap(array(
+                'host'     => $mailconfig->host,
+                'user'     => $mailconfig->username,
+                'password' => $mailconfig->password,
+                'ssl'      => $mailconfig->ssl,
+                'port'     => $mailconfig->port));
+          return $this->_mail;
         }
-        return false;
+        return $this->_mail;
     }
     
     /**
@@ -325,13 +325,13 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
                                         'ticket' => $ticket,
                                         ));
         } else if($phase == 4 || $phase == 5){
-            $imapconfig = Zend_Registry::get('ariadn_eplus_tracking')->imap;
-            $this->_initImap($imapconfig);
+            $mailconfig = Zend_Registry::get('ariadn_eplus_tracking')->imap;
+            $this->_getMail($mailconfig);
             $markup = $this->view->partial($phase == 4 ? 'forms/phase-four-form.php' : 'forms/phase-five-form.php',
                                         array(
                                         'record' => $record,
                                         'ticket' => $ticket,
-                                        'mails' => $this->_imap,
+                                        'mails' => $this->_mail,
                                         'body' => $this->_generateBodyMail(
                                                 array('mode' => $ticket->mode, 
                                                     'record_id' => $record->id, 
@@ -445,8 +445,8 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @return type Dublin Core Element Names
      */
     public function getMandatoryDCElements(){
-        return array('Identifier','Title','Subject','Language','Date Issued',
-            'Date Modified','Rights','Publisher','Contributor','Creator', 
+        return array('Identifier','Title','Subject','Language',
+            'Rights','Publisher','Contributor','Creator', 
             'Spatial Coverage');
     }
     

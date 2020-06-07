@@ -131,6 +131,10 @@
 <?= js_tag('items-browse'); ?>
 <script type="text/javascript">
     jQuery(document).ready(function(){
+        var type = "<?= get_class($record); ?>";
+        var id = "<?= $record->id ?>";
+        var elementId = <?= $elementId; ?>;
+        Omeka.Tickets.hideShowCompleteItems(type,id,elementId);
         Omeka.ItemsBrowse.setupBatchEdit();
         Omeka.Tickets.notifyStatus();
     });

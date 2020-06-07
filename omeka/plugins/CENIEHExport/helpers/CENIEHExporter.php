@@ -3,6 +3,12 @@
  * CENIEH Export Plugin helper class that generates the content of the xml document..
  */
  Class CENIEHExporter {
+   
+   private $_unqualified = array(
+                'title', 'creator', 'subject', 'description', 'publisher',
+                'contributor', 'date', 'type', 'format', 'identifier',
+                'source', 'language', 'relation', 'coverage', 'rights'
+            );
 
     /**
      * Returns CENIEH xml for a given single Omeka item
@@ -12,7 +18,7 @@
      */
     public function exportItem($itemID) {
         ob_start();
-        $this->_generateCIR($itemID,false);
+        $this->_generateCeniehItem($itemID,false);
         return ob_get_clean();
     }
 
@@ -93,28 +99,16 @@
         //--------------------
         //METADATA
         //--------------------
-        $this->_p_html( ($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n");
-
+        $this->_p_html(($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n");
         $elementArray = $record->getAllElements();
 
         foreach($elementArray as $elementSetName => $elements) {
             if($elementSetName == 'Monitor') continue;
             ob_start();
-            
             $flag = false;
-
             $eSSlug=$this->_getElementSetSlug($elementSetName);
-
             $this->_p_html( ($recordType == "Collection") ? "\t\t<metadata>\n" : "\t\t\t\t<metadata>\n");
-
             if($eSSlug!=="") $eSSlug .= ":";
-
-            $unqualified = array(
-                'title', 'creator', 'subject', 'description', 'publisher',
-                'contributor', 'date', 'type', 'format', 'identifier',
-                'source', 'language', 'relation', 'coverage', 'rights'
-            );
-
             foreach($elements as $element) {
                 $eSlug = $this->_getElementSlug($element->name,$elementSetName);
                 $elementTexts =  $record->getElementTexts($elementSetName,$element->name);
@@ -123,21 +117,7 @@
 
                 $flag = true;
         	foreach($elementTexts as $elementText) {
-                    $eSlugPlus = false;
-                    $preElement = ($recordType == "Collection") ? "\t\t\t<" : "\t\t\t\t\t<";
-                    if ($eSlug == "language") $eSlugPlus = $eSlug.' xsi:type="dcterms:ISO639-1"';
-                    if ($eSlug == "spatial"){
-                        if (preg_match('/;/', $elementText->text)) {
-                            if(count(explode(';',$elementText->text)) == 2){
-                                $eSlugPlus = $eSlug.' xsi:type="dcterms:BOX"';
-                            }
-                        } else{
-                            $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
-                        }
-                    }
-                    $this->_p_html( (in_array($eSlug, $unqualified)) ? ($preElement.$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ($preElement."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">"));
-          		      $this->_p_html( htmlspecialchars($elementText->text));
-                    $this->_p_html( (in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n");
+                    $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'type' => $recordType, 'text' => $elementText));
         	}
       	    }
       	    $this->_p_html( ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n");
@@ -150,11 +130,11 @@
 
     private function _generateCeniehFooter($full = True) {
         if($full) $this->_p_html( "\t\t</records>");
-        $this->_p_html( "\n\t</collection>\n");
-        $this->_p_html( "</Collection>\n");
+        $this->_p_html("\n\t</collection>\n");
+        $this->_p_html("</Collection>\n");
     }
 
-    private function _generateCenieh($itemID) {
+    private function _generateCeniehItem($itemID) {
         if(!is_numeric($itemID)) {
             $this->_p_html( "ERROR: Invalid item ID");
             return;
@@ -167,16 +147,11 @@
             return;
         }
 
-        $unqualified = array(
-            'title', 'creator', 'subject', 'description', 'publisher',
-            'contributor', 'date', 'type', 'format', 'identifier',
-            'source', 'language', 'relation', 'coverage', 'rights' );
-
         $this->_p_html('<?xml version="1.0" encoding="UTF-8"?>'."\n");
         //--------------------
         // HEADER
         //--------------------
-        $this->_p_html( '<Record ');
+        $this->_p_html( '<Item ');
         $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
         $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
         $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
@@ -188,6 +163,7 @@
         $elementArray = $item->getAllElements();
 
         foreach($elementArray as $elementSetName => $elements) {
+            if($elementSetName == 'Monitor') continue;
             ob_start();
             $flag = false;
 
@@ -199,35 +175,17 @@
 
             foreach($elements as $element) {
                 $eSlug = $this->_getElementSlug($element->name,$elementSetName);
-
                 $elementTexts =  $item->getElementTexts($elementSetName,$element->name);
-
                 if(empty($elementTexts)) continue;
                 $flag = true;
-
                 foreach($elementTexts as $elementText) {
-                    $eSlugPlus = false;
-                    if ($eSlug == "language") $eSlugPlus = $eSlug.' xsi:type="dcterms:ISO639-1"';
-                    if ($eSlug == "spatial"){
-                        if (preg_match('/;/', $elementText->text)) {
-                            if(count(explode(';',$elementText->text)) == 2){
-                                $eSlugPlus = $eSlug.' xsi:type="dcterms:BOX"';
-                            }
-                        } else{
-                            $eSlugPlus = $eSlug.' xsi:type="dcterms:POINT"';
-                        }
-                    }
-                    $this->_p_html((in_array($eSlug, $unqualified)) ? ("\t\t\t<".$eSSlug.(($eSlugPlus) ? $eSlugPlus : $eSlug).">") : ("\t\t\t<"."dcterms:".( ($eSlugPlus) ? $eSlugPlus : $eSlug).">"));
-                    $this->_p_html(htmlspecialchars($elementText->text));
-                    $this->_p_html((in_array($eSlug, $unqualified)) ? "</".$eSSlug.$eSlug.">\n" : "</"."dcterms:".$eSlug.">\n");
+                    $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'type' => 'Item', 'text' => $elementText));
         	}
             }
-
             $this->_free_buffer($flag);
         }
-
         $this->_p_html("\t</metadata>\n");
-        $this->_p_html("</Record>\n");
+        $this->_p_html("</Item>\n");
     }
 
     private function _free_buffer($flag = True){
@@ -269,13 +227,108 @@
         }
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $elementName));
     }
+    
+    /**
+     * Prints an element.
+     *
+     * @param type $args Element Data
+     */
+    private function _generateElement($args){
+        $eSlug = $args['eSlug'];
+        $eSSlug = $args['eSSlug'];
+        $type = $args['type'];
+        $text = $args['text'];
+        $tabs = ($type == "Collection") ? "\t\t\t" : "\t\t";
+        $content = $text->text;
+        $eSlugInfo = '';
+        $addtabs = '';
+        if ($eSlug == "language"){
+          $eSlugInfo = $this->_languageISO($text); 
+        } else if ($eSlug == "spatial"){
+          $eSlugInfo = $this->_spatialFormat($text);
+          $addtabs = !empty($eSlugInfo) ? $tabs : '';
+          $content = $this->_generateSpatialContent($eSlugInfo, $content, $tabs);
+        }
+        $this->_p_html( (in_array($eSlug, $this->_unqualified)) ? $tabs."<".$eSSlug.$eSlug.$eSlugInfo.">" : $tabs."<"."dcterms:".$eSlug.$eSlugInfo.">");
+        $this->_p_html($content);
+        $this->_p_html( (in_array($eSlug, $this->_unqualified)) ? $addtabs."</".$eSSlug.$eSlug.">\n" : $addtabs."</"."dcterms:".$eSlug.">\n");
+    }
+    
+    /**
+     * Identifies the standard used in the "Language" field.
+     * 
+     * @param type $elementText "Language" Element text
+     * @return string xsi:type
+     */
+    private function _languageISO($elementText){
+      switch(strlen($elementText)){
+        case 2:
+          return 'xsi:type="dcterms:ISO639-1"';
+        case 3:
+          return 'xsi:type="dcterms:ISO639-2"';
+        default:
+          return '';
+      }
+    }
 
+    /**
+     * Identifies the location type used in the "Spatial Coverage" field.
+     * 
+     * @param type $elementText "Spatial Coverage" Element text
+     * @return string xsi:type
+     */
+    private function _spatialFormat($elementText){
+        if (preg_match('/\|\|/', $elementText->text)) {
+            if(count(explode('||',$elementText->text)) == 2){
+                return ' xsi:type="dcterms:BOX"';
+            }
+        } else if (preg_match('/,/', $elementText->text)) {
+            if(count(explode(',',$elementText->text)) == 2){
+                return ' xsi:type="dcterms:POINT"';
+            }
+        }
+        return '';
+    }
+    
+    /**
+     * Returns the content of the "Spatial Coverage" field in CENIEH XML format.
+     * 
+     * @param type $format xsi:type
+     * @param type $content Element text
+     * @param type $tabs Tabs
+     * @return string New content
+     */
+    private function _generateSpatialContent($format, $content, $tabs){
+      if(strpos($format, 'type="dcterms:BOX"')) {
+          list($min,$max) = explode('||',$content);  
+          list($westlim,$southlim) = explode(',',$min); 
+          list($northlim,$eastlim) = explode(',',$max); // 
+          if(is_numeric($westlim) && is_numeric($southlim) && 
+                  is_numeric($northlim) && is_numeric($eastlim)){
+            $content = "\n";
+            $content .= $tabs."\t<northlimit>".$northlim."</northlimit>\n";
+            $content .= $tabs."\t<eastlimit>".$eastlim."</eastlimit>\n";
+            $content .= $tabs."\t<southlimit>".$southlim."</southlimit>\n";
+            $content .= $tabs."\t<westlimit>".$westlim."</westlimit>\n";
+          }
+          return $content;
+      } else if (strpos($format, 'type="dcterms:POINT"')) {
+          list($lat,$lon) = explode(',',$content);
+          $content = "\n";
+          $content .= $tabs."\t<latitude>".$lat."</latitude>\n";
+          $content .= $tabs."\t<longitude>".$lon."</longitude>\n";
+      }
+      return $content;
+    }
+    
     /**
      * Prints HTML code.
      * 
      * @param type $html HTML code to print
      */
-    private function _p_html($html){?><?=$html;?><?php }
+    private function _p_html($html){?>
+<?= $html;?>
+<?php }
  }
 
 

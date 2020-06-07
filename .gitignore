@@ -9,6 +9,9 @@
 /omeka/application/config
 /omeka/.htaccess
 
+# PHPUnit Tests
+*/tests/*
+
 # netbeans project
 /omeka/nbproject
 
