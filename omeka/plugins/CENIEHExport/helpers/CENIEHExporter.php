@@ -85,7 +85,7 @@
         //--------------------
         // HEADER
         //--------------------
-        $this->_p_html('<Collections ');
+        $this->_p_html('<Collection ');
         $this->_p_html('xmlns:dc="http://purl.org/dc/elements/1.1/" ');
         $this->_p_html('xmlns:dcterms="http://purl.org/dc/terms/" ');
         $this->_p_html('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
@@ -94,43 +94,37 @@
 
     }
   
-    private function _generateCeniehBody($recordID,$recordType, $full = True) {
+    private function _generateCeniehBody($recordID,$recordType) {
         $record = get_record_by_id($recordType,$recordID);
         //--------------------
         //METADATA
         //--------------------
-        $this->_p_html(($recordType == "Collection") ? "\n\t<collection>\n" : "\t\t\t<record>\n");
+        $this->_p_html(($recordType == "Collection") ? "\t<records>\n\t\t<record type=\"collection\">\n" : "\t\t<record type=\"item\">\n");
         $elementArray = $record->getAllElements();
-
         foreach($elementArray as $elementSetName => $elements) {
             if($elementSetName == 'Monitor') continue;
             ob_start();
             $flag = false;
             $eSSlug=$this->_getElementSetSlug($elementSetName);
-            $this->_p_html( ($recordType == "Collection") ? "\t\t<metadata>\n" : "\t\t\t\t<metadata>\n");
+            $this->_p_html("\t\t\t<metadata>\n");
             if($eSSlug!=="") $eSSlug .= ":";
             foreach($elements as $element) {
                 $eSlug = $this->_getElementSlug($element->name,$elementSetName);
                 $elementTexts =  $record->getElementTexts($elementSetName,$element->name);
-
         	if(empty($elementTexts)) continue;
-
                 $flag = true;
         	foreach($elementTexts as $elementText) {
-                    $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'type' => $recordType, 'text' => $elementText));
+                    $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'text' => $elementText), true);
         	}
       	    }
-      	    $this->_p_html( ($recordType == "Collection") ? "\t\t</metadata>\n" : "\t\t\t\t</metadata>\n");
+      	    $this->_p_html("\t\t\t</metadata>\n");
             $this->_free_buffer($flag);
         }
-        if($full) {
-          $this->_p_html( ($recordType == "Collection") ? "\t\t<records>\n" : "\t\t\t</record>\n");
-        }
+        $this->_p_html("\t\t</record>\n");
     }
 
-    private function _generateCeniehFooter($full = True) {
-        if($full) $this->_p_html( "\t\t</records>");
-        $this->_p_html("\n\t</collection>\n");
+    private function _generateCeniehFooter() {
+        $this->_p_html("\t</records>\n");
         $this->_p_html("</Collection>\n");
     }
 
@@ -179,7 +173,7 @@
                 if(empty($elementTexts)) continue;
                 $flag = true;
                 foreach($elementTexts as $elementText) {
-                    $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'type' => 'Item', 'text' => $elementText));
+                    $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'text' => $elementText), false);
         	}
             }
             $this->_free_buffer($flag);
@@ -233,12 +227,11 @@
      *
      * @param type $args Element Data
      */
-    private function _generateElement($args){
+    private function _generateElement($args, $colExport){
         $eSlug = $args['eSlug'];
         $eSSlug = $args['eSSlug'];
-        $type = $args['type'];
         $text = $args['text'];
-        $tabs = ($type == "Collection") ? "\t\t\t" : "\t\t";
+        $tabs = $colExport ? "\t\t\t\t" : "\t\t";
         $content = $text->text;
         $eSlugInfo = '';
         $addtabs = '';
@@ -250,7 +243,7 @@
           $content = $this->_generateSpatialContent($eSlugInfo, $content, $tabs);
         }
         $this->_p_html( (in_array($eSlug, $this->_unqualified)) ? $tabs."<".$eSSlug.$eSlug.$eSlugInfo.">" : $tabs."<"."dcterms:".$eSlug.$eSlugInfo.">");
-        $this->_p_html($content);
+        $this->_p_html(htmlspecialchars($content));
         $this->_p_html( (in_array($eSlug, $this->_unqualified)) ? $addtabs."</".$eSSlug.$eSlug.">\n" : $addtabs."</"."dcterms:".$eSlug.">\n");
     }
     
@@ -261,11 +254,12 @@
      * @return string xsi:type
      */
     private function _languageISO($elementText){
-      switch(strlen($elementText)){
+      $text = $elementText->text;
+      switch(strlen($text)){
         case 2:
-          return 'xsi:type="dcterms:ISO639-1"';
+          return ' xsi:type="dcterms:ISO639-1"';
         case 3:
-          return 'xsi:type="dcterms:ISO639-2"';
+          return ' xsi:type="dcterms:ISO639-2"';
         default:
           return '';
       }
@@ -278,13 +272,23 @@
      * @return string xsi:type
      */
     private function _spatialFormat($elementText){
-        if (preg_match('/\|\|/', $elementText->text)) {
-            if(count(explode('||',$elementText->text)) == 2){
-                return ' xsi:type="dcterms:BOX"';
+        $content = $elementText->text;
+        if (preg_match('/\|\|/', $content)) {
+            if(count(explode('||',$content)) == 2){
+                list($min,$max) = explode('||',$content);  
+                list($westlim,$southlim) = explode(',',$min); 
+                list($northlim,$eastlim) = explode(',',$max); // 
+                if(is_numeric($westlim) && is_numeric($southlim) && 
+                        is_numeric($northlim) && is_numeric($eastlim)){
+                    return ' xsi:type="dcterms:BOX"';
+                }
             }
-        } else if (preg_match('/,/', $elementText->text)) {
-            if(count(explode(',',$elementText->text)) == 2){
-                return ' xsi:type="dcterms:POINT"';
+        } else if (preg_match('/,/', $content)) {
+            if(count(explode(',',$content)) == 2){
+                list($lat,$lon) = explode(',',$content);
+                if(is_numeric($lat) && is_numeric($lon)){
+                    return ' xsi:type="dcterms:POINT"';
+                }
             }
         }
         return '';
@@ -303,15 +307,11 @@
           list($min,$max) = explode('||',$content);  
           list($westlim,$southlim) = explode(',',$min); 
           list($northlim,$eastlim) = explode(',',$max); // 
-          if(is_numeric($westlim) && is_numeric($southlim) && 
-                  is_numeric($northlim) && is_numeric($eastlim)){
-            $content = "\n";
-            $content .= $tabs."\t<northlimit>".$northlim."</northlimit>\n";
-            $content .= $tabs."\t<eastlimit>".$eastlim."</eastlimit>\n";
-            $content .= $tabs."\t<southlimit>".$southlim."</southlimit>\n";
-            $content .= $tabs."\t<westlimit>".$westlim."</westlimit>\n";
-          }
-          return $content;
+          $content = "\n";
+          $content .= $tabs."\t<northlimit>".$northlim."</northlimit>\n";
+          $content .= $tabs."\t<eastlimit>".$eastlim."</eastlimit>\n";
+          $content .= $tabs."\t<southlimit>".$southlim."</southlimit>\n";
+          $content .= $tabs."\t<westlimit>".$westlim."</westlimit>\n";
       } else if (strpos($format, 'type="dcterms:POINT"')) {
           list($lat,$lon) = explode(',',$content);
           $content = "\n";
@@ -326,9 +326,8 @@
      * 
      * @param type $html HTML code to print
      */
-    private function _p_html($html){?>
-<?= $html;?>
-<?php }
- }
+    private function _p_html($html){?><?= $html;?><?php }
+    
+}
 
 
