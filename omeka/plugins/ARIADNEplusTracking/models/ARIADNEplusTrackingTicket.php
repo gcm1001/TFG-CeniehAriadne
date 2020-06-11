@@ -23,6 +23,7 @@ class ARIADNEplusTrackingTicket extends Omeka_Record_AbstractRecord
         'Enriched',
         'Ready to Publish',
         'Published',
+        'In Progress',
     );
     
     private $_validRecordTypes = array(

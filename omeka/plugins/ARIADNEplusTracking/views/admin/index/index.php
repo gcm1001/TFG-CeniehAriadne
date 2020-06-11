@@ -12,6 +12,10 @@
     <section class="ten columns alpha omega">
         <?= $this->Tracking()->showTickets(); ?>
     </section>
-    <h2><?= __(' or '); ?><a href="<?= html_escape(url('ariadn-eplus-tracking/index/new')); ?>"> <?= __(' create a new one '); ?> </a></h2>
-    
+    <h2><?= __(' or '); ?><a href="<?= html_escape(url('ariadn-eplus-tracking/index/new')); ?>"> <?= __(' create a new one '); ?> </a></h2>    
 </div>	
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        Omeka.Tickets.ticketCreated();
+    });
+</script>

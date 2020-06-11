@@ -3,6 +3,7 @@
         <p class="explanation">
             In this phase, <b>you must fill in all the essential elements of the Dublin Core metadata schema </b>.
         </p>
+        
     </div>
     <form id="hide-form" name="hide-form" method="get"> 
       <input type="hidden" name="record_type" value="<?= html_escape(get_class($record)); ?>"/>

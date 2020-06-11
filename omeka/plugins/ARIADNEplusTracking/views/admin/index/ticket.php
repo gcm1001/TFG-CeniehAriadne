@@ -55,13 +55,19 @@
     <div class="phase-bar" style="width: <?= (($level > 0) ? $level*(100/6) : 100/6).'%' ?>;"></div>
     </div>
     <div id="phase-content">
+      <?php if($level != -1): ?>
     <?= $this->Tracking()->showPhase(array(
         'phase' => $level > 0 ? $level : 1, 
         'record' => $record, 
         'results' => isset($total_results) ? $total_results : 0, 
         'hide' => $hide)); ?>
+      <?php else: ?>
+      <div id="load">
+        <h1>LOADING...</h1>
+      </div>
+      <?php endif; ?>
     </div>
-        <?php if($level < 6): ?>
+        <?php if($level < 6 && $level >= 0): ?>
     <div class="next">
         <a id="next-btn" href="<?= html_escape(url('ariadn-eplus-tracking/index/stage', array('url' => WEB_ROOT,'record_type' => get_class($record), 'element' => $elementId, 
                                                             'record_id' => $record->id , 'term' => $ticket->status)));?> " class="btn btn-1">
@@ -69,7 +75,7 @@
             <span class="round"><i class="fa fa-chevron-right"></i></span>
         </a>
     </div>
-        <?php else: ?>
+        <?php elseif($level == 6): ?>
     <div class="renew">
         <a id="renew-btn" href="#" class="renew-btn btn-1">
             <img class="icon" src="<?= html_escape(img('reload-icon.png')); ?>">

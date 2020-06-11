@@ -1457,7 +1457,7 @@ input.msg-input {
   position: relative;
   overflow: hidden;
   overflow-y: auto;
-  padding: 10px 25px;
+  padding: 10px 175px;
   width: 660px;
 }
 
@@ -1781,4 +1781,10 @@ a.renew-btn {
 
 .renew a.renew-btn:hover .round i {
   left: 4%;
+}
+
+/* Loading */
+
+#load {
+  text-align: center;
 }

@@ -169,9 +169,9 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $record Record
      * @return type Ticket
      */
-    public function getRecordTrackingTicket($record)
+    public function getTicketByRecordId($id)
     {
-        $tickets = $this->_ticketTable->findBy(array('record_id' => $record->id));
+        $tickets = $this->_ticketTable->findBy(array('record_id' => $id));
         return reset($tickets);
     }
     /**
@@ -305,7 +305,7 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
             return;
         }
         $record_type = get_class($record);
-        $ticket = $this->getRecordTrackingTicket($record);
+        $ticket = $this->getTicketByRecordId($record->id);
         if($phase == 0 || $phase == 1){            
             if(!isset($args['results'])){
                 return;

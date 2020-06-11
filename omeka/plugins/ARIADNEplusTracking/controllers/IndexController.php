@@ -68,12 +68,11 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
             $newticket = new ARIADNEplusTrackingTicket();
             $newticket->newTrackingTicket($record, 'Proposed', current_user());
             $newticket->save();
-            release_object($record);
         } else {
             $this->_helper->flashMessenger(__('Invalid record. Please see errors above and try again.'), 'error');
             return;
         }
-        
+        $this->_helper->flashMessenger(__('Ticket created.'), 'success');
         $this->redirect('ariadn-eplus-tracking');
     }
     
@@ -204,13 +203,14 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         }
         if($record === null) return;
         
-        $ticket = $this->view->tracking()->getRecordTrackingTicket($record);
+        $ticket = $this->view->tracking()->getTicketByRecordId($record->id);
+        if(!$ticket) return;
         $level = $this->view->tracking()->getLevelStatus($ticket->status);
         $this->view->record = $record;
         $this->view->ticket = $ticket;
         $this->view->level = $level;
         $this->view->hide = isset($params['advanced']); 
-        if($level == 0 || $level == 1){
+        if($level <= 1){
           $this->_helper->db->setDefaultModelName('Item');
           parent::browseAction();
         }
@@ -303,7 +303,7 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         
         if($record_type && $record_id){
             $record = get_record_by_id($record_type, $record_id);
-            $ticket = $this->view->Tracking()->getRecordTrackingTicket($record);
+            $ticket = $this->view->Tracking()->getTicketByRecordId($record->id);
             if($ticket && $record){
               $ticket->delete();
               $elementSet = $this->view->Tracking()->getElementSet();
@@ -313,6 +313,12 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
                   $ids[] = $element->id;
               }
               $record->deleteElementTextsByElementId($ids);
+              if($record_type == 'Collection'){
+                  $subrecords = get_records('Item',array('collection'=> $record->id),0);
+                  foreach($subrecords as $subrecord){
+                    $subrecord->deleteElementTextsByElementId($ids);
+                  }
+              }
               return $this->redirect('ariadn-eplus-tracking');
             }
         }
@@ -331,7 +337,7 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         
         if($record_type && $record_id){
             $record = get_record_by_id($record_type, $record_id);
-            $ticket = $this->view->Tracking()->getRecordTrackingTicket($record);
+            $ticket = $this->view->Tracking()->getTicketByRecordId($record->id);
             if($ticket && $record){
               $newTerm = 'Proposed';
               $ticket->setStatus($newTerm);

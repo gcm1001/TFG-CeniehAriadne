@@ -15,12 +15,12 @@
         </div> 
         <div class="section"><span class="span-form-step">2</span><?= __('Access to D4Science'); ?></div>
         <div class="inner-wrap">
-            <p><?= __('Login using your d4science credentials'); ?>:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> Mapping Tool </a> </p>
+            <p><?= __('Login using your d4science credentials'); ?>:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank"> Mapping Tool </a> </p>
         </div>
 
         <div class="section"><span class="span-form-step">3</span><?= __('Create the map'); ?></div>
             <div class="inner-wrap">
-                <p><?= __('Map the data to the AO-Cat using the'); ?><a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> X3ML mapping tool</a>   </p>
+                <p><?= __('Map the data to the AO-Cat using the'); ?><a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank"> X3ML mapping tool</a>   </p>
         </div>
         <div class="section"><span class="span-form-step">4</span><?= __('Set the identifier of the map'); ?></div>
             <div class="inner-wrap">

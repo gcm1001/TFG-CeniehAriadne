@@ -243,7 +243,7 @@
           $content = $this->_generateSpatialContent($eSlugInfo, $content, $tabs);
         }
         $this->_p_html( (in_array($eSlug, $this->_unqualified)) ? $tabs."<".$eSSlug.$eSlug.$eSlugInfo.">" : $tabs."<"."dcterms:".$eSlug.$eSlugInfo.">");
-        $this->_p_html(htmlspecialchars($content));
+        $this->_p_html(empty($eSlugInfo) ? htmlspecialchars($content) : $content);
         $this->_p_html( (in_array($eSlug, $this->_unqualified)) ? $addtabs."</".$eSSlug.$eSlug.">\n" : $addtabs."</"."dcterms:".$eSlug.">\n");
     }
     
@@ -308,15 +308,15 @@
           list($westlim,$southlim) = explode(',',$min); 
           list($northlim,$eastlim) = explode(',',$max); // 
           $content = "\n";
-          $content .= $tabs."\t<northlimit>".$northlim."</northlimit>\n";
-          $content .= $tabs."\t<eastlimit>".$eastlim."</eastlimit>\n";
-          $content .= $tabs."\t<southlimit>".$southlim."</southlimit>\n";
-          $content .= $tabs."\t<westlimit>".$westlim."</westlimit>\n";
+          $content .= $tabs."\t<northlimit>".trim($northlim)."</northlimit>\n";
+          $content .= $tabs."\t<eastlimit>".trim($eastlim)."</eastlimit>\n";
+          $content .= $tabs."\t<southlimit>".trim($southlim)."</southlimit>\n";
+          $content .= $tabs."\t<westlimit>".trim($westlim)."</westlimit>\n";
       } else if (strpos($format, 'type="dcterms:POINT"')) {
           list($lat,$lon) = explode(',',$content);
           $content = "\n";
-          $content .= $tabs."\t<latitude>".$lat."</latitude>\n";
-          $content .= $tabs."\t<longitude>".$lon."</longitude>\n";
+          $content .= $tabs."\t<latitude>".trim($lat)."</latitude>\n";
+          $content .= $tabs."\t<longitude>".trim($lon)."</longitude>\n";
       }
       return $content;
     }

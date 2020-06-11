@@ -4,6 +4,10 @@ if (!Omeka) {
 
 Omeka.Tickets = {};
 
+var TIMEOUT_PHASE = 99999; //ms
+var TIMEOUT_NEW = 60000; //ms
+var TIMEOUT_RENEW = 60000; //ms
+
 (function ($) {
   
     Omeka.Tickets.hideShowCompleteItems = function (type,id,elementId) {
@@ -120,13 +124,33 @@ Omeka.Tickets = {};
             }).then((result) => {
                 if (result.value) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Done!',
-                        text: 'Your ticket has been renewed.',
-                        showConfirmButton:false,
+                        title: 'Wait please!',
+                        html: 'Resetting initial values...',
+                        timer: TIMEOUT_RENEW,
+                        timerProgressBar: false,
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         allowEnterKey: false,
+                        onBeforeOpen: () => {
+                          Swal.showLoading()
+                          timerInterval = setInterval(() => {
+                            const content = Swal.getContent()
+                            if (content) {
+                              const b = content.querySelector('b')
+                              if (b) {
+                                b.textContent = Swal.getTimerLeft()
+                              }
+                            }
+                          }, 100)
+                        },
+                        onClose: () => {
+                          clearInterval(timerInterval);
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Timeout!',
+                              showConfirmButton:true,
+                          });
+                        }
                     });
                     setTimeout(function(){
                         $('form[name=renew-form]').submit();
@@ -138,18 +162,13 @@ Omeka.Tickets = {};
     
     Omeka.Tickets.stageNotification = function (items) {
       if ($('.success')[0]){
-            var level = $('input#ticket-type').val();
-            var time = 2000;            
-            if(level== 0 || level == 1){
-                time = 4*items;
-            } 
-            let timerInterval;
-            var extra = (level == 3 || level == 4) ? 6500 : 0;
-            Swal.fire({
+          var level = $('input#ticket-type').val();
+          var extraTimeout = (level == 3 || level == 4) ? 6500 : 0;
+          Swal.fire({
               title: 'Wait please!',
               html: 'Validating information...',
-              timer: (time < 2000 ? 2000 : time) + extra,
-              timerProgressBar: true,
+              timer: TIMEOUT_PHASE,
+              timerProgressBar: false,
               allowOutsideClick: false,
               allowEscapeKey: false,
               allowEnterKey: false,
@@ -166,37 +185,86 @@ Omeka.Tickets = {};
                 }, 100)
               },
               onClose: () => {
-                clearInterval(timerInterval)
+                clearInterval(timerInterval);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Timeout!',
+                    showConfirmButton:true,
+                });
               }
-            });
-            setTimeout(function(){
-                $('#content').load(location.href + " " + '#content > *');  
-                setTimeout(function(){
-                    if(level == $('#ticket-type').val() || $('#ticket-type').val() == 1 ){
-                        Swal.fire({
-                              icon: 'error',
-                              title: 'Stage not completed!',
-                              showConfirmButton:false,
-                              allowOutsideClick: false,
-                              allowEscapeKey: false,
-                              allowEnterKey: false,
-                        });
-                    } else {
-                        Swal.fire({
-                              icon: 'success',
-                              title: 'Stage completed!',
-                              showConfirmButton:false,
-                              allowOutsideClick: false,
-                              allowEscapeKey: false,
-                              allowEnterKey: false,
-                        });
-                    };
-                    setTimeout(function(){
-                        window.location.reload();
-                    }, 2000);
-                },200 + extra);
-            }, time < 2000 ? 2000 : time);
-        };
+          });
+          var loading = setInterval(frame, 50);
+          $('#content').load(location.href + " " + '#content > *');
+          setTimeout(function(){
+            var detect = setInterval(function(){
+                var actual = $('#ticket-type').val();
+                if(actual == -1){
+                  $('#content').load(location.href + " " + '#content > *');
+                } else {
+                  clearInterval(detect);
+                  clearInterval(loading);
+                  sendMessage(actual);
+                }
+            },2000);
+          }, 200 + extraTimeout);
+          
+          function sendMessage(actual) {
+              if(level == actual || actual == 1){
+                  Swal.fire({
+                        icon: 'error',
+                        title: 'Stage not completed!',
+                        showConfirmButton:false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                  });
+              } else {
+                  Swal.fire({
+                        icon: 'success',
+                        title: 'Stage completed!',
+                        showConfirmButton:false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                  });
+              };
+              setTimeout(function(){
+                  window.location.reload();
+              }, 2000);
+          };
+          
+          var width = 0;
+          var r = 8;
+          var phase = 100/6;
+          function frame() {
+            if (width >= 100) {
+              width = 0;
+              jQuery("li[id^=phase-]").removeClass('activated');
+            } else {
+              if(width >= 0 + r){
+                jQuery("#phase-1").addClass('activated');
+              }
+              if(width >= phase + r){
+                jQuery("#phase-2").addClass('activated');
+              }
+              if(width >= 2*phase + r){
+                jQuery("#phase-3").addClass('activated');
+              }
+              if(width >= 3*phase + r){
+                jQuery("#phase-4").addClass('activated');
+              }
+              if(width >= 4*phase + r){
+                jQuery("#phase-5").addClass('activated');
+              }
+              if(width >= 5*phase + r){
+                jQuery("#phase-6").addClass('activated');
+              }
+              width++;
+              jQuery(".phase-bar").width(width + "%");
+            }
+          };
+      };
+   
     };
       
     Omeka.Tickets.inboxFunctions = function () {
@@ -546,5 +614,134 @@ Omeka.Tickets = {};
               }
             });
         });
-    }
+    };
+    
+    Omeka.Tickets.newForm = function () {
+        var type = jQuery("#record-type");
+        var typeval;
+        var record;
+        var recordval;
+        var selectedrecord = jQuery(".selected-record");
+
+        jQuery(".first").click(function (event) {
+            typeval = type.val();
+            if (typeval === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please, select the type of record!',
+                    showConfirmButton:false,
+                });
+                return false;
+            }   
+            if(typeval === "Collection"){
+                jQuery("#record-id-item").hide();
+                record = jQuery("#record-id-col");
+            } else {
+                jQuery("#record-id-col").hide();
+                record = jQuery("#record-id-item");
+            }
+            jQuery(".container-step").removeClass("first initial-active-area");
+            jQuery(".container-step").addClass("second second-active-area");
+            event.preventDefault();
+        });
+        
+        jQuery('.second.back').click(function (event){
+            if(typeval === "Collection"){
+                jQuery("#record-id-item").show();
+            } else {
+                jQuery("#record-id-col").show();
+            }
+            jQuery(".container-step").removeClass("second second-active-area");
+            jQuery(".container-step").addClass("first initial-active-area");
+            event.preventDefault();
+        });
+        
+        jQuery('.third.back').click(function (event){
+            jQuery(".container-step").removeClass("third third-active-area");
+            jQuery(".container-step").addClass("second second-active-area");
+            event.preventDefault();
+        });
+        
+        jQuery(".second.next").click(function (event) {
+            recordval = record.val();
+            if (recordval === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please, select a record!',
+                    showConfirmButton:false,
+                });
+                return false;
+            } else {
+                selectedrecord.html(typeval + " " + recordval);
+            }
+            jQuery(".container-step").removeClass("second second-active-area initial-active-area");
+            jQuery(".container-step").addClass("third third-active-area");
+            event.preventDefault();
+        });
+        
+        jQuery("#new-button").click(function (e) {
+            e.preventDefault();
+            var category = jQuery('#ariadne-category').val();
+            if (category === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please, select a category!',
+                    showConfirmButton:false,
+                });
+                return false;
+            } else {
+                Swal.fire({
+                    title: 'Wait please!',
+                    html: 'Creating the ticket...',
+                    timer: TIMEOUT_NEW,
+                    timerProgressBar: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    onBeforeOpen: () => {
+                      Swal.showLoading()
+                      timerInterval = setInterval(() => {
+                        const content = Swal.getContent()
+                        if (content) {
+                          const b = content.querySelector('b')
+                          if (b) {
+                            b.textContent = Swal.getTimerLeft()
+                          }
+                        }
+                      }, 100)
+                    },
+                    onClose: () => {
+                      clearInterval(timerInterval);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Timeout!',
+                          showConfirmButton:true,
+                      });
+                    }
+                });
+                setTimeout(function(){
+                    jQuery('#new-form').submit()
+                }, 2500);
+            }
+        });
+    };
+    
+    Omeka.Tickets.ticketCreated = function() {
+      if ($('.success')[0]){
+        Swal.fire({
+            icon: 'success',
+            title: 'Done!',
+            text: 'Your ticket has been created.',
+            showConfirmButton:true,
+        });
+      };
+      if ($('.error')[0]){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Something has gone wrong.',
+            showConfirmButton:true,
+        });
+      };
+    };
 })(jQuery);
