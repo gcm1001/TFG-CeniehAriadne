@@ -56,3 +56,50 @@ table#column-mappings div.inputs {
 div.csvimportplusnext {
   clear:both;
 }
+
+.field label {
+  position: relative;
+}
+
+label .popup {
+  width: 220px;
+  height: 0px;
+  text-align: left;
+  overflow: hidden;
+  position: absolute;
+  background: #eee;
+  opacity: 0;
+  transition: 1s;
+  z-index: 99;
+  border-radius: 6px;
+}
+
+label .popup {
+  left: -212px;
+  top: 10px;
+}
+
+label:hover .popup {
+  opacity: 1;
+  height: auto;
+}
+
+label .popup h3 {
+  margin: 0;
+  padding: 10px 0 0 10px;
+  height: 30px;
+  background: #555;
+  color: #fff;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+label .popup p {
+  font-size: 12px;
+  padding: 10px;
+  margin: 0;
+}
+
+img.help-popup {
+  padding-right: 8px;
+}

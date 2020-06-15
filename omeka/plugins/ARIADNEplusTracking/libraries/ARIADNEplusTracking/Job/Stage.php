@@ -4,14 +4,17 @@
  */
 class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
 {
+    /* Queue name */
     const QUEUE_NAME = 'ariadneplus_tracking_stage';
 
+    /* Log Entry to store log messages*/
     private $_logentry;
+    /* Status Element (Metadata Status) */
     private $_statusElement;
-    private $_metadata = array(
-                Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
-            );
     
+    /**
+     * Execute the stage.
+     */
     public function perform()
     {
         $this->_db = get_db();
@@ -33,14 +36,13 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $this->_log(__('The term "%s" is the last one of the vocabulary of element %s.', $term, $element->name));
             return;
         }
-        // All is fine.
-        $newTerm = $statusElement['terms'][$key + 1];
-        $elementSet = $element->getElementSet();
+        $newTerm = $statusElement['terms'][$key+1];
         // Record
         $record_type = $this->_options['record_type'];
         $record_id = $this->_options['record_id'];
         $stageRecord = get_record_by_id($record_type, $record_id);
-        
+        // Ticket
+        $this->_updateTicketStatusByRecord($stageRecord, 'In Progress');
         // Ids
         switch($record_type){
             case 'Collection':
@@ -56,13 +58,20 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         }
         //Get all items 
         $records = get_records('Item', array('collection' => $collectionId,
-                'range' => $itemId,
-                'advanced' => array(array(
-                'element_id' => $element->id,
-                'type' => 'is exactly',
-                'terms' => $term,
-            )),
-        ), 0);
+                    'range' => $itemId,
+                    'advanced' => array(
+                        array(
+                        'element_id' => $element->id,
+                        'type' => 'is exactly',
+                        'terms' => $term,
+                         ),
+                        array(
+                        'joiner' => 'or',
+                        'element_id' => $element->id,
+                        'type' => 'is exactly',
+                        'terms' => 'Proposed'
+                        ))
+                    ), 0);
         // Operation
         $operation = null;
         $incompleteRecords = [];
@@ -72,7 +81,7 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             $operation = ARIADNEplusLogEntry::OPERATION_STAGE;
         } elseif ($key == 6) {
             $operation = ARIADNEplusLogEntry::OPERATION_REFRESH;
-        } 
+        }  
         if($operation === null){
           return;
         }
@@ -98,11 +107,22 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             'incompleteRecords' => $incompleteRecords,
             'term' => $newTerm));
         // Stage Record
-        $this->_stageRecord(array('key' => $key, 'stageRecord' => $stageRecord, 
+        $staged = $this->_stageRecord(array('key' => $key, 'stageRecord' => $stageRecord, 
             'flag' => $flag, 'newTerm' => $newTerm));
+        if(!$staged){
+          $ticket = get_record('ARIADNEplusTrackingTicket', array('record_id' => $stageRecord->id));
+          $ticket->setStatus($term);
+          $ticket->save();
+          release_object($ticket);
+        }
     }
     
-    
+    /**
+     * Stage the records.
+     * 
+     * @param type $args Parameters
+     * @return string New term
+     */
     protected function _stageSubRecords($args){
         $newTerm = $args['term'];
         $records = $args['records'];
@@ -117,19 +137,20 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             'text' => $newTerm,
             'html' => false,
         );
+        $metadata = array(
+            Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
+        );
         $count = count($records);
         foreach ($records as $k => $record) {
-            $record = update_item($record, $this->_metadata, $elementTexts);
+            if($newTerm == "Complete") $metadata = array('public' => true) + $metadata;
+            $record = update_item($record, $metadata, $elementTexts);
             $msg = __('Element #%d ("%s") of record #%d staged to "%s" (%d/%d).',
                 $element->id, $element->name, $record->id, $newTerm, $k + 1, $count);
             $this->_log($msg);
-            if($newTerm == 'Complete'){
-                $record->public = true;
-                $record->save();
-            }
             release_object($record);
         }  
         if(!empty($incompleteRecords)){
+            if(isset($metadata['public'])) unset($metadata['public']);
             $elementTexts = [];
             $newTerm = 'Incomplete';
             $elementTexts[$elementSet->name][$element->name][] = array(
@@ -137,7 +158,7 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
                 'html' => false,
             );
             foreach ($incompleteRecords as $k => $record) {
-                $record = update_item($record, $this->_metadata, $elementTexts);
+                $record = update_item($record, $metadata, $elementTexts);
                 $msg = __('Element #%d ("%s") of record #%d staged to "%s".',
                 $element->id, $element->name, $record->id, 'Incomplete');
                 $this->_log($msg);
@@ -147,13 +168,17 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         return $newTerm;
     }
     
+    /**
+     * Stage the master record.
+     * 
+     * @param type $args
+     */
     protected function _stageRecord($args){
         $stageRecord = $args['stageRecord'];
         $key = $args['key'];
         $flag = $args['flag'];
         $newTerm = $args['newTerm'];
-        //ticket
-        $ticket = get_view()->tracking()->getRecordTrackingTicket($stageRecord);
+        
         $statusElement = $this->_statusElement;
         $element = $statusElement['element'];
         
@@ -162,27 +187,28 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             'text' => $newTerm,
             'html' => false,
         );
+        $metadata = array(
+            Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
+        );
         $record_type = get_class($stageRecord);
         if($record_type == 'Collection' && ($flag || $key == 0)){
             $collectionid = $stageRecord->id;
             $colState = metadata($stageRecord, array('Monitor', 'Metadata Status'));
             if($colState == $statusElement['terms'][$key]){
                 release_object($stageRecord);
-                $stageRecord = update_collection(get_record_by_id('Collection',$collectionid),$this->_metadata,$elementTexts);
+                if($newTerm == "Complete") $metadata = array('public' => true) + $metadata;
+                $stageRecord = update_collection(get_record_by_id('Collection',$collectionid),$metadata,$elementTexts);
                 $msg = __('Collection #%d staged to "%s".', $stageRecord->id, $newTerm);
                 $this->_log($msg);
-                if($newTerm == 'Complete'){
-                    $stageRecord->public = true;
-                    $stageRecord->save();
-                }
+                $this->_updateTicketStatusByRecord($stageRecord, $newTerm);
                 release_object($stageRecord);
-                $ticket->setStatus($newTerm);
-                $ticket->save();
+                return true;
             }
         } else if($flag && $record_type == 'Item'){
-            $ticket->setStatus($newTerm);
-            $ticket->save();
+            $this->_updateTicketStatusByRecord($stageRecord, $newTerm);
+            return true;
         }
+        return false;
     }
     
 
@@ -199,6 +225,11 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         _log("$prefix $msg", $priority);
     }
 
+    /**
+     * Create an ARIADNEplus log message.
+     * 
+     * @param type $msg Message
+     */
     private function createLogMsg($msg){
         $logmsg = new ARIADNEplusLogMsg();
         $logmsg->entry_id = $this->_logentry->id;
@@ -206,6 +237,13 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         $logmsg->save();
     }
 
+    /**
+     * Checks all metadata elements of a given record.
+     * 
+     * @param type $records Records
+     * @param type $view View
+     * @return type Array with valid records and incomplete records
+     */
     protected function _checkMetadataElements($records, $view){
         $mandatoryElementsDC = $view->tracking()->getMandatoryDCElements();
         $incompleteRecords = [];
@@ -213,17 +251,24 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             //CHECK: DC
             foreach($mandatoryElementsDC as $elementDC) {
                 if(empty(metadata($record,array('Dublin Core', $elementDC)))){
-                    $incompleteRecords[] = $record;
-                    unset($records[$k]);
+                    if(isset($records[$k])){
+                      unset($records[$k]);
+                      $incompleteRecords[] = $record;
+                    }
                     $msg = __('Record #%d is not valid. %s is empty.', $record->id, $elementDC);
                     $this->_log($msg);
-                    break;
                 }
             }
         }
         return array($records, $incompleteRecords);
     }
     
+    /**
+     * Check if record is mapped.
+     * 
+     * @param type $record Record
+     * @return boolean Is mapped?
+     */
     protected function _isMapped($record){
         $elementM = 'ID of your metadata transformation';
         if(empty(metadata($record,array('Monitor', $elementM)))){
@@ -234,6 +279,12 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         return true;
     }
     
+    /**
+     * Check if record is enriched.
+     * 
+     * @param type $record Record
+     * @return boolean Is Enriched?
+     */
     protected function _isEnriched($record){
         $elementM = 'URL of your PeriodO collection';
         if(empty(metadata($record,array('Monitor', $elementM)))){
@@ -242,5 +293,13 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
             return false;
         }
         return true;
+    }
+    
+    private function _updateTicketStatusByRecord($record, $status){
+        //ticket
+        $ticket = get_view()->tracking()->getTicketByRecordId($record->id);
+        $ticket->setStatus($status);
+        $ticket->save();
+        release_object($ticket);
     }
 }

@@ -16,6 +16,7 @@ jQuery(document).ready(function () {
     jQuery('#tag_delimiter_name').click(Omeka.CsvImportPlus.updateTagDelimiterField);
     jQuery('#file_delimiter_name').click(Omeka.CsvImportPlus.updateFileDelimiterField);
     Omeka.CsvImportPlus.updateOnLoad(); // Need this to reset invalid forms.
+    Omeka.CsvImportPlus.showHelpPopups("<?= img('help-button.png'); ?>");
 });
 //]]>
 </script>

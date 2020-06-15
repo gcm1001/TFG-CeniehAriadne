@@ -1,10 +1,5 @@
 <?php
 /**
- * ARIADNEplus Tracking
- *
- */
-
-/**
  * The ARIADNEplusTracking log controller class.
  *
  * @package ARIADNEplusTracking

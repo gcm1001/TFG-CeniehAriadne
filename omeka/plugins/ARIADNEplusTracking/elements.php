@@ -60,7 +60,13 @@ $elementSetMetadata = array(
             'description' => '',
             'comment' => '',
             'unique' => true,
-            
+        ),
+        array(
+            'name' => 'sparql-ghost',
+            'label' => 'Ghost SPARQL',
+            'description' => '',
+            'comment' => '',
+            'unique' => true,
         ),
     ),
 );

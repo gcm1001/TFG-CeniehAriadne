@@ -47,25 +47,7 @@ class Api_Location extends Omeka_Record_Api_AbstractRecordAdapter
         if (isset($data->item->id)) {
             $record->item_id = $data->item->id;
         }
-        if (isset($data->latitude)) {
-            $record->latitude = $data->latitude;
-        }
-        if (isset($data->longitude)) {
-            $record->longitude = $data->longitude;
-        }
-        if (isset($data->zoom_level)) {
-            $record->zoom_level = $data->zoom_level;
-        }
-        if (isset($data->map_type)) {
-            $record->map_type = $data->map_type;
-        } else {
-            $record->map_type = '';
-        }
-        if (isset($data->address)) {
-            $record->address = $data->address;
-        } else {
-            $record->address = '';
-        }
+        $this->setPutData($record, $data);
     }
     
     /**

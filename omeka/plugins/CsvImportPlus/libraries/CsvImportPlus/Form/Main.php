@@ -44,12 +44,14 @@ class CsvImportPlus_Form_Main extends Omeka_Form
         $values = get_table_options('ItemType', __('No default item type'));
         $this->addElement('select', 'item_type_id', array(
             'label' => __('Item type'),
+            'description' => __('You can indicate the type of items to import.'),
             'multiOptions' => $values,
         ));
 
         $values = get_table_options('Collection', __('No default collection'));
         $this->addElement('select', 'collection_id', array(
             'label' => __('Collection'),
+            'description' => __('If the items you want to import belong to an existing collection, select it.'),
             'multiOptions' => $values,
         ));
 
@@ -96,6 +98,7 @@ class CsvImportPlus_Form_Main extends Omeka_Form
 
         $this->addElement('select', 'action', array(
             'label' => __('Action'),
+            'description' => __('The selected action will be executed on the imported items.'),
             'multiOptions' => label_table_options(array(
                 CsvImportPlus_ColumnMap_Action::ACTION_UPDATE_ELSE_CREATE
                     => __('Update the record if it exists, else create one'),

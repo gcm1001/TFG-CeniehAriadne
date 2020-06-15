@@ -10,7 +10,7 @@
                     $browseHeadings[__('User')] = 'user';
                     $browseHeadings[__('Status')] = 'status';?>
                     <?= browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => '')); ?>
-                    
+                  <th> Action </th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +32,13 @@
                     </td>
                     <td><?= html_escape($ticket->displayUser()); ?></td>
                     <td><?= html_escape($ticket->displayStatus()); ?></td>
+                  <td style="width:35px;">
+                    <form id="form-remove-<?= html_escape(($key-1)); ?>" method="post" action="<?= html_escape(url('ariadn-eplus-tracking/index/remove'))?>">
+                      <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" />
+                      <input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
+                    </form>
+                    <span class="delete-row table-remove remove-lg">x</span>
+                  </td>
                 </tr>
                 </form>
                 <?php endforeach; 
@@ -50,9 +57,6 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery("#ariadne-tickets tbody tr").click(function(){
-            var row_id = jQuery(this).index();
-            jQuery("#form-row-" + row_id).submit();
-        });
+        Omeka.Tickets.removeTicket();
     });
 </script>

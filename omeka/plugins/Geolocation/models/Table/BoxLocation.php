@@ -46,7 +46,7 @@ class Table_BoxLocation extends Omeka_Db_Table
         // However, if in the future, an item can have multiple locations, then we cannot just associate a single location with a single item_id;
         // Instead, in the future, we would have to associate an array of locations with a single item_id.
         $indexedBoxLocations = array();
-        foreach ($boxlocations as $k => $boxloc) {
+        foreach ($boxlocations as $boxloc) {
             $indexedBoxLocations[$boxloc['item_id']] = $boxloc;
         }
         return $indexedBoxLocations;

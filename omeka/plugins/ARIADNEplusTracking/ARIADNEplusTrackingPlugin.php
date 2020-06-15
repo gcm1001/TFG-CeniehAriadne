@@ -15,6 +15,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * @var array Hooks for the plugin.
      */
     protected $_hooks = array(
+        'initialize',
         'install',
         'uninstall',
         'uninstall_message',
@@ -72,6 +73,17 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     );
 
     /**
+     * Add the imap options.
+     */
+    public function hookInitialize()
+    {
+        if (!Zend_Registry::isRegistered('ariadn_eplus_tracking')) {
+            $iniFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mail.ini';
+            $settings = new Zend_Config_Ini($iniFile, 'ariadn-eplus-tracking');
+            Zend_Registry::set('ariadn_eplus_tracking', $settings);
+        }
+    }
+    /**
      * Install the plugin.
      */
     public function hookInstall() {
@@ -98,7 +110,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         // JSON Element
         $hideSettings = json_decode(get_option('hide_elements_settings'), true);
         if(!isset($hideSettings['form']['Monitor'])){
-            $hideSettings['form']['Monitor'] = array('Metadata Status' => '1','GettyAAT mapping' => '1');
+            $hideSettings['form']['Monitor'] = array('Metadata Status' => '1','GettyAAT mapping' => '1', 'Ghost SPARQL' => '1');
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
@@ -131,7 +143,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             `record_id` int(10) unsigned NOT NULL,
             `user_id` int(10) unsigned NOT NULL,
             `status` enum('Proposed', 'Incomplete', 'Complete', 'Mapped',
-                          'Enriched', 'Ready to publish', 'Published') NOT NULL,
+                          'Enriched', 'Ready to Publish', 'Published', 'In Progress') NOT NULL,
             `lastmod` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `mode` enum('XML', 'OAI-PMH', 'UNDEFINED') NOT NULL,
              PRIMARY KEY (`id`),
@@ -466,7 +478,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAdminHead()
     {
-        queue_css_file('ariadneplustracking'); 
+
+        queue_js_file('tickets');
+        queue_css_file('ariadne-plus-tracking'); 
         queue_js_file('notify');
         queue_js_file('sweetalert2.all.min');
     }
@@ -692,7 +706,6 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         $record = $args['record'];
-
         // There is no post in this view.
         $view = get_view();
 
@@ -1165,7 +1178,8 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterSaveCollection($args)
     {
         $collection = $args['record'];
-        $items = get_records('Item',array('collection'=> $collection->id),9999);
+        $items = get_records('Item',array('collection'=> $collection->id), 0);
+        if(empty($items)) return;
         $elementTexts = [];
         // METADATA STATUS
         $status = metadata($collection, array('Monitor','Metadata Status'));
@@ -1175,49 +1189,15 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 'html' => false,
             );
         }
-        //ARIADNEplus Category
-        $category = metadata($collection, array('Monitor','ARIADNEplus Category'));
-        if($category){
-            $elementTexts['Monitor']['ARIADNEplus Category'][] = array(
-                'text' => $category,
-                'html' => false,
-            );
-        }
-        // MAP ID
-        $mapId = metadata($collection, array('Monitor','ID of your metadata transformation'));
-        if($mapId){
-            $elementTexts['Monitor']['ID of your metadata transformation'][] = array(
-                'text' => $mapId,
-                'html' => false,
-            );
-        }
-        // PERIODO URL
-        $periodo = metadata($collection, array('Monitor','URL of your PeriodO collection'));
-        if($periodo){
-            $elementTexts['Monitor']['URL of your PeriodO collection'][] = array(
-                 'text' => $periodo,
-                 'html' => true,
-            );
-        }
-        //GETTY URL
-        $getty = metadata($collection, array('Monitor', 'GettyAAT mapping'));
-        if($getty){
-            $elementTexts['Monitor']['GettyAAT mapping'][] = array(
-             'text' => $getty,
-             'html' => true,
-            );
-        }
         // UPDATE CONFIG 
         $metadata = array(
             Builder_Item::OVERWRITE_ELEMENT_TEXTS => true,
         );
-        
+        if(empty($elementTexts)) return;
         // UPDATE ASSOCIATED ITEMS
-        if (!empty($items) && !empty($elementTexts)) {
-            foreach ($items as $item) {
-                $item = update_item($item, $metadata, $elementTexts);
-                release_object($item);
-            }
+        foreach ($items as $item) {
+            $item = update_item($item, $metadata, $elementTexts);
+            release_object($item);
         }
     }
     
@@ -1231,30 +1211,34 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $item = $args['record'];
         $post = $args['post'];
         if(!empty($post)){
-            if ($this->isset_file('file')) {
-                $status = metadata($item,array('Monitor','Metadata Status'));
-                if($status){
-                    $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
-                    $file = array_pop($jsonfiles);
-                    if($file){
-                        $filetype = metadata($file, 'mime_type');
-                        if($filetype == 'application/json'){
-                            $url = metadata($file, 'uri');
-                            if(!empty($url)){
-                                $gettyElement = $item->getElement('Monitor', 'GettyAAT mapping');
-                                $item->deleteElementTextsByElementId(array($gettyElement->id));
-                                $item->addTextForElement($gettyElement, '<a href="'.$url.'" >JSON file</a>',true);
-                            } 
-                            foreach($jsonfiles as $oldfile){
-                                $oldfile->delete();
-                            }
-                        } else {
-                            $item->addError("File format Error", __('The uploaded file must be an application/json file, but it\'s an %s file!',$filetype));
-                            $file->delete();
+            $status = metadata($item,array('Monitor','Metadata Status'));
+            if(!$status) return;
+            if($this->isset_file('file')) {
+                $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
+                $file = array_pop($jsonfiles);
+                if($file){
+                    $filetype = metadata($file, 'mime_type');
+                    if($filetype == 'application/json'){
+                        $url = metadata($file, 'uri');
+                        if(!empty($url)){
+                            $gettyElement = $item->getElement('Monitor', 'GettyAAT mapping');
+                            $item->deleteElementTextsByElementId(array($gettyElement->id));
+                            $item->addTextForElement($gettyElement, '<a href="'.$url.'" >JSON file</a>',true);
+                        } 
+                        foreach($jsonfiles as $oldfile){
+                            $oldfile->delete();
                         }
+                    } else {
+                        $item->addError("File format Error", __('The uploaded file must be an application/json file, but it\'s an %s file!',$filetype));
+                        $file->delete();
                     }
                 }
-            } 
+            }
+            if($status == 'Incomplete'){
+                $statusElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'Metadata Status');
+                $item->deleteElementTextsByElementId(array($statusElement->id));
+                $item->addTextForElement($statusElement,'Proposed');
+            }
         }
         
     }
@@ -1277,7 +1261,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                     }
                 }
             }
-        } 
+        }
         if(empty(metadata($item, array('Monitor','Metadata Status')))){
             $collectionId =  $item->collection_id;
             $collection = get_record_by_id('Collection', $collectionId);
@@ -1334,7 +1318,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $extdiv = isset($args['extdiv']) ? $args['extdiv'] : '';
         
         if($status && $type == 'item'){
-            if(!$view->tracking()->getRecordTrackingTicket($record)){
+            if(!$view->tracking()->getTicketByRecordId($record->id)){
                 $type = 'collection';
                 $record = get_collection_for_item($record);
             }
@@ -1359,12 +1343,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         if($status != null && $status != ''){
             $blocks = array('files','tags','item-type-metadata');
             if($status != 'Incomplete' && $status != 'Proposed'){
-              array_push($blocks,'dublin-core', 'map', 'tags');
+              array_push($blocks,'dublin-core', 'map', 'tags', 'inputs');
             }
             if($status == 'Mapped'){
               array_push($blocks,'mapped');  
             }
-            if($status == 'Enriched' || $status == 'Incomplete'){
+            if($status == 'Enriched' || $status == 'Incomplete' || $status == 'Proposed'){
               array_push($blocks,'monitor');
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $item));
@@ -1392,7 +1376,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             if($status == 'Mapped'){
               array_push($blocks,'mapped');  
             }
-            if($status == 'Enriched' || $status == 'Incomplete'){
+            if($status == 'Enriched' || $status == 'Incomplete' || $status == 'Proposed'){
               array_push($blocks,'monitor');
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $collection));
@@ -1418,7 +1402,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $status = $args['status'];
         $view = $args['view'];
         $record = $args['record'];
-        if($status == 'Incomplete'){
+        if($status == 'Incomplete' || $status = 'Proposed'){
             $elements = $record->getElementsBySetName('Dublin Core');
         } else if ($status == 'Complete' || $status == 'Mapped'){
             $elements = $record->getElementsBySetName('Monitor');
@@ -1447,7 +1431,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 $this->_updateCollectionStatus(array('collection' => $collection,'view' => $view, 'status' =>$colStatus));
             }
         }
-        $ticket = $view->tracking()->getRecordTrackingTicket($item);
+        $ticket = $view->tracking()->getTicketByRecordId($item->id);
         if($ticket){
             $ticket->delete();
         }
@@ -1489,12 +1473,17 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterDeleteCollection($args){
         $collection = $args['record'];
         $view = get_view();
-        $ticket = $view->tracking()->getRecordTrackingTicket($collection);
+        $ticket = $view->tracking()->getTicketByRecordId($collection->id);
         if($ticket){
             $ticket->delete();
         }
     }
     
+    /**
+     * Prints HTML code.
+     * 
+     * @param type $html HTML code
+     */
     private function _p_html($html){ ?>
       <?= $html ?> <?php
     }

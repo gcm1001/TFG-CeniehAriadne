@@ -1,11 +1,12 @@
 <?php
 /**
- * Helpers for AriadnePlusMonitor.
+ * Helpers for ARIADNEplus Tracking.
  *
- * @package AriadnePlusMonitor
+ * @package ARIADNEplusTracking
  */
 class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
 {
+    protected $_mail;
     protected $_elementSetName = 'Monitor';
     protected $_elementSet;
     protected $_statusElements;
@@ -27,6 +28,20 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         $this->_logTable = get_db()->getTable('ARIADNEplusLogEntry');
         $this->_ticketTable = get_db()->getTable('ARIADNEplusTrackingTicket');
     }
+    
+    protected function _getMail($mailconfig){
+        if(empty($this->_mail)){
+          $this->_mail = new Zend_Mail_Storage_Imap(array(
+                'host'     => $mailconfig->host,
+                'user'     => $mailconfig->username,
+                'password' => $mailconfig->password,
+                'ssl'      => $mailconfig->ssl,
+                'port'     => $mailconfig->port));
+          return $this->_mail;
+        }
+        return $this->_mail;
+    }
+    
     /**
      * Get the helper.
      *
@@ -154,9 +169,9 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $record Record
      * @return type Ticket
      */
-    public function getRecordTrackingTicket($record)
+    public function getTicketByRecordId($id)
     {
-        $tickets = $this->_ticketTable->findBy(array('record_id' => $record->id));
+        $tickets = $this->_ticketTable->findBy(array('record_id' => $id));
         return reset($tickets);
     }
     /**
@@ -224,7 +239,6 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      */
     public function showlogs($record, $limit = 2)
     {
-        $markup = '';
         $params = array();
         if (is_object($record)) {
             $params['record_type'] = get_class($record);
@@ -291,68 +305,42 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
             return;
         }
         $record_type = get_class($record);
-        $ticket = $this->getRecordTrackingTicket($record);
-          
+        $ticket = $this->getTicketByRecordId($record->id);
         if($phase == 0 || $phase == 1){            
             if(!isset($args['results'])){
                 return;
             }
-            $elements = $this->_elementSet;
-            $element_id = reset($elements);
-            $advancedFilterProp = array(
-                                array(
-                                    'element_id' => $element_id,
-                                    'type' => 'is exactly',
-                                    'terms' => 'Proposed'
-                                ),
-                                array(
-                                    'joiner' => 'or',
-                                    'element_id' => $element_id,
-                                    'type' => 'is exactly',
-                                    'terms' => 'Incomplete'
-                                ),
-                                array(
-                                    'joiner' => 'or',
-                                    'element_id' => $element_id,
-                                    'type' => 'is exactly',
-                                    'terms' => 'Complete'
-                                ),
-                              );     
-            switch($record_type){
-                case 'Collection':
-                    $items = get_records('Item',array('collection' => $record->id, 
-                        'advanced' => $advancedFilterProp), $limit);
-                    break;
-                case 'Item':
-                    $status = metadata($record,array('Monitor','Metadata Status'));
-                    $items = array($record);
-                    break;
-                default:
-                    $items = array();
-            }
-
+            $elements = $this->getStatusElements(true);
+            $element = reset($elements);
             $markup = $this->view->partial('forms/phase-one-form.php',array(
                                             'record' => $record,
-                                            'items' => $items,
+                                            'elementId' => $element['element']->id,
                                             'total' => $args['results'],
+                                            'hide' => $args['hide'],
                                             ));
-        } else if($phase == 2 ){
-            $markup = $this->view->partial('forms/phase-two-form.php',array(
+        } else if($phase == 2 || $phase == 3){
+            $markup = $this->view->partial($phase == 2 ? 'forms/phase-two-form.php' : 'forms/phase-three-form.php',
+                                        array(
                                         'record' => $record,
                                         'ticket' => $ticket,
                                         ));
-        } else if($phase == 3){
-            $markup = $this->view->partial('forms/phase-three-form.php',array(
+        } else if($phase == 4 || $phase == 5){
+            $mailconfig = Zend_Registry::get('ariadn_eplus_tracking')->imap;
+            $this->_getMail($mailconfig);
+            $markup = $this->view->partial($phase == 4 ? 'forms/phase-four-form.php' : 'forms/phase-five-form.php',
+                                        array(
                                         'record' => $record,
                                         'ticket' => $ticket,
+                                        'mails' => $this->_mail,
+                                        'body' => $this->_generateBodyMail(
+                                                array('mode' => $ticket->mode, 
+                                                    'record_id' => $record->id, 
+                                                    'record_type' => $record_type,
+                                                    'phase' => $phase)),
                                         ));
-        } else if($phase == 4){
-            $markup = $this->view->partial('forms/phase-four-form.php',array(
-                                        'record' => $record,
-                                        'ticket' => $ticket,
-                                        'body' => $this->generateBodyMail(array('mode' => $ticket->mode, 'record_id' => $record->id, 'record_type' => $record_type)),
-                                        ));
-        } 
+        } else if($phase == 6){
+            $markup = $this->view->partial('forms/phase-six-form.php',array('record' => $record));
+        }
         return $markup;
     }
     
@@ -362,37 +350,45 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $args Record Identifier and Record Type
      * @return string Body Mail
      */
-    public function generateBodyMail($args){
+    protected function _generateBodyMail($args){
         $record_id = $args['record_id'];
         $record_type = $args['record_type'];
         $mode = $args['mode'];
+        $phase = $args['phase'];
         if(empty($record_type) || empty($mode)){
             return '';
         }
         $record = get_record_by_id($record_type, $record_id);
         $body = '';
         $body .= "<p>";
-        $body .= __("%s %s",$record_type, $record_id);
-        $body .= __("<br> ARIADNE Category: %s",metadata($record,array('Monitor', 'ARIADNEplus Category')));
-        switch($mode){
-          case 'OAI-PMH':
-            $body .= __("<br> OAI-PMH url: %s", WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record_id);
-            break;
-          case 'XML':
-            $body .= __("<br> XML url: %s", WEB_ROOT.'/'.strtolower($record_type).'s/show/'.$record_id.'?output=CIRfull');
-            break;
-          default:
-            $body .= __("No record available");
+        if($phase == 5){
+            $body .= __("About the collection: %s  <br>",metadata($record,array('Monitor', 'Ghost SPARQL')));
+            $body .= __("We confirm that everything is correct! It can be published whenever you want. <br> <br>");
+            $body .= __("Thank you so much!");
+        } else if($phase == 4){
+            $body .= __("%s %s",$record_type, $record_id);
+            $body .= __("<br> ARIADNE Category: %s",metadata($record,array('Monitor', 'ARIADNEplus Category')));
+            switch($mode){
+              case 'OAI-PMH':
+                $body .= __("<br> OAI-PMH url: %s", WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record_id);
+                break;
+              case 'XML':
+                $body .= __("<br> XML url: %s", WEB_ROOT.'/'.strtolower($record_type).'s/show/'.$record_id.'?output=CENIEHfull');
+                break;
+              default:
+                $body .= __("No record available");
+            }
+            $body .= __("<br> Mapping Identifier: %s",metadata($record,array('Monitor', 'ID of your metadata transformation')));
+            $jsonurl = metadata($record,array('Monitor', 'GettyAAT mapping'));
+            if(!empty($jsonurl)){
+                $body .= __("<br> JSON File (GettyAAT): %s",$jsonurl);
+            }
+            $body .= __("<br> PeriodO Collection: %s",metadata($record,array('Monitor', 'URL of your PeriodO collection')));
         }
-        $body .= __("<br> Mapping Identifier: %s",metadata($record,array('Monitor', 'ID of your metadata transformation')));
-        $jsonurl = metadata($record,array('Monitor', 'GettyAAT mapping'));
-        if(!empty($jsonurl)){
-            $body .= __("<br> JSON File (GettyAAT): %s",$jsonurl);
-        }
-        $body .= __("<br> PeriodO Collection: %s",metadata($record,array('Monitor', 'URL of your PeriodO collection')));
         $body .= "</p>";
         return $body;
     }
+    
     /**
      * Returns 1 if record is in ticket, 2 if is part of a ticket (Collection)
      * and 0 if is not in ticket.
@@ -449,8 +445,8 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @return type Dublin Core Element Names
      */
     public function getMandatoryDCElements(){
-        return array('Identifier','Title','Subject','Language','Date Issued',
-            'Date Modified','Rights','Publisher','Contributor','Creator', 
+        return array('Identifier','Title','Subject','Language',
+            'Rights','Publisher','Contributor','Creator', 
             'Spatial Coverage');
     }
     

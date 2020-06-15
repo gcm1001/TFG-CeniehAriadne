@@ -3,7 +3,7 @@
 /* 
  * Tags Manager Plugin 
  * 
- * Allows Omeka users to remove all existing or searched tags.
+ * Allows Omeka users to remove all tags at once.
  * It also gives you the option to synchronize Omeka tags with dc:subject entries.
  *
  */
@@ -44,10 +44,11 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         $params = $request->getParams();
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
             if (isset($params['like']) || isset($params['type'])) {
-                $this->_p_html("<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>");      
+                $this->_p_html("<a class='button red' id='del-tags' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>");      
                 return;
             } 
-            $this->_p_html("<a class='button red' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"); 
+            $this->_p_html("<a class='button red' id='del-tags' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"); 
+            $this->_p_html("<script> jQuery('#del-tags').click(function(){ return confirm('Are you sure you want to delete all tags?'); }); </script>");
         }
     }
     

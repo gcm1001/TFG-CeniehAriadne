@@ -19,9 +19,9 @@
         $location = $locations[$item->id];
         ?>
         <Placemark>
-            <name><![CDATA[<?= metadata('item', array('Dublin Core', 'Title'));?>]]></name>
-            <namewithlink><![CDATA[<?= link_to_item(metadata('item' , array('Dublin Core', 'Title')), array('class' => 'view-item')); ?>]]></namewithlink>
-            <Snippet maxLines="2"><![CDATA[<?= metadata('item', array('Dublin Core', 'Description'), array('snippet' => 150));
+            <name><![CDATA[<?= html_escape(metadata('item', array('Dublin Core', 'Title')));?>]]></name>
+            <namewithlink><![CDATA[<?= link_to_item(html_escape(metadata('item' , array('Dublin Core', 'Title'))), array('class' => 'view-item')); ?>]]></namewithlink>
+            <Snippet maxLines="2"><![CDATA[<?= html_escape(metadata('item', array('Dublin Core', 'Description'), array('snippet' => 150)));
             ?>]]></Snippet>    
             <description><![CDATA[<?php 
             // @since 3/26/08: movies do not display properly on the map in IE6, 
@@ -32,10 +32,10 @@
             <?php endif; ?>
             ?>]]></description>
             <Point>
-                <coordinates><?= htmlspecialchars($location['longitude']); ?>,<?= htmlspecialchars($location['latitude']); ?></coordinates>
+                <coordinates><?= html_escape($location['longitude']); ?>,<?= html_escape($location['latitude']); ?></coordinates>
             </Point>
             <?php if ($location['address']): ?>
-            <address><![CDATA[<?= htmlspecialchars($location['address']); ?>]]></address>
+            <address><![CDATA[<?= html_escape($location['address']); ?>]]></address>
             <?php endif; ?>
         </Placemark>
         <?php endforeach; ?>

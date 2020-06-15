@@ -29,7 +29,7 @@ if (get_option('geolocation_use_metric_distances')) {
         <?= $this->formLabel('geolocation-mapped', __('Geolocation Status')); ?>
     </div>
     <div class="five columns omega inputs">
-        <?= $this->formSelect('geolocation-mapped',  $mapped, array(), array(
+        <?= $this->formSelect('geolocation-mapped',  html_escape($mapped), array(), array(
             '' => __('Select Below'),
             '1' => __('Only Items with Locations'),
             '0' => __('Only Items without Locations'),
@@ -43,18 +43,18 @@ if (get_option('geolocation_use_metric_distances')) {
         <?= $this->formLabel('geolocation-address', __('Geographic Address')); ?>
     </div>
     <div class="five columns omega inputs">
-        <?= $this->formText('geolocation-address',  $address, array('size' => '40', 'id' => 'geolocation-address-input')); ?>
-        <?= $this->formHidden('geolocation-latitude', $currentLat, array('id' => 'geolocation-latitude-input')); ?>
-        <?= $this->formHidden('geolocation-longitude', $currentLng, array('id' => 'geolocation-longitude-input')); ?>
+        <?= $this->formText('geolocation-address',  html_escape($address), array('size' => '40', 'id' => 'geolocation-address-input')); ?>
+        <?= $this->formHidden('geolocation-latitude', html_escape($currentLat), array('id' => 'geolocation-latitude-input')); ?>
+        <?= $this->formHidden('geolocation-longitude', html_escape($currentLng), array('id' => 'geolocation-longitude-input')); ?>
     </div>
 </div>
 
 <div class="field">
     <div class="two columns alpha">
-        <?= $this->formLabel('geolocation-radius', $distanceLabel); ?>
+        <?= $this->formLabel('geolocation-radius', html_escape($distanceLabel)); ?>
     </div>
     <div class="five columns omega inputs">
-        <?= $this->formText('geolocation-radius', $radius, array('size' => '40')); ?>
+        <?= $this->formText('geolocation-radius', html_escape($radius), array('size' => '40')); ?>
     </div>
 </div>
 
@@ -71,7 +71,7 @@ if (get_option('geolocation_use_metric_distances')) {
     }
     
     $(document).ready(function() {
-        var geocoder = new OmekaGeocoder(<?= htmlspecialchars($geocoder); ?>);
+        var geocoder = new OmekaGeocoder(<?= $geocoder; ?>);
         var pauseForm = true;
         $('#geolocation-address-input').parents('form').submit(function(event) {
             // Find the geolocation for the address

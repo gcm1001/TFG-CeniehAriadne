@@ -2,7 +2,7 @@
     <div class="form-style-10">
     <h1 class="h1-phase" >Map your metadata!<span class="span-form">To map your metadata, follow these steps.</span></h1>
         <form method="post" id="form-phase-2" action="#"> 
-        <div class="section"><span>1</span>Download the metadata</div> 
+        <div class="section"><span class="span-form-step">1</span>Download the metadata</div> 
         <div class="inner-wrap">
           <input id="value-mode" type="hidden" value="<?= html_escape($ticket->mode); ?>">
                 <a href="#" style="display:none;" id="change-mode"> <?= __('Change mode'); ?> </a> <br>
@@ -13,16 +13,16 @@
                                     </select></label>
                 <a href="#" class="download-xml-button" style="display:none;" download><span class="span-dbutton"><?= __('Download'); ?></span><span class="span-dbutton" id="format-file"></span></a>
         </div> 
-        <div class="section"><span>2</span><?= __('Access to D4Science'); ?></div>
+        <div class="section"><span class="span-form-step">2</span><?= __('Access to D4Science'); ?></div>
         <div class="inner-wrap">
-            <p><?= __('Login using your d4science credentials'); ?>:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> Mapping Tool </a> </p>
+            <p><?= __('Login using your d4science credentials'); ?>:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank"> Mapping Tool </a> </p>
         </div>
 
-        <div class="section"><span>3</span><?= __('Create the map'); ?></div>
+        <div class="section"><span class="span-form-step">3</span><?= __('Create the map'); ?></div>
             <div class="inner-wrap">
-                <p><?= __('Map the data to the AO-Cat using the'); ?><a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool"> X3ML mapping tool</a>   </p>
+                <p><?= __('Map the data to the AO-Cat using the'); ?><a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank"> X3ML mapping tool</a>   </p>
         </div>
-        <div class="section"><span>4</span><?= __('Set the identifier of the map'); ?></div>
+        <div class="section"><span class="span-form-step">4</span><?= __('Set the identifier of the map'); ?></div>
             <div class="inner-wrap">
                 <label><?= __('Your mapping identifier'); ?><input type="textarea" id="map-identifier" name="map-identifier" 
                                                      value="<?= html_escape(metadata($record,array('Monitor','ID of your metadata transformation')));?>" placeholder="<?= __('For example:'); ?> Mapping/111" required></label>
@@ -30,10 +30,9 @@
         </form>
         <div class="button-section">
          <!-- Modal button -->
-            <button class="form-button" id="btn-help-modal"><?= __('Helper'); ?> </button>
+            <button class="form-button" id="btn-help-modal"><?= __('ARIADNEplus Helper'); ?> </button>
             <!-- The Modal -->
             <div id="help-modal" class="modal">
-              <p> HOLAAA </p>
               <!-- Modal content -->
                 <div class="modal-content">
                 <span id="help" class="close">&times;</span>
@@ -222,98 +221,11 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        var linkbutton = jQuery('.download-xml-button');
-        var selectlabel = jQuery('#export-label');
-        var changemode = jQuery('#change-mode');
-        var submitmode = jQuery('#submit-mode');
-        
-        var changeMode = function(){
-            selectlabel.show();
-            linkbutton.hide();
-            changemode.hide();
-            submitmode.hide();
-        };
-        
-        var setMode = function($mode){
-            var type = "<?= get_class($record); ?>";
-            if($mode === 'OAI-PMH'){
-                if(type == 'Collection'){
-                  var link = "<?= WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record->id; ?>";
-                  jQuery('#format-file').html($mode);
-                } else {
-                  jQuery('#mode').val('');
-                  jQuery('#mode').notify('Items cannot be exported with this mode.',{ 
-                        className: 'error' ,
-                        position: 'top left'
-                  });
-                  return;
-                }
-            } else if ($mode === 'XML') {
-                var link = "<?= WEB_ROOT.'/'.strtolower(get_class($record)).'s/show/'.$record->id.'?output=CIRfull'; ?>" ;
-                jQuery('#format-file').html($mode);
-            } else {
-                return;
-            }
-            linkbutton.attr("href", link);
-            selectlabel.hide();
-            linkbutton.show();
-            changemode.show();
-            submitmode.show();
-        };
-        
-        jQuery('#mode').change(function(){
-            setMode(jQuery(this).val());
-        });
-        
-        jQuery('#change-mode').click(function(event){
-            event.preventDefault();
-            changeMode();
-        });
-        
-        if(jQuery('#value-mode').val()){
-            jQuery("#mode").val(jQuery('#value-mode').val());
-            setMode(jQuery("#mode").val())
-        };
-        
-        jQuery("#map-identifier").change(function(){
-            var value = jQuery(this).val();
-            var regex = /^Mapping\/[0-9]{1,}$/i;
-            if(value.match(regex)){
-                jQuery(this).notify("Good.", { 
-                        className: 'info' ,
-                        position: 'top left'
-                });
-            } else{
-                jQuery(this).notify("Identifier not valid.", { 
-                        className: 'error' ,
-                        position: 'top left'
-                });
-            };
-        });
-        
-        var animTime = 300,clickPolice = false;
-  
-        jQuery(document).on('touchstart click', '.acc-btn', function(){
-          if(!clickPolice){
-             clickPolice = true;
-
-            var currIndex = jQuery(this).index('.acc-btn'),
-                targetHeight = jQuery('.acc-content-inner').eq(currIndex).outerHeight();
-
-            
-            if(jQuery(this).find('h4.selected')[0]) {
-                jQuery('.acc-btn h4').removeClass('selected');
-                jQuery('.acc-content').stop().animate({ height: 0 }, animTime);
-            } else {
-                jQuery('.acc-btn h4').removeClass('selected');
-                jQuery(this).find('h4').addClass('selected');
-                jQuery('.acc-content').stop().animate({ height: 0 }, animTime);
-                jQuery('.acc-content').eq(currIndex).stop().animate({ height: targetHeight }, animTime);
-            }
-            
-            setTimeout(function(){ clickPolice = false; }, animTime);
-          };
-
-        });
+        var type = "<?= html_escape(get_class($record));?>";
+        var oailink = "<?= WEB_ROOT.'/oai-pmh-repository/request?verb=ListRecords&metadataPrefix=oai_qdc&set='.$record->id; ?>";
+        var xmllink = "<?= WEB_ROOT.'/'.strtolower(get_class($record)).'s/show/'.$record->id.'?output=CENIEHfull'; ?>" ;
+        Omeka.Tickets.selectExportFormat(type, oailink, xmllink);
+        Omeka.Tickets.validateMapping(jQuery("#map-identifier"));
+        Omeka.Tickets.helperModal();
     });
 </script>
