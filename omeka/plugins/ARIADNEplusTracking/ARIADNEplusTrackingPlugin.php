@@ -66,6 +66,12 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             'simple' => array(),
             'detailed' => array(),
         ),
+        'ariadneplus_tracking_mandatory_elements' => array(
+            'Dublin Core' => array( 'Identifier' => 1,'Title' => 1,
+                'Subject' => 1,'Language' => 1, 'Rights' => 1,'Publisher' => 1,
+                'Creator' => 1,'Spatial Coverage' => 1
+            ),
+        ),
         'ariadneplus_tracking_name' => '',
         'ariadneplus_tracking_email' => '',
         'ariadneplus_tracking_hide_elements' => true,
@@ -193,6 +199,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_options['ariadneplus_tracking_elements_steppable'] = json_encode($this->_options['ariadneplus_tracking_elements_steppable']);
         $this->_options['ariadneplus_tracking_elements_default'] = json_encode($this->_options['ariadneplus_tracking_elements_default']);
         $this->_options['ariadneplus_tracking_admin_items_browse'] = json_encode($this->_options['ariadneplus_tracking_admin_items_browse']);
+        $this->_options['ariadneplus_tracking_mandatory_elements'] = json_encode($this->_options['ariadneplus_tracking_mandatory_elements']);
         $this->_installOptions();
         
         return true;
@@ -417,6 +424,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         set_option('ariadneplus_tracking_display_remove', false);
 
         $settings = json_decode(get_option('ariadneplus_tracking_admin_items_browse'), true) ?: $this->_options['ariadneplus_tracking_admin_items_browse'];
+        $mandatoryElements = json_decode(get_option('ariadneplus_tracking_mandatory_elements'), true) ?: $this->_options['ariadneplus_tracking_mandatory_elements'];
 
         $table = $this->_db->getTable('Element');
         $select = $table->getSelect()
@@ -431,6 +439,7 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             array(
                 'settings' => $settings,
                 'elements' => $elements,
+                'mandatoryElements' => $mandatoryElements,
         )));
     }
 
@@ -457,6 +466,9 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         );
         set_option('ariadneplus_tracking_admin_items_browse', json_encode($settings));
         
+        $mandatoryElements = isset($post['mandatory']) ? $post['mandatory'] : array();
+        set_option('ariadneplus_tracking_mandatory_elements', json_encode($mandatoryElements));
+        
         if(get_option('ariadneplus_tracking_hide_elements')){
             $hideSettings = json_decode(get_option('hide_elements_settings'), true);
             $elements = array('Conforms To' => 1, 'Has Part' => 1, 'Is Format Of' => 1, 
@@ -465,7 +477,10 @@ class ARIADNEplusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             'Requires' => 1, 'Extent' => 1, 'Medium' => 1, 'Bibliographic Citation' => 1,
             'Accrual Method' => 1, 'Accrual Periodicity' => 1, 'Accrual Policy' => 1,
             'Audience' => 1, 'Audience Education Level' => 1, 'Mediator' => 1,
-            'Instructional Method' => 1, 'Provenance' => 1, 'Rights Holder' => 1);
+            'Instructional Method' => 1, 'Provenance' => 1, 'Rights Holder' => 1,
+            'Coverage' => 1, 'Table Of Contents' => 1, 'Date Available' => 1, 
+            'Date Accepted' => 1, 'Date Copyrighted' => 1, 'Date Submitted' => 1,
+            'Date Valid' => 1, 'Access Rights' => 1, 'Has Format' => 1, 'Has Version' =>1);
             $hideSettings['form']['Dublin Core'] = $elements;
             set_option('hide_elements_settings', json_encode($hideSettings));
         }

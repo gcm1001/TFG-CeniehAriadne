@@ -3,7 +3,14 @@
     <h1 class="h1-phase" > You got it! <span class="span-form">Please, follow these steps.</span></h1>
         <div class="section"><span class="span-form-step">1</span> Check that the data displays OK in the test portal.</div>
         <div class="inner-wrap">
-          <a href="<?= html_Escape(metadata($record, array('Monitor', 'Ghost SPARQL'))); ?>"><img src="<?= html_escape(img('ariadne-logo-ghost.png')) ?>" width="100%"/></a>
+            <a href="<?= html_Escape(metadata($record, array('Monitor', 'Ghost SPARQL'))); ?>" target="_blank" class="grid-item">
+              <div class="img-tool">
+                <div>
+                  <figure><img title="hover text" src="<?= html_escape(img('ariadne-logo-ghost.png')) ?>" /></figure>
+                  <span class="ghost-portal">GHOST PORTAL</span>
+                </div>
+              </div>
+            </a>
         </div>
         <div class="section"><span class="span-form-step">2</span>Give the green light to publish records on the Ariadne+ public portal</div>
         <div class="inner-wrap">
@@ -12,7 +19,6 @@
                 <div class="folds"></div>
             </div>
              <div id="mail-modal" class="modal">
-              <!-- Modal content -->
               <div class="modal-mail-content">
                 <span id="mail" class="close">&times;</span>
                 <div id="help-button-popup" class="help-popup">
@@ -22,12 +28,15 @@
                        <div id="default-message" class = "message">
                             <form id="msg-form" action="<?= html_escape(url('ariadn-eplus-tracking/index/mail')); ?>" method='post'>
                             <div id="default-content">
-                            <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" value="<?= __("%s - Ingest", get_option('site_title'));?>" ></span>
-                            <input type="hidden" id="msg_content" name="msg_content" value="<?= html_escape($body); ?>" form="msg-form">
+                            <span> WP4 Leader<input type="text" readonly="readonly" id="email-default" class="msg-input" name="msg_email" value="<?= html_escape(get_option('ariadneplus_tracking_email'));?>" ></span>
+                            <div class="edit-button edit-msg-to"> <a href="#" id="edit-msg-to"><i class="fa fa-edit"></i></a> <a href="#" id="save-msg-to" style="display: none;"><i class="fa fa-save"></i></a></div>
+                            <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" name="msg_subject" value="<?= __("%s - Ingest", html_escape(get_option('site_title')));?>" ></span>
+                            <div class="edit-button edit-msg-subject"> <a href="#" id="edit-msg-subject"><i class="fa fa-edit"></i></a> <a href="#" id="save-msg-subject" style="display: none;"><i class="fa fa-save"></i></a></div>
+                            <input type="hidden" id="msg_content" name="msg_content" value="<?= $body; ?>" form="msg-form">
                             <input type="hidden" id="record_id" name="record_id" value="<?= html_escape($record->id); ?>" form="msg-form">
                             <input type="hidden" id="record_type" name="record_type" value="<?= html_escape(get_class($record)); ?>" form="msg-form">
                             <span> Default Content <div id="msg-content" class="div-textarea"><?= $body; ?></div></span>
-                            <div class="edit-button"> <a href="#" id="edit-button"><i class="fa fa-edit"></i></a> </div>
+                            <div class="edit-button edit-msg-body"> <a href="#" id="edit-msg-body"><i class="fa fa-edit"></i></a> </div>
                             </div>
                             <input type="submit" value="Send" id="send-button" class="send-mail">
                             </form>

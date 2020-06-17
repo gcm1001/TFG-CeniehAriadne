@@ -13,19 +13,21 @@
                                     </select></label>
                 <a href="#" class="download-xml-button" style="display:none;" download><span class="span-dbutton"><?= __('Download'); ?></span><span class="span-dbutton" id="format-file"></span></a>
         </div> 
-        <div class="section"><span class="span-form-step">2</span><?= __('Access to D4Science'); ?></div>
+        <div class="section"><span class="span-form-step">2</span><?= __('Access to D4Science & Create the mapping'); ?></div>
         <div class="inner-wrap">
-            <p><?= __('Login using your d4science credentials'); ?>:<a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank"> Mapping Tool </a> </p>
+          <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank" class="grid-item">
+            <div class="img-tool">
+              <div>
+                <figure><img title="hover text" src="<?= html_escape(img('3mtool.png'));?>" /></figure>
+                <span class="mmmtool">X3ML mapping tool</span>
+              </div>
+            </div>
+          </a>
         </div>
-
-        <div class="section"><span class="span-form-step">3</span><?= __('Create the map'); ?></div>
-            <div class="inner-wrap">
-                <p><?= __('Map the data to the AO-Cat using the'); ?><a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank"> X3ML mapping tool</a>   </p>
-        </div>
-        <div class="section"><span class="span-form-step">4</span><?= __('Set the identifier of the map'); ?></div>
-            <div class="inner-wrap">
+        <div class="section"><span class="span-form-step">3</span><?= __('Set the identifier of the map'); ?></div>
+        <div class="inner-wrap">
                 <label><?= __('Your mapping identifier'); ?><input type="textarea" id="map-identifier" name="map-identifier" 
-                                                     value="<?= html_escape(metadata($record,array('Monitor','ID of your metadata transformation')));?>" placeholder="<?= __('For example:'); ?> Mapping/111" required></label>
+                                                     value="<?= html_escape(metadata($record,array('Monitor','ID of your metadata transformation')));?>" placeholder="e.g. Mapping/111" required></label>
         </div>
         </form>
         <div class="button-section">

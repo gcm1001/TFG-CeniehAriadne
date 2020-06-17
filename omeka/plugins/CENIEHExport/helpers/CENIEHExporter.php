@@ -86,10 +86,10 @@
         // HEADER
         //--------------------
         $this->_p_html('<Collection ');
-        $this->_p_html('xmlns:dc="http://purl.org/dc/elements/1.1/" ');
-        $this->_p_html('xmlns:dcterms="http://purl.org/dc/terms/" ');
-        $this->_p_html('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
-        $this->_p_html('xmlns:cenieh="http://www.cenieh.es" ');
+        $this->_p_html( 'xmlns:cenieh="https://cenieh.es" ');
+        $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
+        $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
         $this->_p_html( ">\n");
 
     }
@@ -146,10 +146,10 @@
         // HEADER
         //--------------------
         $this->_p_html( '<Item ');
+        $this->_p_html( 'xmlns:cenieh="https://cenieh.es" ');
         $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
         $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
-        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
-        $this->_p_html( 'xmlns:cenieh="http://www.cenieh.es" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
         $this->_p_html( ">\n");
         //--------------------
         //METADATA

@@ -988,7 +988,7 @@ b#title {
   height: 350px;
   margin: 250px auto 0;
   position: relative;
-  background: #435d77;
+  background: #a4a492;
   border-radius: 0 0 40px 40px;
 }
 
@@ -1018,7 +1018,7 @@ b#title {
 .message {
   position: relative;
   width: 580px;
-  min-height: 300px;
+  min-height: 347px;
   height: auto;
   background: #fff;
   margin: 0 auto;
@@ -1041,13 +1041,13 @@ b#title {
 }
 
 .left-mail {
-  border-left: 300px solid #337efc;
+  border-left: 300px solid #e1e1cb;
   border-top: 160px solid transparent;
   border-bottom: 160px solid transparent;
 }
 
 .right-mail {
-  border-right: 300px solid #337efc;
+  border-right: 300px solid #e1e1cb;
   border-top: 160px solid transparent;
   border-bottom: 160px solid transparent;
   left: 300px;
@@ -1055,7 +1055,7 @@ b#title {
 
 .top-mail {
   border-right: 300px solid transparent;
-  border-top: 200px solid #03a9f4;
+  border-top: 200px solid beige;
   border-left: 300px solid transparent;
   transition: transform 1s, border 1s, ease-in-out;
   transform-origin: top;
@@ -1067,7 +1067,7 @@ b#title {
   width: 600px;
   height: 255px;
   position: absolute;
-  background: #2b67cb;
+  background: #c6c6ae;
   top: 160px;
   border-radius: 0 0 30px 30px;
   z-index: 310;
@@ -1077,7 +1077,7 @@ b#title {
   transform-origin: top;
   transform: rotateX(180deg);
   transition: transform 0.7s, border 0.7s, z-index 0.7s ease-in-out;
-  border-top: 200px solid #2c3e50;
+  border-top: 200px solid #a4a492;
   z-index: 200;
 }
 
@@ -1354,10 +1354,21 @@ input.msg-input {
 /* EDIT BUTTON */
 
 .edit-button {
-  font-size: 29px;
+  font-size: 25px;
   position: absolute;
-  top: 29%;
-  left: 92%;
+  left: 95%;
+}
+
+.edit-msg-body {
+  top: 37%;
+}
+
+.edit-msg-subject {
+  top: 23%;
+}
+
+.edit-msg-to {
+  top: 10%;
 }
 
 /* Mail inbox */
@@ -1371,7 +1382,7 @@ input.msg-input {
   max-width: 990px;
   border-top: none;
   margin: 0 auto;
-  background-color: white;
+  background-color: beige;
   box-sizing: border-box;
   display: flex;
   flex-wrap: nowrap;
@@ -1391,7 +1402,7 @@ input.msg-input {
 .sidebar {
   position: fixed;
   left: -100%;
-  background: #fff;
+  background: #e1e1cb;
   width: 100%;
   height: 100%;
   border-right: 1px solid #dadfe1;
@@ -1457,8 +1468,8 @@ input.msg-input {
   position: relative;
   overflow: hidden;
   overflow-y: auto;
-  padding: 10px 175px;
-  width: 660px;
+  padding: 0 50px;
+  width: 630px;
 }
 
 .message__wrap {
@@ -1787,4 +1798,63 @@ a.renew-btn {
 
 #load {
   text-align: center;
+}
+
+/* Phase Logos */
+
+.img-tool figure img {
+  max-width: 100%;
+  -webkit-filter: grayscale(0) blur(0);
+  filter: grayscale(0) blur(0);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+.img-tool div span {
+  position: absolute;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  -webkit-text-stroke: 1px white;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.img-tool div span.mmmtool {
+  margin-left: 120px;
+  margin-top: -90px;
+}
+
+.img-tool div span.ghost-portal {
+  margin-left: -60px;
+  margin-top: -65px;
+}
+
+.img-tool div span.official-portal {
+  margin-left: -60px;
+  margin-top: -65px;
+  color: red;
+}
+
+.img-tool div span.periodo-client {
+  margin-left: 144px;
+  margin-top: -58px;
+  font-size: 30px;
+}
+
+.img-tool div span.vmtool {
+  margin-left: 95px;
+  margin-top: -70px;
+}
+
+.img-tool figure:hover img {
+  -webkit-filter: grayscale(100%) blur(3px);
+  filter: grayscale(100%) blur(3px);
+}
+
+.img-tool figure:hover + span {
+  opacity: 1;
 }

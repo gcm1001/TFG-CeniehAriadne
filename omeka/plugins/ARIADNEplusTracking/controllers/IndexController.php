@@ -153,11 +153,11 @@ class ARIADNEplusTracking_IndexController extends Omeka_Controller_AbstractActio
         $record_id = $post['record_id'];
         $body = $post['msg_content'];
         $from = get_option('administrator_email');
-        $email = get_option('ariadneplus_tracking_email');
+        $email = $post['msg_email'];
+        $subject = $post['msg_subject'];
         if(!empty($body) && !empty($from) && !empty($email)){
             $siteTitle  = get_option('site_title');
             $name = get_option('ariadneplus_tracking_name');
-            $subject = __("%s - Metadata import", $siteTitle);
             $mail = new Zend_Mail('UTF-8');
             $mail->setBodyText(strip_tags($body));
             $mail->setBodyHtml($body);

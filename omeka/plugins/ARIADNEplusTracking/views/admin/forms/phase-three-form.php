@@ -1,17 +1,32 @@
 <div id="div-phase-3">
     <div class="form-style-10">
-        <form method="post" id="form-phase-3" action="#"> 
+        <form method="post" id="form-phase-3" action="#">
           <input type="hidden" id="json" value="<?= html_escape(metadata($record, array('Monitor','GettyAAT mapping')));?>">
         <h1 class="h1-phase" >Metadata enrichment<span class="span-form">To enrich your metadata, follow these steps.</span></h1>
         <div class="section"><span class="span-form-step">1</span>Create Period0 period definitions</div>
         <div class="inner-wrap">
-           <label>Your period0 collection url<input id="periodo" value="<?= html_escape(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" type="text" name="periodo" /></label>
+            <a href="https://client.perio.do/?page=backend-home&backendID=web-https%3A%2F%2Fdata.perio.do%2F" target="_blank" class="grid-item">
+              <div class="img-tool">
+                <div>
+                  <figure><img title="hover text" src="<?= html_escape(img('periodo-logo.svg'));?>" /></figure>
+                  <span class="periodo-client">CLIENT</span>
+                </div>
+              </div>
+            </a>
+             <label>Your period0 collection url<input id="periodo" value="<?= html_escape(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" 
+                                                      placeholder="e.g. http://n2t.net/ark:/99152/p07h9k6" type="text" name="periodo" /></label>
         </div>
         <div class="section"><span class="span-form-step">2</span>Create AAT subject mappings</div>
         <div class="inner-wrap">
-            <p> You have created the matching between your local terms and Getty AAT with the <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/vocabulary-matching-tool" > Vocabulary Matching Tool</a>​. </p>
-            <p> Save the output on your folder <a href="https://data.d4science.net/smpr">​here on the d4science workspace</a>​ (Workspace > VRE Folders > ARIADNEplus_Mappings > Matched Vocabularies - login required). </p>
-            <p> You should save the output <?= link_to($record,'edit','here'); ?> too (Monitor Tab >  JSON file of your matchings to Getty AAT ). </p>
+          <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/vocabulary-matching-tool" target="_blank" class="grid-item">
+            <div class="img-tool">
+              <div>
+                <figure><img title="hover text" src="<?= html_escape(img('ariadne-gateway-logo.png'));?>" /></figure>
+                <span class="vmtool">Vocabulary Matching Tool</span>
+              </div>
+            </div>
+          </a>
+          <p> You should save the output (.json) <?= link_to($record,'edit','here'); ?>.</p>
         </div>
         </form>
         <div class="button-section">
@@ -27,14 +42,14 @@
                         <div class="acc-btn"><h4>How to create a Period0 Collection</h4></div>
                         <div class="acc-content">
                             <div class="acc-content-inner">
-                                <h4> <a href="http://perio.do/guide/"> Online User Guide </a> </h4>
+                                <h4> <a href="http://perio.do/guide/" target="_blank"> Online User Guide </a> </h4>
                             </div>
                         </div>
 
                         <div class="acc-btn"><h4>How to use Vocabulary Matching Tool​</h4></div>
                         <div class="acc-content">
                           <div class="acc-content-inner">
-                              <h4> <a href="https://vmt.ariadne.d4science.org/vmt/vmt-help.html"> Online User Guide </a> </h4>
+                              <h4> <a href="https://vmt.ariadne.d4science.org/vmt/vmt-help.html" target="_blank"> Online User Guide </a> </h4>
                           </div>
                         </div>
                         </div>

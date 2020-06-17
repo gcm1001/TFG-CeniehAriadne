@@ -13,7 +13,6 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
 {
     protected $_elementSetName = 'Monitor';
 
-    private $_files;
     /**
      * @var array Hooks for the plugin.
      */
@@ -153,7 +152,7 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         $collection = $args['record'];
         try {
             if ($this->isset_file('collectionfile')){
-                $this->_files = $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
+                $this->insert_files_for_collection($collection, 'Upload', 'collectionfile', array('ignoreNoFile' => true));
             }
         } catch (Omeka_File_Ingest_InvalidException $e) {
             $collection->addError('File Upload', $e->getMessage());
@@ -168,7 +167,13 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $builder = new Builder_CollectionFiles(get_db());
         $builder->setRecord($collection);
-        return $builder->addFiles($transferStrategy, $files, $options);
+        $files = $builder->addFiles($transferStrategy, $files, $options);
+        foreach ($files as $key => $file) {
+            $file->collection_id = $collection->id;
+            $file->save();
+            // Make sure we can't save it twice by mistake.
+            unset($files[$key]);
+        }
     }
     
     public function hookAfterSaveCollection($args)
@@ -177,13 +182,8 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         if ($args['post']) {
             $post = $args['post'];
             $collection = $args['record'];
-            foreach ($this->_files as $key => $file) {
-                $file->collection_id = $collection->id;
-                $file->save();
-                // Make sure we can't save it twice by mistake.
-                unset($this->_files[$key]);
-            }
-            // Update file order for this item.
+           
+            // Update file order for this collection.
             if (isset($post['order'])) {
                 foreach ($post['order'] as $fileId => $fileOrder) {
                     // File order must be an integer or NULL.

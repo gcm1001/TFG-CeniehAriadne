@@ -84,6 +84,52 @@
         </div>
     </div>    
 </fieldset>
+<fieldset id="fieldset-ariadneplus-tracking-mandatory-elements"><legend><?= __('Mandatory Elements'); ?></legend>
+    <div class="field">
+        <?= $this->formLabel('ariadneplus_tracking_mandatory_elements', __('Select elements')); ?>
+        <p class="explanation">
+            <?= __('The content of checked elements will be checked before saving any records.'); ?>
+        </p>
+        <table id="hide-elements-table">
+            <thead>
+                <tr>
+                    <th class="ariadneplus-tracking-boxes" rowspan="2"><?= __('Element'); ?></th>
+                    <th class="ariadneplus-tracking-boxes" colspan="5"><?= __('Mandatory'); ?></th>
+                </tr>
+                
+            </thead>
+            <tbody>
+            <?php
+            $current_element_set = null;
+            foreach ($elements as $element):
+              if($element->set_name == 'Dublin Core'):
+                if ($element->set_name != $current_element_set):
+                    $current_element_set = $element->set_name; ?>
+                <tr>
+                    <th colspan="6">
+                        <strong><?= html_escape(__($current_element_set)); ?></strong>
+                    </th>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <td><?= html_escape(__($element->name)); ?></td>
+                    <td class="ariadneplus-tracking-boxes">
+                        <?= $this->formCheckbox(
+                            "mandatory[{$element->set_name}][{$element->name}]",
+                            '1', array(
+                                'disableHidden' => true,
+                                'checked' => isset($mandatoryElements[$element->set_name][$element->name]),
+                            )
+                        ); ?>
+                    </td>
+                </tr>
+             
+            <?php endif;
+                endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</fieldset>
 <fieldset id="fieldset-ariadneplus-tracking-admin-display"><legend><?= __('Specific admin display'); ?></legend>
     <div class="field">
         <?= $this->formLabel('ariadneplus_tracking_admin_items_browse', __('Display elements')); ?>

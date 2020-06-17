@@ -9,7 +9,7 @@
     $itemID = $item->id; // identificador del ítem
 
     header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename="Item_'.$itemID.'.cir.xml"'); // formato del nombre del fichero [Item_ID.cir]
+    header('Content-Disposition: attachment; filename="Item_'.$itemID.'.xml"'); // formato del nombre del fichero [Item_ID.cir]
 
     $CENIEHExporter = new CENIEHExporter(); // inicializamos un objeto de tipo CENIEHExporter
 

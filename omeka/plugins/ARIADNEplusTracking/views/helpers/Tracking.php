@@ -445,9 +445,9 @@ class ARIADNEplusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @return type Dublin Core Element Names
      */
     public function getMandatoryDCElements(){
-        return array('Identifier','Title','Subject','Language',
-            'Rights','Publisher','Contributor','Creator', 
-            'Spatial Coverage');
+        $mandatoryElements = json_decode(get_option('ariadneplus_tracking_mandatory_elements'), true) ?: array();
+        
+        return !empty($mandatoryElements) ? array_keys($mandatoryElements['Dublin Core'], 1) : array();
     }
     
     /**

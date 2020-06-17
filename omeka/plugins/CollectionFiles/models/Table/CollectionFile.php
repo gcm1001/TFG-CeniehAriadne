@@ -48,14 +48,6 @@ class Table_CollectionFile extends Omeka_Db_Table
                 case 'mime_type':
                     $select->where('collection_files.mime_type = ?', $paramValue);
                     break;
-
-                case 'added_since':
-                    $this->filterBySince($select, $paramValue, 'added');
-                    break;
-
-                case 'modified_since':
-                    $this->filterBySince($select, $paramValue, 'modified');
-                    break;
             }
         }
     }
@@ -70,7 +62,7 @@ class Table_CollectionFile extends Omeka_Db_Table
     }
 
     /**
-     * All files should only be retrieved if they join properly on the items
+     * All files should only be retrieved if they join properly on the collections
      * table.
      *
      * @return Omeka_Db_Select
@@ -89,9 +81,9 @@ class Table_CollectionFile extends Omeka_Db_Table
     }
 
     /**
-     * Retrieve a random file with an image associated with an item.
+     * Retrieve a random file with an image associated with an collection.
      *
-     * @param int $itemId
+     * @param int $collectionId
      * @return File
      */
     public function getRandomFileWithImage($collectionId)
@@ -105,9 +97,9 @@ class Table_CollectionFile extends Omeka_Db_Table
     }
 
     /**
-     * Retrieve files associated with an item.
+     * Retrieve files associated with an collection.
      *
-     * @param int $itemId
+     * @param int $collectionId
      * @param array $fileIds Optional If given, this will only retrieve files
      * with these specific IDs.
      * @param string $sort The manner by which to order the files. For example:
@@ -129,9 +121,9 @@ class Table_CollectionFile extends Omeka_Db_Table
     }
 
     /**
-     * Get a single file associated with an item, by index.
+     * Get a single file associated with an collection, by index.
      *
-     * @param int $itemId
+     * @param int $collectionId
      * @param int $index
      * @param string $sort The manner by which to order the files. For example:
      *  'id': file id, 'filename' = alphabetical by filename. The default is
@@ -149,11 +141,11 @@ class Table_CollectionFile extends Omeka_Db_Table
     }
 
     /**
-     * Retrieve files for an item that has derivative images.
+     * Retrieve files for an collection that has derivative images.
      *
-     * @param int $itemId The ID of the item to get images for.
+     * @param int $collectionId The ID of the collection to get images for.
      * @param int|null $index Optional If given, this specifies the file to
-     * retrieve for an item, based upon the ordering of its files.
+     * retrieve for an collection, based upon the ordering of its files.
      * @param string $sort The manner by which to order the files. For example:
      *  'id': file id, 'filename': alphabetical by filename. The default is
      *  'order', following the user's specified order.

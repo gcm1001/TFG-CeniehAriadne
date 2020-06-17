@@ -91,6 +91,8 @@ var TIMEOUT_RENEW = 60000; //ms
                        autoHide: false,
                        clickToHide: false
                     });
+                } else {
+                  $('form#form-phase-3').submit();
                 };
             
             } else if (level == 4){
@@ -105,10 +107,6 @@ var TIMEOUT_RENEW = 60000; //ms
                     $('#form-phase-4').submit();
                 };
             };
-        });
-        
-        $('input[readonly="readonly"]').click(function(){
-            $(this).notify("Read Only", "warn");
         });
         
         $('#renew-btn').click( function(e){
@@ -311,12 +309,40 @@ var TIMEOUT_RENEW = 60000; //ms
             $('.close-mail').show(3000);
         });
         
-        $('#edit-button').click(function(e){
+        $('#edit-msg-body').click(function(e){
             e.preventDefault();
             $('div#default-content').hide();
             $('input#send-button').hide();
             $('div#mod-content').show();
             $('input#save-button').show();
+        });
+        
+        $('#edit-msg-to').click(function(e){
+            e.preventDefault();
+            $('#email-default').removeAttr('readonly');
+            $(this).hide();
+            $('#save-msg-to').show();
+        });
+        
+        $('#save-msg-to').click(function(e){
+            e.preventDefault();
+            $('#email-default').attr('readonly','readonly');
+            $(this).hide();
+            $('#edit-msg-to').show();
+        });
+        
+        $('#save-msg-subject').click(function(e){
+            e.preventDefault();
+            $('#subject-default').attr('readonly','readonly');
+            $(this).hide();
+            $('#edit-msg-subject').show();
+        });
+        
+        $('#edit-msg-subject').click(function(e){
+            e.preventDefault();
+            $('#subject-default').removeAttr('readonly');
+            $(this).hide();
+            $('#save-msg-subject').show();
         });
         
         $('#save-button').click(function(e){
@@ -330,8 +356,14 @@ var TIMEOUT_RENEW = 60000; //ms
             $('input#send-button').show();
         });
         
-        $('div#msg-content').click(function(){
+        $('#msg-content').click(function(){
             $(this).notify("Read only", "warn");
+        });
+        
+        $('input').click(function(){
+            if($(this).attr("readonly")){
+              $(this).notify("Read only", "warn");
+            }
         });
         
         $(window).click(function(event) {
@@ -719,9 +751,7 @@ var TIMEOUT_RENEW = 60000; //ms
                       });
                     }
                 });
-                setTimeout(function(){
-                    jQuery('#new-form').submit()
-                }, 2500);
+                jQuery('#new-form').submit();
             }
         });
     };

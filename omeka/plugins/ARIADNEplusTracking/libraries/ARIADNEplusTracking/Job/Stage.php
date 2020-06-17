@@ -109,12 +109,9 @@ class ARIADNEplusTracking_Job_Stage extends Omeka_Job_AbstractJob
         // Stage Record
         $staged = $this->_stageRecord(array('key' => $key, 'stageRecord' => $stageRecord, 
             'flag' => $flag, 'newTerm' => $newTerm));
-        if(!$staged){
-          $ticket = get_record('ARIADNEplusTrackingTicket', array('record_id' => $stageRecord->id));
-          $ticket->setStatus($term);
-          $ticket->save();
-          release_object($ticket);
-        }
+        
+        if(!$staged) $this->_updateTicketStatusByRecord($stageRecord, $term);
+        
     }
     
     /**
