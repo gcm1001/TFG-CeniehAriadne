@@ -2140,37 +2140,9 @@ body.contribution #flash ul{
 }
 #admin-bar ul.navigation li{
 	padding: 0 0 0 10px;
-	font-size: .9em;
 	position: relative;
 }
 
-#admin-bar ul.navigation li a{
-	color: #fff;
-}
-
-#admin-bar ul.navigation ul{
-    display: none;
-    z-index: 999999;
-    position: absolute;
-    top: 12px;
-    background: #444;
-    text-align: left;
-    min-width: 11em;
-    padding: 10px;
-    left: -22px;
-    box-shadow: 0 0 10px #222;
-}
-
-#admin-bar ul.navigation li:hover > ul,
-#admin-bar ul.navigation:hover li ul,
-#admin-bar ul.navigation li:hover ul,
-#admin-bar:hover ul.navigation li > ul,
-#admin-bar ul.navigation li:focus > ul,
-#admin-bar ul.navigation:focus li ul,
-#admin-bar ul.navigation li:focus ul,
-#admin-bar:focus ul.navigation li > ul{
-	display: block;
-}
 #admin-bar a.highlight{
     text-decoration: none;
     background: #444;
