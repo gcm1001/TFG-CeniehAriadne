@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Collection xmlns:cenieh="https://cenieh.es" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<records>
+		<record type="collection">
+			<metadata>
+				<dc:title>Test collection</dc:title>
+			</metadata>
+		</record>
+		<record type="item">
+			<metadata>
+				<dc:title>Test item</dc:title>
+			</metadata>
+		</record>
+	</records>
+</Collection>

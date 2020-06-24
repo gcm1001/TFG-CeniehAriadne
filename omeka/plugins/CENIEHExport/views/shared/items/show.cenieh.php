@@ -3,7 +3,7 @@
      * Script que genera la vista de un ítem en formato XML.
      */
 
-    include_once(dirname(dirname(dirname(dirname(__FILE__)))).'/helpers/CENIEHExporter.php'); //se importa la clase CirEXporter
+    include_once(dirname(dirname(dirname(dirname(__FILE__)))).'/helpers/CENIEHExporter.php'); //se importa la clase CENIEHExporter
 
     $item = get_current_record('item'); // objeto 'item'
     $itemID = $item->id; // identificador del ítem

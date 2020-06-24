@@ -1,0 +1,22 @@
+<phpunit bootstrap="bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true">
+    <testsuites>
+        <testsuite name="Collection Files Tests">
+            <directory>suite</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../controllers/*</directory>
+            <directory suffix=".php">../libraries/*</directory>
+            <directory suffix=".php">../models/*</directory>
+            <directory suffix=".php">../views/*</directory>
+            <directory>../CollectionFilesPlugin.php</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="/tmp/report/CollectionFilesPlugin" lowUpperBound="35"
+            highLowerBound="70"/>
+    </logging>
+</phpunit>

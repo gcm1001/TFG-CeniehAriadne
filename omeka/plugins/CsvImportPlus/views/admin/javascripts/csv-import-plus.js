@@ -125,6 +125,9 @@ Omeka.CsvImportPlus = {};
         };
     };
 
+    /**
+     *  Create popup divs
+     */
     Omeka.CsvImportPlus.showHelpPopups = function(imgurl) {
         $('div.field').each(function(){
             var helpP = $(this).find('p.explanation');
@@ -136,7 +139,6 @@ Omeka.CsvImportPlus = {};
                     "<img class='help-popup' src='"+ imgurl +"' width='20'/>"
 
                     );
-                    
             helpP.remove();
         });
     };

@@ -381,31 +381,32 @@ OmekaMapForm.prototype = {
     setMarker: function (point) {
         var that = this;
 
-            if (this.options.confirmLocationChange
-                && this.markers.length > 0
-                && !confirm('Are you sure you want to change the location of the item?')
-            ) {
-                return false;
-            }
+        if (this.options.confirmLocationChange
+            && this.markers.length > 0
+            && !confirm('Are you sure you want to change the location of the item?')
+        ) {
+            return false;
+        }
 
-            // Get rid of existing markers.
-            this.clearForm();
+        // Get rid of existing markers.
+        this.clearForm();
 
-            // Add the marker
-            var marker = (this.options.draw) ? L.marker(point) : this.addMarker(point);
+        // Add the marker
+        var marker = (this.options.draw) ? L.marker(point) : this.addMarker(point);
 
-            // Pan the map to the marker
-            this.map.panTo(point);
+        // Pan the map to the marker
+        this.map.panTo(point);
 
-            //  Make the marker clear the form if clicked.
+        //  Make the marker clear the form if clicked.
+        if (!this.options.draw) {
             marker.on('click', function (event) {
                 if (!that.options.confirmLocationChange || confirm('Are you sure you want to remove the location of the item?')) {
                     that.clearForm();
                 }
             });
-
-            this.updateForm(point);
-            return marker;
+        }
+        this.updateForm(point);
+        return marker;
     },
 
     setBoxMarker: function (points) {
