@@ -1,0 +1,21 @@
+<phpunit bootstrap="bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         stderr="true"
+         >
+    <testsuites>
+        <testsuite name="CENIEH Export">
+            <directory>suite</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../helpers</directory>
+            <directory>../CENIEHExportPlugin.php</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="/tmp/report/CENIEHExport" lowUpperBound="35"
+            highLowerBound="70"/>
+    </logging>
+</phpunit>

@@ -53,5 +53,29 @@ jQuery(document).ready(function () {
             jQuery('#geolocation_find_location_by_address').click();
         }
     });
+    
+    check();
+    
+    jQuery('#section-nav li a').click( function(){
+        check();
+    });
+    
+    function check(){
+        var href = jQuery('a.active').attr("href");
+        if(href == "#dublin-core-metadata"){
+          <?php if(get_option('geolocation_sync_spatial')): ?>  
+              alert("'Spatial Coverage' synchronization ACTIVATED: If you enter coordinates in the 'Spatial Coverage' element will be overwritten.");
+          <?php endif; ?>
+        };
+        if(href == "#map-metadata"){
+          <?php if(get_option('geolocation_sync_spatial_rev')): ?>
+            alert("Reverse 'Spatial Coverage' synchronization ACTIVATED: Map changes will not be saved if the 'Spatial Coverage' element is filled.");
+          <?php elseif(get_option('geolocation_sync_spatial')): ?>  
+            alert("'Spatial Coverage' synchronization ACTIVATED: If you set a location, the 'Spatial Coverage' element will be updated with the coordinates of that location.");        
+          <?php endif; ?>
+        };
+    };
 });
 </script>
+
+

@@ -86,10 +86,10 @@
         // HEADER
         //--------------------
         $this->_p_html('<Collection ');
-        $this->_p_html('xmlns:dc="http://purl.org/dc/elements/1.1/" ');
-        $this->_p_html('xmlns:dcterms="http://purl.org/dc/terms/" ');
-        $this->_p_html('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
-        $this->_p_html('xmlns:cenieh="http://www.cenieh.es" ');
+        $this->_p_html( 'xmlns:cenieh="https://cenieh.es" ');
+        $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
+        $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
         $this->_p_html( ">\n");
 
     }
@@ -101,12 +101,12 @@
         //--------------------
         $this->_p_html(($recordType == "Collection") ? "\t<records>\n\t\t<record type=\"collection\">\n" : "\t\t<record type=\"item\">\n");
         $elementArray = $record->getAllElements();
+        $this->_p_html("\t\t\t<metadata>\n");
         foreach($elementArray as $elementSetName => $elements) {
             if($elementSetName == 'Monitor') continue;
             ob_start();
             $flag = false;
             $eSSlug=$this->_getElementSetSlug($elementSetName);
-            $this->_p_html("\t\t\t<metadata>\n");
             if($eSSlug!=="") $eSSlug .= ":";
             foreach($elements as $element) {
                 $eSlug = $this->_getElementSlug($element->name,$elementSetName);
@@ -117,9 +117,9 @@
                     $this->_generateElement(array('eSlug' => $eSlug, 'eSSlug' => $eSSlug, 'text' => $elementText), true);
         	}
       	    }
-      	    $this->_p_html("\t\t\t</metadata>\n");
             $this->_free_buffer($flag);
         }
+        $this->_p_html("\t\t\t</metadata>\n");
         $this->_p_html("\t\t</record>\n");
     }
 
@@ -146,25 +146,24 @@
         // HEADER
         //--------------------
         $this->_p_html( '<Item ');
+        $this->_p_html( 'xmlns:cenieh="https://cenieh.es" ');
         $this->_p_html( 'xmlns:dc="http://purl.org/dc/elements/1.1/" ');
         $this->_p_html( 'xmlns:dcterms="http://purl.org/dc/terms/" ');
-        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ');
-        $this->_p_html( 'xmlns:cenieh="http://www.cenieh.es" ');
+        $this->_p_html( 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
         $this->_p_html( ">\n");
         //--------------------
         //METADATA
         //--------------------
         $elementArray = $item->getAllElements();
 
+        $this->_p_html( "\t<metadata>\n");
         foreach($elementArray as $elementSetName => $elements) {
             if($elementSetName == 'Monitor') continue;
             ob_start();
             $flag = false;
 
             $eSSlug=$this->_getElementSetSlug($elementSetName);
-
-            $this->_p_html( "\t<metadata>\n");
-
+            
             if($eSSlug!=="") $eSSlug .= ":";
 
             foreach($elements as $element) {
@@ -273,22 +272,17 @@
      */
     private function _spatialFormat($elementText){
         $content = $elementText->text;
-        if (preg_match('/\|\|/', $content)) {
-            if(count(explode('||',$content)) == 2){
-                list($min,$max) = explode('||',$content);  
-                list($westlim,$southlim) = explode(',',$min); 
-                list($northlim,$eastlim) = explode(',',$max); // 
-                if(is_numeric($westlim) && is_numeric($southlim) && 
-                        is_numeric($northlim) && is_numeric($eastlim)){
-                    return ' xsi:type="dcterms:BOX"';
-                }
+        $nCoords = count(explode(',',$content));
+        if ($nCoords == 4) {
+            list($westlim,$southlim,$northlim,$eastlim) = explode(',',$content); 
+            if(is_numeric($westlim) && is_numeric($southlim) && 
+                    is_numeric($northlim) && is_numeric($eastlim)){
+                return ' xsi:type="dcterms:BOX"';
             }
-        } else if (preg_match('/,/', $content)) {
-            if(count(explode(',',$content)) == 2){
-                list($lat,$lon) = explode(',',$content);
-                if(is_numeric($lat) && is_numeric($lon)){
-                    return ' xsi:type="dcterms:POINT"';
-                }
+        } else if ($nCoords == 2) {
+            list($lat,$lon) = explode(',',$content);
+            if(is_numeric($lat) && is_numeric($lon)){
+                return ' xsi:type="dcterms:POINT"';
             }
         }
         return '';
@@ -304,9 +298,7 @@
      */
     private function _generateSpatialContent($format, $content, $tabs){
       if(strpos($format, 'type="dcterms:BOX"')) {
-          list($min,$max) = explode('||',$content);  
-          list($westlim,$southlim) = explode(',',$min); 
-          list($northlim,$eastlim) = explode(',',$max); // 
+          list($westlim,$southlim,$northlim,$eastlim) = explode(',',$content); 
           $content = "\n";
           $content .= $tabs."\t<northlimit>".trim($northlim)."</northlimit>\n";
           $content .= $tabs."\t<eastlimit>".trim($eastlim)."</eastlimit>\n";

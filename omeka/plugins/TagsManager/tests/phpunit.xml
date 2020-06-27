@@ -1,0 +1,22 @@
+<phpunit bootstrap="bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         >
+    <testsuites>
+        <testsuite name="Tags Manager Tests">
+            <directory>suite</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../controllers</directory>
+            <directory>../TagsManagerPlugin.php</directory>
+            <directory>../config-form.php</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="/tmp/report/TagsManager" lowUpperBound="35"
+            highLowerBound="70"/>
+    </logging>
+
+</phpunit>

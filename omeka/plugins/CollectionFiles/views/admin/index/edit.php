@@ -22,7 +22,7 @@ queue_js_file(array('vendor/tinymce/tinymce.min', 'elements', 'tabs'));
                 <div id="<?= text_to_id(html_escape($tabName)); ?>-metadata">
                     <fieldset class="set">
                         <h2><?= html_escape(__($tabName)); ?></h2>
-                        <?= html_escape($tabContent); ?>
+                        <?= $tabContent; ?>
                     </fieldset>
                 </div>
             <?php endif; ?>

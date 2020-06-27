@@ -244,7 +244,10 @@
         ?>
     </div>
 </div>
+</fieldset>
 
+<fieldset>
+<legend><?= htmlspecialchars(__('Map Synchronization')); ?></legend>
 <div class="field">
     <div class="two columns alpha">
         <label for="geolocation_sync_spatial"><?= htmlspecialchars(__('\'Spatial Coverage\' synchronization')); ?></label>
@@ -252,7 +255,7 @@
     <div class="inputs five columns omega">
         <p class="explanation"><?= htmlspecialchars(__('Whenever an item is saved, this option will allow update the item\'s Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation.')); ?></p>
         <?= get_view()->formCheckbox('geolocation_sync_spatial', true,
-            array('checked' => (boolean) get_option('geolocation_sync_spatial')));
+            array('checked' => (boolean) get_option('geolocation_sync_spatial'), 'class' => 'onesel'));
         ?>   
     </div>
 </div>
@@ -263,7 +266,7 @@
     <div class="inputs five columns omega">
       <p class="explanation"><?= htmlspecialchars(__('Whenever an item is saved, this option will allow update the map with a new Location based on item\'s Dublin Core "Spatial Coverage" metadata.')); ?></p>
         <?= get_view()->formCheckbox('geolocation_sync_spatial_rev', true,
-            array('checked' => (boolean) get_option('geolocation_sync_spatial_rev')));
+            array('checked' => (boolean) get_option('geolocation_sync_spatial_rev'), 'class' => 'onesel'));
         ?>
     </div>
 </div>
@@ -275,5 +278,15 @@ function toggleMapboxSettings() {
 jQuery(document).ready(function () {
     toggleMapboxSettings();
     jQuery('#basemap').on('change', toggleMapboxSettings);
+    
+    jQuery(".onesel").on('click', function() {
+      var box = jQuery(this);
+      if (box.is(":checked")) {
+        jQuery(".onesel").prop("checked", false);
+        box.prop("checked", true);
+      } else {
+        box.prop("checked", false);
+      }
+    });
 });
 </script>

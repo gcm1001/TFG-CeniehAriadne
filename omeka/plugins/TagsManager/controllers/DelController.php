@@ -31,8 +31,13 @@ class TagsManager_DelController extends Omeka_Controller_AbstractActionControlle
         if (isset($params['like']) && isset($params['type'])) {
             $query1 = $database->query("SELECT id FROM `$database->Tags` WHERE name LIKE CONCAT('%', ?, '%')",$params['like'])->fetchAll();
             $query2 = $database->query("SELECT tag_id FROM `$database->RecordsTags` WHERE record_type=?",$params['type'])->fetchAll();
-            $result = array_intersect($query1,$query2);
-            return $result;
+            foreach($query1 as $id){
+              $result[] = $id['id'];
+            }
+            foreach($query2 as $id){
+              $result[] = $id['tag_id'];
+            }
+            return array_unique($result);
         } else if (isset($params['like']) || isset($params['type'])){
             if (isset($params['like'])){
                 $result = $database->query("SELECT id FROM `$database->Tags` WHERE name LIKE CONCAT('%', ?, '%')",$params['like'])->fetchAll();

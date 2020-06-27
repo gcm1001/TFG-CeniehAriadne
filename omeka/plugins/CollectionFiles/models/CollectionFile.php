@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Omeka
@@ -515,5 +514,3 @@ class CollectionFile extends Omeka_Record_AbstractRecord implements Zend_Acl_Res
         return $this;
     }
 }
-
-

@@ -9,7 +9,7 @@
     $collection = get_current_record('collection'); // objeto 'collection'
     $collectionID = $collection->id; // identificador de la colección
 
-    header('Content-Disposition: attachment; filename="Collection_'.$collection->id.'.cir.xml"'); // formato del nombre del fichero [Collection_ID.cir]
+    header('Content-Disposition: attachment; filename="Collection_'.$collection->id.'.xml"'); // formato del nombre del fichero [Collection_ID.cir]
 
     $CENIEHExporter = new CENIEHExporter(); // inicializamos un objeto de tipo CENIEHExporter
 

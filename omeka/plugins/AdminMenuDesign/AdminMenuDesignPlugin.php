@@ -89,7 +89,6 @@ class AdminMenuDesignPlugin extends Omeka_Plugin_AbstractPlugin {
      * @return type An array of arrays as used by Zend_Navigation.
      */
     public function filterAdminNavigationMain($nav) {
-        $db = get_db();
         foreach($nav as $id => $entry){
             $arr = array('id' => $id,'uri' => $entry['uri']);
             if(array_key_exists('resource', $entry)) $arr['resource'] = $entry['resource'];

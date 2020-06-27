@@ -216,46 +216,41 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     }
 
     private function synchronizeSpatialCoverage_Map($item) {
-        $elementTable = $this->_db->getTable('Element');
-        $spatialElement = $elementTable->findByElementSetNameAndElementName('Dublin Core', 'Spatial Coverage');
         $spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
         $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
         $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
-        if(!empty($spatialtext)){ // si el campo 'Spatial Coverage' ha sido rellenado
-            if (preg_match('/\|\|/', $spatialtext)) { // si tiene coordenadas separadas por '||'
-                if(count(explode('||',$spatialtext)) == 2){ // si el número de coordenadas es 2
-                    list($min,$max) = explode('||',$spatialtext); // obtenemos las coordenadas
-                    list($minlat,$minlon) = explode(',',$min); // > latitud y longitus de la coordenada mínima
-                    list($maxlat,$maxlon) = explode(',',$max); // > latitud y longitus de la coordenada máxima
-                    if(is_numeric($minlat) && is_numeric($maxlat) && is_numeric($minlon) && is_numeric($maxlon)){ //si son válidas
-                        if (!$boxlocation) { // si el objeto no tenía ninguna localización asignada en el mapa
-                            $boxlocation = new BoxLocation; //creo un nuevo objeto 'BoxLocation'
-                            $boxlocation->item_id = $item->id; // y lo asocio al item actual
-                        }
-                        // actualizo/relleno los campos requeridos para el objeto 'BoxLocation'
-                        $boxlocation->latitude = $minlat;
-                        $boxlocation->longitude = $maxlon;
-                        $boxlocation->width = abs($maxlon - $minlon);
-                        $boxlocation->heigth = abs($minlat - $maxlat);
-                        $boxlocation->zoom_level = '5';
-                        // guardo los cambios realizados
-                        $boxlocation->save();
-                        return true;
+        if(!empty($spatialtext)){
+            $nCoords = count(explode(',',$spatialtext));
+            if ($nCoords == 4) {
+                list($minlat,$minlon,$maxlat,$maxlon) = explode(',',$spatialtext); 
+                if(is_numeric($minlat) && is_numeric($maxlat) && is_numeric($minlon) && is_numeric($maxlon)){
+                    if($location) $location->delete();
+                    if (!$boxlocation) {
+                        $boxlocation = new BoxLocation; 
+                        $boxlocation->item_id = $item->id;
                     }
+                    $boxlocation->latitude = $maxlat;
+                    $boxlocation->longitude = $minlon;
+                    $boxlocation->width = abs($maxlon - $minlon);
+                    $boxlocation->height = abs($maxlat - $minlat);
+                    $boxlocation->zoom_level = '5';
+                    $boxlocation->save();
+                    return true;
                 }
-            } else if (count(explode(',',$spatialtext)) == 2){ //si tiene una latitud y longitud separadas por ','
-                list($lat,$lon) = explode(',',$spatialtext); // divido la cadena de texto en latitud y longitud
-                if(is_numeric($lat) && is_numeric($lon)){ //si la entrada es numérica
-                    if (!$location) { // si el objeto no tenía ninguna localización asignada en el mapa
-                        $location = new Location; //creo un nuevo objeto 'Location'
-                        $location->item_id = $item->id; // y lo asocio al item actual
+            } else if ($nCoords == 2){ 
+                list($lat,$lon) = explode(',',$spatialtext); 
+                if(is_numeric($lat) && is_numeric($lon)){
+                    if($boxlocation) $boxlocation->delete();
+                    if (!$location) {
+                        $location = new Location; 
+                        $location->item_id = $item->id; 
                     }
-                    // actualizo/relleno los campos requeridos para el objeto 'Location'
+                    
                     $location->latitude = $lat;
                     $location->longitude = $lon;
                     $location->zoom_level = '5';
-                    // guardo los cambios realizados
+
                     $location->save();
                     return true;
                 }
@@ -289,9 +284,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             }
             $latlon = sprintf('%+f',$location->latitude).','.sprintf($formatoSalida, $lon); // creo la cadena (latitud,longitud)
             $item->addTextForElement($spatialElement, $latlon); // añado al elemento 'Spatial Coverage' del item la cadena
-            if ($location->address) {   // y, si además, hemos introducido el nombre del lugar
-                $item->addTextForElement($spatialElement, $location->address); // añado otro campo de tipo 'Spatial Coverage' para almacenar dicho nombre
-            }
         }
         if ($boxlocation) { //si existe una localización (BBox)
             $box_minlon = $boxlocation->longitude;
@@ -304,10 +296,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             }
             $latlonMin = sprintf('%+f',$box_maxlat-$boxlocation->height).','.sprintf($formatoSalida, $box_minlon); // coordenada del punto mínimo
             $latlonMax = sprintf('%+f',$box_maxlat).','.sprintf($formatoSalida, $box_minlon + $boxlocation->width); // coordenada del punto máximo
-            $item->addTextForElement($spatialElement, $latlonMin.'||'.$latlonMax); // añado al elemento 'Spatial Coverage' las coordendas en formato "mincoord;maxcoord"
-            if ($boxlocation->address) {   // y, si además, hemos introducido el nombre del lugar
-                $item->addTextForElement($spatialElement, $boxlocation->address); // añado otro campo de tipo 'Spatial Coverage' para almacenar dicho nombre
-            }
+            $item->addTextForElement($spatialElement, $latlonMin.','.$latlonMax); // añado al elemento 'Spatial Coverage' las coordendas en formato "mincoord;maxcoord"
         }
         $item->saveElementTexts(); //guardo las modificaciones
     }
@@ -317,18 +306,16 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         if(!$etexts) return;
         foreach ($etexts as $etext){
             $text = $etext->text;
-            if(preg_match('/\|\|/', $text)){
-                list($min,$max) = explode('||',$text); 
-                list($minlat,$minlon) = explode(',',$min); 
-                list($maxlat,$maxlon) = explode(',',$max); 
-                if(is_numeric($minlat) && is_numeric($maxlat) && is_numeric($minlon) && is_numeric($maxlon)){
+            $coords = explode(',',$text);
+            if(count($coords) == 4){
+                list($minlat,$minlon,$maxlat,$maxlon) = $coords;
+                if(is_numeric($coords[0]) && is_numeric($coords[1]) && 
+                        is_numeric($coords[2]) && is_numeric($coords[3])){
                     $etext->delete();
                     continue;
                 }
-            }
-            if(count(explode(',',$text)) == 2){
-                list($lat,$lon) = explode(',',$text);
-                if(is_numeric($lat) && is_numeric($lon)){
+            }else if(count(explode(',',$text)) == 2){
+                if(is_numeric($coords[0]) && is_numeric($coords[1])){
                     $etext->delete();
                     continue;
                 }
@@ -338,20 +325,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookAfterSaveItem($args) {
     	$item = $args['record'];
-    	$location = $this->_db->getTable('Location')->findLocationByItem($item, true);
-        $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
         if (!($post = $args['post'])) {
-            if(get_option('geolocation_sync_spatial_rev')) {
-                $this->synchronizeSpatialCoverage_Map($item);
-            } else {
-                if($location){
-                    $location->delete();
-                }
-                if ($boxlocation){
-                    $boxlocation->delete();
-                }
-            }
             return;
         }
 
@@ -359,6 +334,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         if (!isset($post['geolocation'])) {
             return;
         }
+        
+        $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
+        $boxlocation = $this->_db->getTable('BoxLocation')->findLocationByItem($item, true);
 
         // If we have filled out info for the geolocation, then submit to the db
         $geolocationPost = $post['geolocation'];
@@ -375,13 +353,9 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             }
             $location->setPostData($geolocationPost);
             $location->save();
-            if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
         } else {
             if($location){
                 $location->delete();
-                if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
-            } else {
-                if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeSpatialCoverage_Map($item);
             }
         }
         if (!empty($geolocationPost)
@@ -396,15 +370,13 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             }
             $boxlocation->setPostData($geolocationPost);
             $boxlocation->save();
-            if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
         } else {
             if($boxlocation){
                $boxlocation->delete();
-               if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
-            } else {
-                if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeSpatialCoverage_Map($item);
-            }
+            } 
         }
+        if(get_option('geolocation_sync_spatial')) $this->synchronizeMap_SpatialCoverage($item);
+        if(get_option('geolocation_sync_spatial_rev')) $this->synchronizeSpatialCoverage_Map($item);
     }
 
     public function hookAdminItemsShowSidebar($args)

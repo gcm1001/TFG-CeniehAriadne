@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Collection xmlns:cenieh="https://cenieh.es" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<records>
+		<record type="collection">
+			<metadata>
+				<dc:title>Test collection</dc:title>
+			</metadata>
+		</record>
+		<record type="item">
+			<metadata>
+				<dc:title>Test item</dc:title>
+				<dc:language xsi:type="dcterms:ISO639-1">en</dc:language>
+                                <dcterms:spatial xsi:type="dcterms:POINT">
+                                        <latitude>11</latitude>
+                                        <longitude>11</longitude>
+                                </dcterms:spatial>
+			</metadata>
+		</record>
+		<record type="item">
+			<metadata>
+				<dc:title>Test item 2</dc:title>
+				<dc:language xsi:type="dcterms:ISO639-2">eng</dc:language>
+				<dcterms:spatial>Sitio inventado</dcterms:spatial>
+                                <dcterms:spatial xsi:type="dcterms:BOX">
+                                        <northlimit>+44.335375</northlimit>
+                                        <eastlimit>+02.724609</eastlimit>
+                                        <southlimit>-09.140625</southlimit>
+                                        <westlimit>+36.804594</westlimit>
+                                </dcterms:spatial>
+			</metadata>
+		</record>
+	</records>
+</Collection>

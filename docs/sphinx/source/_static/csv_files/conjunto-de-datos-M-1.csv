@@ -1,0 +1,11 @@
+Dublin Core:Identifier	Record Type	Collection	Item	File	Item Type	Dublin Core:Title	Dublin Core:Creator	Dublin Core:Date	Dublin Core:Rights	Dublin Core:Description	Item Type Metadata:Physical Dimensions	Tags	geolocation:latitude	geolocation:longitude	geolocation:zoom_level	geolocation:map_type	geolocation:address
+Mont Saint-Michel	Item	Architectural Heritage			Still Image	Mont Saint-Michel | English: Saint Michael's Mount		709			92 m	Abbey | Monastery	48.6360166	-1.5111145	15		
+Mont Saint-Michel f1	File		Mont Saint-Michel	https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/France-Mont-Saint-Michel-1900_bordercropped.jpg/1200px-France-Mont-Saint-Michel-1900_bordercropped.jpg		Looking east at high water in 1900	 Mont St. Michel	 France	Unknown	Between 1890 and 1905	Public domain						
+																	
+Coliseum	Item	Architectural Heritage			Still Image	Coliseum | English: Colosseum	Vespasian | Titus	70-80			61 m	Amphitheatre	41.8902492	12.4923563	17		
+Coliseum f1	File		Coliseum	https://upload.wikimedia.org/wikipedia/commons/8/87/Exterior_of_the_Coliseum_Rome_Italy.jpg		Exterior of the Coliseum	 Rome	 Italy	The Library of Congress	Between ca. 1890 and ca. 1900	Public domain						
+Coliseum f2	File		Coliseum	https://upload.wikimedia.org/wikipedia/commons/b/b3/Fyodor_Matveyev_1.jpg		The Colosseum in Rome	Fedor Mikhailovich Matveev (1753-1826) | Фёдор Михайлович Матвеев (1753-1826)	1816	Public domain								
+						0	0.0										
+Saint-Louis Cathedral	Item	Architectural Heritage			Still Image	Saint-Louis Cathedral (Carthage)	Joseph Pougnet	1884-1890									
+Architectural Heritage	Collection					Architectural Heritage											
+		Example of new created collection		https://upload.wikimedia.org/wikipedia/commons/a/a2/16_Franken_1800_HR_681735.jpg | https://upload.wikimedia.org/wikipedia/commons/6/6d/1935_Indian_Head_Buffalo_Nickel.jpg	Still Image	Example of simple item from "manage_one.csv"	Money		Public domain	Because this row hasn't got any identifier,	 the item can't be updated via the selected default Dublin Core:Identifier.						

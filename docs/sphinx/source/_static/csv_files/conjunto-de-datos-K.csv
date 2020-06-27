@@ -1,0 +1,8 @@
+Alpha	Beta	Gamma	Delta	Epsilon	Zeta	Eta	Theta	Iota	Kappa	Lambda	Mu	Nu	geolocation:latitude	geolocation:longitude	geolocation:zoom_level	geolocation:map_type	geolocation:address
+Eiffel	Item	Still Image	true	1			Tour Eiffel | English: Eiffel Tower	Compagnie des Etablissements Eiffel	1889	Lighthouse | Steel		300.65 m	48.8583701	2.2944813	17		
+Eiffel-f1	File				Eiffel	https://upload.wikimedia.org/wikipedia/commons/5/53/Maurice_koechlin_pylone.jpg	First drawing of the Eiffel Tower	Maurice Koechlin	1884-06-06		Public domain						
+Eiffel-f2	File				Eiffel	https://upload.wikimedia.org/wikipedia/commons/b/bf/Construction_tour_eiffel7.JPG					Public domain						
+Tower	Item	Still Image	true	0			Tower Bridge	Horace Jones	1894	Bridge		61 m	51.5051528	-0.0756639	16		
+Tower-f1	File				Tower	https://upload.wikimedia.org/wikipedia/commons/6/6f/Tower_bridge_works_1892.jpg	Tower Bridge under construction		1892-09-28		Public domain						
+Pisa	Item	Still Image	false	0			Torre pendente di Pisa	Bonanno Pisano	1372	Bell tower		55.86 m					
+						https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Robert_Adamson_%28Scottish_-_Nelson_Monument%2C_Calton_Hill%2C_Edinburgh._-_Google_Art_Project_-_bottom_image.jpg/874px-Robert_Adamson_%28Scottish_-_Nelson_Monument%2C_Calton_Hill%2C_Edinburgh._-_Google_Art_Project_-_bottom_image.jpg | https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Nelson_Monument_commemorative_slab.JPG/1280px-Nelson_Monument_commemorative_slab.JPG	Nelson Monument, Edinburgh	Alexander Nasmyth	1807-1815	Commemorative tower	Public domain	32 m	55.9544261	-3.1826355	17		

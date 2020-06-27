@@ -2,7 +2,6 @@
 Plan de proyecto software
 =========================
 
-
 Introducción
 ------------
 La finalidad de este apartado es definir el conjunto de actividades de desarrollo que se han llevado a cabo para gestionar la construcción de la infraestructura software propuesta. Estas actividades se pueden dividir en dos fases:
@@ -79,6 +78,45 @@ Los objetivos planteados para este *sprint* fueron: seguir con el análisis e im
 `Listado de tareas <https://github.com/gcm1001/TFG-CeniehAriadne/milestone/4>`__ asociadas al *Sprint* 3.
 
 .. image:: ../_static/images/sprint03.png
+   :alt: Diagrama *burndown* del *sprint* 3.
+   :scale: 80%
+   :align: center
+
+*Sprint* 4 (08/05/2020 - 22/05/2020)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Los objetivos planteados para este *sprint* fueron: emplear alguna de las herramientas propuestas para evaluar la calidad del código. Añadir mejoras de usabilidad. Solucionar bugs de la interfaz. Desarrollar un plugin para la gestión de tags. Mejorar el README y seguir avanzando con la documentación.
+
+`Listado de tareas <https://github.com/gcm1001/TFG-CeniehAriadne/milestone/5>`__ asociadas al *Sprint* 4.
+
+.. image:: ../_static/images/sprint04.png
    :alt: Diagrama *burndown* del *sprint* 4.
    :scale: 80%
    :align: center
+
+*Sprint* 5 (22/05/2020 - 12/06/2020)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Los objetivos planteados para este *sprint* fueron: introducir ciertas mejoras sobre el plugin ARIADNEplus Tracking. Crear la colección del CENIEH en periodO. Completar la colección "CIR" con ayuda del CENIEH. Añadir un estilo al repositorio OAI-PMH. Preparar la importación del CIR en ARIADNEplus. Actualizar el README.md y avanzar con la documentación.
+
+`Listado de tareas <https://github.com/gcm1001/TFG-CeniehAriadne/milestone/6>`__ asociadas al *Sprint* 5.
+
+.. image:: ../_static/images/sprint05.png
+   :alt: Diagrama *burndown* del *sprint* 5.
+   :scale: 80%
+   :align: center
+
+*Sprint* 6 (12/06/2020 - 26/06/2020)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Los objetivos planteados para este *sprint* fueron: finalizar el desarrollo de la aplicación, publicar la colección de periodos del CENIEH en periodO, publicar la colección del CIR en ARIADNEplus y continuar con la documentación (Memoria).
+
+`Listado de tareas <https://github.com/gcm1001/TFG-CeniehAriadne/milestone/7>`__ asociadas al *Sprint* 6.
+
+
+Estudio de viabilidad
+---------------------
+
+Viabilidad económica
+~~~~~~~~~~~~~~~~~~~~
+
+Viabilidad legal
+~~~~~~~~~~~~~~~~
+

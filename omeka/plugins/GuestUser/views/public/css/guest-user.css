@@ -37,6 +37,7 @@ a#menu-admin-bar-welcome + ul {
     background: #404040;
     z-index: 10000;
     padding-left: 3px;
+    padding-bottom: 2px;
     left: -9999px;
     width: 125%;
 }
