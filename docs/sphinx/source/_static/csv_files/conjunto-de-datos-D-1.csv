@@ -1,0 +1,8 @@
+Dublin Core:Identifier	Record Type	Collection	Item	File	Item Type	Dublin Core:Title	Dublin Core:Creator	Dublin Core:Date	Dublin Core:Description	Dublin Core:Rights	Tags
+Thoreau-01	Item			http://upload.wikimedia.org/wikipedia/commons/2/25/Walden_Thoreau.jpg | http://upload.wikimedia.org/wikipedia/commons/b/ba/Henry_David_Thoreau.jpg		Walden	Henry David Thoreau		A man seeks simplicity.		book | classic | New England
+Dumas-01	Item			http://upload.wikimedia.org/wikipedia/commons/c/c3/Edmond_Dantès.JPG		The Count of Monte Cristo	Alexandre Dumas		A man seeks revenge.		Book | classic | France
+Douglass-01	Item			http://upload.wikimedia.org/wikipedia/commons/f/f5/Sketchofdouglass.jpg		Narrative of the Life of Frederick Douglass	Frederick Douglass		A man seeks freedom.		Book | classic | Maryland
+	File		Thoreau-01	http://upload.wikimedia.org/wikipedia/commons/2/25/Walden_Thoreau.jpg		Front cover of Walden		1854		 public domain	
+	File		Thoreau-01	http://upload.wikimedia.org/wikipedia/commons/b/ba/Henry_David_Thoreau.jpg		Portrait of Henry David Thoreau		1856		 public domain	
+	File		Dumas-01	http://upload.wikimedia.org/wikipedia/commons/c/c3/Edmond_Dantès.JPG		Edmond Dantès				 public domain	
+	File		Douglass-01	http://upload.wikimedia.org/wikipedia/commons/f/f5/Sketchofdouglass.jpg		Sketch of Frederick Douglass				 public domain	

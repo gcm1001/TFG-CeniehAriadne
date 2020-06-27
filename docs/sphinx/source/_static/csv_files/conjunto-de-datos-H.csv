@@ -1,0 +1,3 @@
+Dublin Core:Identifier	Record Type	Collection	Dublin Core:Title	Dublin Core:Description
+collection-a	Collection		Beware! The metadata are replaced!	This description of the collection is inserted via CSV Import > Update records.
+Item-c	Item	Collection-a	A new item from test_collection_update.csv	The description
