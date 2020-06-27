@@ -21,7 +21,7 @@ Manual de usuario
 .. warning::
    Este manual de usuario **no es válido para la versión original** de `Omeka Classic <https://omeka.org/classic>`__. Ciertos aspectos de la aplicación han sido alterados por los complementos/*plugins* instalados y el tema escogido. Por lo tanto, antes de seguir leyendo, comprueba que se ha instalado el tema y todos los *plugins* indicados en el apartado `Instalación`_.
 
-.. info::
+.. note::
    Para acceder al **manual de usuario original**, pulsa `aquí <https://omeka.org/classic/docs/>`__.
 
 Acceder al área de administración
@@ -675,7 +675,7 @@ Para modificar un tipo de ítem existente:
 1. Desde el gestor de tipos de ítem (`aplicacion.es/admin/item-types`).
 2. Localizar el tipo de ítem que se desea editar en la tabla donde se encuentran todos los tipos (ver :numref:`item-type-view`).
 3. Hacer clic sobre el hipertexto "*Edit*", situado justo debajo del nombre del tipo.
-4. En la página actual (`aplicacion.es/admin/item-types/edit/<idItemType>`), realizar las modificaciones oportunas (ver `Crear un tipo de Item`_).
+4. En la página actual (`aplicacion.es/admin/item-types/edit/<idItemType>`), realizar las modificaciones oportunas (ver `Crear un tipo de ítem`_).
 5. Hacer clic sobre el botón "*Save changes*" situado en la parte superior derecha de la pantalla.
 
 Crear un tipo de ítem
@@ -695,43 +695,43 @@ Para crear un tipo de ítem nuevo:
 2. Hacer clic sobre el botón "*Add an Item Type*", situado en la parte superior/inferior de la pantalla (ver :numref:`item-type-view`).
 3. En la página actual (`aplicacion.es/admin/item-types/add`):
 
-   a. Establecer un nombre
+Establecer un nombre
 
 .. image:: ../_static/images/name-item-type.png
    :scale: 60%
    :align: center
 
-   b. Establecer una descripción
+Establecer una descripción
 
 .. image:: ../_static/images/desc-item-type.png
    :scale: 60%
    :align: center
 
-   a. Añadir un elemento existente.
+Añadir un elemento existente.
 
-      1. Seleccionar "*Existing*".
-      2. Hacer clic sobre el botón "*Add element*".
+a. Seleccionar "*Existing*".
+b. Hacer clic sobre el botón "*Add element*".
 
 .. image:: ../_static/images/exi-item-type-1.png
    :scale: 60%
    :align: center
 
-      3. En el bloque del elemento emergente, seleccionar el elemento existente.
+c. En el bloque del elemento emergente, seleccionar el elemento existente.
 
 .. image:: ../_static/images/exi-item-type-2.png
    :scale: 60%
    :align: center
 
-   b. Añadir un elemento nuevo
+Añadir un elemento nuevo
 
-      1. Seleccionar "*New*".
-      2. Hacer clic sobre el botón "*Add element*".
+a. Seleccionar "*New*".
+b. Hacer clic sobre el botón "*Add element*".
 
 .. image:: ../_static/images/new-item-type-1.png
    :scale: 60%
    :align: center
 
-      3. En el bloque del elemento emergente, establecer el nombre y descripción del elemento.
+c. En el bloque del elemento emergente, establecer el nombre y descripción del elemento.
 
 .. image:: ../_static/images/new-item-type-2.png
    :scale: 60%
