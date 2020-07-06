@@ -6,10 +6,6 @@
 <h2 align="center">
   <img src="/docs/readme/images/readme-title.png" width="430" alt="Title"/>
 </h2>
-<h4 align="center">TFG de la <a href="https://www.ubu.es/">UBU</a> en colaboración con el <a href="https://www.cenieh.es/" target="_blank">CENIEH</a>.</h4>
-<h3 align="center">
-  <img src="/docs/sphinx/source/_static/images/ubucenieh.png" alt="UBU & CENIEH Logo"/> 
-</h3>
 <p align="center">
     <a href="https://github.com/gcm1001/TFG-CeniehAriadne/actions?query=workflow%3A%22Build+and+Deploy+to+GKE%22">
       <img src="https://github.com/gcm1001/TFG-CeniehAriadne/workflows/Build%20and%20Deploy%20to%20GKE/badge.svg" alt="GKECIDC" />
@@ -19,22 +15,33 @@
     </a>
   <a href="https://www.codacy.com/manual/gcm1001/TFG-CeniehAriadne?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gcm1001/TFG-CeniehAriadne&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/5a86b32c970a40a981b82a1324254596"/></a>
 </p>
+<h4 align="center">TFG de la <a href="https://www.ubu.es/">UBU</a> en colaboración con el <a href="https://www.cenieh.es/" target="_blank">CENIEH</a>.</h4>
+<h3 align="center">
+  <img src="/docs/sphinx/source/_static/images/ubucenieh.png" alt="UBU & CENIEH Logo"/> 
+</h3>
 <p align="center">
-  <a href="#descripción">Descripción</a> •
-  <a href="#despliegue">Despliegue</a> •
-  <a href="#plugins">Plugins</a> •
-  <a href="#licencia">Licencia</a>
+  <b>Autor</b><br>
+  <i>Gonzalo Cuesta Marín</i><br>
+  <b>Tutores</b><br>
+  <i>Carlos López Nozal</i><br>
+  <i>Mario Juez Gil</i><br>
+  <b>Colaboradores del CENIEH</b><br>
+  <i>Javier Valladolid Aguinaga</i><br>
+  <i>Joseba Rios Garaizar</i><br>
 </p>
 
-## Tabla de contenidos
+## 🚩 Tabla de contenidos
 
-[**Descripción**](#descripción)
-[**Despliegue**](#descripción)
+[**Descripción**](#-descripción)
+
+[**Despliegue**](#-despliegue)
+
 * [**1 - Manual**](#manual)
 * [**2 - Docker**](#docker)
 * [**3 - Kubernetes**](#kubernetes)
 
 [**Plugins**](#plugins)
+
 * [**Plugins propios**](#plugins-propios)
 * [**Plugins modificados**](#plugins-modificados)
 * [**Otros**](#otros)
@@ -43,13 +50,15 @@
 
 <img align="right" src="/docs/readme/gifs/readme-desc.gif" width="450"/>
 
-## Descripción
+## 💬 Descripción
 
-En el presente TFG se propone una infraestructura software capaz de gestionar los conjuntos de datos del CENIEH para posteriormente ser integrados en la plataforma Ariadne+. La aplicación escogida para llevar a cabo este cometido ha sido [Omeka Classic](https://omeka.org/classic/). Sobre esta se han realizado una serie de desarrollos propios (_plugins_) con el fin de adaptar dicha aplicación a las necesidades del proyecto.
+En el presente TFG se propone una infraestructura software capaz de gestionar los conjuntos de datos del CENIEH para posteriormente ser integrados en la plataforma ARIADNEplus. La aplicación escogida para llevar a cabo este cometido ha sido [Omeka Classic](https://omeka.org/classic/). Sobre esta se han realizado una serie de [desarrollos propios](#plugins-propios) (_plugins_) con el fin de adaptar dicha aplicación a las necesidades del proyecto.
 
-## Despliegue
+-----
 
-Existen tres posibilidades distintas para desplegar la aplicación a tu servidor.
+## 🚀 Despliegue
+
+Existen tres posibilidades distintas para desplegar la aplicación en tu servidor: [Manual](#manual), [Docker](#docker) o [Kubernetes](#kubernetes).
 
 ### Manual
 
@@ -62,31 +71,33 @@ Si escoges está opción deberás estar seguro de que tu servidor cumple con tod
     - mysqli
     - exif 
     - curl
-    - pdo
+    - mbstring
 
   * ImageMagick (Tratamiento de imágenes)
 
 El siguiente consistirá en **configurar tu servidor**. Para ello, hay que seguir una serie de pasos:
 
- 1. **Crear la base de datos MySQL** desde un usuario con permisos suficientes como para poder realizar operaciones sobre ella.
-    * Conviene que apuntes por separado los siguientes datos:
-      - Hostname.
+1. **Crear la base de datos MySQL** desde un usuario con permisos suficientes como para poder realizar operaciones sobre ella.
+
+   * Durante el proceso, conviene que apuntes por separado los siguientes datos:
+
+      - _Hostname_.
       - Nombre de la BD.
       - Nombre del usuario de la BD.
       - Contraseña de usuario de la BD.
-    
-    * La base de datos ha de estar codificada en `utf8`. Actualmente la opción más recomendable para ello es mediante el siguiente comando:
+
+   * La base de datos ha de estar codificada en `utf8`. Actualmente la opción más recomendable para ello es mediante el siguiente comando:
 
    ```
    CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
 
- 2. **Descargar** la última version de **Omeka**, desde su [web oficial](https://omeka.org/classic/download/) o desde su [repositorio](http://github.com/omeka/Omeka) en GitHub.
- 3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio donde podamos trabajar.
- 4. Buscar el fichero `db.ini` y sustituir los valores 'XXXXX' por los datos de la base de datos (anotados en el paso 1).
-    - No es necesario modificar los parámetros `prefix` o `port`.
- 5. Movemos todo el contenido a la carpeta al servidor.
- 6. **Dar permisos de escritura sobre la carpeta `files`**.
+2. **Descargar** la última version de **Omeka**, desde su [web oficial](https://omeka.org/classic/download/) o desde su [repositorio](http://github.com/omeka/Omeka) en GitHub.
+3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio donde podamos trabajar.
+4. Buscar el fichero `db.ini` y sustituir los valores 'XXXXX' por los datos de la base de datos (anotados en el paso 1).
+   - No es necesario modificar los parámetros `prefix` o `port`.
+5. Movemos todo el contenido a la carpeta al servidor.
+6. **Dar permisos de escritura sobre la carpeta `files`**.
 
 Desde este instante, la aplicación será accesible desde el navegador. El último paso consistiría en completar la instalación guiada desde el navegador, disponible a través de tu dirección URL (e.g. http://mydomain.org/install).
 
@@ -111,12 +122,15 @@ Para proceder al despliegue **debes descargar**, de este repositorio, los siguie
 **IMPORTANTE**: Mantén los subdirectorios intactos.
 
 A continuación debes **compilar la imagen**. Para ello, desde el directorio raiz (donde tengas el fichero _Dockerfile_), ejecuta el siguiente comando:
+
 ```
 docker build -t nombre_imagen:tag .
 ```
+
 Recuerda muy bien el nombre de la imagen y el tag que pongas ya que será necesario para el siguiente paso, que consiste en configurar el `docker-compose.yml`.
 
 En él, solo tenemos que cambiar la etiqueta `image` del servicio `omeka_app`:
+
 ```
 ...
   omeka_app:
@@ -203,53 +217,51 @@ kustomize build . | kubectl apply -f -
 
 Desde este instante la aplicación debería ser accesible desde el navegador (puerto 80).
 
-## Plugins
+## 📦 *Plugins*
 
-### Plugins propios
+### *Plugins* propios
 
-#### [ARIADNEplus Tracking](/omeka/plugins/ARIADNEplusTracking/)
+| Nombre | Descripción |
+| --- | --- |
+| [ARIADNEplus Tracking](/omeka/plugins/ARIADNEplusTracking/) | Lleva un seguimiento del proceso de importación a ARIADNEplus |
+| [CENIEHExport](/omeka/plugins/CENIEHExport/) | Permite exportar los ítems en un formato XML compatible con ARIADNEplus |
+| [Collection Files](/omeka/plugins/CollectionFiles/) | Permite asociar ficheros a colecciones |
+| [Tags Manager](/omeka/plugins/TagsManager/) | Gestiona los tags existentes en la plataforma |
+| [Admin Menu Design](/omeka/plugins/AdminMenuDesign/) | Cambia el diseño del menú y añade secciones a este |
+| [IsPartOfCollection](/omeka/plugins/IsPartOfCollection/) | Actualiza el campo "Is Part Of" del modelo de metadatos "Dublin Core" de forma automática |
 
-#### [CIRCeniehAriadne](/omeka/plugins/CIRCeniehAriadne/)
+### *Plugins* de terceros modificados
 
-#### [Collection Files](/omeka/plugins/CollectionFiles/)
+| Nombre | Descripción de los cambios |
+| --- | --- |
+| [Geolocation](/omeka/plugins/Geolocation) | Nuevo formato de localización (*Bounding Box*), Sincronización con los metadatos. |
+| [OAI-PMH Repository](/omeka/plugins/OaiPmhRepository) | Añadir una hoja de estilo (*Stylesheet*) a los documentos XML generados |
+| [OAI-PMH Harvester](/omeka/plugins/OaipmhHarvester) | Convertir la codificación de los metadatos importados a UTF-8 |
+| [CSV Import Plus](/omeka/plugins/CsvImportPlus) | PopUps de ayuda |
 
-#### [Tags Manager](/omeka/plugins/TagsManager/)
+### *Plugins* de terceros utilizados
 
-#### [Admin Nav Style](/omeka/plugins/AdminNavStyle/)
+| Nombre | Descripción |
+| --- | --- |
+| [BulkMetadataEditor](https://omeka.org/classic/plugins/BulkMetadataEditor/) | Permite editar multitud de ítems a la vez |
+| [CSVExport](https://omeka.org/classic/plugins/CsvExport/) | Exporta ítems en formato CSV |
+| [CsvImportPlus](https://github.com/biblibre/omeka-plugin-CsvImportPlus) | Importa ítems en formato CSV |
+| [DublinCoreExtended](https://omeka.org/classic/plugins/DublinCoreExtended/) | Añade el esquema de metadatos *Dublin Core Extended* a la plataforma  |
+| [GettySuggest](https://github.com/UCSCLibrary/GettySuggest) | Sugiere términos del vocabulario Getty AAT a la hora de rellenar metadatos |
+| [Hide Elements](https://omeka.org/classic/plugins/HideElements/) | Permite ocultar campos del esquema de metadatos |
+| [HistoryLog](https://omeka.org/classic/plugins/HistoryLog/) | Genera registros en cada creación/modificación/eliminación de ítems |
+| [OaiPmhRepository](https://omeka.org/classic/plugins/OaiPmhRepository/) | Permite que otros repositorios puedan importar metadatos existentes en tu repositorio a través del protocolo OAI-PMH |
+| [OaiPmhHarvester](https://omeka.org/classic/plugins/OaipmhHarvester/) | Permite importar metadatos de otros repositorios a través del protocolo OAI-PMH |
+| [SimplePages](https://omeka.org/classic/plugins/) | Permite añadir páginas al repositorio de una forma sencilla. |
+| [SimpleVocab](https://omeka.org/classic/plugins/) | Añade vocabularios al gestor. |
+| [SuperRss](https://omeka.org/classic/plugins/) | Permite compartir publicaciones en redes sociales |
 
-#### [IsPartOfCollection](/omeka/plugins/IsPartOfCollection/)
+## 🎨 Tema
 
-### Plugins modificados
+| Nombre | Descripción |
+| --- | --- |
+| [Curatescape](https://github.com/CPHDH/Curatescape) | Diseño minimalista y elegante |
 
-#### [Geolocation](/omeka/plugins/Geolocation)
+## 📜 Licencia
 
-### Otros
-
-#### [BulkMetadataEditor](https://omeka.org/classic/plugins/)
-
-#### [CSVExport](https://omeka.org/classic/plugins/)
-
-#### [CsvImportPlus](https://omeka.org/classic/plugins/)
-
-#### [DublinCoreExtended](https://omeka.org/classic/plugins/)
-
-#### [GettySuggest](https://omeka.org/classic/plugins/)
-
-#### [GuestUser](https://omeka.org/classic/plugins/)
-
-#### [Hide Elements](https://omeka.org/classic/plugins/)
-
-#### [HistoryLog](https://omeka.org/classic/plugins/)
-
-#### [OaiPmhRepository](https://omeka.org/classic/plugins/)
-
-#### [OaiPmhHarvester](https://omeka.org/classic/plugins/)
-
-#### [SimplePages](https://omeka.org/classic/plugins/)
-
-#### [SimpleVocab](https://omeka.org/classic/plugins/)
-
-#### [SuperRss](https://omeka.org/classic/plugins/)
-
-
-## Licencia
+Todo el software desarrollado está bajo la licencia [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
