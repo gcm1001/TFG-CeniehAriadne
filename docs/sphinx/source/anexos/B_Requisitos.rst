@@ -45,7 +45,6 @@ Requisitos no funcionales del área pública
 - **RNFAP-2 Internacionalización**: la aplicación debe contar con un sistema que permita mostrar el contenido de la interfaz en múltiples idiomas.
 - **RNFAP-3 Integridad**: la aplicación debe mostrar los datos tal y como se publicaron desde el área de administración, sin ningún tipo de alteración.
 
-
 Requisitos funcionales del área de administración
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -159,11 +158,11 @@ Especificación de requisitos
 A continuación se mostrará el diagrama de casos de usos que agrupa cada uno de los requisitos funcionales expuestos en el catálogo de requisitos. Además, se tratará cada uno de ellos por separado.
 
 .. figure:: ../_static/images/use-cases-uml.png
-   :name: settings-search
+   :name: use-cases-uml
    :scale: 60%
    :align: center
 
-   Vista de la página de configuración principal de la aplicación, apartado "Search".
+   Diagrama de casos de la aplicación completa.
 
 Actores
 ~~~~~~~
@@ -2402,9 +2401,7 @@ Casos de uso
 +-------------------------+----------------------------------------------------------------------------------------------+
 | **Postcondición**       | El número de usuarios listado es igual al número de usuarios almacenados en la base de datos.|
 +-------------------------+----------------------------------------------------------------------------------------------+
-| **Excepciones**         | - Error al desinstalar el complemento (mensaje).                                             |
-|                         |                                                                                              |
-|                         | - Marca la casilla de confirmación (mensaje).                                                |
+| **Excepciones**         |                                                                                              |
 +-------------------------+----------------------------------------------------------------------------------------------+
 | **Importancia**         | Alta                                                                                         |
 +-------------------------+----------------------------------------------------------------------------------------------+
