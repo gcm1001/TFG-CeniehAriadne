@@ -4,7 +4,7 @@ Documentación técnica de programación
 
 Introducción
 ------------
-Este anexo recoge la información necesaria para que cualquier usuario sea capaz de instalar, configurar y mantener la aplicación propuesta junto a todos los complementos (*plugins*) y temas (*themes*) propuestos en este proyecto.
+Este anexo recoge la información necesaria para que cualquier usuario sea capaz de instalar, configurar y mantener la aplicación junto a todos los complementos (*plugins*) y temas (*themes*) propuestos en este proyecto.
 
 Estructura de directorios
 -------------------------
@@ -40,13 +40,13 @@ El directorio */omeka/plugins/* cuenta además con un total de 21 subdirectorios
 
 Manual de programador
 ---------------------
-
+A lo largo de este apartado se van a explicar los procedimientos necesarios para acondicionar el entorno de desarrollo, instalar la aplicación junto a todos los complementos y temas propuestos, adoptar diversos servicios de integración continua y, por último, ejecutar sobre la aplicación/complementos pruebas.
 
 Entorno de desarrollo
 ~~~~~~~~~~~~~~~~~~~~~
 Antes de poder realizar cualquier tipo de operación sobre la aplicación o sobre cualquiera de los complementos propuestos, es necesario adaptar el entorno de desarrollo.
 
-El sistema requerido por la aplicación es conocido como *LAMP*, el cual debe contar con las siguientes herramientas:
+El sistema requerido por la aplicación es conocido como *LAMP* [#]_ , el cual debe contar con las siguientes herramientas:
 
 - **Linux** como sistema operativo.
 - **Apache** como servidor web.
@@ -130,16 +130,15 @@ Una vez instalados, se deben realizar los siguientes cambios en el fichero de co
 
 Recuerda que los cambios cometidos en este fichero no se aplican hasta reiniciar el servidor Apache.
 
-ImageMagick
-^^^^^^^^^^^
-ImageMagick es un producto *software* que provee al entorno un conjunto de herramientas que permiten visualizar, modificar y transformar todo tipo de formatos de imagen. La aplicación propuesta requiere contar con esta *suite* instalada ya que se utiliza para procesar las imágenes. Los detalles de la instalación se encuentran en este `enlace <https://imagemagick.org/script/install-source.php>`__.
+*ImageMagick*
+^^^^^^^^^^^^^
+*ImageMagick* es un producto *software* que provee al entorno un conjunto de herramientas que permiten visualizar, modificar y transformar todo tipo de formatos de imagen. La aplicación propuesta requiere contar con esta *suite* instalada ya que la utiliza para procesar las imágenes internas. Los detalles de la instalación se encuentran en este `enlace <https://imagemagick.org/script/install-source.php>`__.
 
 Editor de código
 ^^^^^^^^^^^^^^^^
 En el proyecto se ha utilizado como editor de código **NetBeans**. Se eligió principalmente porque, además de ser uno de los editores más populares para PHP, da soporte al *framework* que utiliza la aplicación, *Zend Framework*. También ofrece funcionalidades a otros lenguajes utilizados en la aplicación como *JavaScript*, *HTML* y *CSS*. Se puede obtener de forma gratuita a través de este `enlace <https://netbeans.org/community/releases/82/install.html>`__.
 
 En su página oficial se puede encontrar un `video-tutorial <https://netbeans.org/kb/docs/php/zend-framework-screencast.html>`__ que explica cómo desarrollar desde *NetBeans* aplicaciones PHP que utilizan como marco de trabajo *Zend Framework*.
-
 
 Instalación de la aplicación
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,18 +247,16 @@ El primer paso consiste en **configurar el servidor**:
 
 Desde este instante, **la aplicación será accesible desde el navegador** (puerto 80).
 
-El siguiente paso consiste en **completar el formulario de instalación** disponible en el directorio `/install` de la aplicación (e.g *http://miaplicacion.es/install*).
-
-A partir de este momento, el proceso de instalación queda concluído, sin embargo, **la aplicación aún no tiene instalado ningún tema/complemento**. En los siguientes apartados veremos como solucionarlo.
+Para finalizar con la instalación, se debe **completar el formulario de instalación** disponible en el directorio `/install` de la aplicación (e.g *http://miaplicacion.es/install*). Cuando se haya completado, la aplicación únicamente contará con la funcionalidad básica, es decir, no se verán los cambios introducidos por los complementos/temas. Para ello, es necesario instalarlos desde la interfaz. En los siguientes apartados se explicará como hacerlo.
 
 Añadir funcionalidades a la aplicación
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Una de las características que hacen de la aplicación una magnífica plataforma para el proyecto es su **escalabilidad**. Gracias a su sistema de **complementos** o *plugins*, cualquier programador tiene la posibilidad de adaptarla a sus necesidades individuales sin necesidad de modificar el código base de la aplicación.
 
 Además, cuenta con una fabulosa comunidad de desarrolladores que hacen públicas sus implementaciones. Por tanto, antes de comenzar con el desarrollo de un nuevo *plugin*, es recomendable comprobar que la funcionalidad que se desea implementar no está ya desarrollada (ver `Repositorio de complementos oficial <https://omeka.org/classic/plugins/>`__ o `Repositorio de Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__).
 
 Cómo instalar complementos en la aplicación
-*******************************************
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 En este apartado se muestra el procedimiento a seguir para instalar complementos en la aplicación.
 
 Si se ha instalado la aplicación siguiendo los pasos incluídos en este manual (ver `Instalación de la aplicación`_), los complementos que incluyen cada una de las funcionalidades desarrolladas en este proyecto se encuentran ya ubicados en el interior de la aplicación.
@@ -272,18 +269,18 @@ Con los complementos ya ubicados en el interior de la aplicación, hay que hacer
 1. Desde el gestor de complementos (`aplicacion.es/admin/plugins`).
 2. Localizar el nombre del complemento que se desea instalar.
 3. Hacer clic sobre el botón "*Install*" situado en la parte derecha del complemento.
-4. En caso de que el *plugin* sea configurable, rellenar el formulario de configuración y hacer clic en el botón "*Save Changes*".
+4. En caso de que el *plugin* sea configurable, rellenar el formulario de configuración y hacer clic sobre el botón "*Save Changes*".
 
 Para obtener información más detallada acerca de la gestión de complementos, ver el `manual de usuario <https://tfg-ceniehariadne.readthedocs.io/es/latest/anexos/E_Manual_usuario.html#manual-de-usuario>`__.
 
 Personalizar el diseño de la aplicación
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Si nuestra intención es modificar la estética de la aplicación, esta cuenta con un sistema de **temas** o plantillas que permite personalizar el área pública (*frontend*) del sitio.
 
 Existe también la posibilidad de reutilizar temas de otros desarrolladores (ver `Repositorio de temas oficial <https://omeka.org/classic/themes/>`__ o `Repositorio de Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_themes.html>`__).
 
 Cómo instalar temas en la aplicación
-************************************
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Su proceso de instalación es muy similiar al de los complementos. Al igual que pasaba con estos, si se han seguido los pasos de instalación (ver `Instalación de la aplicación`_), el tema propuesto se encuentra ya almacenado en el interior de la aplicación.
 
 En el caso de que se quiera añadir algún otro tema, se deben trasladar antes sus ficheros al directorio `/themes/` de la aplicación.
@@ -302,15 +299,18 @@ Para obtener información más detallada acerca de la gestión de temas, ver el 
 
 Integración continua
 ~~~~~~~~~~~~~~~~~~~~
-El repositorio del proyecto dispone de varios mecanismos de integración continua que facilitan la ejecución de alguna de las tareas típicas de desarrollo como, por ejemplo, el despliegue de la aplicación.
+El repositorio del proyecto dispone de varios mecanismos de integración continua que facilitan la ejecución de alguna de las tareas típicas de desarrollo como, por ejemplo, el despliegue de la aplicación. En los siguientes apartados se explicará como se implementar cada uno de ellos.
 
 GitHub Actions
 ^^^^^^^^^^^^^^
 *GitHub Actions* es uno de los servicios ofrecidos por *Github* que permite crear, compartir y ejecutar código desde la misma plataforma, sin necesidad de utilizar servicios externos.
 
-Con esta herramienta se ha podido automatizar el flujo de trabajo correspondiente al despliegue de la aplicación, incluyendo en ella los complementos/temas almacenados en el repositorio. 
+En este proyecto se ha utilizado esta herramienta para automatizar dos flujos de trabajo:
 
-A continuación se muestran las etapas que se han llevado a cabo.
+- *Workflow 1*: Despliegue de la aplicación sobre el entorno de desarrollo, incluyendo en ella los complementos/temas almacenados en el repositorio del proyecto.
+- *Workflow 2*: Compilación y publicación de la imagen *Docker* utilizada por el entorno de producción para el despliegue de la aplicación y de los *plugins*/temas almacenados en el repositorio del proyecto.
+
+A continuación se muestran las etapas por las que se ha pasado para consolidar el primer flujo de trabajo.
 
 Etapa 01: Montar el servidor en la nube
 ***************************************
@@ -409,7 +409,7 @@ Para finalizar, sobre el directorio raíz del repositorio, se crea el fichero de
 
 Etapa 04: Crear los secretos en el servidor
 *******************************************
-Los secretos utilizados por los ficheros *.yaml* de la etapa anterior tienen que estar presentes en el servidor.
+Los secretos utilizados por los ficheros *.yaml* de la etapa anterior tienen que estar definidos en el servidor de *Google Cloud*.
 
 Para crear el *secreto* compuesto "*omeka-db*":
 
@@ -431,7 +431,7 @@ Antes de ejecutar ambos comandos se deben definir las variables de entorno utili
 
 Etapa final
 ***********
-La última etapa consiste en ejecutar un *commit* sobre la rama *master* (siempre que el directorio afectado no sea */docs*), comprobando así que se activa correctamente la acción recién creada y que finaliza de forma exitosa.
+La última etapa consiste en ejecutar un *commit* sobre la rama *master* (siempre que el directorio afectado no sea */docs*). De esta manera, se comprueba que la acción recién creada se activa y finaliza correctamente.
 
 .. figure:: ../_static/images/workflow.png
    :name: workflow
@@ -446,9 +446,9 @@ Codacy
 
 Para poder utilizar esta plataforma con *GitHub* hay que seguir los siguientes pasos:
 
-1. Instalar el complemento desde la tienda oficial de Github (`enlace <https://github.com/marketplace/codacy>`).
-2. Acceder a la plataforma *Codacy* (`enlace <https://github.com/marketplace/codacy>`).
-3. Ingresar con la cuenta de GitHub y, en la pantalla emergente, seleccionar el repositorio que deseamos integrar.
+1. Instalar el complemento desde la `tienda oficial de Github <https://github.com/marketplace/codacy>`__.
+2. Acceder a la plataforma `Codacy <https://codacy.com>`__.
+3. Ingresar con la cuenta de *GitHub* y, en la pantalla emergente, seleccionar el repositorio que deseamos integrar.
 4. En la siguiente pantalla se da la posibilidad de añadir otras integraciones (como *Slack* o *JIRA*). Se puede ignorar este paso.
 5. Esperar a que finalice la revisión de código.
 
@@ -473,11 +473,11 @@ Una ventaja de esta herramienta es que no necesita que el repositorio sobre el q
 
 *Read the Docs*
 ^^^^^^^^^^^^^^^
-*Read the Docs* es una plataforma web que facilita la tarea de documentar productos *software* automatizando la compilación, versionado y hospedaje de los ficheros generados por la herramienta de documentación *Sphinx*. En el repositorio del proyecto, estos ficheros se encuentran en el directorio */docs/sphinx*.
+*Read the Docs* es una plataforma web que facilita la tarea de documentar productos *software* automatizando la compilación, versionado y hospedaje de los ficheros generados por la herramienta de documentación *Sphinx*. En el repositorio del proyecto, estos ficheros se encuentran dentro del directorio */docs/sphinx/*.
 
 Para utilizar este servicio, basta con iniciar sesión en su página web a través de *GitHub*, otorgar los permisos necesarios, e importar el repositorio (proyecto) sobre el que se integrará el servicio.
 
-Además, se pueden configurar otros aspectos de la documentación. Para ello, es necesario indicar a la herramienta donde se encuentra el fichero de configuración *conf.py*, que en este proyecto se ubica en */docs/sphinx*.
+Además, se pueden configurar otros aspectos de la documentación. Para ello, es necesario indicar a la herramienta donde se encuentra el fichero de configuración *conf.py*, que en este proyecto se ubica también en */docs/sphinx/*.
 
 .. figure:: ../_static/images/docs-rtd.png
    :name: docs-rtd
@@ -523,3 +523,7 @@ Todas las pruebas desarrolladas se encuentran dentro del directorio */tests/* de
    :align: center
 
    Resultados de la ejecución de las pruebas unitarias para cada uno de los complementos.
+
+.. References
+
+.. [#] "LAMP." https://es.wikipedia.org/wiki/LAMP
