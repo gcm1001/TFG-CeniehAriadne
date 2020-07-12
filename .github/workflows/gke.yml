@@ -9,8 +9,8 @@ on:
     
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: cluster-cenieh-project   
-  GKE_ZONE: europe-west2-a
+  GKE_CLUSTER: omeka
+  GKE_ZONE: europe-west6-c
   IMAGE: gke-omeka
   
 jobs:
@@ -45,8 +45,7 @@ jobs:
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
         docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:latest" \
-          .
+          --tag "gcr.io/$PROJECT_ID/$IMAGE:latest" 
     - name: Push the Docker image to Google Container Registry
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
