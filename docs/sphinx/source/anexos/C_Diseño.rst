@@ -25,7 +25,7 @@ Para la gestión de datos, la aplicación hace uso de las siguientes entidades:
 - **Localización rectangular** (*BoxLocation*): representa la localización rectangular de un ítem.
 
 .. figure:: ../_static/images/e-r-uml.png
-   :name: users
+   :name: e-r-uml
    :scale: 90%
    :align: center
 
@@ -62,7 +62,7 @@ En el siguiente diagrama se muestra el comportamiento de la aplicación ante una
    :scale: 90%
    :align: center
 
-   Diagrama que muestra la relación entre el Modelo, Vista y Controlador del patrón MVC.
+   Diagrama que muestra el comportamiento de la aplicación ante una petición HTTP.
 
 1. El usuario entra a la aplicación a través de su navegador web con la dirección de la aplicación (e.g. *http://miaplicación.es*).
 2. El servidor web con ayuda de la extensión PHP ejecuta el script de entrada (*index.php*).
@@ -147,7 +147,7 @@ Son un total de 21 complementos, de los cuales 6 han sido creados específicamen
 - *omeka.plugins.HideElements*: permite ocultar elementos de los esquemas de metadatos (*ElementSet*) existentes en la plataforma.
 - *omeka.plugins.TagsManager*: añade funcionalidades relacionadas con las etiquetas (*tags*).
 - *omeka.plugins.HistoryLog*: permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma.
-- *omeka.plugins.IsPartOfCollection*: permite automatizar el relleno del elemento *Is Part Of* del esquema *Dublin Core* al guardar un ítem.
+- *omeka.plugins.AutoDublinCore*: permite automatizar el relleno de algunos elementos del esquema *Dublin Core*.
 - *omeka.plugins.OaipmhHarvester*: permite recolectar metadatos de otros repositorios web y gestionar las recolecciones ejecutadas.
 - *omeka.plugins.OaiPmhRepository*: permite que otros repositorios web recolecten metadatos de nuestra aplicación.
 - *omeka.plugins.SimplePages*: permite añadir páginas simples como la de "About" al área pública.
@@ -255,7 +255,7 @@ Además, se utilizan dos paquetes nuevos:
    :scale: 100%
    :align: center
 
-   Diagrama de clases del complemento IsPartOfCollection
+   Diagrama de clases del complemento AutoDublinCore
 
 .. figure:: ../_static/images/pck-10.png
    :name: da-pck-10
@@ -273,7 +273,7 @@ En el diagrama de secuencia que se expone a continuación, se describe el funcio
 
 .. figure:: ../_static/images/dp-seq.png
    :name: dp-seq
-   :scale: 80%
+   :scale: 60%
    :align: center
 
    Diagrama de secuencia para un caso general.
