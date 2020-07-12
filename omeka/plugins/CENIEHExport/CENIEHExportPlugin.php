@@ -48,7 +48,7 @@ class CENIEHExportPlugin extends Omeka_Plugin_AbstractPlugin
       if($args['controller'] instanceOf ItemsController) {
 	       $contexts['show'][] = 'CENIEH';
       } else if($args['controller'] instanceOf CollectionsController) {
-	       $contexts['show'][] = 'CENIEHfullzip';
+	 $contexts['show'][] = 'CENIEHfullzip';
          $contexts['show'][] = 'CENIEHfull';
          $contexts['show'][] = 'CENIEHmeta';
       }

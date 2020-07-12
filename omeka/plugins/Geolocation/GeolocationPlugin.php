@@ -9,6 +9,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     protected $_hooks = array(
         'install',
         'uninstall',
+        'upgrade',
         'config_form',
         'config',
         'define_acl',
@@ -109,6 +110,53 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $database->query("DROP TABLE IF EXISTS `$database->Location`");
         $database->query("DROP TABLE IF EXISTS `$database->BoxLocation`");
 
+    }
+    
+    public function hookUpgrade($args)
+    {
+        if (version_compare($args['old_version'], '1.1', '<')) {
+            // If necessary, upgrade the plugin options
+            // Check for old plugin options, and if necessary, transfer to new options
+            $options = array('default_latitude', 'default_longitude', 'default_zoom_level', 'per_page');
+            foreach($options as $option) {
+                $oldOptionValue = get_option('geo_' . $option);
+                if ($oldOptionValue != '') {
+                    set_option('geolocation_' . $option, $oldOptionValue);
+                    delete_option('geo_' . $option);
+                }
+            }
+            delete_option('geo_gmaps_key');
+        }
+        if (version_compare($args['old_version'], '2.2.3', '<')) {
+            set_option('geolocation_default_radius', 10);
+        }
+        if (version_compare($args['old_version'], '3.0', '<')) {
+            delete_option('geolocation_api_key');
+            delete_option('geolocation_map_type');
+            set_option('geolocation_basemap', self::DEFAULT_BASEMAP);
+        }
+        if (version_compare($args['old_version'], '3.1', '<')) {
+            set_option('geolocation_geocoder', self::DEFAULT_GEOCODER);
+
+            if (get_option('geolocation_basemap') == 'OpenStreetMap.BlackAndWhite') {
+                set_option('geolocation_basemap', self::DEFAULT_BASEMAP);
+            }
+        }
+        if (version_compare($args['old_version'], '3.2', '<')) {
+            $newMapboxIds = array(
+                'mapbox.streets' => 'mapbox/streets-v11',
+                'mapbox.outdoors' => 'mapbox/outdoors-v11',
+                'mapbox.light' => 'mapbox/light-v10',
+                'mapbox.dark' => 'mapbox/dark-v10',
+                'mapbox.satellite' => 'mapbox/satellite-v9',
+                'mapbox.streets-satellite' => 'mapbox/satellite-streets-v11',
+            );
+
+            $oldMapboxId = get_option('geolocation_mapbox_map_id');
+            if ($oldMapboxId && isset($newMapboxIds[$oldMapboxId])) {
+                set_option('geolocation_mapbox_map_id', $newMapboxIds[$oldMapboxId]);
+            }
+        }
     }
 
     /**
@@ -842,6 +890,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             'address' => $box_address);
         }
         $options['confirmLocationChange'] = $confirmLocChange;
+        $options['cluster'] = false;
+        
         return $view->partial('map/input-partial.php', array('label' => $label,
             'address' => $address,
             'center' => $center,

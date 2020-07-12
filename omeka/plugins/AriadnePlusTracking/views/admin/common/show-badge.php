@@ -1,5 +1,6 @@
-<h4> Ariadne+ Status</h4>
+
 <?php if (!empty($extdiv)): ?> <div class="<?= html_escape($extdiv); ?>"> <?php endif; ?>
+<h4> Ariadne+ Status</h4>
 <div class="badge">
 <?php if($status): ?>
           <a href="<?= html_escape(url('ariadne-plus-tracking/index/ticket', 

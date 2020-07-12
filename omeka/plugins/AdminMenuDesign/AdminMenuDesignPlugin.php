@@ -120,6 +120,7 @@ class AdminMenuDesignPlugin extends Omeka_Plugin_AbstractPlugin {
                     'label' => __(str_replace('-', ' ', $section)),
                     'uri' => url('#/'.$section),
                     'class' => 'dropdown',
+                    'id' => 'design',
                     'privilege' => in_array($section, array("Import-Tools", "Edit-Tools")) ? 'index' : '',
                     'pages' => $pages,
                 );

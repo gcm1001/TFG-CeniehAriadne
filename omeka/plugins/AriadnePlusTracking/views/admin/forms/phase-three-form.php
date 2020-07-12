@@ -1,5 +1,5 @@
 <div id="div-phase-3">
-    <div class="form-style-10">
+    <div class="form-style">
         <form method="post" id="form-phase-3" action="#">
           <input type="hidden" id="json" value="<?= html_escape(metadata($record, array('Monitor','GettyAAT mapping')));?>">
         <h1 class="h1-phase" >Metadata enrichment<span class="span-form">To enrich your metadata, follow these steps.</span></h1>
@@ -13,7 +13,7 @@
                 </div>
               </div>
             </a>
-             <label>Your period0 collection url<input id="periodo" value="<?= html_escape(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" 
+             <label><?= __('Your period0 collection url'); ?><input id="periodo" value="<?= html_escape(metadata($record,array('Monitor','URL of your PeriodO collection')));?>" 
                                                       placeholder="e.g. http://n2t.net/ark:/99152/p07h9k6" type="text" name="periodo" /></label>
               <span class="validity"></span>
         </div>

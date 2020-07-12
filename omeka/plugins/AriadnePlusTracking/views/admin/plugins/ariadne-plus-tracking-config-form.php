@@ -34,7 +34,7 @@ table {
     </div>
 </fieldset>
 <fieldset id="fieldset-ariadneplus-tracking-contact"><legend><?= __('ARIADNEplus contact details'); ?></legend>
-    <div class="field">
+        <div class="field">
         <div class="two columns alpha">
             <label for="ariadneplus_tracking_name"><?= __('Name'); ?></label>
         </div>

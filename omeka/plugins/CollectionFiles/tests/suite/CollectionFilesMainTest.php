@@ -2,8 +2,6 @@
 /**
  * Collection Files plugin.
  *
- * @package Omeka
- * @copyright Roy Rosenzweig Center for History and New Media, 2007-2011
  */
 class CollectionFiles_CollectionFilesMainTest extends CollectionFiles_Test_AppTestCase
 {
@@ -125,6 +123,4 @@ class CollectionFiles_CollectionFilesMainTest extends CollectionFiles_Test_AppTe
         $this->dispatch('/collection-files/edit/'.$files[0]->id);
         $this->assertEquals(200,$this->getResponse()->getHttpResponseCode());
     }
-   
-    
 }

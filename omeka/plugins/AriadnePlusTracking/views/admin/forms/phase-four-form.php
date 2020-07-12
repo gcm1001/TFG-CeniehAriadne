@@ -1,5 +1,5 @@
 <div id="div-phase-4">
-    <div class="form-style-10">
+    <div class="form-style">
     <h1 class="h1-phase" >It's almost done!<span class="span-form">Please, follow these steps.</span></h1>
         <div class="section"><span class="span-form-step">1</span>Inform WP4 leader of the new records.</div>
         <div class="inner-wrap">

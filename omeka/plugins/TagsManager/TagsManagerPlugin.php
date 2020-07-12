@@ -1,5 +1,4 @@
 <?php
-
 /* 
  * Tags Manager Plugin 
  * 
@@ -13,11 +12,25 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
     protected $_hooks = array(
         'install',
         'uninstall',
+        'admin_head',
         'config_form',
         'config',
         'after_save_item',
         'admin_tags_browse'
     );
+    
+     /**
+     * Configure admin theme header.
+     *
+     * @param array $args
+     */
+    public function hookAdminHead($args)
+    {
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        if ($request->getModuleName() == 'tags') {
+          queue_js_string("jQuery(window).ready( function() { jQuery('#del-tags').click(function(){ return confirm('Are you sure you want to delete all tags?'); }); });");
+        }
+    }
     
     public function hookInstall() {
         set_option('tagsmanager_sync', true);
@@ -39,16 +52,16 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         set_option('tagsmanager_delbutton', $post['delbutton']);
     }
     
-    function hookAdminTagsBrowse($args) { 
-        $request = Zend_Controller_Front::getInstance()->getRequest();
-        $params = $request->getParams();
+    function hookAdminTagsBrowse($args) {
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
+            $request = Zend_Controller_Front::getInstance()->getRequest();
+            $params = $request->getParams();
+            $buttonName = 'Delete all';
             if (isset($params['like']) || isset($params['type'])) {
-                $this->_p_html("<a class='button red' id='del-tags' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete results' /></a>");      
-                return;
+                $buttonName = 'Delete results';
             } 
-            $this->_p_html("<a class='button red' id='del-tags' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all'))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='Delete all' /></a>"); 
-            $this->_p_html("<script> jQuery('#del-tags').click(function(){ return confirm('Are you sure you want to delete all tags?'); }); </script>");
+            $this->_p_html("<a class='button red' id='del-tags' style='margin-top:20px;' href='".html_escape(url('tags-manager/del/all', $params))."'><input style='background-color:transparent;color:white;border:none;' type='button' value='".$buttonName."' /></a>");      
+            $this->_p_html("<script>jQuery(window).ready( function() { jQuery('#del-tags').click(function(){ return confirm('Are you sure you want to ".strtolower($buttonName)."?'); }); });</script>");
         }
     }
     

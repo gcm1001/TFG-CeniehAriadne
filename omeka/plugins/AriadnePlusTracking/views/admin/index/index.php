@@ -6,7 +6,7 @@
     <?= flash(); ?>
     <div id="explanation">
         <img alt="ARIADNE+ Logo" id="ariadnelogo" src="<?= html_escape(img('ariadne-tracking-logo.png')); ?>" />
-        <p><?= __('In this window you can manage the tracking tickets for imports to'); ?> <br> ARIADNEplus.</p>
+        <p><?= __('Track, manage and organize your data integrations to'); ?> <br> ARIADNEplus.</p>
     </div>
   <h2><?= __('Step 1: Select an existing ticket...'); ?></h2>
     <section class="ten columns alpha omega">

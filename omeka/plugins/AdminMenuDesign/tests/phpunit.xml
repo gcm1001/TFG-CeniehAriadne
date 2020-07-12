@@ -2,17 +2,17 @@
          convertErrorsToExceptions="true"
          convertWarningsToExceptions="true">
     <testsuites>
-        <testsuite name="Is Part Of Collection Tests">
+        <testsuite name="Admin Menu Design Tests">
             <directory>suite</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>../IsPartOfCollectionPlugin.php</directory>
+            <directory>../AdminMenuDesignPlugin.php</directory>
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-html" target="/tmp/report/IsPartOfCollectionPlugin" lowUpperBound="35"
+        <log type="coverage-html" target="/tmp/report/AdminMenuDesign" lowUpperBound="35"
             highLowerBound="70"/>
     </logging>
 </phpunit>

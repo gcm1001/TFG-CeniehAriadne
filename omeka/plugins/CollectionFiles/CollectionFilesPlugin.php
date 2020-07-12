@@ -1,13 +1,9 @@
 <?php
 /**
- * Collection Files
+ * Collection Files Plugin
  *
- * @license GPLv3
- */
-
-/**
- * "Collection Files" plugin.
- *
+ * @copyright Copyright 2020 , Gonzalo Cuesta Marín.
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
  */
 class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
 {
@@ -115,7 +111,11 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         queue_js_file('collections');
     }
 
- 
+    /**
+     * Hook for Admin Collections Form Tabs.
+     *
+     * @return void
+     */
     public function filterAdminCollectionsFormTabs($tabs, $args)
     {
         $record = $args['collection'];
@@ -131,6 +131,12 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         return $tabs;
     }
     
+    /**
+     * Check if collection has files.
+     * 
+     * @param type $record Record
+     * @return type bool
+     */
     private function collection_has_files($record){
         $database = get_db();
         $sql = "
@@ -142,12 +148,23 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         return (bool) $has_files;
     }
     
+    /**
+     * Get collection files.
+     * 
+     * @param type $record Record
+     * @return type Files
+     */
     private function get_collection_files($record){
         $database = get_db();
         $files = $database->getTable('CollectionFile')->findByCollection($record->id);
         return $files;
     }
     
+    /**
+     * Hook Before Save Collection.
+     * 
+     * @param type $args 
+     */
     public function hookBeforeSaveCollection($args){
         $collection = $args['record'];
         try {
@@ -159,10 +176,24 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
+    /**
+     * Check if file is set.
+     * 
+     * @param type $name Name of file
+     * @return type bool
+     */
     protected function isset_file($name){
         return empty($name) ? false : isset($_FILES[$name]);
     }
     
+    /**
+     * Insert files for collection.
+     * 
+     * @param type $collection Collection
+     * @param type $transferStrategy Transfer Strategy
+     * @param type $files Files
+     * @param type $options Options
+     */
     private function insert_files_for_collection($collection, $transferStrategy, $files, $options = array())
     {
         $builder = new Builder_CollectionFiles(get_db());
@@ -176,6 +207,11 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
+    /**
+     * Hook After Save Collection.
+     * 
+     * @param type $args 
+     */
     public function hookAfterSaveCollection($args)
     {
         $database = get_db();
@@ -211,6 +247,11 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
+    /**
+     * Hook Admin Collections Form.
+     * 
+     * @param type $args
+     */
     public function hookAdminCollectionsForm($args){ ?>
          <?= '<script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -222,6 +263,11 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         <?php
     }
     
+    /**
+     * Hook Admin Collections Show Sidebar.
+     * 
+     * @param type $args 
+     */
     public function hookAdminCollectionsShowSidebar($args){
         $collection = $args['collection']; 
         
@@ -243,6 +289,11 @@ class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_p_html('</div> </div>'); 
     }
     
+    /**
+     * Prints HTML code.
+     * 
+     * @param type $html HTML code
+     */
     private function _p_html($html){ ?>
       <?= $html ?> <?php
     }

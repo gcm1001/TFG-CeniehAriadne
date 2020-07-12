@@ -17,7 +17,7 @@
                 <div class="steps">
                     <form id="new-form" class="option-submission" method="post">
                         <div class="submission first-step">
-                            <p><?= __('Select the type of record you would like manage.'); ?></p>
+                            <p><?= __('Select the type of record you would like to manage.'); ?></p>
                             <label class="input">
                                 <?= $this->formSelect('record_type', null, array('id' => 'record-type','style' => 'max-width: 300px;'), $options_for_select_type); ?> <br/><br/>
                             </label>

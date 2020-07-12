@@ -2,8 +2,6 @@
 /**
  * Test Tags Manager plugin.
  *
- * @package Omeka
- * @copyright Roy Rosenzweig Center for History and New Media, 2007-2011
  */
 class TagsManager_TagsManagerMainTest extends TagsManager_Test_AppTestCase
 {
