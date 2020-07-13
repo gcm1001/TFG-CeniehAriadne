@@ -60,8 +60,6 @@ jobs:
     - name: Deploy the Docker images to the GKE cluster
       run: |-
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout status ${{ secrets.GKE_DEPLOYMENT }}
-        kubectl get services -o wide
-
+        kubectl rollout restart ${{ secrets.GKE_DEPLOYMENT }}
 
 
