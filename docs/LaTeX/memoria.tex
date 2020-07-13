@@ -1,20 +1,34 @@
-\documentclass[a4paper,12pt,twoside]{memoir}
+\documentclass[a4paper,11pt,oneside]{memoir}
 
 % Castellano
 \usepackage[spanish,es-tabla]{babel}
 \selectlanguage{spanish}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern} % Scalable font
-\usepackage{microtype}
 \usepackage{placeins}
 \usepackage{enumitem}
 
+\RequirePackage{xtab}
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
-\RequirePackage{xtab}
 \RequirePackage{multirow}
 
+% Extra
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{amsfonts}
+\usepackage{titlesec}
+
+% Subsubsubsection
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% Licencia
+\usepackage[framemethod=tikz]{mdframed}
+\definecolor{cccolor}{rgb}{.67,.7,.67}
 
 % Links
 \usepackage[colorlinks]{hyperref}
@@ -39,10 +53,10 @@
 
 % Imagenes
 \usepackage{graphicx}
-\newcommand{\imagen}[2]{
+\newcommand{\imagen}[3]{
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.9\textwidth]{#1}
+		\includegraphics[width=#3\textwidth]{#1}
 		\caption{#2}\label{fig:#1}
 	\end{figure}
 	\FloatBarrier
@@ -278,7 +292,7 @@
   \end{center}
 }
 
-\graphicspath{ {./img/} }
+\graphicspath{ {../sphinx/source/_static/images/} }
 
 % Capítulos
 \chapterstyle{bianchi}
@@ -347,7 +361,7 @@
 \newcommand{\nombre}{Gonzalo Cuesta Marín} %%% cambio de comando
 
 % Datos de portada
-\title{Integración del CENIEH en ARIADNEplus}
+\title{Integración del CENIEH en emph{ARIADNEplus}}
 \author{\nombre}
 \tutor{Dr. Carlos López Nozal\\y Dr. Mario Juez Gil}
 \date{\today}
@@ -384,14 +398,14 @@ En Burgos, {\large \today}
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del Tutor:\\[2cm]
-D. nombre tutor
+D. Carlos Lopez Nozal
 \end{flushleft}
 \end{minipage}
 \hfill
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del tutor:\\[2cm]
-D. nombre tutor
+D. Mario Juez Gil
 \end{flushleft}
 \end{minipage}
 \hfill
@@ -461,5 +475,12 @@ keywords separated by commas.
 
 \bibliographystyle{plain}
 \bibliography{bibliografia}
+
+\begin{mdframed}[outerlinecolor=black,outerlinewidth=2pt,linecolor=cccolor,middlelinewidth=3pt,roundcorner=10pt]
+  This work is licensed under a Creative Commons Attribution 4.0 International License.
+  \begin{center}
+    \includegraphics[scale=1]{by.png}
+  \end{center}
+\end{mdframed}
 
 \end{document}
