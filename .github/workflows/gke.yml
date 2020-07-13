@@ -9,8 +9,8 @@ on:
     
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: cluster-cenieh-project   
-  GKE_ZONE: europe-west2-a
+  GKE_CLUSTER: omeka
+  GKE_ZONE: europe-west6-c
   IMAGE: gke-omeka
   
 jobs:
@@ -60,7 +60,7 @@ jobs:
     - name: Deploy the Docker images to the GKE cluster
       run: |-
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment ${{ secrets.GKE_DEPLOYMENT }}
+        kubectl rollout status ${{ secrets.GKE_DEPLOYMENT }}
         kubectl get services -o wide
 
 

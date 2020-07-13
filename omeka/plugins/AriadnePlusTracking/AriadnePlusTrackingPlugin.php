@@ -3,8 +3,8 @@
 /**
  * The ARIADNEplus Tracking plugin.
  * Based on: CuratorMonitor https://github.com/Daniel-KM/Omeka-plugin-CuratorMonitor
- * 
- * @license GPLv3
+ *
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
  * @package AriadnePlusTracking
  */
 class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
@@ -516,7 +516,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         
         if(get_option('ariadneplus_tracking_hide_elements')){
             $hideSettings = json_decode(get_option('hide_elements_settings'), true);
-            $hideSettings['form'] = $hideElements;
+            $hideSettings['form']['Dublin Core'] = $hideElements['Dublin Core'];
             set_option('hide_elements_settings', json_encode($hideSettings));
         }
     }
@@ -1311,7 +1311,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
         }
-        if(empty(metadata($item, array('Monitor','Metadata Status')))){
+        $status = metadata($item, array('Monitor','Metadata Status'));        
+        if(empty($status)){
             $collectionId =  $item->collection_id;
             $collection = get_record_by_id('Collection', $collectionId);
             if($collection){
@@ -1495,7 +1496,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $collection = $args['collection'];
         $actualStatus = $args['status'];
         $view = $args['view'];
-        $items = get_records('Item', array('collection' => $collection->id));
+        $items = get_records('Item', array('collection' => $collection->id), 0);
         if(count($items) > 0){
             $statusTermsElements = $view->tracking()->getStatusElements(null, null, true);
             $terms = array_shift($statusTermsElements)['terms'];
@@ -1512,6 +1513,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $statusElement = $this->_db->getTable('Element')->findByElementSetNameAndElementName('Monitor', 'Metadata Status');
         $collection->deleteElementTextsByElementId(array($statusElement->id));
         $collection->addTextForElement($statusElement,$actualStatus);
+        $collection->saveElementTexts();
     }
   
     /**

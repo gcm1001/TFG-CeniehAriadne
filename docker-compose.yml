@@ -23,16 +23,7 @@ services:
     secrets:
       - omeka_db_password
       - omeka_db_root_password
-      
-  omeka-db-admin:
-    image: phpmyadmin/phpmyadmin:latest
-    ports:
-      - 8000:80
-    environment:
-      - PMA_HOST=db
-    depends_on:
-      - db    
-      
+
   omeka_app:
     image: gcm1001/omeka_cenieh
     ports:

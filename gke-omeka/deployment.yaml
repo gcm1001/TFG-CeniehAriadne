@@ -16,13 +16,8 @@ spec:
         app: omeka
     spec:
       containers:
-      - image: gcr.io/cenieh-project/gke-omeka:latest
+      - image: gcr.io/ubucenh/gke-omeka:latest
         name: omeka
         ports:
         - containerPort: 80
           name: omeka
-        resources:
-          requests:
-            cpu: 100m
-          limits:
-            cpu: 100m

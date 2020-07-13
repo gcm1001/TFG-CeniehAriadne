@@ -15,27 +15,23 @@
             </BalloonStyle>
         </Style>
         <?php
-        foreach(loop('item') as $item):        
+        foreach(loop('item') as $item):
         $location = $locations[$item->id];
         ?>
         <Placemark>
-            <name><![CDATA[<?= html_escape(metadata('item', array('Dublin Core', 'Title')));?>]]></name>
-            <namewithlink><![CDATA[<?= link_to_item(html_escape(metadata('item' , array('Dublin Core', 'Title'))), array('class' => 'view-item')); ?>]]></namewithlink>
-            <Snippet maxLines="2"><![CDATA[<?= html_escape(metadata('item', array('Dublin Core', 'Description'), array('snippet' => 150)));
-            ?>]]></Snippet>    
-            <description><![CDATA[<?php 
-            // @since 3/26/08: movies do not display properly on the map in IE6, 
-            // so can't use display_files(). Description field contains the HTML 
-            // for displaying the first file (if possible).
+            <name><?php echo xml_escape(metadata('item', 'display_title', array('no_escape' => true))); ?></name>
+            <namewithlink><?php echo xml_escape(link_to_item(metadata('item' , array('Dublin Core', 'Title')), array('class' => 'view-item'))); ?></namewithlink>
+            <Snippet maxLines="2"><?php echo xml_escape(metadata('item', array('Dublin Core', 'Description'), array('snippet' => 150))); ?></Snippet>
+            <description><?php
             if (metadata($item, 'has thumbnail')): ?>
-                <?= link_to_item(item_image('thumbnail'), array('class' => 'view-item')); ?>            
+                <?= xml_escape(link_to_item(item_image('thumbnail'), array('class' => 'view-item'))); ?>            
             <?php endif; ?>
-            ?>]]></description>
+            </description>
             <Point>
                 <coordinates><?= html_escape($location['longitude']); ?>,<?= html_escape($location['latitude']); ?></coordinates>
             </Point>
             <?php if ($location['address']): ?>
-            <address><![CDATA[<?= html_escape($location['address']); ?>]]></address>
+             <address><?php echo xml_escape($location['address']); ?></address>
             <?php endif; ?>
         </Placemark>
         <?php endforeach; ?>

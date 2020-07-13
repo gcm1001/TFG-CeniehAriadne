@@ -1,6 +1,10 @@
 <?php
 /**
- * Stage the selected element of selected or all matching records to next term.
+ * The ARIADNEplus Tracking plugin.
+ * Based on: CuratorMonitor https://github.com/Daniel-KM/Omeka-plugin-CuratorMonitor
+ *
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
+ * @package AriadnePlusTracking\Job
  */
 class AriadnePlusTracking_Job_Stage extends Omeka_Job_AbstractJob
 {

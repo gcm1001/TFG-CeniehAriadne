@@ -1,12 +1,11 @@
 <?php
 /**
  * Omeka
+ *  > Adapted by Gonzalo Cuesta.
  *
  * @copyright Copyright 2007-2012 Roy Rosenzweig Center for History and New Media
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
  */
-
-
 class CollectionFiles_IndexController extends Omeka_Controller_AbstractActionController
 {
     protected $_autoCsrfProtection = true;
@@ -67,7 +66,7 @@ class CollectionFiles_IndexController extends Omeka_Controller_AbstractActionCon
     
     protected function _redirectAfterDelete($record)
     {
-        // Redirect back to the item show page for this file
+        // Redirect back to the collection show page for this file
         $this->_helper->flashMessenger(__('The file was successfully deleted.'), 'success');
         $this->_redirector->gotoUrl(('collections/show/id/'.$record->collection_id));
     }

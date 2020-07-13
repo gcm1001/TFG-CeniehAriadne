@@ -1,5 +1,5 @@
 <div id="div-phase-2">
-    <div class="form-style-10">
+    <div class="form-style">
     <h1 class="h1-phase" >Map your metadata!<span class="span-form">To map your metadata, follow these steps.</span></h1>
         <form method="post" id="form-phase-2" action="#"> 
         <div class="section"><span class="span-form-step">1</span>Download the metadata</div> 

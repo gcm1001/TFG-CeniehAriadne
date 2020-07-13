@@ -202,7 +202,7 @@ OmekaMapBrowse.prototype = {
             link.attr('href', 'javascript:void(0);');
 
             // Each <li> starts with the title of the item
-            link.html(marker.options.title);
+            link.text(marker.options.title);
 
             // Clicking the link should take us to the map
             link.bind('click', {}, function (event) {
@@ -277,7 +277,7 @@ function OmekaMapForm(mapDivId, center, options) {
               //si es un objeto de tipo 'marker' (Marcador).
               if (type === 'marker') {
                   // coordenada del marcador
-                  var point = layer.getLatLng();
+                  var point = layer.getLatLng().wrap();
                   // objeto (layer)
                   var marker = that.setMarker(point);
                   // añado un Pop Up al objeto informando su longitud y latitud
@@ -336,7 +336,7 @@ function OmekaMapForm(mapDivId, center, options) {
     // Si no está activada la función dibujo se conserva el funcionamiento normal...
     } else {
         this.map.on('click', function (event) {
-            var marker = that.setMarker(event.latlng);
+              var marker = that.setMarker(event.latlng.wrap());
               if (marker) {
                 jQuery('#geolocation_address').val('');
             }

@@ -25,7 +25,7 @@ ul.navigation ul {
   transform: translateX(50px);
 }
 
-.dropdown::after {
+#menu-design.dropdown::after {
   content: '\f0da';
   font-family: 'FontAwesome', sans-serif;
   color: #777;
