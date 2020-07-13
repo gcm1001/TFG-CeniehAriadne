@@ -2,10 +2,417 @@
 
 \section{Introducción}
 
-\section{Requisitos de usuarios}
+En este apartado se pretende dotar al usuario de la información
+necesaria para la correcta utilización de la aplicación. 
+
+En primer lugar, se especificarán los requisitos \emph{software} con los que el
+usuario debe contar para instalar y acceder a la aplicación. Posteriormente, se
+explicará paso a paso el proceso de instalación y, finalmente, se
+mostrará el manual de usuario.
+
+
+\section{Requisitos}
+Los requisitos de usuario varían en función del modo de instalación que
+vaya a llevar a cabo el usuario. Existen tres modos de instalación:
+Manual, \emph{Docker} y \emph{Kubernetes}.
+
+Como es lógico, además de los requisitos que se van a mostrar a
+continuación, se debe contar con un \textbf{navegador web} desde el que
+se pueda acceder a la aplicación web.
+
+
+\subsection{Manual}
+
+Si se escoge la opción manual hay que estar seguro de que el servidor
+cumple con todos y cada uno de los siguientes \textbf{requisitos}:
+
+\begin{itemize}
+\tightlist
+\item
+  Sistema Operativo Linux \cite{linux:web}
+\item
+  Apache HTTP Server \cite{apache:install} (con el módulo \emph{rewrite} activado).
+\item
+  MySQL / MariaDB v5.0 \cite{mysql:install} o superior.
+\item
+  PHP v5.4 \cite{php:install} o superior con las sisguientes extensiones instaladas:
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    mysqli
+  \item
+    exif
+  \item
+    curl
+  \item
+    mbstring
+  \end{itemize}
+  \end{quote}
+\item
+  ImageMagick \cite{imagemagick:install} (Tratamiento de imágenes)
+\end{itemize}
+
+\subsection{Docker}
+
+En este caso, solo es necesario un único \textbf{requisito}:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Docker} \cite{docker:install} (Probado con la versión 19.03.6).
+\end{itemize}
+
+\subsection{Kubernetes}
+
+Si se pretende utilizar \emph{Kubernetes} para el despliegue de la
+infraestructura se requiere:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Docker}  \cite{docker:install} (Probado con la versión 19.03.6).
+\item
+  La herramienta de línea de comandos de \emph{Kubernetes},
+  \emph{kubectl} \cite{kubectl:install} (Probado en v1.18.2).
+\item
+  \emph{Kustomize} \cite{kustomize:repo} (probado en v3.1.0)
+\end{itemize}
 
 \section{Instalación}
 
+Como se ha comentado en el apartado anterior, existen tres posibilidades
+distintas para instalar la aplicación en un servidor: \emph{Manual},
+\emph{Docker} o \emph{Kubernetes}.
+
+\subsection{Manual}
+El primer paso consiste en \textbf{configurar el servidor}. Para ello,
+hay que seguir una serie de indicaciones:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Crear la base de datos (DB) MySQL} desde un usuario con
+  permisos suficientes como para poder realizar operaciones sobre ella.
+
+  \begin{itemize}
+  \item
+    Durante el proceso, conviene apuntar los siguientes datos:
+
+    \begin{quote}
+    \begin{itemize}
+    \tightlist
+    \item
+      \emph{Hostname} donde se encuentra alojada la DB.
+    \item
+      Nombre de la DB.
+    \item
+      Nombre del usuario de la DB.
+    \item
+      Contraseña de usuario de la DB.
+    \end{itemize}
+    \end{quote}
+  \item
+    La base de datos ha de estar codificada en {utf8}.
+\begin{verbatim}
+sudo mysql -u root -
+CREATE DATABASE omekadb CHARACTER SET utf8mb4 \
+  COLLATE utf8mb4_unicode_ci;
+CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
+GRANT ALL ON omeka.* TO 'usuario'@'localhost' \
+  IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT;
+\end{verbatim}
+\end{itemize}
+\item
+  \textbf{Descargar} la version 2.7.1 de \textbf{Omeka}, desde su {[}web
+  oficial{]}(\url{https://omeka.org/classic/download/}) o desde su
+  {[}repositorio oficial{]}(\url{http://github.com/omeka/Omeka}) en
+  GitHub.
+\begin{verbatim}
+cd /tmp && wget \
+  https://github.com/omeka/Omeka/releases/download/v2.7.1/omeka-2.7.1.zip
+\end{verbatim}
+\item
+  \textbf{Descomprimir} el fichero \emph{.zip} recién descargado sobre un
+  directorio desde donde podamos trabajar.  
+\begin{verbatim}
+unzip omeka-2.7.1.zip -d <directorio_de_trabajo>
+\end{verbatim}
+\item
+  Desde el directorio escogido, buscar el fichero {db.ini} y
+  \textbf{sustituir los valores 'XXXXX' por los datos de la base de
+  datos} (anotados en el paso 1).
+\begin{verbatim}
+cd <directorio_de_trabajo>
+nano db.ini
+\end{verbatim}
+  No es necesario modificar los parámetros `prefix` o `port`.
+\begin{verbatim}
+[database]
+host     = "localhost"
+username = "usuario"
+password = "contraseña"
+dbname   = "omekadb"
+prefix   = "omeka_"
+charset  = "utf8"
+;port     = ""
+\end{verbatim}
+\item
+  \textbf{Descargar} el contenido del
+  \href{https://github.com/gcm1001/TFG-CeniehAriadne}{repositorio del
+  proyecto}.
+\begin{verbatim}
+cd /tmp && wget \
+  https://github.com/gcm1001/TFG-CeniehAriadne/archive/master.zip
+\end{verbatim}
+\item
+  \textbf{Descomprimir} las carpetas {/omeka/plugins} y {/omeka/themes}
+  del fichero {.zip} recién descargado.
+\begin{verbatim}
+unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' \
+  'TFG-CeniehAriadne-master/omeka/themes/*' \
+  -d <*directorio_de_trabajo*>
+\end{verbatim}
+\item
+  Desde el directorio de trabajo, \textbf{reemplazar las carpetas
+  originales} \emph{plugins} y \emph{themes} por las previamente
+  descargadas.
+\begin{verbatim}
+cd <*directorio_de_trabajo*>
+rm -rf ./plugins ./themes
+sudo cp -r ./TFG-CeniehAriadne-master/omeka/* .
+rm -rf ./TFG-CeniehAriadne-master
+\end{verbatim}
+\item
+  Mover todo el contenido del directorio de trabajo a la carpeta del
+  servidor Apache.
+\begin{verbatim}
+mv -r <*directorio_de_trabajo*>/* <*directorio_del_servidor*>
+\end{verbatim}
+\item
+  \textbf{Dar permisos de lectura y escritura sobre todo el contenido de
+  la aplicación}.
+\begin{verbatim}
+cd <*directorio_del_servidor*>
+sudo chown -R www-data:www-data <*directorio_de_trabajo*>
+sudo chmod -R 755 <*directorio_de_trabajo*>
+\end{verbatim}
+\item
+  \textbf{Configurar el servidor Apache}:
+\begin{quote}
+10.1. \textbf{Crear el archivo de configuración} correspondiente a la
+aplicación.
+\begin{verbatim}
+nano /etc/apache2/sites-available/omeka.conf
+\end{verbatim}
+Cambiar los valores "\emph{DocumentRoot}" y "\emph{ServerName}". ..
+code-block:
+\begin{verbatim}
+<VirtualHost *:80>
+     ServerAdmin [email protected]
+     DocumentRoot <directorio_del_servidor>
+     ServerName <nombre_del_servidor>
+
+     <Directory /var/www/html/omeka/>
+          Options FollowSymlinks
+          AllowOverride All
+          Require all granted
+     </Directory>
+
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+\end{verbatim}
+\item
+  \textbf{10.2 Activar el sitio y el módulo rewrite} y \textbf{reiniciar el
+  servidor} para aplicar los cambios.
+\begin{verbatim}
+a2ensite omeka.conf
+a2enmod rewrite
+systemctl restart apache2.service
+\end{verbatim}
+\end{quote}
+\end{enumerate}
+
+Desde este instante, \textbf{la aplicación será accesible desde el
+navegador} (puerto 80). El último paso consiste en \textbf{completar la
+instalación guiada desde el navegador}, disponible en el directorio
+{/install} (e.g. {http://aplicacion.es/install}).
+
+Una vez instalada la aplicación, para poder disfrutar de todas las
+mejoras propuestas en este proyecto, se deben instalar tanto los
+\emph{plugins} como el tema propuesto (ver
+\protect\hyperlink{instalar-complementos-plugins}{Instalar complementos
+(plugins)} e \protect\hyperlink{instalar-temas-themes}{Instalar temas
+(themes)})
+
+Por temas de seguridad, conviene eliminar la carpeta {/install/} del
+directorio raíz una vez terminada la instalación de la aplicación.
+
+\subsection{Docker}
+
+Para proceder al despliegue \textbf{se deben descargar}, del
+\href{https://github.com/gcm1001/TFG-CeniehAriadne}{repositorio del
+proyecto}, los siguientes ficheros:
+
+\begin{itemize}
+\tightlist
+\item
+  {/Dockerfile}
+\item
+  {/docker-compose.yml}
+\item
+  {/ConfigFiles/*}
+\item
+  {/omeka/plugins/*}
+\end{itemize}
+
+\textbf{Mantén los subdirectorios intactos.}
+
+A continuación debes \textbf{compilar la imagen}. Para ello, desde el
+directorio donde hayas almacenado la descarga anterior, ejecuta el
+siguiente comando:
+
+\begin{verbatim}
+docker build -t nombre_imagen:tag .
+\end{verbatim}
+
+\textbf{Recuerda muy bien el nombre de la imagen y el tag que pongas}
+porque será necesario para el siguiente paso, que consiste en configurar
+el archivo {docker-compose.yml}.
+
+En él, solo tenemos que cambiar la etiqueta {image} del servicio
+{omeka\_app} con el nombre y el tag de la imagen recién compilada:
+
+\begin{verbatim}
+...
+    omeka_app:
+        image: nombre_imagen:tag
+\end{verbatim} 
+
+Si se ha publicado la imagen en \emph{DockerHub}, se puede hacer
+referencia a esta indicando el nombre de usuario seguido de la imagen
+(e.g. username/nombre\_de\_mi\_imagen:tag).
+
+Elimina el servicio {omeka-db-admin} si tu servidor está destinado a
+producción. Este servicio incorpora la herramienta \emph{PhpMyAdmin} a
+la infraestructura, la cual tiene un alto grado de vulnerabilidades.
+
+Por último, crear los \emph{secrets} correspondientes a las contraseñas
+de la base de datos:
+
+\begin{verbatim}
+echo 'contraseña_usuario_db' | docker secret create omeka_db_password -
+echo 'contraseña_root_db' | docker secret create omeka_db_root_password -
+cp configFiles/db.ini.example configFiles/db.ini
+\end{verbatim} 
+
+Debes modificar el fichero recién creado {db.ini} con los datos de la
+base de datos. Ten en cuenta que la contraseña que introduzcas en el
+fichero tiene que coincidir con la del \emph{secret} recién creado.
+
+Ahora ya se puede desplegar la infraestructura ejecutando el siguiente
+comando desde el directorio de trabajo (donde se encuentra la descarga
+del primer paso).
+
+\begin{verbatim}
+docker stack deploy -c docker-compose.yml nombre_del_entorno
+\end{verbatim} 
+
+Desde este instante la aplicación es accesible desde el navegador
+(puerto 80). Los siguientes pasos son los mismos que en la
+\href{Manual}{instalación manual}.
+
+\subsection{Kubernetes}
+
+El primer paso para desplegar la aplicación mediante \emph{Kubernetes}
+es montar nuestra imagen \emph{Docker} (Sigue los primeros pasos del
+punto anterior, \textbf{hasta la compilación de la imagen}).
+
+El siguiente paso consiste en desplegar la aplicación. Para esta tarea
+utilizo el gestor de objetos \emph{Kustomize}. Por ello, deberás contar
+con dicha herramienta. Además debes estar en posesión de los siguientes
+ficheros alojados en este repositorio:
+
+\begin{itemize}
+\tightlist
+\item
+  /kustomization.yaml
+\item
+  /patch.yaml
+\item
+  /gke-mysql/*
+\item
+  /gke-omeka/*
+\item
+  /configFiles/db.ini
+\end{itemize}
+
+Ahora, debes crear el {secret} que contendrá todos los datos privados
+necesarios para crear la la base de datos (nombre de la base de datos,
+nombre de usuario, contraseña de usuario y contraseña root).
+
+Antes de ejecutar los siguientes comandos debes crear las
+\emph{variables de entorno} que se están utilizando: DB\_PASSWORD,
+DB\_ROOT\_PASSWORD, DB\_USERNAME y DB\_DATABASE.
+
+\begin{verbatim}
+kubectl create secret omeka-db \
+--from-literal=user-password=$DB_PASSWORD \
+--from-literal=root-password=$DB_ROOT_PASSWORD \
+--from-literal=username=$DB_USERNAME \
+--from-literal=database=$DB_DATABASE
+\end{verbatim}
+
+Además debemos crear el \emph{configmap} que almacenará todo el
+contenido del fichero de configuración {db.ini} (no necesitas
+modificarlo ya que este emplea las variables de entorno utilizadas en
+los comandos anteriores).
+
+\begin{verbatim}
+kubectl create configmap db-config \
+--from-file ./configFiles/db.ini
+\end{verbatim}
+
+Por último, debemos indicar el identificador de nuestra imagen
+\emph{Docker} en el fichero {/gke-omeka/deployment.yaml}.
+
+\begin{verbatim}
+...
+    spec:
+      containers:
+      - image: nombre_imagen:tag
+...
+\end{verbatim}
+
+Tras esto, solo faltaría ejecutar, desde el directorio raíz, el
+siguiente comando:
+
+\begin{verbatim}
+kustomize build . | kubectl apply -f -
+\end{verbatim}
+Desde este instante la aplicación es accesible desde el navegador
+(puerto 80). Los siguientes pasos son los mismos que en la
+\href{Manual}{instalación manual}.
+
+
 \section{Manual del usuario}
+
+Gracias a \emph{Read the Docs} es posible acceder al manual de usuario desde el siguiente enlace:
+
+\begin{mdframed}[outerlinecolor=red,outerlinewidth=2pt,linecolor=mucolor,middlelinewidth=3pt,roundcorner=10pt,nobreak=true]
+  \begin{center}
+    \url{https://tfg-ceniehariadne.rtfd.io/es/latest/anexos/E_Manual_usuario.html#manual-de-usuario}
+  \end{center}
+\end{mdframed}
+
+\imagen{manualdeusuario}{Página principal del manual de usuario.}{1}
+
+
 
 

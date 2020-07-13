@@ -2,10 +2,526 @@
 
 \section{Introducción}
 
+Este anexo recoge todos los aspectos relacionados con el diseño de la
+aplicación, incluyendo aquellos que forman parte de los complementos
+desarrollados. Con ello se pretende conocer en detalle tanto su
+funcionamiento como su estructura.
+
+
 \section{Diseño de datos}
+
+Para la gestión de datos, la aplicación hace uso de las siguientes
+entidades:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ítem} (\emph{Item}): es la materia prima de la aplicación.
+  Agrupa toda la información de cada uno de los datos existentes en la
+  plataforma. La mayor parte de entidades están relacionadas con esta
+  entidad.
+\item
+  \textbf{Conjunto de elementos} (\emph{ElementSet}): representa un
+  esquema de metadatos.
+\item
+  \textbf{Elemento} (\emph{Element}): representa un elemento (metadato)
+  de un esquema de metadatos. Está relacionado con un conjunto de
+  elementos (\emph{ElementSet}).
+\item
+  \textbf{Texto del elemento} (\emph{ElementText}): representa el
+  contenido de un elemento para una determinada entidad (e.g. ítem).
+\item
+  \textbf{Colección} (\emph{Collection}): representa una agrupación de
+  ítems.
+\item
+  \textbf{Etiqueta} (\emph{Tag}): representa una etiqueta con texto
+  simple.
+\item
+  \textbf{Registros etiqueta} (\emph{RecordsTag}): relaciona una
+  etiqueta con uno o varios ítems.
+\item
+  \textbf{Tipo de ítem} (\emph{ItemType}): permite asignar un tipo a un
+  ítem y añadirle a este elementos (metadatos) específicos del tipo.
+\item
+  \textbf{Elementos de tipos de ítem}: (\emph{ItemTypesElements}):
+  representa la relación entre un elemento (metadato) y un tipo de ítem.
+\item
+  \textbf{Fichero} (\emph{File}): representa un fichero asignado a un
+  ítem.
+\item
+  \textbf{Fichero de colección} (\emph{CollectionFile}): representa un
+  fichero asignado a una colección.
+\item
+  \textbf{Localización} (\emph{Location}): representa la localización de
+  un ítem.
+\item
+  \textbf{Localización rectangular} (\emph{BoxLocation}): representa la
+  localización rectangular de un ítem.
+\end{itemize}
+
+\imagen{e-r-uml}{Diagrama E/R de datos relacionados con la gestión de datos.}{0.9}
+
+\section{Diseño arquitectónico}
+
+Como es lógico, el diseño de los complementos (\emph{plugins})
+desarrollados se ha visto condicionado por el diseño de la aplicación
+para la que iban dirigidos.
+
+
+\subsection{Modelo-Vista-Controlador (MVC)}
+
+La aplicación propuesta usa el patrón de diseño
+\emph{modelo-vista-controlador} (\emph{MVC}), el cual ofrece una serie
+de consejos para organizar correctamente el código desarrollado y
+facilitar así su mantenimiento.
+
+Las aplicaciones que siguen este patrón contienen clases que implementan
+la lógica de negocio (\emph{modelos}), ficheros con código HTML y PHP
+(\emph{vistas}), y clases que interactúan con los usuarios
+(\emph{controladores}). En las vistas no se ha utilizado el término
+\emph{clase} para referirnos a estas ya que, por lo general, son
+documentos simples que contienen fragmentos de código HTML y PHP.
+
+Por tanto, podemos deducir que el diseño se divide en tres capas:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{Modelo}}: modifica, gestiona y actualiza los datos de la
+  aplicación. En nuestro caso, al contar con una única base de datos, es
+  la capa donde se encuentra el código relacionado con las consultas,
+  búsquedas, filtros y actualizaciones.
+\item
+  \textbf{\emph{Vista}}: muestra al usuario final la interfaz gráfica de la
+  aplicación, es decir, las páginas, ventanas, formularios, etc. En
+  términos de programación se correspondería con el \emph{frontend}. En
+  la aplicación se correspondería con la interfaz pública y de
+  administración.
+\item
+  \textbf{\emph{Controlador}}: gestiona, atiende y procesa las peticiones
+  realizadas por parte de los usuarios. A través de esta capa se
+  comunican el \emph{modelo} y la \emph{vista}. El \emph{controlador}
+  solicita los datos necesarios al \emph{modelo}, se manipulan acorde a
+  la petición del usuario, y se entregan a la \emph{vista} de forma que
+  el usuario pueda visualizar los resultados esperados.
+\end{itemize}
+
+\imagen{mvc}{Diagrama que muestra la relación entre el Modelo, Vista y Controlador del patrón MVC}{0.9}
+
+En el siguiente diagrama se muestra el comportamiento de la aplicación
+ante una \emph{petición HTTP}.
+
+\imagen{mvc-full}{Diagrama que muestra el comportamiento de la aplicación ante
+una petición HTTP.}{0.6}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  El usuario entra a la aplicación a través de su navegador web con la
+  dirección de la aplicación (e.g. \emph{http://miaplicación.es}).
+\item
+  El servidor web con ayuda de la extensión PHP ejecuta el script de
+  entrada (\emph{index.php}).
+\item
+  Se crea una instancia de la aplicación (\emph{Application}).
+\item
+  La aplicación usa el componente enrutador (\emph{router}) para
+  analizar la URL con la que se ha accedido y determinar qué controlador
+  procesará la petición. Si la ruta existe, se instancia al
+  \emph{controlador} y se llama a la acción involucrada.
+\item
+  El método de la \emph{acción} recupera los parámetros de las variables
+  globales (e.g. \emph{GET}, \emph{POST}, \emph{FILES}, etc.) y los
+  procesa haciendo uso de los métodos de las clases \emph{modelo}.
+\item
+  Las clases \emph{modelo} recogen los datos provistos por el
+  controlador y llevan a cabo las tareas oportunas (e.g recuperar,
+  añadir, eliminar o modificar datos de la base de datos).
+\item
+  Después de llamar a los \emph{modelos}, se pasa a la \emph{vista}
+  correspondiente para renderizar la página HTML.
+\item
+  La \emph{vista} podría, en caso de necesitarlo, consultar datos del
+  \emph{modelo} para la renderización.
+\item
+  La \emph{vista} produce la salida HTML.
+\item
+  El \emph{controlador} envía los datos a la instancia de la
+  \emph{aplicación}.
+\item
+  Se envía la respuesta HTTP al \emph{servidor web}.
+\item
+  La respuesta HTTP es enviada al navegador del \emph{cliente}
+  (usuario).
+\end{enumerate}
+
+\subsection{Diseño de paquetes}
+
+Antes de mostrar cómo se encuentran organizados los complementos
+(\emph{plugins}) que se han desarrollado, se va a realizar un estudio de
+cómo lo están los paquetes principales de la aplicación.
+
+\imagen{pck-1}{Diagrama de paquetes de la aplicación.}{0.9}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka.admin} : contiene todos los ficheros de cada una de las
+  \emph{vistas} del área de administración.
+\item
+  \emph{omeka.application}: contiene la aplicación. Alberga todo el
+  sistema \emph{MVC}, así como las configuraciones y servicios
+  utilizados.
+\item
+  \emph{omeka.files}: recoge todos los ficheros almacenados en la
+  plataforma.
+\item
+  \emph{omeka.install}: contiene los ficheros de instalación inicial,
+  necesarios para inicializar los parámetros principales de la
+  aplicación.
+\item
+  \emph{omeka.themes}: recoge las plantillas de diseño (\emph{themes})
+  utilizadas para personalizar el área pública (\emph{frontend}) de la
+  aplicación.
+\item
+  \emph{omeka.plugins}: contiene todos los complementos (\emph{plugins})
+  utilizados para añadir nuevas funcionalidades a la aplicación.
+\end{itemize}
+
+De todos estos paquetes únicamente se especificará en detalle el paquete
+\emph{plugins} por el hecho de que sólo se ha trabajado en la creación,
+modificación e instalación de complementos (\emph{plugins}).
+
+
+\subsubsection{Complementos (\emph{plugins})}
+
+Para obtener una visión más clara de cómo están organizados los
+complementos (\emph{plugins}) se mostrará su estructura de directorios
+general.
+
+\imagen{pck-2}{Diagrama de paquetes del complemento ficticio \emph{FuncExtra}.}{0.9}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka.plugins.FuncExtra}: representa el nivel superior del
+  complemento. Alberga todo el sistema \emph{MVC} del complemento.
+\item
+  \emph{omeka.plugins.FuncExtra.controllers}: contiene todas las clases
+  de la capa \emph{controlador}.
+\item
+  \emph{omeka.plugins.FuncExtra.libraries}: contiene clases externas
+  utilizadas por el complemento.
+\item
+  \emph{omeka.plugins.FuncExtra.languages}: contiene las traducciones
+  del texto existente en el complemento.
+\item
+  \emph{omeka.plugins.FuncExtra.models}: contiene las clases de la capa
+  \emph{modelo}. Permite al complemento crear y gestionar sus propias
+  tablas en la base de datos.
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{omeka.plugins.FuncExtra.Table}: contiene parte de las clases
+    de la capa \emph{modelo}.
+  \end{itemize}
+  \end{quote}
+\item
+  \emph{omeka.plugins.FuncExtra.views}: contiene los archivos (que no
+  clases) de la capa \emph{vista}.
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{omeka.plugins.FuncExtra.views.admin}: contiene las
+    \emph{vistas} que solo son visibles en el área de administración.
+  \item
+    \emph{omeka.plugins.FuncExtra.views.public}: contiene las
+    \emph{vistas} que solo son visibles en el área pública.
+  \item
+    \emph{omeka.plugins.FuncExtra.views.shared}: contiene las
+    \emph{vistas} que son visibles en ambas áreas.
+  \end{itemize}
+  \end{quote}
+\end{itemize}
+
+A continuación, se muestran los paquetes de todos los complementos
+instalados en la aplicación.
+
+\imagen{pck-2-1}{Paquetes de los complementos instalados en la aplicación.}{0.9}
+
+Son un total de 21 complementos, de los cuales 6 han sido creados
+específicamente para el proyecto (verdes) y el resto (azules) han sido
+recogidos de la página oficial de Omeka /cite{omeka:plugins} o de repositorios externos /cite{github:omekaplugins}. De
+estos últimos se han modificado 3 para añadir nuevas funcionalidades
+(naranjas).
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka.plugins.AdminMenuDesign}: permite ordenar las entradas del
+  menú principal de navegación del área de administración en secciones
+  (submenús).
+\item
+  \emph{omeka.plugins.AriadnePlusTracking}: implementa todas las
+  funcionalidades relacionadas con los tickets de seguimiento para los
+  procesos de integración en \emph{ARIADNEplus}.
+\item
+  \emph{omeka.plugins.BulkMetadataEditor}: permite añadir, editar o
+  eliminar metadatos de ítems de forma masiva.
+\item
+  \emph{omeka.plugins.CENIEHExport}: permite exportar ítems y
+  colecciones en un formato compatible con \emph{ARIADNEplus}.
+\item
+  \emph{omeka.plugins.CollectionFiles}: permite asociar ficheros a
+  colecciones.
+\item
+  \emph{omeka.plugins.GettySuggest}: permite sugerir términos de los
+  vocabularios \emph{Getty} durante el relleno de un metadato.
+\item
+  \emph{omeka.plugins.CsvImportPlus}: permite importar elementos
+  (metadatos, localizaciones, etc.) en formato CSV y gestionar las
+  importaciones.
+\item
+  \emph{omeka.plugins.CuratescapeAdminHelper}: implementa
+  funcionalidades que brindan ayuda a los administradores de la
+  aplicación.
+\item
+  \emph{omeka.plugins.CuratescapeJSON}: implementa funcionalidades para
+  la plantilla de diseño (\emph{theme}).
+\item
+  \emph{omeka.plugins.DublinCoreExtended}: implementa nuevos elementos
+  en el esquema de metadatos (\emph{ElementSet}) \emph{Dublin Core}.
+\item
+  \emph{omeka.plugins.Geolocation}: implementa diversas funcionalidades
+  relacionadas con la geolocalización de los ítems.
+\item
+  \emph{omeka.plugins.HideElements}: permite ocultar elementos de los
+  esquemas de metadatos (\emph{ElementSet}) existentes en la plataforma.
+\item
+  \emph{omeka.plugins.TagsManager}: añade funcionalidades relacionadas
+  con las etiquetas (\emph{tags}).
+\item
+  \emph{omeka.plugins.HistoryLog}: permite llevar un registro detallado
+  de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la
+  plataforma.
+\item
+  \emph{omeka.plugins.AutoDublinCore}: permite automatizar el relleno de
+  algunos elementos del esquema \emph{Dublin Core}.
+\item
+  \emph{omeka.plugins.OaipmhHarvester}: permite recolectar metadatos de
+  otros repositorios web y gestionar las recolecciones ejecutadas.
+\item
+  \emph{omeka.plugins.OaiPmhRepository}: permite que otros repositorios
+  web recolecten metadatos de nuestra aplicación.
+\item
+  \emph{omeka.plugins.SimplePages}: permite añadir páginas simples como
+  la de "About" al área pública.
+\item
+  \emph{omeka.plugins.SimpleVocab}: permite crear y gestionar
+  vocabularios simples para elementos de un determinado esquema.
+\item
+  \emph{omeka.plugins.SuperRss}: muestra enlaces para compartir
+  publicaciones (área pública) en redes sociales.
+\end{itemize}
+
+\subsection{Diseño de clases}
+
+Cada complemento puede contar con las siguientes clases, de las cuales
+sólo la primera es de uso obligatorio.
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{FuncExtraPlugin}: representa la clase principal del complemento
+  \emph{FuncExtra}. Permite definir las llamadas a ``\emph{hooks}'' y
+  ``\emph{filters}'' y establecer las opciones de configuración del
+  complemento.
+\item
+  \emph{FuncExtraRecord}: implementa la capa \emph{modelo} del
+  complemento \emph{FuncExtra}. Cada complemento puede implementar
+  varios \emph{modelos} o ninguno.
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Table\_FuncExtraRecord}: es parte de la implementación de la
+    capa \emph{modelo}. Sobre ella se implementan métodos para hacer
+    búsquedas sobre la base de datos y obtener como resultado objetos de
+    la clase \emph{FuncExtraRecord}.
+  \end{itemize}
+  \end{quote}
+\item
+  \emph{FuncExtra\_IndexController}: implementa la capa
+  \emph{controlador} del complemento \emph{FuncExtra}. En este caso,
+  implementaría el \emph{controlador} \emph{index}. Cada complemento
+  puede implementar varios \emph{controladores} o ninguno.
+\item
+  \emph{FuncExtraHelper\_View\_Helper\_Extra}: implementa el ayudante
+  \emph{Extra}. Este provee a las \emph{vistas} del complemento
+  \emph{FuncExtra} métodos para llevar a cabo funciones complejas como,
+  por ejemplo, añadir elementos a un formulario. Es una clase auxiliar.
+\end{itemize}
+
+\imagen{pck-3}{Paquete tipo del complemento ficticio emph{FuncExtra}.}{0.9}
+
+Como se puede apreciar, el nombre de cada clase varía en función del
+complemento al que pertenece y, en el caso de los \emph{modelos} y
+\emph{controladores}, hay que considerar además el nombre del
+\emph{modelo} o \emph{controlador} que se está implementando. Adoptando
+estas medidas, se evitan posibles conflictos en la nomenclatura de las
+clases.
+
+En el siguiente diagrama se muestra la interacción entre los componentes
+del complemento ficticio \emph{FuncExtra} y la aplicación principal.
+
+\imagen{pck-4}{Diagrama de clases del complemento ficticio \emph{FuncExtra}.}{0.9}
+
+Vemos como las implementaciones de las tres capas del complemeto
+\emph{FuncExtra} (\emph{models}, \emph{views} y \emph{controllers}) se
+acoplan a las capas de la aplicación principal para despúes interactuar
+entre ellas junto a todas las demás implementaciones de la aplicación,
+incluyendo las de los otros complementos instalados. Este acoplamiento
+hace posible que desde nuestro complemento se puedan reutilizar
+implementaciones tanto de la propia aplicación como de los otros
+complementos.
+
+Además de estas clases, se pueden añadir clases externas dentro del
+paquete \emph{libraries}.
+
+El paquete \emph{views} no tiene clases por el hecho de que las
+\emph{vistas} no son consideradas como clases en el patrón \emph{MVC},
+sino una mezcla de código HTML y PHP.
+
+Todos los complementos que se han instalado en la plataforma siguen esta
+estructura, sin embargo, al ser todos los componentes opcionales (salvo
+la clase principal), existen ciertas diferencias entre ellos.
+
+A continuación, por motivos de brevedad, se mostrarán únicamente los
+diagramas de clase de los seis complementos que se han desarrollado de
+forma exclusiva para el proyecto. Aquellos que contengan paquetes nuevos
+se explicará su significado.
+
+\imagen{pck-5}{Diagrama de clases del complemento \emph{AdminMenuDesign}.}{0.9}
+
+En el complemento \emph{AdminMenuDesign} se hace uso de un paquete
+nuevo:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.css}: almacena las hojas
+  de estilo \emph{CSS} utilizadas por las \emph{vistas} del complemento.
+\end{itemize}
+
+\imagen{pck-6}{Diagrama de clases del complemento \emph{AriadnePlusTracking}.}{0.9}
+
+En el complemento \textbf{\emph{AriadnePlusTracking}} se utilizan varios paquetes
+nuevos:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.libraries.AriadnePlusTracking}:
+  librería que implementa una nueva funcionalidad que permite ejecutar
+  en segundo plano el proceso de cambio de fase del ticket.
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.javascripts}: facilita
+  el uso de \emph{JavaScrip} dentro de las vistas del complemento.
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.file}: implementa la
+  carga de ficheros. En este caso se utiliza para el campo "JSON file of
+  your matchings to Getty AAT" del esquema Monitor.
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.forms}: implementa los
+  formularios de las \emph{vistas}.
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.common}: implementa
+  funcionalidades que se usan en varias \emph{vistas}.
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.plugins}: implementa la
+  página de configuración del complemento.
+\item
+  \emph{omeka.plugins.AriadnePlusTracking.views.images}: facilita el uso
+  de imágenes dentro de las \emph{vistas} del complemento.
+\end{itemize}
+
+\imagen{pck-7}{Diagrama de clases del complemento \emph{CENIEHExport}.}{0.9}
+
+En el complemento \textbf{\emph{CENIEHExport}} se hace uso de una nueva librería:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{ZipStream}: librería que permite comprimir varios ficheros
+  (.xml) en formato \emph{.zip} de forma dinámica, sin tener que
+  almacenar ningún fichero en el servidor.
+\end{itemize}
+
+\imagen{pck-8}{Diagrama de clases del complemento \emph{CollectionFiles}.}{0.9}
+
+En el complemento \textbf{\emph{CollectionFiles}} se utiliza una nueva librería:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{CollectionFiles}: librería que implementa todas las
+  funcionalidades que permiten asociar ficheros a colecciones.
+\end{itemize}
+
+Además, se utilizan dos paquetes nuevos:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka.plugins.CollectionFiles.models.Builder}: paquete utilizado
+  para implementar \emph{builders}. En este caso, implementa el
+  \emph{builder} para el objeto \emph{CollectionFile}.
+\item
+  \emph{omeka.plugins.CollectionFiles.models.Job}: paquete utilizado
+  para implementar \emph{jobs}. En este caso, el \emph{job} implementado
+  procesa la carga de ficheros.
+\end{itemize}
+
+\imagen{pck-9}{Diagrama de clases del complemento \emph{AutoDublinCore}.}{0.7}
+
+\imagen{pck-10}{Diagrama de clases del complemento \emph{TagsManager}.}{0.9}
 
 \section{Diseño procedimental}
 
-\section{Diseño arquitectónico}
+En este apartado se muestra cómo interactúan los principales componentes
+de la aplicación ante un determinado evento.
+
+En el diagrama de secuencia que se expone a continuación, se describe el
+funcionamiento interno de la aplicación ante una situación general donde
+el usuario accede a la aplicación para llevar a cabo una determinada
+acción.
+
+\imagen{dp-seq}{Diagrama de secuencia para un caso general.}{1}
+
+En este caso se presupone que tanto el \emph{controlador} como la
+\emph{acción} indicada por el usuario son válidas. En caso contrario, se
+enviarían las excepciones correspondientes.
+
+\section{Diseño de interfaces}
+
+Para la creación del complemento \textbf{\emph{AriadnePlusTracking}} se llevaron
+a cabo una serie de prototipos que sirvieron de ayuda visual en las
+fases posteriores de desarrollo.
+
+\imagen{index-prototipe}{Prototipos: página principal (\emph{ARIADNEplus Tracking})}{0.9}
+
+\imagen{new-prototipe}{Prototipos: creación de un ticket (\emph{ARIADNEplus Tracking})}{0.9}
+
+\imagen{phase-1-2-prototipe}{Prototipos: primera y segunda fase de un ticket (\emph{ARIADNEplus Tracking})}{0.9}
+
+\imagen{phase-3-4-prototipe}{Prototipos: tercera y cuarta fase de un ticket (\emph{ARIADNEplus Tracking})}{0.9}
+
+\imagen{phase-5-6-prototipe}{Prototipos: quinta y sexta fase de un ticket (\emph{ARIADNEplus Tracking})}{0.9}
 
 
