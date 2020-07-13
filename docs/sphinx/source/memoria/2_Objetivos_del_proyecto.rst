@@ -1,13 +1,18 @@
 ======================
 Objetivos del proyecto
 ======================
-En este apartado se indican, en primer lugar, los objetivos generales fijados durante el comienzo del proyecto. Seguido de estos, se describen los objetivos específicos, que constituyen los distintos pasos previos que se han tomado para alcanzar las metas previamente fijadas.
+En este apartado se indican, en primer lugar, los objetivos generales fijados durante el comienzo del proyecto. Seguido de estos, se describen los objetivos específicos, que se corresponden con los pasos previos que se han tomado para alcanzar las metas previamente fijadas.
 
 Objetivos generales
 -------------------
 
-- Integrar parte de los datos propuestos por el CENIEH en ARIADNEplus.
-- Diseñar e implementar una infraestructura *software* que permita gestionar los datos del CENIEH en la integración con ARIADNEplus.
+- Integrar parte de los conjuntos de datos propuestos por el CENIEH en *ARIADNEplus*.
+- Proporcionar al CENIEH una infraestructura *software* que permita:
+
+   - Gestionar sus (meta)datos en la integración con *ARIADNEplus*.
+   - Transformar sus esquemas de (meta)datos a un esquema estandarizado compatible con *ARIADNEplus*.
+   - Compartir los datos de forma que estos sean accesibles desde el exterior.
+   - Facilitar la integración de los (meta)datos en *ARIADNEplus*.
 
 Objetivos específicos
 ---------------------

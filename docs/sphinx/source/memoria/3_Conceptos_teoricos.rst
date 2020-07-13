@@ -7,21 +7,21 @@ Conceptos teóricos relativos a la investigación
 -----------------------------------------------
 En esta sección se definen todos aquellos conceptos relacionados con la investigación previa al desarrollo e implementación de la infraestructura *software* propuesta.
 
-ARIADNEplus
-~~~~~~~~~~~
-ARIADNEplus [#]_ es la continuación del proyecto ARIADNE [#]_, el cual fue fundado por la Comisión Europea en febrero de 2013. Nació con el propósito de estimular la investigación en áreas relacionadas con la arqueología mediante la integración de diversas infraestructuras de datos arqueológicas situadas en Europa. Fruto de este proyecto surgió un catálogo *on-line* de metadatos referentes a conjuntos de datos que incluían reportes no publicados, imágenes, mapas, bases de datos, y otros tipos de información arqueológica.
+*ARIADNEplus*
+~~~~~~~~~~~~~
+*ARIADNEplus* [#]_ es la continuación del proyecto *ARIADNE* [#]_, el cual fue fundado por la Comisión Europea en febrero de 2013. Nació con el propósito de estimular la investigación en áreas relacionadas con la arqueología mediante la integración de diversas infraestructuras de datos arqueológicas situadas en Europa. Fruto de este proyecto surgió un catálogo *on-line* de (meta)datos referentes a conjuntos de datos que incluían reportes no publicados, imágenes, mapas, bases de datos, y otros tipos de información arqueológica.
 
-Este segundo proyecto forma parte del programa H2020, fundado también por la Comisión Europea. El proyecto se encuentra en desarrollo desde enero de 2019 y tiene previsto una duración total de 48 meses. A través de ARIADNEplus, se actualizarán y extenderán los datos del catálogo *on-line* anterior añadiendo a los mismos dimensión geográfica y temporal. Además, se van a incorporar más organizaciones arqueológicas Europeas (entre ellas el CENIEH). También proveerá nuevos servicios en la nube para procesar y re-utilizar los datos incluidos en su portal.
+Este segundo proyecto forma parte del programa *H2020*, fundado también por la Comisión Europea. El proyecto se encuentra en desarrollo desde enero de 2019 y tiene previsto una duración total de 48 meses. A través de *ARIADNEplus*, se actualizarán y extenderán los datos del catálogo *on-line* anterior añadiendo a los mismos dimensión geográfica y temporal. Además, se van a incorporar más organizaciones arqueológicas Europeas (entre ellas el CENIEH). También proveerá nuevos servicios en la nube para procesar y re-utilizar los datos incluidos en su portal.
 
 CENIEH
 ~~~~~~
-El Centro Nacional de Investigación sobre la Evolución Humana, tambien conocido como CENIEH, es una Infraestructura Científica y Técnica Singular (ICTS) abierta al uso de la comunidad científica y tecnológica, en la que se desarrollan investigaciones en el ámbito de la evolución humana durante el Neógeno superior y Cuaternario, promoviendo la sensibilización y transferencia de conocimientos a la sociedad e impulsando y apoyando la realización y colaboración en excavaciones de yacimientos de estos periodos, tanto españoles como de otros países.
+El Centro Nacional de Investigación sobre la Evolución Humana [#]_, tambien conocido como CENIEH, es una Infraestructura Científica y Técnica Singular (ICTS) abierta al uso de la comunidad científica y tecnológica, en la que se desarrollan investigaciones en el ámbito de la evolución humana durante el Neógeno superior y Cuaternario, promoviendo la sensibilización y transferencia de conocimientos a la sociedad e impulsando y apoyando la realización y colaboración en excavaciones de yacimientos de estos periodos, tanto españoles como de otros países.
 
-Además, el CENIEH es responsable de la conservación, restauración, gestión y registro de las colecciones paleontológicas y arqueológicas procedentes de las excavaciones de Atapuerca y otros yacimientos tanto nacionales como internacionales de similares características [#]_.
+Además, el CENIEH es responsable de la conservación, restauración, gestión y registro de las colecciones paleontológicas y arqueológicas procedentes de las excavaciones de Atapuerca y otros yacimientos tanto nacionales como internacionales de similares características.
 
 CIR
 ^^^
-El CIR (CENIEH Institutional Repository) [#]_ es el repositorio bibliográfico institucional del CENIEH. Alberga toda la información fruto de la actividad investigadora desarrollada en el CENIEH como, por ejemplo, publicaciones científicas. Toda esta información está organizada en ítems que pertenecen a una colección, que a su vez pertenece a una comunidad. Cada ítem tiene asignado un conjunto de metadatos que describe al objeto que contiene.
+El CIR (CENIEH Institutional Repository) [#]_ es el repositorio bibliográfico institucional del CENIEH. Alberga toda la información fruto de la actividad investigadora desarrollada en el CENIEH como, por ejemplo, publicaciones científicas. Toda la información está organizada en ítems que pertenecen a una colección, que a su vez pertenece a una comunidad. Cada ítem tiene asignado un conjunto de metadatos que describen al objeto digital que contiene. El esquema de metadatos utilizado por la plataforma se le conoce como *Dublin Core*.
 
 Metadatos
 ~~~~~~~~~
@@ -108,7 +108,7 @@ El mapeo de datos consiste en crear asignaciones entre dos elementos que pertene
 
 Enriquecimiento de datos (*Data Enrichment*)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-El enriquecimiento de datos es el proceso mediante el cual se pretende mejorar la calidad de los datos sin necesidad de ser procesados. Durante este proceso, se fusionan los datos originales con datos de terceros provenientes de una determinada fuente autorizada externa. Para determinar las relación entre unos datos y otros, se suele hacer uso de herramientas auxiliares que permiten establecer dichas relaciones entre los elementos originales y los elementos externos.
+El enriquecimiento de datos es el proceso mediante el cual se pretende mejorar la calidad de los datos sin necesidad de ser procesados. Durante este proceso, se fusionan los datos originales con datos de terceros provenientes de una fuente autorizada externa. Para determinar las relación entre unos datos y otros, se suele hacer uso de herramientas auxiliares que permiten establecer dichas relaciones entre los elementos originales y los elementos externos.
 
 .. figure:: ../_static/images/enrichmentconcept.png
    :name: enrichmentconcept
@@ -118,13 +118,13 @@ El enriquecimiento de datos es el proceso mediante el cual se pretende mejorar l
 
    Proceso de enriquecimiento de datos.
 
-D4Science
-~~~~~~~~~
-D4Science [#]_ es una organización que ofrece una infraestructura de datos basada en entornos virtuales. El usuario cuenta con un espacio de trabajo virtual que le da la posibilidad de acceder a datos y compartir los suyos propios, además, también cuenta con herramientas y capacidad de cómputo para hacer uso de los datos en su proceso de investigación.
+*D4Science*
+~~~~~~~~~~~
+*D4Science* [#]_ es una organización que ofrece una infraestructura de datos basada en entornos virtuales. El usuario cuenta con un espacio de trabajo virtual que le da la posibilidad de acceder a datos y compartir los suyos propios, además, también cuenta con herramientas y capacidad de cómputo para hacer uso de los datos en su proceso de investigación.
 
-ARIADNEplus Gateway
-^^^^^^^^^^^^^^^^^^^
-ARIADNEplus cuenta con un portal en la plataforma *D4Science* denominado *ARIADNEplus Gateway* [#]_. En él tiene implementados varios entornos virtuales de investigación (VREs). Cada uno de ellos ofrece una serie de servicios que facilitan el proceso de integración a los miembros del proyecto. Actualmente, cuenta con tres entornos virtuales, cada uno de los cuales tiene un fin específico:
+*ARIADNEplus Gateway*
+^^^^^^^^^^^^^^^^^^^^^
+*ARIADNEplus* cuenta con un portal en la plataforma *D4Science* denominado *ARIADNEplus Gateway* [#]_. En él tiene implementados varios entornos virtuales de investigación (*VREs*). Cada uno de ellos ofrece una serie de servicios que facilitan el proceso de integración a los miembros del proyecto. Actualmente, cuenta con tres entornos virtuales, cada uno de los cuales tiene un fin específico:
 
 .. figure:: ../_static/images/d4scienceVREs.png
    :name: d4scienceVREs
@@ -208,52 +208,6 @@ El término *hooking* es utilizado para referirse a todas aquellas técnicas uti
 
    Ejemplo de *hook*
 
-Los *hooks* se encuentran distribuidos a lo largo de todo el código *Omeka*, evitando así tener que modificar el código original para poder añadir funcionalidades a la aplicación. Además, si sacan una nueva versión del producto, al tener nuestro código separado del original, podemos reincorporar todas las modificaciones tras actualizarlo.
-
-En aplicaciones como Omeka suelen existir dos tipos de *hooks*: *action hooks* y *filter hooks*.
-
-*Action hooks*
-^^^^^^^^^^^^^^
-A través de los *action hooks* podemos ejecutar nuestras propias funciones en un determinado punto. Por ejemplo, si queremos introducir un formulario en una página de Omeka, tendremos que utilizar el *action hook* alojado en dicha página para ejecutar nuestra función, la cual imprimirá el código del formulario HTTP. En este ejemplo, la función no retornaría nada ya que simplemente se limita a imprimir código, y es que en este tipo de *hooks* la función no tiene por qué devolver nada.
-
-En los archivos de Omeka se pueden localizar estos *hooks* buscando la función *fire_plugin_hook()*. Una vez encontrada, desde el *plugin* que estamos desarrollando, haciendo uso de la interfaz *Omeka_Plugin_AbstractPlugin* bastaría con añadir este *hook* a la lista *_hooks* e instanciar el método correspondiente, el cual siempre tiene la nomenclatura *hookNombreDelHook()*.
-
-.. figure:: ../_static/images/actionhooks.png
-   :name: actionhooks
-   :alt: Ejemplo de action hook
-   :scale: 100%
-   :align: center
-
-   Ejemplo de *action hook*
-
-En el ejemplo vemos como *fire_plugin_hook()* tiene dos parámetros de entrada, el primero indica el nombre del *hook* y el segundo almacena los argumentos de entrada que tendrá la función que almacena la acción.
-
-*Filter hooks*
-^^^^^^^^^^^^^^
-Los *filter hooks* nos permiten, al igual que los *action hooks*, ejecutar funciones personalizadas en un determinado punto. Sin embargo, el objetivo de estos es algo distinto ya que no pretenden modificar código sino alterar los datos de una determinada variable. Por tanto, las funciones implicadas deben tener un parámetro de entrada de forma que, desde el interior de nuestra función, modificaremos el valor de dicho parámetro y devolveremos el resultado.
-
-En los archivos de *Omeka* se pueden localizar estos *hooks* buscando la función *apply_filters()*. Una vez encontrada, existen dos formas de usar ese *filter hook*:
-
-1. Utilizando la interfaz *Omeka_Plugin_AbstractPlugin* podemos utilizar el *filter hook* añadiendo el nombre del filtro a la lista *_filters*. A continuación, habría que agregar el método público con el nombre *filter* seguido del nombre del filtro.
-
-.. figure:: ../_static/images/filterhooksA.png
-   :name: filterhooksA
-   :alt: Ejemplo de filter hook
-   :scale: 100%
-   :align: center
-
-   Ejemplo de *filter hook*
-
-2. Utilizando el método *add_filter()* podemos utilizar el *filter hook* pasando como primer parámetro el nombre del filtro implicado y como segundo parámetro la función que se ejecutará. En este caso el nombre de la función es personalizable. Además, se puede pasar un tercer parámetro para indicar la prioridad de nuestra función, es decir, si existiera más de un *plugin* utilizando ese mismo filtro, se ejecutaría la función de cada uno en función de su prioridad, de mayor a menor prioridad. Por defecto, todos los *filtros* de cada *plugin* tienen una prioridad de 10, por lo que el orden de ejecución se determina por la fecha de instalación, de más antiguos a más nuevos.
-
-.. figure:: ../_static/images/filterhooksB.png
-   :name: filterhooksB
-   :alt: Ejemplo de filter hook
-   :scale: 100%
-   :align: center
-
-   Segundo ejemplo de *filter hook*
-
 Prácticas ágiles
 ~~~~~~~~~~~~~~~~
 Durante esta fase, se han adoptado una serie de prácticas ágiles que han contribuído favorablemente al desarrollo del *software*. A continuación, se explica en qué consiste cada una de ellas.
@@ -278,7 +232,7 @@ El despliegue continuo (CD) se puede considerar como el siguiente paso a la inte
 
 Otros conceptos
 ---------------
-En este apartado se recogen todos aquellos conceptos que tienen cierta relevancia en el proyecto y no han sido explicados en secciones anteriores.
+En este apartado se recogen todos aquellos conceptos que tienen cierta relevancia en el proyecto y no han sido expuestos en secciones anteriores.
 
 *Dublin Core*
 ~~~~~~~~~~~~~
@@ -290,10 +244,10 @@ Dado que el modelo *Dublin Core* puede resultar algo escueto, se presenta como s
 
 Interoperabilidad
 ~~~~~~~~~~~~~~~~~~
-La interoperabilidad es la capacidad que tiene un sistema o producto de compartir datos y posibilitar el intercambio de información y conocimiento entre ellos [#]_. En lo que respecta a repositorios, se puede conseguir dicha capacidad haciendo uso de estándares como, por ejemplo, el protocolo OAI-PMH.
+La interoperabilidad es la capacidad que tiene un sistema o producto de compartir datos y posibilitar el intercambio de información y conocimiento entre ellos [#]_. En lo que respecta a repositorios, se puede conseguir dicha capacidad haciendo uso de estándares como, por ejemplo, el protocolo *OAI-PMH*.
 
-Protocolo OAI-PMH
-~~~~~~~~~~~~~~~~~
+Protocolo *OAI-PMH*
+~~~~~~~~~~~~~~~~~~~
 El protocolo *Open Archive Initiative-Protocol for Metadata Harvesting* (OAI-PMH) tiene como objetivo desarrollar y promover estándares de interoperabilidad que faciliten la difusión eficiente de contenidos en Internet. Permite transmitir metadatos entre diferentes tipos de infraestructuras *software* (repositorios, gestores, etc.) siempre y cuando éstos se codifiquen en *Dublin Core*.
 
 Gracias a que la aplicación escogida ofrece este servicio, haciendo uso del mismo se han podido recolectar todos los metadatos existentes en el CIR. Además, ARIADNEplus permite importar metadatos en su catálogo haciendo uso de este protocolo, por lo que su implantación también abre otro posible camino de importación.

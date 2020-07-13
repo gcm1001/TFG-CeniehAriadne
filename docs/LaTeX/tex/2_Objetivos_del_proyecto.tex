@@ -1,19 +1,36 @@
 \capitulo{2}{Objetivos del proyecto}
 
-Para alcanzar las metas fijadas durante el desarrollo del proyecto, he planteado los siguientes objetivos:
+En este apartado se indican, en primer lugar, los objetivos generales
+fijados durante el comienzo del proyecto. Seguido de estos, se describen
+los objetivos específicos, que se corresponden con los pasos previos que
+se han tomado para alcanzar las metas previamente fijadas.
 
 \section{Objetivos generales}\label{obj.gen}
 
 \begin{itemize}
 \tightlist
 \item
-Diseñar e implementar una infraestructura software que contribuya a realizar, de manera eficiente, los procesos de importación, gestión, modelado y exportación de los datos ya existentes en el CENIEH. 
+  Integrar los conjuntos de datos propuestos por el CENIEH en
+  \emph{ARIADNEplus}.
 \item
-Supervisar que todos los procesos cumplan con los requisitos establecidos por AriadnePlus.
-\item
-Crear un esquema de metadatos común para todas las colecciones que sea compatible entre ambas plataformas y facilite las tareas de gestión e importación de los datos.
-\item
-Adaptar todos los recursos y servicios del sistema al usuario objetivo de forma que pueda hacer uso de ellos sin ningún tipo de dificultad.
+  Proporcionar al CENIEH una infraestructura \emph{software} que
+  permita:
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    Gestionar sus (meta)datos en la integración con \emph{ARIADNEplus}.
+  \item
+    Transformar sus esquemas de (meta)datos a un esquema estandarizado
+    compatible con \emph{ARIADNEplus}.
+  \item
+    Compartir los datos de forma que estos sean accesibles desde el
+    exterior.
+  \item
+    Facilitar la integración de los (meta)datos en \emph{ARIADNEplus}.
+  \end{itemize}
+  \end{quote}
 \end{itemize}
 
 \section{Objetivos específicos}\label{obj.esp}
@@ -21,25 +38,59 @@ Adaptar todos los recursos y servicios del sistema al usuario objetivo de forma 
 \begin{itemize}
 \tightlist
 \item
-Desarrollar un gestor de contenidos que cumpla con un mínimo de requisitos:
-\begin{itemize}
-\tightlist
-\item 
-Haga uso de un esquema de metadatos compatible con \emph{CIDOC-CRM} o alguna de sus variantes utilizadas en el proyecto como \emph{ACDM} o \emph{AO-CAT}.
+  Estudiar el proyecto ARIADNEplus, poniendo especial incapié en el
+  proceso de integración de los datos.
 \item
-Implemente el protocolo de interoperabilidad \emph{OAI-PMH} (Open Archive Initiative-Protocol for Metadata Harvesting).
+  Estudiar todos los conjuntos de datos involucrados en el proyecto.
 \item
-Cuente con un sistema de importación y exportación de metadatos con formato \emph{.csv} y \emph{.xml}.
+  Diseñar e implementar un esquema de metadatos que satisfaga las
+  necesidades de ambas partes, es decir, pueda ser transformado al
+  modelo objetivo (\emph{AO-CAT}) y, además, tenga la capacidad de
+  representar fehacientemente los conjuntos de datos propuestos por el
+  CENIEH.
 \item
-Interfaz amigable e intuitiva adaptada al usuario objetivo.
-\end{itemize}
+  Encontrar una aplicación \emph{software} que cumpla con un mínimo de
+  requisitos:
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    Sea \emph{software} libre.
+  \item
+    Tolere un esquema de metadatos compatible con \emph{CIDOC-CRM} o
+    alguna de sus variantes utilizadas por ARIADNEplus como \emph{ACDM}
+    o \emph{AO-CAT}.
+  \item
+    Cuente con un sistema de importación y exportación de metadatos.
+  \end{itemize}
+  \end{quote}
 \item
-Diseñar e implementar un esquema de metadatos en formato \emph{.xml} que satisfaga las necesidades de ambas partes, es decir, ser compatible con \emph{CIDOC-CRM} | \emph{ACDM} | \emph{AO-CAT} y además, tenga la capacidad de representar los conjuntos de datos que posee el CENIEH.
+  Adaptar la aplicación seleccionada a las necesidades del proyecto a
+  través del desarrollo de complementos (\emph{plugins}).
 \item
-Utilizar como sistema de documentación continua '\emph{Read the Docs}'.
+  Estudio y uso de \emph{Zend Framework}.
 \item
-Trabajar con '\emph{Docker}' para facilitar el despliegue de la infraestructura sobre el servidor.
+  Aplicar la arquitectura MVC
+  (\emph{Model}-\emph{View}-\emph{Controller}) en el desarrollo de los
+  \emph{plugins}.
 \item
-Hacer uso de las herramientas existentes en la plataforma \emph{AriadnePlus Gateway}.
+  Estudio y uso de lenguajes empleados para el desarrollo web como
+  \emph{PHP}, \emph{HTML}, \emph{JavaScript}, \emph{jQuery} y
+  \emph{CSS}.
+\item
+  Aplicar técnicas de integración continua a través de herramientas como
+  \emph{GitHub Actions} o \emph{Codacy}.
+\item
+  Utilizar bases de datos relacionales MySQL (MariaDB).
+\item
+  Trabajar con \emph{Docker} para facilitar el despliegue de la
+  infraestructura sobre los entornos de trabajo.
+\item
+  Aprender a utilizar el conjunto de herramientas alojadas en los entornos de investigación
+  virtuales emph{VRES} de la infraestructura \emph{D4Science}, en concreto, \emph{Vocabulary
+  Matching Tool} y \emph{X3ML Mapping Tool}.
+\item
+  Utilizar como sistema de documentación continua \emph{Read the Docs}.
 \end{itemize}
 
