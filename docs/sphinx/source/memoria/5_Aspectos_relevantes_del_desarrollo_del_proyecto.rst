@@ -8,7 +8,7 @@ Ciclo de vida del proyecto
 --------------------------
 El 01 de febrero de 2020 se inició este proyecto con el objetivo de llevar a cabo el proceso de integración de los datos del CENIEH en ARIADNEplus. Adicionalmente, se propuso implantar en el CENIEH una infraestructura *software* mediante la cual los investigadores del CENIEH fueran capaces de llevar a cabo las tareas de integración por sí solos. De esta manera, a través de la infraestructura propuesta, serían capaces de continuar con las labores de integración una vez concluido el periodo de colaboración entre el CENIEH y la UBU.
 
-El proyecto tiene una duración total de 5 meses, lo que significa que el 01 de julio de 2020 finalizaron las tareas implicadas en el proyecto. Sin embargo, las tareas de integración se siguieron llevando a cabo desde el CENIEH hasta el 31 de julio de 2020, fecha en la que se da por concluido el periodo de colaboración.
+El proyecto ha tenido una duración total de 5 meses, lo que significa que el 01 de julio de 2020 finalizaron las tareas implicadas en el proyecto. Sin embargo, las tareas de integración se siguieron llevando a cabo desde el CENIEH hasta el 31 de julio de 2020, fecha en la que se da por concluido el periodo de colaboración.
 
 Las fases en las que se puede dividir el proyecto son:
 
@@ -234,17 +234,71 @@ Recordemos que en la fase anterior se anotaron todos los aspectos relevantes del
 
 *Omeka* como aplicación principal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Desarrollar desde 0 una infraestructura *software* que cumpliera con todos los requisitos propuestos no era viable debido a la limitación temporal del proyecto. Por este motivo, se decidió utilizar *software* de terceros que cumpliera con un mínimo de **requisitos**:
+Desarrollar desde cero una infraestructura *software* que cumpliera con todos los requisitos propuestos no era viable debido a la limitación temporal del proyecto. Por este motivo, se decidió utilizar *software* de terceros que cumpliera con un mínimo de **requisitos**:
 
 - Permitir la **gestión de metadatos**: los archivos de información involucrados son metadatos, por tanto, se necesita un sistema que permita realizar todo tipo de tareas de gestión sobre este tipo de datos.
 - Disponer de **herramientas de importación y exportación**: los datos de origen necesitarán ser importados a la plataforma para realizar sobre ellos las operaciones oportunas. Una vez gestionados, deberán ser exportados para someterlos al proceso de integración.
-- Ser **software libre**: este requisito era fundamental ya que, para poder adaptar la infraestructura a las necesidades del proyecto, se debe tener total libertad de ejecutar, copiar, distribuir, estudiar, modificar y mejorar el *software*.
+- Ser **software libre**: este requisito era fundamental ya que, para poder adaptar la infraestructura a las necesidades del proyecto, se debe tener total libertad a la hora de ejecutar, copiar, distribuir, estudiar, modificar y mejorar el *software*.
 
-Se consideraron varios productos *software* para acabar escogiendo `Omeka Classic <https://omeka.org/classic/>`__. Fueron muchos los motivos por los que se decidió escoger esta aplicación, de entre todos ellos destaca la facilidad con la que se pueden añadir nuevas funcionalidades (extensibilidad). Esto se debe gracias al sistema de complementos o *plugins* que tiene implementado, mediante el cual desarrolladores externos a la aplicación pueden crear sus propias funcionalidades y acoplarlas a esta sin necesidad de modificar el código original.
+Se consideraron varios productos *software* para acabar escogiendo `Omeka Classic <https://omeka.org/classic/>`__. Una de las características que hacen de la aplicación una magnífica plataforma para el proyecto es su **escalabilidad**. Gracias a su sistema de **complementos** o *plugins*, cualquier programador tiene la posibilidad de adaptarla a sus necesidades individuales sin necesidad de modificar el código base de la aplicación.
 
 Actualmente, *Omeka* cuenta con una gran cantidad de *plugins* disponibles tanto en su `página oficial <https://omeka.org/classic/plugins/>`__ como en `Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__. Esto es posible gracias a la extensa comunidad de usuarios que le respalda. Parte de esos *plugins* se han podido utilizar para adaptar la infraestructura a las necesidades del proyecto, sin embargo, se han tenido que desarrollar nuevos *plugins* para cubrir requisitos específicos. Además, se han llevado a cabo modificaciones sobre alguno de los *plugins* de terceros utilizados.
 
 Por tanto, parte de las tareas de esta fase están relacionadas con la creación y modificación de *plugins* para *Omeka*.
+
+Adaptación de la plataforma
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Los complementos o *plugins* son capaces de añadir nuevas funcionalidades a *Omeka* gracias a que esta tiene implementado un sistema de ganchos o *hooks*. Estos nos permiten acoplar código en puntos específicos del flujo de ejecución de la aplicación, evitando así tener que alterar el código base de esta.
+
+Dentro de la aplicación se pueden encontrar dos tipos distintos de *hooks*: *hooks* de acción y filtros (*filters*).
+
+*Hooks* de acción
+*****************
+Este tipo de *hook* permite añadir la ejecución de funciones en puntos de ejecución específicos.
+
+Por ejemplo, en el caso de que se quiera introducir un formulario en una página de *Omeka*, se debería utilizar el *action hook* alojado en dicha página para ejecutar la función encargada de imprimir el código HTML del formulario. En este ejemplo, la función no retornaría nada ya que se limita a imprimir código, y es que en este tipo de *hooks* la función no tiene por qué devolver nada.
+
+En los archivos de Omeka se pueden localizar estos *hooks* buscando la función *fire_plugin_hook()*. Una vez encontrada, desde el *plugin* que estamos desarrollando, haciendo uso de la interfaz *Omeka_Plugin_AbstractPlugin*, bastaría con añadir este *hook* a la lista *_hooks* e instanciar el método correspondiente, el cual siempre tiene la nomenclatura *hook<NombreDelHook>()*.
+
+.. figure:: ../_static/images/actionhooks.png
+   :name: actionhooks
+   :alt: Ejemplo de hook de acción
+   :scale: 100%
+   :align: center
+
+   Ejemplo de hook de acción
+
+En el ejemplo vemos como *fire_plugin_hook()* tiene dos parámetros de entrada, el primero indica el nombre del *hook* y el segundo almacena los argumentos de entrada que tendrá la función que almacena la acción.
+
+Filtros (*Filters*)
+*******************
+Los filtros permiten, al igual que los *hooks* de acción, ejecutar funciones propias en puntos específicos de la aplicación. Sin embargo, el objetivo de estos es algo distinto ya que no pretenden modificar código sino alterar los datos de una determinada variable.
+
+Las funciones implicadas deben tener un parámetro de entrada y otro de salida de forma que, desde el interior de la función, se procesa el valor de entrada y se devuelve el valor resultante.
+
+En los archivos de *Omeka* se pueden localizar estos *hooks* buscando la función *apply_filters()*. Una vez encontrada, existen dos formas de usar ese filtro:
+
+1. Utilizando la interfaz *Omeka_Plugin_AbstractPlugin* es posible utilizar el filtro añadiendo su nombre a la lista *_filters*. A continuación, se añadiría el método público con el nombre *filter* seguido del nombre del filtro.
+
+.. figure:: ../_static/images/filterhooksA.png
+   :name: filterhooksA
+   :alt: Ejemplo de filter hook
+   :scale: 100%
+   :align: center
+
+   Ejemplo de *filter hook*
+
+2. Utilizando el método *add_filter()*, se puede utilizar el filtro pasando como primer parámetro el nombre del filtro implicado y como segundo parámetro la función que se ejecutará. En este caso, el nombre de la función es personalizable.
+   Además, se puede pasar un tercer parámetro para indicar la prioridad de nuestro *hook*, es decir, si existiera más de un *plugin* utilizando ese mismo filtro, se ejecutaría la función de cada uno en función de su prioridad, de mayor a menor prioridad.
+   Por defecto, todos los *filtros* de cada *plugin* tienen una prioridad de 10, por lo que el orden de ejecución se determina por la fecha de instalación, de más antiguos a más nuevos.
+
+.. figure:: ../_static/images/filterhooksB.png
+   :name: filterhooksB
+   :alt: Ejemplo de filter hook
+   :scale: 100%
+   :align: center
+
+   Segundo ejemplo de *filter hook*
 
 Entornos de trabajo
 ~~~~~~~~~~~~~~~~~~~
@@ -281,7 +335,7 @@ Sobre el servidor de producción no se ha podido automatizar el despliegue debid
    :scale: 70%
    :align: center
 
-   Despliegue "semi-continuo" de la aplicación.
+   Despliegue "semi-continuo" de la aplicación
 
 Como solución a este inconveniente, se automatizó por separado la compilación y publicación de la imagen *Docker* asociada a nuestra aplicación. De esta manera, cada vez que se cometía un cambio sobre la rama *main*, se ejecutaba dicho proceso, actualizando la imagen publicada en el repositorio de *DockerHub*.
 Finalizado el proceso, se accedía al servidor de producción y se desplegaba manualmente la infraestructura. Durante el despliegue, se recogían las imágenes desde *DockerHub*, incluyendo la imagen actualizada de nuestra aplicación.
