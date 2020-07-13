@@ -226,5 +226,5 @@ La tecnología `Docker <https://www.docker.com/>`__ permite desplegar una aplica
 
 *Kustomize*
 ~~~~~~~~~~~
-`Kustomize <https://github.com/kubernetes-sigs/kustomize>`__ es una herramienta que permite personalizar objetos de la plataforma *Kubernetes* a través de un archivo de personalización.
+`Kustomize <https://github.com/kubernetes-sigs/kustomize>`__ es una herramienta que permite operar sobre objetos de la plataforma *Kubernetes* a través de un archivo de personalización.
 
