@@ -63,43 +63,6 @@ jobs:
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
         docker push "gcr.io/$PROJECT_ID/$IMAGE:latest"
-    - name: Delete old secrets
-      run: |-
-        kubectl delete secret omeka-db
-        kubectl delete secret omeka-imap
-        kubectl delete secret omeka-snmp
-    - name: Create new secrets
-      run: |-
-        kubectl create secret generic omeka-db \
-        --from-literal=user-password=$DB_PASSWORD \
-        --from-literal=root-password=$DB_ROOT_PASSWORD \
-        --from-literal=username=$DB_USERNAME \
-        --from-literal=database=$DB_DATABASE
-        kubectl create secret generic omeka-imap \
-        --from-literal=host=$IMAP_HOST \
-        --from-literal=username=$IMAP_USERNAME \
-        --from-literal=password=$IMAP_PASSWORD \
-        --from-literal=port=$IMAP_PORT
-        --from-literal=ssl=$IMAP_SSL
-        kubectl create secret generic omeka-snmp \
-        --from-literal=host=$SNMP_HOST \
-        --from-literal=username=$SNMP_USERNAME \
-        --from-literal=password=$SNMP_PASSWORD \
-        --from-literal=port=$SNMP_PORT
-        --from-literal=ssl=$SNMP_SSL
-    - name: Delete old configMaps
-      run: |-    
-        kubectl delete configmap db-config
-        kubectl delete configmap imap-config
-        kubectl delete configmap snmp-config
-    - name: Create new configMaps
-      run: |-    
-        kubectl create configmap db-config \
-        --from-file ./configFiles/db.ini
-        kubectl create configmap imap-config \
-        --from-file ./configFiles/imap.ini
-        kubectl create configmap snmp-config \
-        --from-file ./configFiles/config.ini.modificar
     - name: Set up Kustomize
       run: |-
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
