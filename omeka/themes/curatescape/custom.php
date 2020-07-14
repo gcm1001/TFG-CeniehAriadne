@@ -108,12 +108,12 @@ function mh_theme_css($media='all'){
 */
 function mh_item_label($which=null){
 	if($which=='singular'){
-		return ($singular=get_theme_option('item_label_singular')) ? $singular : __('Record');
+		return ($singular=get_theme_option('item_label_singular')) ? $singular : __('Item');
 	}
 	elseif($which=='plural'){
-		return ($plural=get_theme_option('item_label_plural')) ? $plural : __('Records');
+		return ($plural=get_theme_option('item_label_plural')) ? $plural : __('Items');
 	}else{
-		return __('Record');
+		return __('Item');
 	}
 }
 
@@ -233,7 +233,7 @@ function random_item_link($text=null,$class='show',$hasImage=true){
 
 	if( count( $randitems ) > 0 ){
 		$link = link_to( $randitems[0], 'show', $text, array( 'class' => 'random-story-link ' . $class ) );
-	}else{
+	} else{
 		$link = link_to( '/', 'show', __('Publish some items to activate this link'),
 			array( 'class' => 'random-story-link ' . $class ) );
 	}
@@ -942,14 +942,15 @@ function mh_the_text($item='item',$options=array()){
 	$dc_desc = metadata($item, array('Dublin Core', 'Description'),$options);
 	$primary_text = element_exists('Item Type Metadata','Story') ? metadata($item,array('Item Type Metadata', 'Story'),$options) : null;
 
-	return $primary_text ? replace_br($primary_text) : ($dc_desc ? replace_br($dc_desc) : null);
+	return $primary_text ? replace_br($primary_text) : ($dc_desc ? replace_br($dc_desc) : 'Meta description tag missing or empty');
 }
 
 /*
 ** Title
 */
 function mh_the_title($item='item'){
-	return '<h1 class="title">'.strip_tags(metadata($item, array('Dublin Core', 'Title')), array('index'=>0)).'</h1>';
+        $title = metadata($item, array('Dublin Core', 'Title'));
+	return '<h1 class="title">'.html_escape($title).'</h1>';
 }
 
 
@@ -1085,12 +1086,8 @@ function mh_official_website($item='item'){
 }
 
 function mh_show_all_exist_metadata(){
-
-	$html='<h2>Show all metadata</h2>';
-	$html.='<p>En mantenimiento</p>';
-
-	#$html.='<div>'.metadata('item',array('Dublin Core', 'Subject'), 'all').'</div>';
-	return $html;
+    
+	return '';
 }
 /*
 ** Display the street address
@@ -2004,15 +2001,6 @@ function mh_home_cta($html=null){
 	}
 }
 
-
-function mh_home_when($html=null){
-
-	$html = '<h3 class="result-type-header">'.__('When').'</h3>';
-	$html.= '<p><b> En mantenimiento. </b></p> ';
-	return $html;
-
-}
-
 function mh_footer_cta($html=null){
 	$footer_cta_button_label=get_theme_option('footer_cta_button_label');
 	$footer_cta_button_url=get_theme_option('footer_cta_button_url');
@@ -2154,7 +2142,6 @@ function homepage_widget_sections(){
 		$meta=0;
 		$cta=0;
 
-		$html.=  '<section id="home-when">'.mh_home_when().'</section>';
 		foreach(array(homepage_widget_1(),homepage_widget_2(),homepage_widget_3(),homepage_widget_4()) as $setting){
 			switch ($setting) {
 			    case 'featured':

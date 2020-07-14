@@ -29,7 +29,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
         $this->_ticketTable = get_db()->getTable('AriadnePlusTrackingTicket');
     }
     
-    protected function _getMail($mailconfig){
+    protected function _getMail($mailconfig)
+    {
         if(empty($this->_mail)){
           $this->_mail = new Zend_Mail_Storage_Imap(array(
                 'host'     => $mailconfig->host,
@@ -329,7 +330,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $args Record Identifier and Record Type
      * @return string Body Mail
      */
-    protected function _generateBodyMail($args){
+    protected function _generateBodyMail($args)
+    {
         $record_id = $args['record_id'];
         $record_type = $args['record_type'];
         $mode = $args['mode'];
@@ -375,7 +377,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $record
      * @return int 
      */
-    public function recordInTrackingTicket($record){
+    public function recordInTrackingTicket($record)
+    {
         $result = $this->_ticketTable->findBy(array('record_id' => $record->id));
         if($result){
             return 1;
@@ -397,7 +400,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $status Status
      * @return int Level
      */
-    public function getLevelStatus($status){
+    public function getLevelStatus($status)
+    {
         switch($status){
             case 'Proposed':
                 return 0;
@@ -423,7 +427,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * 
      * @return type Dublin Core Element Names
      */
-    public function getMandatoryDCElements(){
+    public function getMandatoryDCElements()
+    {
         $mandatoryElements = json_decode(get_option('ariadneplus_tracking_mandatory_elements'), true) ?: array();
         
         return !empty($mandatoryElements) ? array_keys($mandatoryElements['Dublin Core'], 1) : array();
@@ -434,7 +439,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * 
      * @return type Element names
      */
-    public function getAllElementNames(){
+    public function getAllElementNames()
+    {
         $statusElements = $this->getStatusElements(true);
         $names = [];
         foreach($statusElements as $element){
@@ -449,7 +455,8 @@ class AriadnePlusTracking_View_Helper_Tracking extends Zend_View_Helper_Abstract
      * @param type $name Element name
      * @return type Terms
      */
-    public function getTermsByName($name){
+    public function getTermsByName($name)
+    {
         $statusElements = $this->getStatusElements(true);
         foreach($statusElements as $element){
             if($element['element']->name == $name){

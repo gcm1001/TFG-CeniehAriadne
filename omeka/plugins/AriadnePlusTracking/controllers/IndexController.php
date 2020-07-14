@@ -388,7 +388,7 @@ class AriadnePlusTracking_IndexController extends Omeka_Controller_AbstractActio
      */
     private function _getOptionsForSelectCollection()
     {
-        $collections = get_records( 'Collection', array('sort_field' => 'id', 'sort_dir' => 'a'),9999);
+        $collections = get_records( 'Collection', array('sort_field' => 'id', 'sort_dir' => 'a'),0);
         $options = array('' => __('Select below'));
         foreach ($collections as $collection) {
             if($this->_isValidNewRecord($collection,false)){
@@ -410,7 +410,7 @@ class AriadnePlusTracking_IndexController extends Omeka_Controller_AbstractActio
      */
     private function _getOptionsForSelectItem()
     {
-        $items = get_records( 'Item', array('sort_field' => 'id', 'sort_dir' => 'a'),9999);
+        $items = get_records( 'Item', array('sort_field' => 'id', 'sort_dir' => 'a'), 0);
         $options = array('' => __('Select below'));
         foreach ($items as $item) {
             if($this->_isValidNewRecord($item,false)){

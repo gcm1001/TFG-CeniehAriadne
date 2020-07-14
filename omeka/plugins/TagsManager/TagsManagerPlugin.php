@@ -32,26 +32,45 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         }
     }
     
+    /**
+     * Install the plugin.
+     */
     public function hookInstall() {
         set_option('tagsmanager_sync', true);
         set_option('tagsmanager_delbutton', true);
     }
     
+    /**
+     * Uninstall the plugin.
+     */
     public function hookUninstall() {
         delete_option('tagsmanager_sync');
         delete_option('tagsmanager_delbutton');
     }
 
+    /**
+     * Uninstall the plugin.
+     */
     public function hookConfigForm($args) {
         include 'config_form.php';
     }
     
+    /**
+     * Shows plugin configuration page.
+     *
+     * @return void
+     */
     public function hookConfig($args) {
         $post = $args['post'];
         set_option('tagsmanager_sync', $post['sync']);
         set_option('tagsmanager_delbutton', $post['delbutton']);
     }
     
+    /**
+     * Adds the delete button into tags page.
+     *
+     * @return void
+     */
     function hookAdminTagsBrowse($args) {
         if (get_option('tagsmanager_delbutton') && is_allowed('Tags', 'delete')) {
             $request = Zend_Controller_Front::getInstance()->getRequest();
@@ -64,7 +83,12 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
             $this->_p_html("<script>jQuery(window).ready( function() { jQuery('#del-tags').click(function(){ return confirm('Are you sure you want to ".strtolower($buttonName)."?'); }); });</script>");
         }
     }
-    
+
+    /**
+     * Hook used after save item.
+     *
+     * @param array $args
+     */
     function hookAfterSaveItem($args) {
         if (get_option('tagsmanager_sync')) {
             $item = $args['record'];
@@ -91,6 +115,11 @@ class TagsManagerPlugin extends Omeka_Plugin_AbstractPlugin {
         }
     }
     
+    /**
+     * Prints HTML code.
+     * 
+     * @param type $html HTML code
+     */
     private function _p_html($html){ ?>
       <?= $html ?> <?php
     }

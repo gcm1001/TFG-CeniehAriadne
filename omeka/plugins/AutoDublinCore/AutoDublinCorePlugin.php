@@ -5,7 +5,9 @@
  */
 class AutoDublinCorePlugin extends Omeka_Plugin_AbstractPlugin
 {
-
+    /**
+     * @var array Hooks for the plugin.
+     */
     protected $_hooks = array(
         'install',
         'uninstall',
@@ -24,18 +26,34 @@ class AutoDublinCorePlugin extends Omeka_Plugin_AbstractPlugin
         'auto_source_link' => 'https://cir.cenieh.es/handle/',
     );
     
+   /**
+    * Install the plugin.
+    */   
     public function hookInstall() {
         $this->_installOptions();
     }
     
+    /**
+     * Uninstall the plugin.
+     */
     public function hookUninstall() {
         $this->_uninstallOptions();
     }
-
+    
+    /**
+     * Shows plugin configuration page.
+     *
+     * @return void
+     */
     public function hookConfigForm($args) {
         include 'config_form.php';
     }
     
+    /**
+     * Processes the configuration form.
+     *
+     * @return void
+     */
     public function hookConfig($args) {
         $post = $args['post'];
         set_option('auto_ispartof', html_escape($post['auto_ispartof']));
@@ -43,6 +61,11 @@ class AutoDublinCorePlugin extends Omeka_Plugin_AbstractPlugin
         set_option('auto_source_link', html_escape($post['auto_source_link']));
     }
     
+    /**
+     * Hook used after save item.
+     *
+     * @param array $args
+     */
     public function hookAfterSaveItem($args) {
       
         $item = $args['record']; // Ítem
@@ -74,7 +97,12 @@ class AutoDublinCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
         }
      }
-
+     
+    /**
+     * Hook used after save collection.
+     *
+     * @param array $args
+     */
      public function hookAfterSaveCollection($args) {
           $collection = $args['record'];
           if(empty(metadata($collection, array('Dublin Core', 'Identifier')))){

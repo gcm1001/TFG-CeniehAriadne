@@ -27,7 +27,7 @@ $elementId = array_key_first($statusTermsElements);
                     jQuery('#' + section + '-metadata checkbox').attr('disabled',true);
                     jQuery('#' + section + '-metadata button').attr('readonly',true);
                     jQuery('#' + section + '-metadata input').attr('disabled',true);
-                    jQuery('#' + section + '-metadata select').attr('readonly',true);
+                    jQuery('#' + section + '-metadata select').attr('disabled',true);
                 }
 
         <?php endforeach; ?> 

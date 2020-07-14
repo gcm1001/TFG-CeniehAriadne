@@ -10,41 +10,54 @@ var TIMEOUT_RENEW = 60000; //ms
 
 (function ($) {
   
-    Omeka.Tickets.configScripts = function () {
-        $('#show-hide-table').click( function(e){
+    Omeka.Tickets.configScripts = function () 
+    {
+        $('#show-hide-table').click( function(e)
+        {
             e.preventDefault();
             toggleButton($('#hide-elements-table'),$(this));
             
         });
-        $('#show-mandatory-table').click( function(e){
+        
+        $('#show-mandatory-table').click( function(e)
+        {
             e.preventDefault();
             toggleButton($('#mandatory-elements-table'),$(this));
         });
-        $('#show-elements-table').click( function(e){
+        
+        $('#show-elements-table').click( function(e)
+        {
             e.preventDefault();
             toggleButton($('#elements-table'),$(this));
         });
         
-        function toggleButton(table, button){
+        function toggleButton(table, button)
+        {
           table.toggle('slow');
           button.html(button.html() === 'Hide' ? 'Show ' : 'Hide');
         }
     };  
-    Omeka.Tickets.hideShowCompleteItems = function (type,id,elementId) {
+    
+    Omeka.Tickets.hideShowCompleteItems = function (type,id,elementId)
+    {
         var param1 = "record_type=" + type;
         var param2 = type.toLowerCase() + "=" + id;
-        $('#hide-items').click( function(e){
+        
+        $('#hide-items').click( function(e)
+        {
             e.preventDefault();
             var param3 = "advanced[0][element_id]="+elementId+"&advanced[0][type]=is+not+exactly&advanced[0][terms]=Complete";
             document.location.search = param1 + "&" + param2 + "&" + param3;
         });
+        
         $('#show-items').click( function(e){
             e.preventDefault();
             document.location.search = param1 + "&" + param2;
         });
     };
   
-    Omeka.Tickets.notifications = function () {
+    Omeka.Tickets.notifications = function () 
+    {
         var level = $('input#ticket-type').val();
         $.notify.addStyle('mandatoryWarn', {
           html: 
@@ -59,12 +72,14 @@ var TIMEOUT_RENEW = 60000; //ms
             "</div>"
         });
         
-        $(document).on('click', '.notifyjs-mandatoryWarn-base .no', function() {
+        $(document).on('click', '.notifyjs-mandatoryWarn-base .no', function()
+        {
             $(this).trigger('notify-hide');
             return false;
         }); 
      
-        $(document).on('click', '.notifyjs-mandatoryWarn-base .yes', function() {
+        $(document).on('click', '.notifyjs-mandatoryWarn-base .yes', function() 
+        {
             $(this).trigger('notify-hide');
             if(level == 3){
                $('form#form-phase-3').delay(1000).submit();
@@ -78,7 +93,8 @@ var TIMEOUT_RENEW = 60000; //ms
             }
         }); 
         
-        $('#next-btn').click(function(e){
+        $('#next-btn').click(function(e)
+        {
             if(level == 2){
                 e.preventDefault();
                 var mode = $('#mode');
@@ -116,7 +132,6 @@ var TIMEOUT_RENEW = 60000; //ms
                 } else {
                   $('form#form-phase-3').submit();
                 };
-            
             } else if (level == 4){
                 var regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gi;
                 e.preventDefault();
@@ -132,7 +147,8 @@ var TIMEOUT_RENEW = 60000; //ms
             };
         });
         
-        $('#renew-btn').click( function(e){
+        $('#renew-btn').click( function(e)
+        {
             e.preventDefault();
             Swal.fire({
               title: 'Are you sure?',
@@ -181,115 +197,124 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.stageNotification = function (items) {
-      if ($('.success')[0]){
-          var level = $('input#ticket-type').val();
-          var extraTimeout = (level == 3 || level == 4) ? 6500 : 0;
-          Swal.fire({
-              title: 'Wait please!',
-              html: 'Validating information...',
-              timer: TIMEOUT_PHASE,
-              timerProgressBar: false,
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              allowEnterKey: false,
-              onBeforeOpen: () => {
-                Swal.showLoading()
-                timerInterval = setInterval(() => {
-                  const content = Swal.getContent()
-                  if (content) {
-                    const b = content.querySelector('b')
-                    if (b) {
-                      b.textContent = Swal.getTimerLeft()
+    Omeka.Tickets.stageNotification = function () 
+    {
+        if ($('.success')[0]){
+            var level = $('input#ticket-type').val();
+            var extraTimeout = (level == 3 || level == 4) ? 6500 : 0;
+            Swal.fire({
+                title: 'Wait please!',
+                html: 'Validating information...',
+                timer: TIMEOUT_PHASE,
+                timerProgressBar: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                onBeforeOpen: () => {
+                  Swal.showLoading()
+                  timerInterval = setInterval(() => {
+                    const content = Swal.getContent()
+                    if (content) {
+                      const b = content.querySelector('b')
+                      if (b) {
+                        b.textContent = Swal.getTimerLeft()
+                      }
                     }
-                  }
-                }, 100)
-              },
-              onClose: () => {
-                clearInterval(timerInterval);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Timeout!',
-                    showConfirmButton:true,
-                });
-              }
-          });
-          var loading = setInterval(frame, 50);
-          $('#content').load(location.href + " " + '#content > *');
-          setTimeout(function(){
-            var detect = setInterval(function(){
-                var actual = $('#ticket-type').val();
-                if(actual == -1){
-                  $('#content').load(location.href + " " + '#content > *');
-                } else {
-                  clearInterval(detect);
-                  clearInterval(loading);
-                  sendMessage(actual);
+                  }, 100)
+                },
+                onClose: () => {
+                  clearInterval(timerInterval);
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Timeout!',
+                      showConfirmButton:true,
+                  });
                 }
-            },2000);
-          }, 200 + extraTimeout);
-          
-          function sendMessage(actual) {
-              if(level == actual || actual == 1){
-                  Swal.fire({
-                        icon: 'error',
-                        title: 'Stage not completed!',
-                        showConfirmButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        allowEnterKey: false,
-                  });
+            });
+            var loading = setInterval(frame, 50);
+
+            $('#content').load(location.href + " " + '#content > *');
+
+            setTimeout(function()
+            {
+              var detect = setInterval(function(){
+                  var actual = $('#ticket-type').val();
+                  if(actual == -1){
+                    $('#content').load(location.href + " " + '#content > *');
+                  } else {
+                    clearInterval(detect);
+                    clearInterval(loading);
+                    sendMessage(actual);
+                  }
+              },2000);
+            }, 200 + extraTimeout);
+
+            function sendMessage(actual) 
+            {
+                if(level == actual || actual == 1){
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Stage not completed!',
+                          showConfirmButton:false,
+                          allowOutsideClick: false,
+                          allowEscapeKey: false,
+                          allowEnterKey: false,
+                    });
+                } else {
+                    Swal.fire({
+                          icon: 'success',
+                          title: 'Stage completed!',
+                          showConfirmButton:false,
+                          allowOutsideClick: false,
+                          allowEscapeKey: false,
+                          allowEnterKey: false,
+                    });
+                };
+                setTimeout(function(){
+                    window.location.reload();
+                }, 2000);
+            };
+
+            var width = 0;
+            var r = 8;
+            var phase = 100/6;
+
+            function frame() 
+            {
+              if (width >= 100) {
+                width = 0;
+                jQuery("li[id^=phase-]").removeClass('activated');
               } else {
-                  Swal.fire({
-                        icon: 'success',
-                        title: 'Stage completed!',
-                        showConfirmButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        allowEnterKey: false,
-                  });
-              };
-              setTimeout(function(){
-                  window.location.reload();
-              }, 2000);
-          };
-          
-          var width = 0;
-          var r = 8;
-          var phase = 100/6;
-          function frame() {
-            if (width >= 100) {
-              width = 0;
-              jQuery("li[id^=phase-]").removeClass('activated');
-            } else {
-              if(width >= 0 + r){
-                jQuery("#phase-1").addClass('activated');
+                if(width >= 0 + r){
+                  jQuery("#phase-1").addClass('activated');
+                }
+                if(width >= phase + r){
+                  jQuery("#phase-2").addClass('activated');
+                }
+                if(width >= 2*phase + r){
+                  jQuery("#phase-3").addClass('activated');
+                }
+                if(width >= 3*phase + r){
+                  jQuery("#phase-4").addClass('activated');
+                }
+                if(width >= 4*phase + r){
+                  jQuery("#phase-5").addClass('activated');
+                }
+                if(width >= 5*phase + r){
+                  jQuery("#phase-6").addClass('activated');
+                }
+                width++;
+                jQuery(".phase-bar").width(width + "%");
               }
-              if(width >= phase + r){
-                jQuery("#phase-2").addClass('activated');
-              }
-              if(width >= 2*phase + r){
-                jQuery("#phase-3").addClass('activated');
-              }
-              if(width >= 3*phase + r){
-                jQuery("#phase-4").addClass('activated');
-              }
-              if(width >= 4*phase + r){
-                jQuery("#phase-5").addClass('activated');
-              }
-              if(width >= 5*phase + r){
-                jQuery("#phase-6").addClass('activated');
-              }
-              width++;
-              jQuery(".phase-bar").width(width + "%");
-            }
-          };
-      };
+            };
+        };
    
     };
       
-    Omeka.Tickets.inboxFunctions = function () {
-        $('li.dialog__item.j-dialog__item').click(function () {
+    Omeka.Tickets.inboxFunctions = function () 
+    {
+        $('li.dialog__item.j-dialog__item').click(function () 
+        {
             $('li.dialog__item.j-dialog__item').removeClass('selected');
             $(this).addClass('selected');
             $('.sidebar').removeClass('active');
@@ -305,7 +330,8 @@ var TIMEOUT_RENEW = 60000; //ms
             $(this).find('.dialog_unread_counter').text('');
         });
         
-        $('button.open_sidebar.j-open_sidebar').click(function () {
+        $('button.open_sidebar.j-open_sidebar').click(function () 
+        {
             $('li.dialog__item.j-dialog__item').removeClass('selected');
             $('.sidebar').addClass('active');
             $('.chatinitialtwo').hide();
@@ -313,26 +339,31 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.inboxModal = function () {
+    Omeka.Tickets.inboxModal = function () 
+    {
         var inboxModal = $("#inbox-modal");
         var btnInbox = $("#btn-inbox-modal");
         var spanInbox = $("#inbox.close");
         
-        btnInbox.click(function() {
+        btnInbox.click(function()
+        {
             inboxModal.show();
         });
         
-        spanInbox.click(function() {
+        spanInbox.click(function()
+        {
             inboxModal.hide();
         });
         
-	$('.frame').click(function(){
+	$('.frame').click(function()
+        {
             $('.top-mail').addClass('open-mail');
             $('.message').addClass('pull-mail');
             $('.close-mail').show(3000);
         });
         
-        $('#edit-msg-body').click(function(e){
+        $('#edit-msg-body').click(function(e)
+        {
             e.preventDefault();
             $('div#default-content').hide();
             $('input#send-button').hide();
@@ -340,35 +371,40 @@ var TIMEOUT_RENEW = 60000; //ms
             $('input#save-button').show();
         });
         
-        $('#edit-msg-to').click(function(e){
+        $('#edit-msg-to').click(function(e)
+        {
             e.preventDefault();
             $('#email-default').removeAttr('readonly');
             $(this).hide();
             $('#save-msg-to').show();
         });
         
-        $('#save-msg-to').click(function(e){
+        $('#save-msg-to').click(function(e)
+        {
             e.preventDefault();
             $('#email-default').attr('readonly','readonly');
             $(this).hide();
             $('#edit-msg-to').show();
         });
         
-        $('#save-msg-subject').click(function(e){
+        $('#save-msg-subject').click(function(e)
+        {
             e.preventDefault();
             $('#subject-default').attr('readonly','readonly');
             $(this).hide();
             $('#edit-msg-subject').show();
         });
         
-        $('#edit-msg-subject').click(function(e){
+        $('#edit-msg-subject').click(function(e)
+        {
             e.preventDefault();
             $('#subject-default').removeAttr('readonly');
             $(this).hide();
             $('#save-msg-subject').show();
         });
         
-        $('#save-button').click(function(e){
+        $('#save-button').click(function(e)
+        {
             e.preventDefault();
             var content = $('.editor').html();
             $('div#msg-content').html(content);
@@ -379,38 +415,45 @@ var TIMEOUT_RENEW = 60000; //ms
             $('input#send-button').show();
         });
         
-        $('#msg-content').click(function(){
+        $('#msg-content').click(function()
+        {
             $(this).notify("Read only", "warn");
         });
         
-        $('input').click(function(){
+        $('input').click(function()
+        {
             if($(this).attr("readonly")){
               $(this).notify("Read only", "warn");
             }
         });
         
-        $(window).click(function(event) {
+        $(window).click(function(event)
+        {
           if ($(event.target).is(inboxModal)) {
                 inboxModal.hide();
             };
         });
     };
     
-    Omeka.Tickets.msgModal = function () {
+    Omeka.Tickets.msgModal = function ()
+    {
         var modal = $("#mail-modal");
         var close = $("#close-button");
         var btn = $("#btn-mail-modal");
         var span = $("#mail.close");
                 
-        btn.click(function() {
+        btn.click(function()
+        {
             modal.show();
         });
         
-        span.click(function() {
+        span.click(function()
+        {
             modal.hide();
         });
         
-        $(window).click(function(event) {
+        $(window).click(function(event)
+        {
             if ($(event.target).is(modal) || $(event.target).is(close)) {
                 modal.hide();
                 $('.top-mail').removeClass('open-mail');
@@ -420,8 +463,10 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
       
-    Omeka.Tickets.msgEditor = function () {
-        $('button').click(function(){
+    Omeka.Tickets.msgEditor = function ()
+    {
+        $('button').click(function()
+        {
             var id = $(this).attr('id');
             switch(id){
               case "createLink":
@@ -441,27 +486,31 @@ var TIMEOUT_RENEW = 60000; //ms
                 break;
             }
             refreshes();
-          });
+        });
 
-          $('.editor').keyup(function(){
-              refreshes();
-          });
+        $('.editor').keyup(function()
+        {
+            refreshes();
+        });
       
-          function buttoncommand(nom, argument){
-            if (typeof argument === 'undefined') {
-              argument = '';
-            }
-            document.execCommand(nom, false, argument);
+        function buttoncommand(nom, argument)
+        {
+          if (typeof argument === 'undefined') {
+            argument = '';
           }
+          document.execCommand(nom, false, argument);
+        }
 
-          function refreshes(){
-            var val = $('.editor').html();
-            $('.htmlview').text(val);
-          }
+        function refreshes()
+        {
+          var val = $('.editor').html();
+          $('.htmlview').text(val);
+        }
     };
     
     Omeka.Tickets.validateUrl = function(field, type = 'url') {
-        field.change(function(){
+        field.change(function()
+        {
             var value = $(this).val();
             var regex = /.*/;
             if(type === 'url'){
@@ -484,20 +533,23 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.selectExportFormat = function(type, oailink, xmllink) {
+    Omeka.Tickets.selectExportFormat = function(type, oailink, xmllink)
+    {
         $linkbutton = $('.download-xml-button');
         $selectlabel = $('#export-label');
         $changemode = $('#change-mode');
         $submitmode = $('#submit-mode');
         
-        var changeMode = function(){
+        var changeMode = function()
+        {
             $selectlabel.show();
             $linkbutton.hide();
             $changemode.hide();
             $submitmode.hide();
         };
         
-        var setMode = function($mode){
+        var setMode = function($mode)
+        {
             if($mode === 'OAI-PMH'){
                 if(type == 'Collection'){
                   var link = oailink;
@@ -523,24 +575,28 @@ var TIMEOUT_RENEW = 60000; //ms
             $submitmode.show();
         };
         
-        $('#mode').change(function(){
+        $('#mode').change(function()
+        {
             setMode($(this).val());
         });
         
-        $('#change-mode').click(function(event){
+        $('#change-mode').click(function(event)
+        {
             event.preventDefault();
             changeMode();
         });
         
-        if($('#value-mode').val()){
+        if($('#value-mode').val()) {
             $("#mode").val($('#value-mode').val());
             setMode($("#mode").val())
         }; 
         
     };
     
-    Omeka.Tickets.validateMapping = function(field) {
-        field.change(function(){
+    Omeka.Tickets.validateMapping = function(field) 
+    {
+        field.change(function()
+        {
             var value = $(this).val();
             var regex = /^Mapping\/[0-9]{1,}$/i;
             if(value.match(regex)){
@@ -557,27 +613,31 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.helperModal = function() {
+    Omeka.Tickets.helperModal = function()
+    {
         var modal = $("#help-modal");
         var btn = $("#btn-help-modal");
         var span = $("#help.close");
-        var container = $("#div-helper");
         
-        btn.click(function() {
+        btn.click(function()
+        {
             modal.show();
         });
         
-        span.click(function() {
+        span.click(function()
+        {
             modal.hide();
         });   
         
-        $(window).click(function(event) {
+        $(window).click(function(event)
+        {
             if (modal.is(event.target) && modal.has(event.target).length === 0) {
                 modal.hide();
             };
         });
         
-        $('#send-button').click(function(e){
+        $('#send-button').click(function(e)
+        {
               e.preventDefault();
               var msg = $('input#msg_content').val();
               if($.trim(msg).length > 0){
@@ -594,43 +654,47 @@ var TIMEOUT_RENEW = 60000; //ms
         });
         var animTime = 300,clickPolice = false;
   
-        $(document).on('touchstart click', '.acc-btn', function(){
-          if(!clickPolice){
-             clickPolice = true;
+        $(document).on('touchstart click', '.acc-btn', function()
+        {
+            if(!clickPolice){
+                clickPolice = true;
+                var currIndex = $(this).index('.acc-btn'),
+                  targetHeight = $('.acc-content-inner').eq(currIndex).outerHeight();
 
-            var currIndex = $(this).index('.acc-btn'),
-                targetHeight = $('.acc-content-inner').eq(currIndex).outerHeight();
-            
-            if($(this).find('h4.selected')[0]) {
-                $('.acc-btn h4').removeClass('selected');
-                $('.acc-content').stop().animate({ height: 0 }, animTime);
-            } else {
-                $('.acc-btn h4').removeClass('selected');
-                $(this).find('h4').addClass('selected');
-                $('.acc-content').stop().animate({ height: 0 }, animTime);
-                $('.acc-content').eq(currIndex).stop().animate({ height: targetHeight }, animTime);
-            }
-            
-            setTimeout(function(){ clickPolice = false; }, animTime);
-          };
-
+                if($(this).find('h4.selected')[0]) {
+                    $('.acc-btn h4').removeClass('selected');
+                    $('.acc-content').stop().animate({ height: 0 }, animTime);
+                } else {
+                    $('.acc-btn h4').removeClass('selected');
+                    $(this).find('h4').addClass('selected');
+                    $('.acc-content').stop().animate({ height: 0 }, animTime);
+                    $('.acc-content').eq(currIndex).stop().animate({ height: targetHeight }, animTime);
+                }
+                setTimeout(function(){ clickPolice = false; }, animTime);
+            };
         });
     };
     
-    Omeka.Tickets.notifyStatus = function() {
-        $('tr.incomplete').click(function(){
+    Omeka.Tickets.notifyStatus = function() 
+    {
+        $('tr.incomplete').click(function()
+        {
             $(this).notify("Incomplete",{ 
                         className: 'error' ,
                         position: 'right'
             });
         });
-        $('tr.complete').click(function(){
+        
+        $('tr.complete').click(function()
+        {
             $(this).notify("Complete", {
                         className: 'success',
                         position: 'right'
             });
         });
-        $('tr.proposed').click(function(){
+        
+        $('tr.proposed').click(function()
+        {
             $(this).notify("Proposed",{
                         className: 'info',
                         position: 'right'
@@ -638,14 +702,16 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.removeTicket = function() {
-      
-        $("#ariadne-tickets tbody tr td:not(:last-child)").click( function () {
+    Omeka.Tickets.removeTicket = function()
+    {
+        $("#ariadne-tickets tbody tr td:not(:last-child)").click( function ()
+        {
              var row_id = $(this).parent('tr').index();
             $('#form-row-'+row_id).submit();
         });
         
-        $('.table-remove').click(function () {
+        $('.table-remove').click(function ()
+        {
             var row = $(this).closest('tr');
             Swal.fire({
               title: 'Are you sure?',
@@ -677,14 +743,16 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.newForm = function () {
+    Omeka.Tickets.newForm = function ()
+    {
         var type = jQuery("#record-type");
         var typeval;
         var record;
         var recordval;
         var selectedrecord = jQuery(".selected-record");
 
-        $(".first").click(function (event) {
+        $(".first").click(function (event)
+        {
             typeval = type.val();
             if (typeval === '') {
                 Swal.fire({
@@ -706,7 +774,8 @@ var TIMEOUT_RENEW = 60000; //ms
             event.preventDefault();
         });
         
-        $('.second.back').click(function (event){
+        $('.second.back').click(function (event)
+        {
             if(typeval === "Collection"){
                 $("#record-id-item").show();
             } else {
@@ -717,13 +786,15 @@ var TIMEOUT_RENEW = 60000; //ms
             event.preventDefault();
         });
         
-        $('.third.back').click(function (event){
+        $('.third.back').click(function (event)
+        {
             $(".container-step").removeClass("third third-active-area");
             $(".container-step").addClass("second second-active-area");
             event.preventDefault();
         });
         
-        $(".second.next").click(function (event) {
+        $(".second.next").click(function (event)
+        {
             recordval = record.val();
             if (recordval === '') {
                 Swal.fire({
@@ -741,7 +812,8 @@ var TIMEOUT_RENEW = 60000; //ms
             event.preventDefault();
         });
         
-        $("#new-button").click(function (e) {
+        $("#new-button").click(function (e)
+        {
             e.preventDefault();
             var category = $('#ariadne-category').val();
             if (category === '') {
@@ -797,42 +869,44 @@ var TIMEOUT_RENEW = 60000; //ms
         });
     };
     
-    Omeka.Tickets.ticketCreated = function() {
-      if ($('.success')[0]){
-        Swal.fire({
-            icon: 'success',
-            title: 'Done!',
-            text: 'Your ticket has been created.',
-            showConfirmButton:true,
-        });
-      };
-      if ($('.error')[0]){
-        Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: 'Something has gone wrong.',
-            showConfirmButton:true,
-        });
-      };
+    Omeka.Tickets.ticketCreated = function()
+    {
+        if ($('.success')[0]){
+            Swal.fire({
+                icon: 'success',
+                title: 'Done!',
+                text: 'Your ticket has been created.',
+                showConfirmButton:true,
+            });
+        };
+        if ($('.error')[0]){
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Something has gone wrong.',
+                showConfirmButton:true,
+            });
+        };
     };
     
-    Omeka.Tickets.categorySelect = function () {
-      $('#ariadne-category').change( function(){
-        var val = $(this).val();
-        $('.ariadne-category').hide();
-        if(val === '0'){
-          $('#cat-sites').show();
-        } else if (val === '1' || val === '2') {
-          $('#cat-event').show();
-        } else if (val === '3' || val === '4') {
-          $('#cat-scientific').show();
-        } else if (val === '5' || val === '7') {
-          $('#cat-artefact').show();
-        } else if (val === '6') {
-          $('#cat-artefact').show();
-        } else if (val === '8') {
-          $('#cat-burial').show();
-        };
-      });
+    Omeka.Tickets.categorySelect = function ()
+    {
+        $('#ariadne-category').change( function(){
+            var val = $(this).val();
+            $('.ariadne-category').hide();
+            if(val === '0'){
+              $('#cat-sites').show();
+            } else if (val === '1' || val === '2') {
+              $('#cat-event').show();
+            } else if (val === '3' || val === '4') {
+              $('#cat-scientific').show();
+            } else if (val === '5' || val === '7') {
+              $('#cat-artefact').show();
+            } else if (val === '6') {
+              $('#cat-artefact').show();
+            } else if (val === '8') {
+              $('#cat-burial').show();
+            };
+        });
     };
 })(jQuery);

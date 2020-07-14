@@ -8,7 +8,7 @@
         <img alt="ARIADNE+ Logo" id="ariadnelogo" src="<?= html_escape(img('ariadne-tracking-logo.png')); ?>" />
         <p><?= __('Track, manage and organize your data integrations to'); ?> <br> ARIADNEplus.</p>
     </div>
-  <h2><?= __('Step 1: Select an existing ticket...'); ?></h2>
+    <h2><?= __('Step 1: Select an existing ticket...'); ?></h2>
     <section class="ten columns alpha omega">
         <div class="element-set">
             <div id='ariadne-log-panel' class="panel">
@@ -23,7 +23,7 @@
                             $browseHeadings[__('User')] = 'user';
                             $browseHeadings[__('Status')] = 'status';?>
                             <?= browse_sort_links($browseHeadings, array('link_tag' => 'th scope="col"', 'list_tag' => '')); ?>
-                          <th> Action </th>
+                            <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,21 +39,21 @@
                                     <?= html_escape($ticket->record_type); ?>  
                                     <?= html_escape($ticket->record_id); ?>
                                 </a>
-                              <div class="record-title"><?= html_escape($ticket->displayCurrentTitle()); ?></div>
+                                <div class="record-title"><?= html_escape($ticket->displayCurrentTitle()); ?></div>
                                 <form id="form-row-<?= html_escape(($key-1)); ?>" method="post"><input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
-                                <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" /></form>
+                                    <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" />
+                                </form>
                             </td>
                             <td><?= html_escape($ticket->displayUser()); ?></td>
                             <td><?= html_escape($ticket->displayStatus()); ?></td>
-                          <td style="width:35px;">
-                            <form id="form-remove-<?= html_escape(($key-1)); ?>" method="post" action="<?= html_escape(url('ariadne-plus-tracking/index/remove'))?>">
-                              <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" />
-                              <input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
-                            </form>
-                            <span class="delete-row table-remove remove-lg">x</span>
-                          </td>
+                            <td style="width:35px;">
+                                <form id="form-remove-<?= html_escape(($key-1)); ?>" method="post" action="<?= html_escape(url('ariadne-plus-tracking/index/remove'))?>">
+                                    <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" />
+                                    <input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
+                                </form>
+                                <span class="delete-row table-remove remove-lg">x</span>
+                            </td>
                         </tr>
-                        </form>
                         <?php endforeach; ?>
                     </tbody>
                 </table>

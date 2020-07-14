@@ -2,7 +2,6 @@
 /**
  * Collection Files Plugin
  *
- * @copyright Copyright 2020 , Gonzalo Cuesta Marín.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
  */
 class CollectionFilesPlugin extends Omeka_Plugin_AbstractPlugin

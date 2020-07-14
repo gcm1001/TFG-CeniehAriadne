@@ -104,7 +104,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     /**
      * Install the plugin.
      */
-    public function hookInstall() {
+    public function hookInstall()
+    {
         // Load elements to add.
         require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'elements.php';
         $elementSet = get_record('ElementSet', array('name' => $elementSetMetadata['name']));
@@ -128,7 +129,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         // JSON Element
         $hideSettings = json_decode(get_option('hide_elements_settings'), true);
         if(!isset($hideSettings['form']['Monitor'])){
-            $hideSettings['form']['Monitor'] = array('Metadata Status' => '1','GettyAAT mapping' => '1', 'Ghost SPARQL' => '1');
+            $hideSettings['form']['Monitor'] = array('Metadata Status' => '1','GettyAAT mapping' => '1', 'Ghost SPARQL' => '1', 'ARIADNEplus Category' => '1');
         }
         set_option('hide_elements_settings', json_encode($hideSettings));
         
@@ -170,7 +171,14 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
     }
 
-    protected function _actualizeOptions($args){
+    /**
+     * Actualize options.
+     * 
+     * @param type $args ElementSets & Elements
+     * @return boolean 
+     */
+    protected function _actualizeOptions($args)
+    {
         $elset = $args['elset'];
         $elements = $args['elements'];
         
@@ -214,9 +222,9 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_options['ariadneplus_tracking_mandatory_elements'] = json_encode($this->_options['ariadneplus_tracking_mandatory_elements']);
         $this->_options['ariadneplus_tracking_hide_elements'] = json_encode($this->_options['ariadneplus_tracking_hide_elements']);
         $this->_installOptions();
-        
         return true;
     }
+    
     /**
      * Helper to add new element automatically.
      */
@@ -427,7 +435,10 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
-    
+    /**
+     * Hook for define routes.
+     * 
+     */
     public function hookDefineRoutes($args)
     {
         if (!is_admin_theme()) {
@@ -447,6 +458,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                     'id' => '\d+',
         )));
     }
+    
     /**
      * Shows plugin configuration page.
      *
@@ -480,7 +492,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     }
 
     /**
-     * TrackingTicketes the configuration form.
+     * Processes the configuration form.
      *
      * @return void
      */
@@ -541,7 +553,10 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $this->_adminItemsBrowseDisplay($args, 'simple');
     }
-
+    
+    /**
+     * Add the specified fields in the specified part.
+     */
     public function hookAdminItemsBrowseDetailedEach($args)
     {
         $this->_adminItemsBrowseDisplay($args, 'detailed');
@@ -701,7 +716,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
 
         $element = $args['element'];
         $view = $args['view'];
-
+                                
         $statusElement = $view->tracking()->getStatusElement($element->id);
 
         $html = '';
@@ -850,9 +865,6 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     /**
      * Modify the Monitor tab in the admin > items > edit page.
      *
-     * @todo Use the controller (see SimpleVocab). Currently, use a hack and
-     * a regex is fine because the admin theme can't be really changed.
-     *
      * @return array of tabs
      */
     public function filterAdminItemsFormTabs($tabs, $args)
@@ -891,6 +903,10 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         return $tabs;
     }
     
+    /**
+     *  Modify the Monitor tab in the admin > collections > edit page.
+     * 
+     */
     public function filterAdminCollectionsFormTabs($tabs, $args)
     {
         $record = $args['collection'];
@@ -936,11 +952,11 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
     }
   
     /**
+     * Show info about the last change.
      * 
-     * @param type $args
-     * @return type
      */
-    protected function _lastChange($args){
+    protected function _lastChange($args)
+    {
         $view = $args['view'];
         $record = $args['record'];
         $listElements = $args['listElements'];
@@ -1261,7 +1277,17 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $post = $args['post'];
         if(!empty($post)){
             $status = metadata($item,array('Monitor','Metadata Status'));
-            if(!$status) return;
+            if(empty($status)){
+                $collectionId =  $post['collection_id'];
+                $collection = get_record_by_id('Collection', $collectionId);
+                if($collection){
+                    $colStatus = metadata($collection, array('Monitor', 'Metadata Status'));
+                    if(!empty($colStatus) && ($colStatus != 'Proposed' && $colStatus != 'Incomplete')){
+                        $item->addError('Collection', 'The collection '.$collectionId.' is being integrated into ARIADNEplus. No more items can be added.');
+                    }
+                }
+                return;
+            }
             if($this->isset_file('file')) {
                 $jsonfiles = $this->_db->getTable('File')->findByItem($item->id);
                 $file = array_pop($jsonfiles);
@@ -1298,7 +1324,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args
      */
-    public function hookAfterSaveItem($args){
+    public function hookAfterSaveItem($args)
+    {
         $item = $args['record'];
         if ($this->isset_file('file')) {
             if(!empty(metadata($item, array('Monitor','Metadata Status')))){
@@ -1327,7 +1354,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
-    protected function isset_file($name){
+    protected function isset_file($name)
+    {
         return empty($name) ? false : isset($_FILES[$name]);
     }
     
@@ -1336,7 +1364,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args
      */
-    public function hookAdminCollectionsShowSidebar($args){
+    public function hookAdminCollectionsShowSidebar($args)
+    {
         $collection = $args['collection'];
         $view = $args['view'];
         $this->_printStatus(array('record'=> $collection, 'view' => $view,
@@ -1348,7 +1377,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args
      */
-    public function hookAdminItemsShowSidebar($args){
+    public function hookAdminItemsShowSidebar($args)
+    {
         $item = $args['item'];
         $view = $args['view'];
         $this->_printStatus(array('record'=> $item, 'view' => $view, 
@@ -1360,7 +1390,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $record
      */
-    protected function _printStatus($args){
+    protected function _printStatus($args)
+    {
         $record = $args['record'];
         $view = $args['view'];
         $status = metadata($record,array('Monitor','Metadata Status'));
@@ -1385,7 +1416,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args
      */
-    public function hookAdminItemsPanelFields($args){
+    public function hookAdminItemsPanelFields($args)
+    {
         $item = $args['record'];
         $view = $args['view'];
         $status = metadata($item, array('Monitor', 'Metadata Status'));
@@ -1436,7 +1468,13 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
-    private function _printRestrictScripts($args){
+    /**
+     * Prints restrict scripts.
+     * 
+     * @param type $args Sections & View
+     */
+    private function _printRestrictScripts($args)
+    {
       $this->_p_html(common('restrict-scripts', array(
             'sections' => $args['sections'],
             'view' => $args['view'],)));
@@ -1471,7 +1509,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args 
      */
-    public function hookAfterDeleteItem($args){
+    public function hookAfterDeleteItem($args)
+    {
         $item = $args['record'];
         $view = get_view();
         $collection = get_collection_for_item($item);
@@ -1492,7 +1531,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $args 
      */
-    protected function _updateCollectionStatus($args){
+    protected function _updateCollectionStatus($args)
+    {
         $collection = $args['collection'];
         $actualStatus = $args['status'];
         $view = $args['view'];
@@ -1535,7 +1575,8 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * @param type $html HTML code
      */
-    private function _p_html($html){ ?>
+    private function _p_html($html)
+    { ?>
       <?= $html ?> <?php
     }
 }
