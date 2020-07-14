@@ -3,7 +3,7 @@
   on:
     push:
       branches:
-        - develop
+        - master
       paths-ignore:
         - 'docs/**'
         
