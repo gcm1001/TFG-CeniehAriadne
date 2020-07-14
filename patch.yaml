@@ -25,12 +25,54 @@ spec:
             secretKeyRef:
               name: omeka-db
               key: database
-        volumeMounts:
-        - name: db-config
-          mountPath: /var/www/html/db.ini
-          subPath: db.ini
+        - name: IMAP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: omeka-imap
+              key: host
+        - name: IMAP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: omeka-imap
+              key: username
+        - name: IMAP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: omeka-imap
+              key: password
+        - name: IMAP_PORT
+          valueFrom:
+            secretKeyRef:
+              name: omeka-imap
+              key: port
+        - name: IMAP_SSL
+          valueFrom:
+            secretKeyRef:
+              name: omeka-imap
+              key: ssl
+        - name: SNMP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: omeka-snmp
+              key: host
+        - name: SNMP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: omeka-snmp
+              key: username
+        - name: SNMP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: omeka-snmp
+              key: password
+        - name: SNMP_PORT
+          valueFrom:
+            secretKeyRef:
+              name: omeka-snmp
+              key: port
+        - name: SNMP_SSL
+          valueFrom:
+            secretKeyRef:
+              name: omeka-snmp
+              key: ssl
       restartPolicy: Always
-      volumes:
-        - name: db-config
-          configMap:
-            name: db-config
