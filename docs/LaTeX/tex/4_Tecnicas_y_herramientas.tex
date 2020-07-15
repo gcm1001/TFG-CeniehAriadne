@@ -9,7 +9,7 @@ contribuyen al desarrollo y mantenimiento de productos \emph{software}.
 Por ello, está catalogado como una metodología ágil, la cual se
 caracteriza por trabajar con un ciclo de vida iterativo e incremental,
 donde se va liberando el producto \emph{software} de forma periódica a
-través de {sprints} (iteraciones).
+través de {sprints} (iteraciones) \cite{scrum:guide}.
 
 \section{Cliente de control de versiones}
 
@@ -25,10 +25,10 @@ través de {sprints} (iteraciones).
   Herramienta elegida: \href{https://www.gitkraken.com/}{Gitkraken}.
 \end{itemize}
 
-GitKraken es un cliente para el control de versiones {Git} que nos
-permite realizar todas y cada una de las tareas propias de {Git} a
+\emph{GitKraken} es un cliente para el control de versiones \emph{Git} que nos
+permite realizar todas y cada una de las tareas propias de \emph{Git} a
 través de una intuitiva y elegante interfaz gráfica. Además, incorpora
-funciones adicionales como {GitFlow}, que nos permite gestionar las
+funciones adicionales como \emph{GitFlow}, que nos permite gestionar las
 diferentes ramificaciones del proyecto. De entre todas las opciones
 posibles es, en mi opinión, la más competente tanto en diseño como en
 funcionalidad.
@@ -44,7 +44,7 @@ funcionalidad.
   Herramienta elegida: \href{https://github.com/}{GitHub}.
 \end{itemize}
 
-Github es el servicio de {hosting} de Git más utilizado para albergar
+\emph{Github} es el servicio de \emph{hosting} de \emph{Git} más utilizado para albergar
 repositorios de código en la nube. El hecho de que cuente con una enorme
 comunidad de usuarios y que además ofrezca servicios exclusivos y
 gratuitos a estudiantes, lo convierte en la mejor opción posible. Alguno
@@ -71,16 +71,17 @@ colaboradores por repositorio y código propietario entre otros.
 flexible y de código abierto. Su misión principal es la publicación de
 colecciones digitales provenientes de bibliotecas, museos o cualquier
 tipo de institución que pretenda difundir su patrimonio cultural, como
-es el caso del CENIEH. Los motivos principales por los que se ha
+es el caso del \emph{CENIEH}. Los motivos principales por los que se ha
 decidido escoger esta aplicación son:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
+\tightlist
 \item
-  Se distribuye bajo una Licencia Pública General (GNU), con lo cual su
+  Se distribuye bajo una Licencia Pública General (\emph{GNU}), con lo cual su
   distribución, uso y modificación es libre.
 \item
-  Utiliza un entorno PHP-MySQL (Fácil despliegue sobre el servidor)
+  Utiliza un entorno \emph{PHP-MySQL} (Fácil despliegue sobre el servidor)
 \item
   Basado en estándares internacionalmente aceptados como \emph{Dublin
   Core} o \emph{W3C}.
@@ -114,10 +115,10 @@ Windows y otras) que implementa el protocolo HTTP/1.1 y HTTP2. Alguna de
 sus características más importantes son: su configuración e instalación
 es bastante sencilla, puede ser extendido o adaptado a través de
 módulos, incorpora funciones para la autentificación y validación de
-usuarios, y da soporte a varios lenguajes de programación como PHP y
-Python.
+usuarios, y da soporte a varios lenguajes de programación como \emph{PHP} y
+\emph{Python}.
 
-\section{MySQL}
+\section{\emph{MySQL}}
 
 \href{https://www.mysql.com/}{MySQL} es uno de los sistemas de gestión
 de base de datos más utilizados en la actualidad. Gestiona bases de
@@ -131,19 +132,19 @@ utilizado con diferencia PHP.
 \subsection{\emph{Zend Framework}}
 
 \href{https://framework.zend.com/}{Zend Framework} (ZF) es un
-\emph{framework} de PHP desarrollado por la compañia \emph{Zend
+marco de trabajo de \emph{PHP} desarrollado por la compañia \emph{Zend
 Technologies}, principal responsable del mantenimiento del lenguaje de
-programación PHP. A través de ZF se pueden desarrollar aplicaciones web
-de una forma mucho más rápida y sencilla que utilizando PHP puro. Como
-características más destacables, aporta componentes que se pueden
+programación \emph{PHP}. A través de \emph{ZF} se pueden desarrollar aplicaciones web
+de una forma mucho más rápida y sencilla que utilizando PHP puro. Alguna
+de sus características son: aporta componentes que se pueden
 reutilizar en el código base de la aplicación, emplea el patrón de
-diseño MVP, con las ventajas que eso conlleva, y permite escalar la
+diseño \emph{MVP} (con las ventajas que eso conlleva), y permite escalar la
 aplicación web con el concepto de módulos (\emph{plugins}).
 
 \subsection{\emph{PHPUnit}}
 
 \href{https://phpunit.de/}{PHPUnit} es un \emph{framework} utilizado
-para desarrollar pruebas unitarias sobre aplicaciones basadas en PHP. Es
+para desarrollar pruebas unitarias sobre aplicaciones basadas en \emph{PHP}. Es
 un proyecto \emph{open-source} creado por Sebastian Bergmann cuyo
 repositorio oficial se encuentra en
 \href{https://github.com/sebastianbergmann/phpunit}{Github}.
@@ -169,7 +170,7 @@ gracias a los \emph{plugins} desarrollados por la comunidad.
 extensión de la librería \emph{Leaflet} que provee herramientas para
 dibujar y editar figuras sobre los mapas creados por esta librería.
 Permite delimitar regiones con múltiples formas (rectangular, circular,
-etc.), bastante útil cuando el marcador por defecto no es suficiente
+etc.), bastante útil cuando un simple marcador no es suficiente
 para señalar una determinada ubicación.
 
 \subsection{\emph{jQuery}}
@@ -192,8 +193,8 @@ ante determinadas acciones o eventos.
 \href{https://github.com/sweetalert2/sweetalert2}{Sweet alert 2} es una
 extensión de la librería \emph{jQuery} que permite crear \emph{popups}
 (ventanas emergentes) de alerta personalizados. Es una buena alternativa
-a los \emph{popups} de alerta que Javascript ofrece por defecto ya que
-se pueden añadir nuevas funciones que mejores la calidad de información
+a los \emph{popups} de alerta que \emph{Javascript} ofrece por defecto ya que
+se pueden añadir nuevas funciones que mejoran la calidad de información
 mostrada al cliente.
 
 \section{Patrón de diseño}
@@ -207,7 +208,7 @@ manejo de los datos y la lógica de negocio, la segunda está relacionada
 con el diseño y la presentación, y la tercera interactúa con las dos
 primeras.
 
-\imagen{mvc}{Diagrama que muestra la relación entre Modelo, Vista y Controlador}{0.9}
+\imagen{mvc}{Diagrama que muestra la relación entre Modelo, Vista y Controlador.}{0.9}
 
 \begin{itemize}
 \tightlist
@@ -453,4 +454,5 @@ utilización de \emph{secrets} o despliegues y rollbacks automáticos.
 
 \href{https://github.com/kubernetes-sigs/kustomize}{Kustomize} es una
 herramienta que permite operar sobre objetos de la plataforma
-\emph{Kubernetes} a través de un archivo de personalización.
+\emph{Kubernetes} a través de un archivo de personalización. Facilita en gran medida
+la creación de entornos que requieren más de un contenedor.
