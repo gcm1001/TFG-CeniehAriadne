@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -qq -y --no-install-recommends \
         docker-php-ext-install curl exif mysqli pdo pdo_mysql zip && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV OMEKA_VERSION 2.7.1
         
 COPY /configFiles/php.ini.modificar /usr/local/etc/php/conf.d/php.ini
 
