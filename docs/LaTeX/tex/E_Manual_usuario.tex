@@ -36,7 +36,6 @@ cumple con todos y cada uno de los siguientes \textbf{requisitos}:
   MySQL / MariaDB v5.0 \cite{mysql:install} o superior.
 \item
   PHP v5.4 \cite{php:install} o superior con las sisguientes extensiones instaladas:
-
   \begin{quote}
   \begin{itemize}
   \tightlist
@@ -57,7 +56,6 @@ cumple con todos y cada uno de los siguientes \textbf{requisitos}:
 \subsection{Docker}
 
 En este caso, solo es necesario un único \textbf{requisito}:
-
 \begin{itemize}
 \tightlist
 \item
@@ -68,7 +66,6 @@ En este caso, solo es necesario un único \textbf{requisito}:
 
 Si se pretende utilizar \emph{Kubernetes} para el despliegue de la
 infraestructura se requiere:
-
 \begin{itemize}
 \tightlist
 \item
@@ -96,11 +93,9 @@ hay que seguir una serie de indicaciones:
 \item
   \textbf{Crear la base de datos (DB) MySQL} desde un usuario con
   permisos suficientes como para poder realizar operaciones sobre ella.
-
   \begin{itemize}
   \item
     Durante el proceso, conviene apuntar los siguientes datos:
-
     \begin{quote}
     \begin{itemize}
     \tightlist
@@ -128,9 +123,7 @@ EXIT;
 \end{verbatim}
 \end{itemize}
 \item
-  \textbf{Descargar} la version 2.7.1 de \textbf{Omeka}, desde su {[}web
-  oficial{]}(\url{https://omeka.org/classic/download/}) o desde su
-  {[}repositorio oficial{]}(\url{http://github.com/omeka/Omeka}) en
+  \textbf{Descargar} la version 2.7.1 de \textbf{Omeka}, desde su \href{https://omeka.org/classic/download/}{web oficial} o desde su \href{http://github.com/omeka/Omeka}{repositorio oficial} en
   GitHub.
 \begin{verbatim}
 cd /tmp && wget \
@@ -274,6 +267,13 @@ proyecto}, los siguientes ficheros:
 
 \textbf{Mantén los subdirectorios intactos.}
 
+Para poder enviar mensajes desde la aplicación deberás
+configurar el protocolo SNMP desde el fichero de configuración {config.ini.modificar}
+ubicado en la carpeta {/ConfigFiles/}.
+
+Adicionalmente puedes configurar otras opciones desde ese mismo fichero o
+desde {php.ini.modificar}, también ubicado en la carpeta {/ConfigFiles/}.
+
 A continuación debes \textbf{compilar la imagen}. Para ello, desde el
 directorio donde hayas almacenado la descarga anterior, ejecuta el
 siguiente comando:
@@ -299,21 +299,18 @@ Si se ha publicado la imagen en \emph{DockerHub}, se puede hacer
 referencia a esta indicando el nombre de usuario seguido de la imagen
 (e.g. username/nombre\_de\_mi\_imagen:tag).
 
-Elimina el servicio {omeka-db-admin} si tu servidor está destinado a
-producción. Este servicio incorpora la herramienta \emph{PhpMyAdmin} a
-la infraestructura, la cual tiene un alto grado de vulnerabilidades.
-
 Por último, crear los \emph{secrets} correspondientes a las contraseñas
 de la base de datos:
 
 \begin{verbatim}
 echo 'contraseña_usuario_db' | docker secret create omeka_db_password -
 echo 'contraseña_root_db' | docker secret create omeka_db_root_password -
-cp configFiles/db.ini.example configFiles/db.ini
+cp configFiles/db.ini.modificar configFiles/db.ini
+cp configFiles/mail.ini.modificar configFiles/mail.ini
 \end{verbatim} 
 
-Debes modificar el fichero recién creado {db.ini} con los datos de la
-base de datos. Ten en cuenta que la contraseña que introduzcas en el
+Debes modificar los ficheros recién creados ({db.ini} y {mail.ini} con los datos relacionados
+con la base de datos y el protocolo IMAP. Ten en cuenta que la contraseña que introduzcas en el
 fichero tiene que coincidir con la del \emph{secret} recién creado.
 
 Ahora ya se puede desplegar la infraestructura ejecutando el siguiente
@@ -326,7 +323,7 @@ docker stack deploy -c docker-compose.yml nombre_del_entorno
 
 Desde este instante la aplicación es accesible desde el navegador
 (puerto 80). Los siguientes pasos son los mismos que en la
-\href{Manual}{instalación manual}.
+instalación manual.
 
 \subsection{Kubernetes}
 
@@ -335,7 +332,7 @@ es montar nuestra imagen \emph{Docker} (Sigue los primeros pasos del
 punto anterior, \textbf{hasta la compilación de la imagen}).
 
 El siguiente paso consiste en desplegar la aplicación. Para esta tarea
-utilizo el gestor de objetos \emph{Kustomize}. Por ello, deberás contar
+se utiliza el gestor de objetos \emph{Kustomize}. Por ello, deberás contar
 con dicha herramienta. Además debes estar en posesión de los siguientes
 ficheros alojados en este repositorio:
 
@@ -350,38 +347,70 @@ ficheros alojados en este repositorio:
 \item
   /gke-omeka/*
 \item
-  /configFiles/db.ini
+  /configFiles/db.ini.gke
+\item
+  /configFiles/config.ini.gke
+\item
+  /configFiles/mail.ini.gke
 \end{itemize}
 
-Ahora, debes crear el {secret} que contendrá todos los datos privados
-necesarios para crear la la base de datos (nombre de la base de datos,
-nombre de usuario, contraseña de usuario y contraseña root).
+Se deben definir en el servidor los \emph{secrets} y \emph{configMaps} utilizados por los ficheros de configuración \emph{.yaml}.
 
-Antes de ejecutar los siguientes comandos debes crear las
-\emph{variables de entorno} que se están utilizando: DB\_PASSWORD,
-DB\_ROOT\_PASSWORD, DB\_USERNAME y DB\_DATABASE.
+Para ello se ejecutan los siguientes comandos (sustituir los \emph{<valores>} por los datos apropiados):
 
-\begin{verbatim}
-kubectl create secret omeka-db \
---from-literal=user-password=$DB_PASSWORD \
---from-literal=root-password=$DB_ROOT_PASSWORD \
---from-literal=username=$DB_USERNAME \
---from-literal=database=$DB_DATABASE
-\end{verbatim}
-
-Además debemos crear el \emph{configmap} que almacenará todo el
-contenido del fichero de configuración {db.ini} (no necesitas
-modificarlo ya que este emplea las variables de entorno utilizadas en
-los comandos anteriores).
-
-\begin{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka-db}: \emph{secretos} relacionados con la base de datos.
+  \begin{verbatim}
+kubectl create secret generic omeka-db \
+--from-literal=user-password=<contraseña_db_usuario> \
+--from-literal=root-password=<contraseña_db_root> \
+--from-literal=username=<nombre_usuario>\
+--from-literal=database=<nombre_bd>
+  \end{verbatim}
+\item
+  \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
+    \begin{verbatim}
+kubectl create secret generic omeka-imap \
+--from-literal=host=<host_imap> \
+--from-literal=username=<correo_electronico> \
+--from-literal=password=<contraseña_correo> \
+--from-literal=port=<puerto_imap> \
+--from-literal=ssl=<protocolo_seguridad_imap>
+  \end{verbatim}
+\item
+  \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
+    \begin{verbatim}
+kubectl create secret generic omeka-snmp \
+--from-literal=host=<host_snmp> \
+--from-literal=username=<correo_electronico> \
+--from-literal=password=<contraseña_correo> \
+--from-literal=port=<puerto_snmp> \
+--from-literal=ssl=<protocolo_seguridad_snmp>
+  \end{verbatim}
+  \item
+  \emph{db-config}: mapa de configuración para la base de datos.
+    \begin{verbatim}
 kubectl create configmap db-config \
---from-file ./configFiles/db.ini
-\end{verbatim}
+--from-file=./configFiles/db.ini.gke
+  \end{verbatim}
+    \item
+  \emph{snmp-config}: mapa de configuración para el protocolo SNMP.
+    \begin{verbatim}
+kubectl create configmap snmp-config \
+--from-file=./configFiles/config.ini.gke
+  \end{verbatim}
+      \item
+  \emph{imap-config}: mapa de configuración para el protocolo IMAP.
+    \begin{verbatim}
+kubectl create configmap imap-config \
+--from-file=./configFiles/mail.ini.gke
+  \end{verbatim}
+\end{itemize}
 
 Por último, debemos indicar el identificador de nuestra imagen
 \emph{Docker} en el fichero {/gke-omeka/deployment.yaml}.
-
 \begin{verbatim}
 ...
     spec:
@@ -390,15 +419,15 @@ Por último, debemos indicar el identificador de nuestra imagen
 ...
 \end{verbatim}
 
-Tras esto, solo faltaría ejecutar, desde el directorio raíz, el
+A continuación, desde el directorio raíz, ejecutar el
 siguiente comando:
 
 \begin{verbatim}
 kustomize build . | kubectl apply -f -
 \end{verbatim}
-Desde este instante la aplicación es accesible desde el navegador
-(puerto 80). Los siguientes pasos son los mismos que en la
-\href{Manual}{instalación manual}.
+
+Desde este instante, la aplicación es accesible desde el navegador
+(puerto 80). Los siguientes pasos son los mismos que en la instalación manual.
 
 
 \section{Manual del usuario}
