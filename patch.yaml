@@ -80,7 +80,7 @@ spec:
           mountPath: /var/www/html/db.ini
           subPath: db.ini
         - name: snmp-config
-          mountPath: /var/www/html/application/config.ini
+          mountPath: /var/www/html/application/config/config.ini
           subPath: config.ini
         - name: imap-config
           mountPath: /var/www/html/plugins/AriadnePlusTracking/mail.ini
