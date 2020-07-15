@@ -75,7 +75,7 @@ spec:
             secretKeyRef:
               name: omeka-snmp
               key: ssl
-      volumeMounts:
+        volumeMounts:
         - name: db-config
           mountPath: /var/www/html/db.ini
           subPath: db.ini
