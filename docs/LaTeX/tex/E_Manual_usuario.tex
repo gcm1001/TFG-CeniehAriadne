@@ -309,9 +309,9 @@ cp configFiles/db.ini.modificar configFiles/db.ini
 cp configFiles/mail.ini.modificar configFiles/mail.ini
 \end{verbatim} 
 
-Debes modificar los ficheros recién creados ({db.ini} y {mail.ini} con los datos relacionados
+Debes modificar los ficheros recién creados ({db.ini} y {mail.ini}) con los datos relacionados
 con la base de datos y el protocolo IMAP. Ten en cuenta que la contraseña que introduzcas en el
-fichero tiene que coincidir con la del \emph{secret} recién creado.
+fichero {db.ini} tiene que coincidir con la del \emph{secret omeka\_db\_password}.
 
 Ahora ya se puede desplegar la infraestructura ejecutando el siguiente
 comando desde el directorio de trabajo (donde se encuentra la descarga
@@ -380,7 +380,7 @@ kubectl create secret generic omeka-imap \
 --from-literal=ssl=<protocolo_seguridad_imap>
   \end{verbatim}
 \item
-  \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
+  \emph{omeka-snmp}: \emph{secretos} relacionados con el protocolo SNMP.
     \begin{verbatim}
 kubectl create secret generic omeka-snmp \
 --from-literal=host=<host_snmp> \

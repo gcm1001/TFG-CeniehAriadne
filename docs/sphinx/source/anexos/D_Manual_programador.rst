@@ -218,14 +218,14 @@ El primer paso consiste en **configurar el servidor**:
 
 .. code-block::
 
-   unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' 'TFG-CeniehAriadne-master/omeka/themes/*' -d <*directorio_de_trabajo*>
+   unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' 'TFG-CeniehAriadne-master/omeka/themes/*' -d <directorio_de_trabajo>
 
 
 7. Desde el directorio de trabajo, **reemplazar las carpetas originales** *plugins* y *themes* por las previamente descargadas.
 
 .. code-block::
 
-   cd <*directorio_de_trabajo*>
+   cd <directorio_de_trabajo>
    rm -rf ./plugins ./themes
    sudo cp -r ./TFG-CeniehAriadne-master/omeka/* .
    rm -rf ./TFG-CeniehAriadne-master
@@ -234,15 +234,15 @@ El primer paso consiste en **configurar el servidor**:
 
 .. code-block::
 
-   mv -r <*directorio_de_trabajo*>/* <*directorio_del_servidor*>
+   mv -r <directorio_de_trabajo>/* <directorio_del_servidor>
 
 9. **Dar permisos de lectura y escritura sobre todo el contenido de la aplicación**.
 
 .. code-block::
 
-   cd <*directorio_del_servidor*>
-   sudo chown -R www-data:www-data <*directorio_de_trabajo*>
-   sudo chmod -R 755 <*directorio_de_trabajo*>
+   cd <directorio_del_servidor>
+   sudo chown -R www-data:www-data <directorio_de_trabajo>
+   sudo chmod -R 755 <directorio_de_trabajo>
 
 
 Desde este instante, **la aplicación será accesible desde el navegador** (puerto 80).
@@ -320,9 +320,9 @@ El procedimiento a seguir es el siguientefa:
 
 1. Crear un **nuevo proyecto** en *Google Cloud*.
 2. Habilitar los siguientes **servicios**: *Container Registry* y *Kubernetes Engine API* (acceder a este `enlace <https://console.cloud.google.com/flows/enableapi?apiid=containerregistry.googleapis.com,container.googleapis.com>`__ para activarlos automáticamente).
-3. Crear un **nuevo clúster** en *Google Cloud* (acceder a este `enlace <https://cloud.google.com/kubernetes-engine/docs/quickstart#create_cluster>`__ para activarlos automáticamente).
+3. Crear un **nuevo clúster** en *Google Cloud* (ver `tutorial <https://cloud.google.com/kubernetes-engine/docs/quickstart#create_cluster>`__).
 4. Crear una **nueva cuenta de servicio** (ver `tutorial <https://cloud.google.com/iam/docs/creating-managing-service-accounts>`__).
-5. Añadir, a la cuenta recién creada, los siguientes **roles** (ver `tutorial <https://cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource>`__).
+5. Añadir a la cuenta de servicio recién creada los siguientes **roles** (ver `tutorial <https://cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource>`__).
 
    - *Kubernetes Engine Developer*: nos permitirá desplegar aplicaciones en la plataforma GKE.
    - *Storage Admin*: nos permitirá publicar contenedores Docker en la plataforma Container Registry.
@@ -394,40 +394,71 @@ Para configurar ambos recursos hay que crear los siguientes ficheros:
 
 En el repositorio del proyecto, estos ficheros se encuentran ubicados en las carpetas */gke-omeka/* y */gke-mysql/*.
 
-A continuación, se modifica la plantilla base del recurso *gke-omeka* a través del fichero de configuración */patch.yaml*. En él se definen:
-
-1. Las variables de entorno que recogerán la información sensible de la aplicación (todas asociadas con un valor *secreto*).
-
-   - *DB_HOST*: *hostname* de la base de datos.
-   - *DB_USERNAME*: nombre de usuario del administrador de la base de datos.
-   - *DB_PASSWORD*: contraseña del administrador de la base de datos.
-   - *DB_DATABASE*: nombre de la base de datos.
-
-2. El fichero de configuración de la base de datos (*db.ini*) (asociado a un *configMap*).
+A continuación, se modifica la plantilla base del recurso *gke-omeka* a través del fichero de configuración */patch.yaml*. En él se definen las variables de entorno que recogerán la información sensible de la aplicación (todas asociadas con un valor *secreto*).
 
 Para finalizar, sobre el directorio raíz del repositorio, se crea el fichero de configuración principal */kustomization.yaml*. Este indicará a *Kustomize* qué recursos pretendemos instalar (*gke-mysql* y *gke-mysql*) y las modificaciones a realizar sobre la plantilla de la aplicación (*patch.yaml*).
 
-Etapa 04: Crear los secretos en el servidor
-*******************************************
-Los secretos utilizados por los ficheros *.yaml* de la etapa anterior tienen que estar definidos en el servidor de *Google Cloud*.
+Etapa 04: Crear los *secretos* en el servidor
+*********************************************
+Los *secretos* y *mapas de configuración* utilizados por los ficheros *.yaml* de la etapa anterior tienen que estar definidos en el servidor de *Google Cloud*.
 
-Para crear el *secreto* compuesto "*omeka-db*":
+Para ello se ejecutan los siguientes comandos:
+
+.. warning::
+   Sustituir los *<valores>* por los datos apropiados.
+
+- *omeka-db*: *secretos* relacionados con la base de datos.
 
 .. code-block::
 
-   kubectl create secret omeka-db \
-   --from-literal=user-password=$DB_PASSWORD \
-   --from-literal=username=$DB_USERNAME \
-   --from-literal=database=$DB_DATABASE
+   kubectl create secret generic omeka-db \
+   --from-literal=user-password=<contraseña_db_usuario> \
+   --from-literal=root-password=<contraseña_db_root> \
+   --from-literal=username=<nombre_usuario>\
+   --from-literal=database=<nombre_bd>
 
-Para crear el *configMap* "*db-config*":
+- *omeka-snmp*: *secretos* relacionados con el protocolo SNMP.
+
+.. code-block::
+
+   kubectl create secret generic omeka-snmp \
+   --from-literal=host=<host_snmp> \
+   --from-literal=username=<correo_electronico> \
+   --from-literal=password=<contraseña_correo> \
+   --from-literal=port=<puerto_snmp> \
+   --from-literal=ssl=<protocolo_seguridad_snmp>
+
+- *omeka-imap*: *secretos* relacionados con el protocolo IMAP.
+
+.. code-block::
+
+   kubectl create secret generic omeka-imap \
+   --from-literal=host=<host_imap> \
+   --from-literal=username=<correo_electronico> \
+   --from-literal=password=<contraseña_correo> \
+   --from-literal=port=<puerto_imap> \
+   --from-literal=ssl=<protocolo_seguridad_imap>
+
+- *db-config*: *mapa de configuración* para la base de datos.
 
 .. code-block::
 
    kubectl create configmap db-config \
-   --from-file ./configFiles/db.ini
+   --from-file=./configFiles/db.ini.gke
 
-Antes de ejecutar ambos comandos se deben definir las variables de entorno utilizadas en el primero, y descargar del repositorio del proyecto el fichero *db.ini* ubicado en el directorio */configFiles/*.
+- *snmp-config*: *mapa de configuración* para el protocolo SNMP.
+
+.. code-block::
+
+   kubectl create configmap snmp-config \
+   --from-file=./configFiles/config.ini.gke
+
+- *imap-config*: *mapa de configuración* para el protocolo IMAP.
+
+.. code-block::
+
+   kubectl create configmap imap-config \
+   --from-file=./configFiles/mail.ini.gke
 
 Etapa final
 ***********
