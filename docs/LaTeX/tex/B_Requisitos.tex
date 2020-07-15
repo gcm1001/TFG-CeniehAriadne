@@ -439,9 +439,20 @@ Se han considerado dos actores principales:
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Public}: usuarios sin acceso al área de administración.
+  \textbf{Public}: usuario no registrado en la aplicación. Solo tiene acceso a los datos públicos de la aplicación.
 \item
-  \textbf{Admin}: usuarios con acceso al área de administración.
+  \textbf{Admin}: usuario registrado en la aplicación. Puede adquirir diversos roles que determinan las zonas a las que este puede acceder dentro del área de administración. Actualmente hay 4 roles:
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Super}: gestiona todos los datos existentes en la aplicación y lleva a cabo las tareas de mantenimiento y configuración.
+  \item
+    \emph{Admin}: gestiona todos los datos existentes en la aplicación.
+  \item
+    \emph{Contributor}: solo puede gestionar sus propios datos y visualizar todos los datos de la aplicación.
+  \item
+    \emph{Researcher}: únicamente puede visualizar los datos de la aplicación.
+  \end{itemize}
 \end{itemize}
 
 \subsection{Casos de uso}

@@ -1,35 +1,13 @@
 version: '3.7'
 
 secrets:
+  db_ini:
+    file: 'configFiles/db.ini'
+  mail_ini:
+    file: 'configFiles/mail.ini'  
   omeka_db_password:
     external: true
   omeka_db_root_password:
-    external: true
-  omeka_db_password:
-    external: true
-  omeka_db_username:
-    external: true
-  omeka_db_host:
-    external: true    
-  omeka_snmp_ssl:
-    external: true
-  omeka_snmp_port:
-    external: true
-  omeka_snmp_host:
-    external: true
-  omeka_snmp_username:
-    external: true
-  omeka_snmp_password:
-    external: true  
-  omeka_imap_ssl:
-    external: true
-  omeka_imap_port:
-    external: true
-  omeka_imap_host:
-    external: true
-  omeka_imap_username:
-    external: true
-  omeka_imap_password:
     external: true
 
 services:
@@ -44,16 +22,7 @@ services:
       - 'db:/var/lib/mysql'
     secrets:
       - omeka_db_password
-      - omeka_db_root_password
-      
-  omeka-db-admin:
-    image: phpmyadmin/phpmyadmin:latest
-    ports:
-      - 8000:80
-    environment:
-      - PMA_HOST=db
-    depends_on:
-      - db    
+      - omeka_db_root_password 
       
   omeka_app:
     image: gcm1001/omeka_cenieh
@@ -61,24 +30,17 @@ services:
       - '80:80'
     volumes:
       - 'files:/var/www/html/files'
-    environment:
-      DB_DATABASE: /run/secrets/omeka_db_database
-      DB_HOST: /run/secrets/omeka_db_host
-      DB_PASSWORD: /run/secrets/omeka_db_password
-      DB_USERNAME: /run/secrets/omeka_db_username
-      SNMP_SSL: /run/secrets/omeka_snmp_ssl
-      SNMP_PORT: /run/secrets/omeka_snmp_port
-      SNMP_HOST: /run/secrets/omeka_snmp_host
-      SNMP_PASSWORD: /run/secrets/omeka_snmp_password
-      SNMP_USERNAME: /run/secrets/omeka_snmp_username
-      IMAP_SSL: /run/secrets/omeka_imap_ssl
-      IMAP_PORT: /run/secrets/omeka_imap_port
-      IMAP_HOST: /run/secrets/omeka_imap_host
-      IMAP_PASSWORD: /run/secrets/omeka_imap_password
-      IMAP_USERNAME: /run/secrets/omeka_imap_username
-    depends_on:
-      - db
-      
+    secrets:
+      - source: db_ini
+        target: /var/www/html/db.ini
+        uid: '33'
+        gid: '33'
+        mode: 0440
+      - source: mail_ini
+        target: /var/www/html/plugins/AriadnePlusTracking/mail.ini
+        uid: '33'
+        gid: '33'
+        mode: 0440
 volumes:
   db:
   files:

@@ -191,8 +191,6 @@ terminal de Linux:
   \end{verbatim}
 \end{enumerate}
 
-
-
 \subsubsection{MySQL/MariaDB}
 
 MySQL es un \emph{software} bastante conocido para la gestión de bases
@@ -279,7 +277,6 @@ En su página oficial se puede encontrar un
 que explica cómo desarrollar desde \emph{NetBeans} aplicaciones PHP que
 utilizan como marco de trabajo \emph{Zend Framework}.
 
-
 \subsection{Instalación de la aplicación}
 
 Con el entorno de desarrollo ya preparado, podemos proceder con la
@@ -293,11 +290,9 @@ El primer paso consiste en \textbf{configurar el servidor}:
 \item
   \textbf{Crear la base de datos (DB) MySQL} desde un usuario con
   permisos suficientes como para poder realizar operaciones sobre ella.
-
   \begin{itemize}
   \item
     Durante el proceso, conviene apuntar los siguientes datos:
-
     \begin{quote}
     \begin{itemize}
     \tightlist
@@ -344,10 +339,8 @@ unzip omeka-2.7.1.zip -d <directorio_de_trabajo>
 \begin{verbatim}
 cd <directorio_de_trabajo>
 nano db.ini
-
-No es necesario modificar los parámetros `prefix` o `port`.
 \end{verbatim}
-
+  No es necesario modificar los parámetros `prefix` o `port`.
 \begin{verbatim}
 [database]
 host     = "localhost"
@@ -371,14 +364,14 @@ cd /tmp && wget \
   del fichero {.zip} recién descargado.
 \begin{verbatim}
 unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' \
-  'TFG-CeniehAriadne-master/omeka/themes/*' -d <*directorio_de_trabajo*>
+  'TFG-CeniehAriadne-master/omeka/themes/*' -d <directorio_de_trabajo>
 \end{verbatim}
 \item
   Desde el directorio de trabajo, \textbf{reemplazar las carpetas
   originales} \emph{plugins} y \emph{themes} por las previamente
   descargadas.
 \begin{verbatim}
-cd <*directorio_de_trabajo*>
+cd <directorio_de_trabajo>
 rm -rf ./plugins ./themes
 sudo cp -r ./TFG-CeniehAriadne-master/omeka/* .
 rm -rf ./TFG-CeniehAriadne-master
@@ -387,15 +380,15 @@ rm -rf ./TFG-CeniehAriadne-master
   Mover todo el contenido del directorio de trabajo a la carpeta del
   servidor Apache.
 \begin{verbatim}
-mv -r <*directorio_de_trabajo*>/* <*directorio_del_servidor*>
+mv -r <directorio_de_trabajo>/* <directorio_del_servidor>
 \end{verbatim}
 \item
   \textbf{Dar permisos de lectura y escritura sobre todo el contenido de
   la aplicación}.
 \begin{verbatim}
-cd <*directorio_del_servidor*>
-sudo chown -R www-data:www-data <*directorio_de_trabajo*>
-sudo chmod -R 755 <*directorio_de_trabajo*>
+cd <directorio_del_servidor>
+sudo chown -R www-data:www-data <directorio_de_trabajo>
+sudo chmod -R 755 <directorio_de_trabajo>
 \end{verbatim}
 \end{enumerate}
 
@@ -404,7 +397,7 @@ navegador} (puerto 80).
 
 Para finalizar con la instalación, se debe \textbf{completar el
 formulario de instalación} disponible en el directorio \emph{/install} de la
-aplicación (e.g \emph{http://miaplicacion.es/install}). 
+aplicación (e.g. \emph{miaplicacion.es/install}). 
  
 Cuando se haya completado, la aplicación únicamente contará con la funcionalidad
 básica, es decir, no se verán los cambios introducidos por los
@@ -453,9 +446,9 @@ seguir son:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Acceder al área de administración ({aplicacion.es/admin/}).
+  Acceder al área de administración ({/admin/}).
 \item
-  Desde el gestor de complementos ({aplicacion.es/admin/plugins}).
+  Desde el gestor de complementos ({/admin/plugins}).
 \item
   Localizar el nombre del complemento que se desea instalar.
 \item
@@ -504,10 +497,10 @@ Para instalar un tema (\emph{theme}):
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Acceder al área de administración ({aplicacion.es/admin/}).
+  Acceder al área de administración ({/admin/}).
 \item
   Desde la página de configuración de diseño
-  ({aplicacion.es/admin/appearance/}).
+  ({/admin/appearance/}).
 \item
   Hacer clic sobre la entrada "\emph{Themes}" de la barra de navegación
   existente.
@@ -554,7 +547,7 @@ flujos de trabajo:
 A continuación se muestran las etapas por las que se ha pasado para
 desarrollar el primer flujo de trabajo.
 
-\paragraph{Etapa 01: Montar el servidor en la nube.}
+\paragraph{Etapa 01: Montar el servidor en la nube}
 
 Para montar el servidor en la nube se ha utilizado la plataforma
 \emph{Google Kubernetes Engine} (GKE) de \emph{Google Cloud} \cite{cloud:web}.
@@ -597,7 +590,7 @@ El procedimiento a seguir es el siguiente:
 
 \imagen{gke-cluster}{Vista del panel de administración de Google Cloud tras finalizar los pasos marcados.}{0.9}
 
-\paragraph{Etapa 02: Configuración del \emph{workflow}.}
+\paragraph{Etapa 02: Configuración del \emph{workflow}}
 
 Para implementar las técnicas de integración continua a través de
 \emph{Github Actions}, es necesario crear un flujo de trabajo
@@ -702,7 +695,7 @@ Los procesos que se han definido son los siguientes:
 Además, se utilizan los \emph{secrets} de GitHub para ocultar
 información sensible en alguno de los procesos previamente definidos.
 
-\paragraph{Etapa 03: Configurar ficheros \emph{.yaml} para \emph{Kustomize}.} 
+\paragraph{Etapa 03: Configurar ficheros \emph{.yaml} para \emph{Kustomize}} 
 \emph{Kustomize} será la aplicación que nos permitirá instalar la
 infraestructura completa sobre el sistema \emph{Kubernetes} del servidor
 de \emph{Google Cloud}.
@@ -730,32 +723,8 @@ las carpetas \emph{/gke-omeka/} y \emph{/gke-mysql/}.
 
 A continuación, se modifica la plantilla base del recurso
 \emph{gke-omeka} a través del fichero de configuración
-\emph{/patch.yaml}. En él se definen:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Las variables de entorno que recogerán la información sensible de la
-  aplicación (todas asociadas con un valor \emph{secreto}).
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \emph{DB\_HOST}: \emph{hostname} de la base de datos.
-  \item
-    \emph{DB\_USERNAME}: nombre de usuario del administrador de la base
-    de datos.
-  \item
-    \emph{DB\_PASSWORD}: contraseña del administrador de la base de
-    datos.
-  \item
-    \emph{DB\_DATABASE}: nombre de la base de datos.
-  \end{itemize}
-\item
-  El fichero de configuración de la base de datos (\emph{db.ini})
-  (asociado a un \emph{configMap}).
-\end{enumerate}
+\emph{/patch.yaml}. En él se definen las variables de entorno que recogerán 
+la información sensible de la aplicación (todas asociadas con un valor \emph{secreto}).
 
 Para finalizar, sobre el directorio raíz del repositorio, se crea el
 fichero de configuración principal \emph{/kustomization.yaml}. Este
@@ -764,35 +733,66 @@ indicará a \emph{Kustomize} qué recursos pretendemos instalar
 sobre la plantilla de la aplicación (\emph{patch.yaml}).
 
 
-\paragraph{Etapa 04: Crear los secretos en el servidor.}
+\paragraph{Etapa 04: Crear los secretos y mapas de configuración en el servidor}
 
-Los secretos utilizados por los ficheros \emph{.yaml} de la etapa
-anterior tienen que estar definidos en el servidor de \emph{Google
-Cloud}.
+Los \emph{secrets} y \emph{configMaps} utilizados por los ficheros \emph{.yaml} de la etapa
+anterior tienen que estar definidos en el servidor de \emph{Google Cloud}.
 
-Para crear el \emph{secreto} compuesto ``\emph{omeka-db}'':
+Para ello se ejecutan los siguientes comandos (sustituir los \emph{<valores>} por los datos apropiados):
 
-\begin{verbatim}
-kubectl create secret omeka-db \
---from-literal=user-password=$DB_PASSWORD \
---from-literal=username=$DB_USERNAME \
---from-literal=database=$DB_DATABASE
-\end{verbatim}
-
-Para crear el \emph{configMap} ``\emph{db-config}'':
-
-\begin{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  \emph{omeka-db}: \emph{secretos} relacionados con la base de datos.
+  \begin{verbatim}
+kubectl create secret generic omeka-db \
+--from-literal=user-password=<contraseña_db_usuario> \
+--from-literal=root-password=<contraseña_db_root> \
+--from-literal=username=<nombre_usuario>\
+--from-literal=database=<nombre_bd>
+  \end{verbatim}
+\item
+  \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
+    \begin{verbatim}
+kubectl create secret generic omeka-imap \
+--from-literal=host=<host_imap> \
+--from-literal=username=<correo_electronico> \
+--from-literal=password=<contraseña_correo> \
+--from-literal=port=<puerto_imap> \
+--from-literal=ssl=<protocolo_seguridad_imap>
+  \end{verbatim}
+\item
+  \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
+    \begin{verbatim}
+kubectl create secret generic omeka-snmp \
+--from-literal=host=<host_snmp> \
+--from-literal=username=<correo_electronico> \
+--from-literal=password=<contraseña_correo> \
+--from-literal=port=<puerto_snmp> \
+--from-literal=ssl=<protocolo_seguridad_snmp>
+  \end{verbatim}
+  \item
+  \emph{db-config}: mapa de configuración para la base de datos.
+    \begin{verbatim}
 kubectl create configmap db-config \
---from-file ./configFiles/db.ini
-\end{verbatim}
+--from-file=./configFiles/db.ini.gke
+  \end{verbatim}
+    \item
+  \emph{snmp-config}: mapa de configuración para el protocolo SNMP.
+    \begin{verbatim}
+kubectl create configmap snmp-config \
+--from-file=./configFiles/config.ini.gke
+  \end{verbatim}
+      \item
+  \emph{imap-config}: mapa de configuración para el protocolo IMAP.
+    \begin{verbatim}
+kubectl create configmap imap-config \
+--from-file=./configFiles/mail.ini.gke
+  \end{verbatim}
+\end{itemize}
 
-Antes de ejecutar ambos comandos se deben definir las variables de
-entorno utilizadas en el primero, y descargar del repositorio del
-proyecto el fichero \emph{db.ini} ubicado en el directorio
-\emph{/configFiles/}.
 
-
-\paragraph{Etapa final.}
+\paragraph{Etapa final: comprobar el funcionamiento del \emph{workflow}}
 
 La última etapa consiste en ejecutar un \emph{commit} sobre la rama
 \emph{master} (siempre que el directorio afectado no sea \emph{/docs}).

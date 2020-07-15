@@ -12,20 +12,6 @@ env:
   GKE_CLUSTER: omeka  
   GKE_ZONE: europe-west6-c
   IMAGE: gke-omeka
-  DB_USERNAME: ${{ secrets.DB_USERNAME }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
-  DB_DATABASE: ${{ secrets.DB_DATABASE }}
-  IMAP_HOST: ${{ secrets.IMAP_HOST }}
-  IMAP_USERNAME: ${{ secrets.IMAP_USERNAME}}
-  IMAP_PASSWORD: ${{ secrets.IMAP_PASSWORD }}
-  IMAP_PORT: ${{ secrets.IMAP_PORT }}
-  IMAP_SSL: ${{ secrets.IMAP_SSL }}
-  SNMP_HOST: ${{ secrets.SNMP_HOST }}
-  SNMP_USERNAME: ${{ secrets.SNMP_USERNAME}}
-  SNMP_PASSWORD: ${{ secrets.SNMP_PASSWORD }}
-  SNMP_PORT: ${{ secrets.SNMP_PORT }}
-  SNMP_SSL: ${{ secrets.SNMP_SSL }}
   
 jobs:
   setup-build-publish-deploy:

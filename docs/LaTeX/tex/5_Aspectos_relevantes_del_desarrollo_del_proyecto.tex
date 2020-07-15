@@ -11,9 +11,7 @@ llevar a cabo el proceso de integración de los datos del \emph{CENIEH} en
 \emph{ARIADNEplus}. Adicionalmente, se propuso implantar en el\emph{CENIEH} una
 infraestructura \emph{software} mediante la cual sus investigadores
 fueran capaces de llevar a cabo las tareas de integración por sí
-solos. De esta manera, a través de la infraestructura propuesta, serían
-capaces de continuar con las labores de integración una vez concluido el
-periodo de colaboración entre el \emph{CENIEH} y la \emph{UBU}.
+solos. 
 
 El proyecto tiene una duración total de 6 meses, lo que significa
 que el 01 de agosto de 2020 dará por concluido el periodo de colaboración entre
@@ -25,7 +23,7 @@ Las fases en las que se puede dividir el proyecto son:
 \tightlist
 \item
   \textbf{Investigación}: en esta fase se realiza un estudio previo del
-  proyecto ARIADNEplus, así como de los conjuntos de datos del CENIEH
+  proyecto \emph{ARIADNEplus}, así como de los conjuntos de datos del CENIEH
   que están involucrados en el proceso de integración.
 \item
   \textbf{Desarrollo}: a lo largo de esta fase se ejecutan todas las
@@ -33,8 +31,8 @@ Las fases en las que se puede dividir el proyecto son:
   infraestructura \emph{software}.
 \item
   \textbf{Integración}: en esta fase se integran los datos del CENIEH en
-  ARIADNEplus haciendo uso tanto de la infraestructura \emph{software}
-  implementada como de los servicios ofrecidos por ARIADNEplus.
+  \emph{ARIADNEplus} haciendo uso tanto de la infraestructura \emph{software}
+  implementada como de los servicios ofrecidos por \emph{ARIADNEplus}.
 \end{itemize}
 
 
@@ -50,12 +48,12 @@ problemas que pudieran surgir.
 
 \subsection{Proceso de integración}
 
-emph{ARIADNEplus} no agrega ni mueve datos de los sistemas de información de
+\emph{ARIADNEplus} no agrega ni mueve datos de los sistemas de información de
 los miembros del proyecto, solo añade \textbf{metadatos} a los conjuntos
 de datos que son mantenidos y gestionados por cada miembro. Este tipo de 
 información debe adoptar un \textbf{esquema o modelo} para poder ser
 representado a través de catálogos o repositorios. En el caso de
-emph{ARIADNEplus}, cuentan con un esquema denominado \textbf{AO-Cat}
+\emph{ARIADNEplus}, cuentan ya con un esquema denominado \textbf{AO-Cat}
 (\textbf{A}RIADNE \textbf{O}ntology \textbf{-} \textbf{Cat}alog),
 diseñado exclusivamente para el proyecto.
 
@@ -67,7 +65,7 @@ en cada uno de los miembros. Ante esta situación, al no coincidir el
 esquema de origen (?) con el de destino (AO-Cat), sería imposible poder
 representar los datos del origen en el catálogo.
 
-\imagen{mappingProblem}{Conflicto entre esquemas de metadatos distintos}{0.9}
+\imagen{mappingProblem}{Conflicto entre esquemas de metadatos distintos.}{0.9}
 
 Además, un esquema está formado por un conjunto de elementos, cada uno
 de los cuales está sujeto a unas determinadas \textbf{reglas}. Por ejemplo,
@@ -79,7 +77,7 @@ cada miembro cuenta con sus propios elementos y con sus propias reglas.
 Para dar solución a todos estos problemas, \emph{ARIADNEplus} propone dividir
 el proceso de integración en 6 fases.
 
-\imagen{integrationPhases}{Representación gráfica de las fases en las que se divide el proceso de integración}{0.9}
+\imagen{integrationPhases}{Representación gráfica de las fases en las que se divide el proceso de integración.}{0.9}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -94,8 +92,8 @@ el proceso de integración en 6 fases.
   esquema de metadatos de origen al esquema objetivo (\emph{AO-Cat}).
 \item
   \textbf{Enriquecimiento}: se mejora la calidad de los metadatos
-  sometiendo los datos a un proceso de enriquecimiento utilizando el
-  vocabulario \emph{Getty AAT} y/o \emph{PeriodO}.
+  sometiendo los datos a un proceso de enriquecimiento utilizando como
+  fuentes externas el vocabulario \emph{Getty AAT} y \emph{PeriodO}.
 \item
   \textbf{Importación}: habiendo completado las tres fases anteriores,
   se ejecuta el proceso de importación de los metadatos.
@@ -142,7 +140,7 @@ integración con \emph{ARIADNEplus}.}
 \subsubsection{Transformación}
 
 Para evitar el problema mostrado en la \texttt{mappingProblem},
-ARIADNEplus pone a disposición de sus miembros la \textbf{herramienta
+\emph{ARIADNEplus} pone a disposición de sus miembros la \textbf{herramienta
 \emph{X3ML Mapping Tool}}, disponible en el entorno virtual \emph{ARIADNEplus Mappings} del
 portal \emph{ARIADNEplus Gateway} de \emph{D4Science}. Está compuesta
 por un conjunto de microservicios, de código abierto, que siguen el
@@ -162,7 +160,7 @@ Los componentes clave de este servicio son:
   administrar sus archivos de definición de mapeo.
 \end{itemize}
 
-\imagen{mmm3m}{Vista de la herramienta \emph{Mapping Memory Manager - 3M}}{0.9}
+\imagen{mmm3m}{Vista de la herramienta \emph{Mapping Memory Manager - 3M}.}{0.9}
 
 \begin{itemize}
 \tightlist
@@ -172,17 +170,17 @@ Los componentes clave de este servicio son:
   objetivo.
 \end{itemize}
 
-\imagen{3meditor}{Vista de la herramienta \emph{3M Editor}}{0.9}
+\imagen{3meditor}{Vista de la herramienta \emph{3M Editor}.}{0.9}
 
 \begin{itemize}
 \tightlist
 \item
   \emph{\textbf{X3ML Engine}}: ejecuta la transformación de los elementos de
   origen al formato de destino. Tomando como entrada los datos de origen
-  (en formato XML), la descripción de las asignaciones existentes en el
+  (en formato \emph{XML}), la descripción de las asignaciones existentes en el
   fichero de definición de mapeo y el archivo que contiene las políticas
-  para la generación de URIs, es responsable de transformar el documento
-  original en un documento RDF válido que corresponda al archivo XML de
+  para la generación de \emph{URIs}, es responsable de transformar el documento
+  original en un documento \emph{RDF} válido que corresponda al archivo \emph{XML} de
   entrada con las asignaciones y políticas indicadas.
 \item
   \emph{\textbf{RDF visualizer}}: permite, de una forma rápida, inspeccionar los
@@ -202,12 +200,12 @@ que nos hemos tenido que enfrentar durante esta segunda fase:
 \tightlist
 \item
   Todos los conjuntos de datos propuestos por el CENIEH están en formato
-  CSV. Esto supone un problema ya que \textbf{ARIADNEplus solo trabaja
-  con ficheros XML}, es decir, no cuenta con ningún método de
-  importación que tolere archivos CSV.
+  \emph{CSV}. Esto supone un problema ya que \textbf{\emph{ARIADNEplus} solo trabaja
+  con ficheros \emph{XML}}, es decir, no cuenta con ningún método de
+  importación que tolere archivos \emph{CSV}.
 \item
   \textbf{Los conjuntos de datos del CENIEH}, a excepción de la
-  colección del CIR, están dispuestos de forma irregular, es decir,
+  colección del \emph{CIR}, están dispuestos de forma irregular, es decir,
   \textbf{no siguen ningún esquema estandarizado}. Esto implica que para
   cada conjunto de datos, se necesita hacer un fichero de definición de
   mapeo distinto, lo que no es para nada eficiente.
@@ -218,7 +216,7 @@ que nos hemos tenido que enfrentar durante esta segunda fase:
   obligatorios requieren la existencia de un elemento en el modelo de
   origen que pueda sustituirlo, es decir, que tenga el mismo
   significado. Esta regla supone un reto para el CENIEH ya que muchos de
-  los elementos obligatorios no cuentan con un elemento apto en las
+  estos elementos obligatorios no cuentan con un elemento apto en las
   colecciones de datos propuestas.
 \item
   \textbf{El contenido} almacenado en cada elemento del esquema objetivo
@@ -240,22 +238,24 @@ explicados en detalle. Por este motivo, \emph{ARIADNEplus} propone enriquecer
 los metadatos haciendo uso del vocabulario \emph{Getty AAT} y del
 cliente \emph{PeriodO}.
 
-\imagen{enrichment}{Enriquecimiento de metadatos}{0.9}
+\imagen{enrichment}{Enriquecimiento de metadatos.}{0.9}
 
 En la Figura \ref{fig:enrichment} se muestra el flujo de datos del proceso de
 enriquecimiento de metadatos. Por una parte, vemos un archivo .json, el
 cual se obtiene a través de la \textbf{herramienta \emph{Vocabulary Matching
 Tool}}. Esta es otra de las herramientas que se pueden encontrar en el
-entorno virtual \emph{ARIADNEplus Mappings}. Permite mapear el vocabulario utilizado
+entorno de investigación virtual \emph{ARIADNEplus Mappings}. Permite mapear el vocabulario utilizado
 en el documento de origen al vocabulario \emph{Getty AAT}.
 
-\imagen{vmt}{Vista de la herramienta \emph{Vocabulary Matching Tool}}{0.9}
+\imagen{vmt}{Vista de la herramienta \emph{Vocabulary Matching Tool}.}{0.9}
 
-El archivo generado por esta herramienta (.json) define las relaciones
+El archivo generado por esta herramienta (\emph{.json}) define las relaciones
 entre los términos del vocabulario de origen y los términos del
 vocabulario \emph{Getty AAT}. Desde el catálogo de \emph{ARIADNEplus}, todos
 aquellos términos que tengan una asociación definida, serán hiperenlaces
 que apunten al término \emph{Getty AAT} asociado.
+
+\imagen{enrichedsubject}{Vista de un metadato (\emph{Subject}) antes y depués de ser enriquecido.}{0.9}
 
 Además, vemos representada la base de datos donde \textbf{PeriodO} almacena sus
 registros. Para aportar información adicional a los periodos existentes
@@ -266,6 +266,8 @@ establecer una relación entre los periodos de un lado y de otro. Al
 igual que con el vocabulario, todos los periodos que tengan una
 asociación definida, serán hiperenlaces que apunten al objeto de
 \emph{periodO}.
+
+\imagen{enrichedating}{Vista de un metadato (\emph{Dating}) antes y depués de ser enriquecido.}{0.9}
 
 En esta fase se encontraron varios \textbf{inconvenientes}: 
 
@@ -287,7 +289,7 @@ En esta fase se encontraron varios \textbf{inconvenientes}:
 
 El sistema de importación de \emph{ARIADNEplus}, conocido como \emph{ARIADNEplus}
 \emph{Aggregator}, se basa en el kit de herramientas de \emph{software}
-D-Net (implementado y mantenido por \emph{ISTI-CNR} \cite{weboff:isti}), 
+D-Net (implementado y mantenido por \emph{ISTI-CNR} \cite{isti:web}), 
 que proporciona funciones integradas que permiten recopilar conjuntos 
 de metadatos a través de múltiples métodos. Está disponible en el portal 
 \emph{ARIADNEplus Gateway}, sin embargo, su acceso está restringido a los 
@@ -299,20 +301,20 @@ Las principales opciones de importación son:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \textbf{OAI-PMH} \cite{weboff:oai}: es un protocolo estándar para el intercambio de
+  \textbf{\emph{OAI-PMH}} \cite{oai:web}: es un protocolo estándar para el intercambio de
   metadatos. A través de este método \emph{ARIADNEplus} puede recolectar los
   metadatos almacenados en un repositorio de forma remota.
 \item
-  \textbf{SFTP} \cite{weboff:sftp} : es un protocolo de transmisión de ficheros. Esta opción
+  \textbf{\emph{SFTP}} \cite{wiki:sftp} : es un protocolo de transmisión de ficheros. Esta opción
   es algo engorrosa ya que debe existir un archivo XML por recurso, es
   decir, no puedes agrupar varios registros en un mismo fichero XML. Los
   socios son responsables del servidor SFTP. Se admiten modos de
   autentificación.
 \item
-  \textbf{FTP(S)} \cite{weboff:ftp}: es otro protocolo de transferencia de ficheros.
+  \textbf{\emph{FTP(S)}} \cite{wiki:ftp}: es otro protocolo de transferencia de ficheros.
   Presenta las mismas características de importación que SFTP.
 \item
-  \textbf{Workspace}: se pueden subir directamente los registros en el
+  \textbf{Workspace}: se pueden subir directamente los (meta)datos en el
   \emph{workspace} de \emph{D4Sciente} (\emph{ARIADNEplus Gateway}). Cada socio tiene
   su propia carpeta donde puede ir almacenando los documentos \emph{XML}
   (metadatos) que desee importar.
@@ -320,8 +322,8 @@ Las principales opciones de importación son:
 
 Dado que este sistema es inaccesible para la mayoría de los miembros
 (incluido el \emph{CENIEH}), se debe escoger una de esas opciones y
-comunicársela al coordinador responsable. Una vez realizada la
-importación, se deben facilitar tres datos:
+comunicársela al coordinador responsable. Este nos indicará como proceder y,
+una vez realizada la importación, se deben facilitar tres datos:
 
 \begin{enumerate}
 \tightlist
@@ -329,10 +331,10 @@ importación, se deben facilitar tres datos:
   Qué ficheros (\emph{.xml}) de los importados se desean publicar.
 \item
   Cuál es el identificador del fichero de definición de mapeo (e.g.
-  \emph{Mapping/621}) que transformará el esquema de metadatos presente
-  en tus ficheros al esquema \emph{AO-Cat}.
+  \emph{Mapping/621}) almacenado en la herramienta \emph{X3ML Mapping} que 
+  transformará el esquema de metadatos presente en tus ficheros al esquema \emph{AO-Cat}.
 \item
-  Opcionalmente, el enlace a tu colección de \emph{periodO} y/o el fichero de
+  Opcionalmente, el enlace a tu colección de \emph{periodO} y/o el fichero de definición de
   mapeo (\emph{.json}) del vocabulario.
 \end{enumerate}
 
@@ -366,7 +368,7 @@ contenido de esta, se pueden tomar dos caminos:
 
 Si en la fase previa se ha obtenido una respuesta satisfactoria, el
 miembro que inició el proceso de integración sería ya capaz de observar
-el resultado final sobre el portal fantasma. 
+el resultado final sobre el catálogo fantasma. 
 
 Una vez visualizado el resultado, deberá comunicarse de nuevo con el
 responsable de la importación para indicarle sus impresiones. Se pueden
@@ -384,11 +386,11 @@ dar dos situaciones:
 \end{enumerate}
 
 En el caso de que todo haya salido según lo planeado, el proceso de
-integración para los conjuntos de datos publicados quedaría suspendido.
+integración para los conjuntos de datos publicados habría concluído.
 Existe la posibilidad de reactivar este proceso en el caso de que se
 deseen actualizar o añadir datos, sin embargo, hay que tener en cuenta
 que cualquier cambio en la estructura de los datos supondría tener que
-volver a realizar el proceso desde cero.
+volver a realizar el proceso desde cero (primera fase).
 
 \section{Desarrollo}
 
@@ -433,22 +435,24 @@ Se consideraron varios productos \emph{software} para acabar escogiendo
 \href{https://omeka.org/classic/}{Omeka Classic}. Una de las
 características que hacen de la aplicación una magnífica plataforma para
 el proyecto es su \textbf{escalabilidad}. Gracias a su sistema de
-\textbf{complementos} o \emph{plugins}, cualquier programador tiene la
+\textbf{complementos} o \emph{plugins} cualquier programador tiene la
 posibilidad de adaptarla a sus necesidades individuales sin tener que
-modificar el código base de la aplicación.
+modificar el código base de la aplicación. También cuenta con un sistema de
+temas para personalizar la estética del área pública de la aplicación (\emph{frontend}).
+
+\imagen{omekaplugins}{Complementos y temas en \emph{Omeka}.}{0.7}
 
 Actualmente, \emph{Omeka} cuenta con una gran cantidad de \emph{plugins}
-disponibles tanto en su \href{https://omeka.org/classic/plugins/}{página
-oficial} como en
-\href{https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html}{Github}.
+disponibles, tanto en su \href{https://omeka.org/classic/plugins/}{página
+oficial} como en \href{https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html}{Github}.
 Esto es posible gracias a la extensa comunidad de usuarios que le
 respalda. 
 
-Parte de los \emph{plugins} publicados se han podido utilizar para
+Parte de estos \emph{plugins} se han podido reutilizar para
 adaptar la infraestructura a las necesidades del proyecto, sin embargo,
 se han tenido que desarrollar nuevos \emph{plugins} para cubrir
 requisitos específicos. Además, se han llevado a cabo modificaciones
-sobre alguno de los \emph{plugins} de terceros utilizados.
+sobre alguno de los \emph{plugins} externos utilizados.
 
 Por este motivo, la mayoría de las tareas realizadas en esta fase están directamente
 relacionadas con la creación y modificación de \emph{plugins} para \emph{Omeka}.
@@ -463,7 +467,6 @@ tener que alterar el código base de esta.
 
 Dentro de la aplicación se pueden encontrar dos tipos distintos de
 \emph{hooks}: \textbf{\emph{hooks} de acción} y \textbf{filtros (\emph{filters})}.
-
 
 \paragraph{\emph{Hooks} de acción.}
 
@@ -491,7 +494,6 @@ En el ejemplo vemos como \emph{fire\_plugin\_hook()} tiene dos
 parámetros de entrada, el primero indica el nombre del \emph{hook} y el
 segundo almacena los argumentos de entrada que tendrá la función que
 almacena la acción.
-
 
 \paragraph{Filtros (\emph{Filters}).}
 
@@ -558,13 +560,11 @@ Durante la fase de desarrollo, se ha trabajado sobre dos entornos:
   del \emph{CENIEH}.
 \end{itemize}
 
-
 \subsection{Despliegue de la infraestructura}
 
 Para llevar a cabo el despliegue de la infraestructura se ha utilizado
 la herramienta \emph{Github Actions}. Dependiendo del entorno de
 trabajo, se ha procedido de una manera u otra:
-
 
 \subsubsection{Servidor de desarrollo}
 
@@ -574,14 +574,13 @@ técnica se la conoce como despliegue continuo.
 
 \imagen{cicd}{Despliegue continuo de la aplicación.}{0.9}
 
-En la \texttt{cicd} he representado el proceso mediante el cual se lleva
+En la emph{Figura} \ref{fig:cicd} vemos representado el proceso mediante el cual se lleva
 a cabo el despliegue. Con el \emph{workflow} configurado y alojado en la
 ruta \emph{.github/workflows} de mi repositorio en GitHub, cuando
 ejecuto un \emph{push} sobre la rama \emph{develop}, si los cambios
 cometidos afectan a cualquier carpeta que no sea la de \emph{/docs}, se
 ejecutan las acciones correspondientes al despliegue de mi aplicación,
 las cuales se pueden apreciar en la imagen.
-
 
 \subsubsection{Servidor de producción}
 

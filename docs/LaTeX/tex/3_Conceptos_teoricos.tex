@@ -12,8 +12,8 @@ infraestructura \emph{software} propuesta.
 
 \subsection{\emph{ARIADNEplus}}
 
-\emph{ARIADNEplus} \cite{weboff:arip} es la continuación del
-proyecto \emph{ARIADNE} \cite{weboff:ari}, el cual fue fundado
+\emph{ARIADNEplus} \cite{arip:web} es la continuación del
+proyecto \emph{ARIADNE} \cite{ari:web}, el cual fue fundado
 por la Comisión Europea en febrero de 2013. Nació con el propósito de
 estimular la investigación en áreas relacionadas con la arqueología
 mediante la integración de diversas infraestructuras de datos
@@ -37,7 +37,7 @@ su portal.
 \subsection{\emph{CENIEH}}
 
 El Centro Nacional de Investigación sobre la Evolución
-Humana \cite{weboff:cenieh}, tambien conocido como
+Humana \cite{cenieh:web}, tambien conocido como
 CENIEH, es una Infraestructura Científica y Técnica Singular (ICTS)
 abierta al uso de la comunidad científica y tecnológica, en la que se
 desarrollan investigaciones en el ámbito de la evolución humana durante
@@ -53,7 +53,7 @@ nacionales como internacionales de similares características.
 
 \subsection{\emph{CIR}}
 
-El CIR \cite{weboff:cir} (CENIEH Institutional Repository) es el
+El CIR \cite{cir:web} (CENIEH Institutional Repository) es el
 repositorio bibliográfico institucional del CENIEH. Alberga toda la
 información fruto de la actividad investigadora desarrollada en el
 CENIEH como, por ejemplo, publicaciones científicas. 
@@ -72,14 +72,14 @@ el contexto, calidad y condición o característica del dato \cite{art:meta}. Pu
 algo complejo de entender ya que podemos reducir su definición a ``son
 datos que describen otros datos''.
 
-Para aportar algo de claridad a esta definición aplicaré el concepto de
+Para aportar algo de claridad a esta definición se aplicará el concepto de
 ``metadato'' tomando como ejemplo una biblioteca. En este contexto, el
 conjunto de datos estaría formado por los libros y el conjunto de
 metadatos se correspondería con las fichas asociadas a cada libro. Este
 ejemplo de metadato está algo anticuado ya que se presenta de una forma
 física, no digital.
 
-\imagen{ejemploMetadatos}{Ejemplo de metadatos.}{0.65}
+\imagen{ejemploMetadatos}{Ejemplo de metadatos.}{0.6}
 
 En la actualidad, estas ``fichas'' se encuentran en formato digital a
 través de lenguajes de marcado como \emph{XML} o \emph{RDF}.
@@ -94,7 +94,7 @@ estándar.
 Cada esquema está formado por un conjunto de campos de diferentes tipos,
 los cuales siguen una estructura jerárquica en forma de árbol.
 
-\imagen{diagramacampos}{Estructura básica de un esquema de metadatos.}{0.9}
+\imagen{diagramacampos}{Estructura básica de un esquema de metadatos.}{0.7}
 
 En la Figura \ref{fig:diagramacampos}, se muestra la \textbf{estructura básica} 
 de cualquier esquema:
@@ -142,55 +142,53 @@ tipo de contenido que va a adquirir, es decir, señalar qué se va a
 introducir. Algunos pueden ser texto plano, otros coordenadas, fechas,
 enlaces, etc.
 
-\subsubsection{emph{CIDOC-CRM}}
+\subsubsection{\emph{CIDOC-CRM}}
 
-emph{\textbf{CIDOC} \textbf{C}onceptual \textbf{R}eference \textbf{M}odel}
-(CRM) \cite{weboff:cidoc} es una
+\emph{\textbf{CIDOC} \textbf{C}onceptual \textbf{R}eference \textbf{M}odel}
+\cite{cidoc:web} (CRM) es una
 ontología que ofrece definiciones y una estructura formal para describir
 conceptos implícitos y explícitos, así como las relaciones utilizadas en
-documentación sobre patrimonio cultural. CIDOC define un marco semántico
-en el cual se puede incluir cualquier tipo de información sobre
-patrimonio cultural.
+documentación sobre patrimonio cultural. 
 
-\subsubsection{emph{ACDM}}
+\subsubsection{\emph{ACDM}}
 
-El emph{\textbf{A}RIADNE \textbf{C}atalogue \textbf{D}ata \textbf{M}odel} es
-el modelo de datos utilizado por el catálogo antiguo de emph{ARIADNE}. Sirve
+El \emph{\textbf{A}RIADNE \textbf{C}atalogue \textbf{D}ata \textbf{M}odel} es
+el modelo de datos utilizado por el catálogo antiguo de \emph{ARIADNE}. Sirve
 para describir los recursos arqueológicos publicados por los
-participantes del proyecto. El uso de ACDM posibilita el descubrimiento,
+participantes del proyecto. El uso de \emph{ACDM} posibilita el descubrimiento,
 acceso e integración de los citados recursos. Para formalizar este
-modelo, se ha utilizado como base la ontología CIDOC CRM, la cual se
+modelo, se ha utilizado como base la ontología \emph{CIDOC CRM}, la cual se
 adapta correctamente al dominio arqueológico.
 
-\subsubsection{emph{PEM}}
+\subsubsection{\emph{PEM}}
 
-emph{PEM} (emph{\textbf{P}ARTHENOS \textbf{E}ntities \textbf{M}odel}) es un esquema
-de metadatos desarrollado en el proyecto emph{PARTHENOS} \cite{weboff:pem} que extiende al
-modelo emph{CIDOC-CRM}. Está diseñado para ser lo suficientemente flexible
+\emph{PEM} \cite{art:pem}(\emph{\textbf{P}ARTHENOS \textbf{E}ntities \textbf{M}odel}) es el esquema
+de metadatos desarrollado en el proyecto \emph{PARTHENOS} \cite{parthenos:web} que extiende al
+modelo \emph{CIDOC-CRM}. Está diseñado para ser lo suficientemente flexible
 como para mapear los diferentes tipos de esquemas de metadatos
 utilizados en todas las disciplinas académicas de manera uniforme.
 
 \subsubsection{AO-Cat}
 
-La ontología \emph{AO-Cat} (emph{\textbf{A}RIADNE \textbf{O}ntology
-\textbf{-} \textbf{Cat}alog}) deriva del modelo emph{ACDM}, empleado
-por el proyecto antiguo (emph{ARIADNE}) para modelar recursos arqueológicos, y
-del modelo emph{PEM}, utilizado para modelar cualquier recurso gestionado por
-una infraestructura de investigación. 
+La ontología \emph{AO-Cat} \cite{art:aocat} (\emph{\textbf{A}RIADNE \textbf{O}ntology
+\textbf{-} \textbf{Cat}alog}) deriva del modelo \emph{ACDM}, empleado
+por el proyecto antiguo (\emph{ARIADNE}) para modelar recursos arqueológicos, y
+del modelo \emph{PEM}, utilizado para modelar cualquier recurso gestionado por
+una infraestructura de investigación.
 
-Se podría decir que emph{AO-Cat} es una
-contracción del modelo emph{ACDM} impulsada por la conceptualización
-subyacente al emph{PEM}. Además, emph{AO-Cat} hereda del modelo emph{PEM} su estrecha
-relación con el modelo emph{CIDOC-CRM}, el cual sirve para representar
+Se podría decir que \emph{AO-Cat} es una
+contracción del modelo \emph{ACDM} impulsada por la conceptualización
+subyacente al \emph{PEM}. Además, \emph{AO-Cat} hereda del modelo \emph{PEM} su estrecha
+relación con el modelo \emph{CIDOC-CRM}, el cual sirve para representar
 cualquier aspecto relacionado con recursos arqueológicos.
 
-Es el \textbf{modelo utilizado por el catálogo actual de ARIADNEplus} y,
-por tanto, los metadatos de todos los socios del proyecto se tendrán que adaptar a este
+\emph{AO-Cat} es el \textbf{modelo utilizado por el catálogo actual de ARIADNEplus} y,
+por tanto, los metadatos de todos los socios del proyecto se tienen que transformar a este
 modelo.
 
 \subsection{Mapeo de datos (\emph{Data Mapping})}
 
-El término ``Mapeo'' puede utilizarse en múltiples contextos como, por
+El término ``mapeo'' puede utilizarse en múltiples contextos como, por
 ejemplo, en la cartografía, matemáticas, neurociencia, etc. En esta
 ocasión, se describirá el concepto relacionado con la informática, más
 específicamente con la gestión de datos.
@@ -201,35 +199,33 @@ integración o migración de datos es fundamental llevar a cabo este tipo
 de proceso debido a que, generalmente, el sistema al que se trasladan
 los datos no utiliza la misma estructura que el sistema de partida.
 
-\imagen{mapping}{Ejemplo de mapeo entre el esquema ``Dublin Core'' y el modelo ``AO-Cat''.}{0.9}
+\imagen{mapping}{Ejemplo de definición de mapeo entre el esquema ``Dublin Core'' y el modelo ``AO-Cat''.}{0.9}
 
 \subsection{Enriquecimiento de datos (\emph{Data Enrichment})}
 
 El enriquecimiento de datos es el proceso mediante el cual es posible
 mejorar la calidad de los datos sin necesidad de procesarlos. Durante
 este proceso, se fusionan los datos originales con datos de terceros
-provenientes de una fuente autorizada externa. Para
-determinar la relación entre unos datos y otros, se suele hacer uso de
-herramientas auxiliares que permiten establecer dichas relaciones entre
-los elementos originales y los elementos externos.
+provenientes de una fuente autorizada externa. 
 
-\imagen{enrichmentconcept}{Proceso de enriquecimiento de datos.}{0.7}
+Para determinar la relación entre los datos originales y los externos se suele hacer uso de
+herramientas auxiliares que permiten establecer dichas relaciones.
 
-\subsection{\emph{D4Science}}
+\imagen{enrichmentconcept}{Proceso de enriquecimiento de datos.}{0.5}
 
-\emph{D4Science} \cite{weboff:dfour}
+\subsection{\emph{D4Science} -- Entornos de investigación virtuales}
+
+\emph{D4Science} \cite{dfour:web}
 es una organización que ofrece una infraestructura de datos basada en
-entornos de investigación virtuales (emph{VREs}). El usuario cuenta con un espacio de trabajo virtual
-que le da la posibilidad de acceder a datos y compartir los suyos
-propios. Además, también cuenta con herramientas y capacidad de cómputo
+entornos de investigación virtuales (\emph{VREs} \cite{art:vre}). En este tipo de entornos el usuario cuenta con un espacio de trabajo virtual que le da la posibilidad de acceder a datos y compartir los suyos propios. Además, también cuenta con herramientas y capacidad de cómputo
 para hacer uso de los datos en su proceso de investigación.
 
 
 \subsubsection{\emph{ARIADNEplus Gateway}}
 
 \emph{ARIADNEplus} cuenta con un portal en la plataforma
-\emph{D4Science} denominado \emph{ARIADNEplus Gateway} \cite{weboff:aplusgat}. En él tiene
-implementados varios entornos virtuales de investigación (\emph{VREs}).
+\emph{D4Science} denominado \emph{ARIADNEplus Gateway} \cite{aplusgat:web}. En él tiene
+implementados varios entornos virtuales de investigación.
 Cada uno de ellos ofrece una serie de servicios que facilitan el proceso
 de integración a los miembros del proyecto. Actualmente, cuenta con tres
 entornos virtuales, cada uno de los cuales tiene un fin específico:
@@ -245,17 +241,17 @@ entornos virtuales, cada uno de los cuales tiene un fin específico:
 \item
   \emph{ARIADNEplus Mappings}: entorno virtual que da soporte a la
   conversión de metadatos (\emph{mapping}) para su integración en
-  emph{ARIADNEplus}.
+  \emph{ARIADNEplus}.
 \item
   \emph{ARIADNEplus Project}: entorno virtual que permite la
   colaboración y cooperación entre los beneficiarios del proyecto
-  emph{ARIADNEplus}.
+  \emph{ARIADNEplus}.
 \end{itemize}
 
 \subsubsection{\emph{Workspace}}
 
 Otro de los servicios que ofrece \emph{D4Science} es el
-\emph{Workspace}. La idea principal de esta herramienta es que los
+\emph{Workspace} \cite{dfourwork:web}. La idea principal de esta herramienta es que los
 miembros de un determinado portal intercambien recursos digitales como,
 por ejemplo, documentos, imágenes, vídeos, etc.
 
@@ -265,18 +261,17 @@ guías, tutoriales, presentaciones, etc.
 
 \imagen{workspace}{Espacio de trabajo (\emph{Workspace}) del proyecto \emph{ARIADNEPlus}.}{1}
 
-Además, este mismo espacio se puede utilizar como medio de importación.
+Además, este mismo espacio se puede utilizar como medio de importación para el 
+catálogo de \emph{ARIADNEPlus}.
 Para tal fin, como podemos ver en el imagen, existen dos carpetas
 públicas, \emph{Matched Vocabularies} y \emph{Metadata Ingestion}, en
-cuyo interior se aloja una carpeta para cada miembro. Estas tienen el
-nombre de cada socio y su misión es almacenar los ficheros de mapeo de
-vocabulario (\emph{.json}) y los ficheros con los metadatos
-(\emph{.xml}). De esta manera, el coordinador asignado solo tendrá que
-acceder a la carpeta del miembro que pretenda ejecutar una importación.
+cuyo interior se aloja una carpeta para cada miembro del proyecto. La misión de cada
+carpeta es almacenar los ficheros de definición de mapeo de vocabulario (\emph{.json}) y los ficheros con los metadatos (\emph{.xml}). De esta manera, el coordinador puede acceder
+a los datos necesarios para llevar a cabo la importación sin necesidad de usar medios externos.
 
 \subsection{\emph{Getty AAT}}
 
-Getty AAT \cite{weboff:dfourwork} es un vocabulario controlado y
+\emph{Getty AAT} \cite{getty:web} es un vocabulario controlado y
 estructurado que se emplea para describir elementos de arte,
 arquitectura y material cultural. Está compuesto por términos generales
 como, por ejemplo, ``Acueducto'', pero no contiene nombres propios como
@@ -285,9 +280,12 @@ conceptos registrados, incluyendo 131.000 términos, descripciones,
 citaciones bibliográficas, y otra información relacionada con las áreas
 previamente mencionadas.
 
+Además cuenta con una interfaz \emph{SPARQL} \cite{getty:sparql} que permite realizar consultas 
+sobre los datos (\emph{RDF}) almacenados en su base de datos mediante el lenguaje \emph{SPARQL}.
+
 \subsection{\emph{PeriodO}}
 
-\emph{PeriodO} \cite{weboff:getty} es un
+\emph{PeriodO} \cite{getty:web} es un
 diccionario digital público donde se almacenan definiciones académicas
 de periodos históricos, histórico-artísticos y arqueológicos. Este
 proyecto es liderado por Adam Rabinowitz (Universidad de Texas, Austin)
@@ -296,7 +294,7 @@ y Ryan Shaw (Universidad de Carolina del norte, Chapel Hill).
 \subsection{Tecnología \emph{GraphDB}}
 
 \emph{ARIADNEplus} almacena todos los metadatos en un almacén de \emph{RDF}
-(\emph{triplestore}) basado en la tecnología \emph{GraphDB} \cite{weboff:gdb}. 
+(\emph{triplestore}) basado en la tecnología \emph{GraphDB} \cite{gdb:web}. 
 Este tipo de tecnología utiliza \textbf{bases de datos orientadas a grafos}. Estas se
 basan en un conjunto de objetos (vértices y aristas) que permiten
 representar datos interconectados junto a las relaciones existentes
@@ -333,9 +331,17 @@ analysis}), unidos por un arco, que sería el predicado
 A continuación se definen aquellos conceptos relacionados con el
 desarrollo de la infraestructura.
 
+\subsection{Sistema de gestión de contenidos (\emph{CMS})}
+
+Un sistema de gestión de contenidos o \emph{CMS} \cite{wiki:cms} (\emph{\textbf{C}ontent \textbf{M}anagement \textbf{S}ystem}) es una aplicación \emph{software}, generalmente de tipo \emph{web}, que permite crear un entorno de trabajo para la creación y gestión de contenidos. 
+
+Este tipo de sistemas interactúan con una o varias bases de datos que almacenan el contenido sobre el que se realizan las operaciones de gestión. Además, suelen contar con sistemas que permiten adaptar la aplicación, tanto en diseño como en funcionalidad, de una forma sencilla.
+
+La aplicación escogida para este proyecto (\emph{Omeka Classic} \cite{omeka:web}) se puede catalogar como \emph{CMS}.
+
 \subsection{LAMP}
 
-Las siglas emph{LAMP} \cite{wiki:lamp} son utilizadas para describir infraestructuras
+Las siglas \emph{LAMP} \cite{wiki:lamp} son utilizadas para describir infraestructuras
 \emph{software} que hacen uso de cuatro herramientas específicas:
 
 \begin{itemize}
@@ -350,8 +356,7 @@ Las siglas emph{LAMP} \cite{wiki:lamp} son utilizadas para describir infraestruc
   \emph{\textbf{P}HP} como lenguaje de programación.
 \end{itemize}
 
-La aplicación \emph{software} escogida (\emph{Omeka Classic} \cite{weboff:omeka}) emplea
-dicha infraestructura.
+La aplicación \emph{software} escogida requiere dicha infraestructura.
 
 \subsection{Complementos (\emph{Plugins})}
 
@@ -360,6 +365,9 @@ que permiten ampliar la funcionalidad básica de un determinado producto
 software. Normalmente este tipo de aplicaciones son ejecutadas a través
 del \emph{software} principal, interactuando con este a través de una
 determinada interfaz.
+
+Mediante este tipo de aplicaciones se han conseguido añadir las funcionalidades
+requeridas por el proyecto en la aplicación escogida.
 
 \subsection{\emph{Hooking}}
 
@@ -371,6 +379,9 @@ llamadas de función, mensajes o eventos pasados entre componentes
 denomina \emph{hook}.
 
 \imagen{hooks}{Ejemplo de \emph{hook}.}{0.7}
+
+Haciendo uso de estos \emph{hooks} se ha conseguido modificar el comportamiento
+de la aplicación escogida.
 
 \subsection{Prácticas ágiles}
 
@@ -390,7 +401,7 @@ En cada iteración, se van completando partes del producto final que son
 aptas para ser entregadas al cliente. Este goteo constante de entregas
 es el responsable de que a este procedimiento se le denomine
 incremental. Para que esto sea posible, se definen unos
-objetivos/requisitos al inicio de cada iteración, que marcarán la
+objetivos/requisitos al inicio de cada iteración que marcarán la
 evolución del proyecto. También se pueden plantear mejoras para
 requisitos que se entregaron en iteraciones anteriores.
 
@@ -402,7 +413,7 @@ pretende asegurar que cada unidad se comporta adecuadamente frente a
 distintas situaciones. 
 
 Resulta complicado determinar a qué nos referimos
-cuando decimos ``unidad de código'' ya que, por definición, puedes asociar
+cuando decimos ``unidad de código'' ya que, por definición, se puede asociar
 este concepto tanto a una clase como a un método.
 
 Habitualmente se desarrolla más de una prueba unitaria por unidad de
@@ -415,10 +426,10 @@ suite}.
 
 \subsubsection{Integración y Despliegue continuo (CI/CD)}
 
-La integración continua (CI) es una práctica utilizada en el desarrollo
+La integración continua (\emph{CI}) es una práctica utilizada en el desarrollo
 de \emph{software} mediante la cual es posible automatizar operaciones
 tales como la compilación o ejecución de pruebas. Aplicando esta
-metodología se consigue detectar fallos con mayor rapidez, mejorar la
+metodologíam se consigue detectar fallos con mayor rapidez, mejorar la
 calidad del código y reducir el tiempo empleado en validar y
 publicar nuevas actualizaciones \emph{software}.
 
@@ -436,7 +447,7 @@ anteriores.
 \subsection{\emph{Dublin Core}}
 
 \emph{Dublin Core} es un esquema de metadatos elaborado por la
-\emph{DCMI} \cite{weboff:dc}, organización cuya misión
+\emph{DCMI} \cite{dc:web}, organización cuya misión
 principal es facilitar la compartición de recursos \emph{on-line} por
 medio del desarrollo de un modelo de metadatos ``base'', capaz de
 proporcionar información descriptiva básica sobre cualquier recurso, sin
@@ -452,14 +463,17 @@ repetidos, aparecer en cualquier orden y estar o no presentes
 Dado que el modelo \emph{Dublin Core} puede resultar algo escueto, se
 presenta como solución el esquema \emph{Dublin Core Extended}, el cual
 cuenta con los elementos descriptivos del modelo original y, además,
-incluye una serie de elementos adicionales/complementarios \cite{weboff:dcterms}
+incluye una serie de elementos adicionales/complementarios \cite{dcterms:web}
 que satisfacen las necesidades que el modelo original no cubre.
+
+Este modelo ha sido el propuesto para transformar todos los conjuntos de 
+datos del \emph{CENIEH} a un único modelo estándar.
 
 \subsection{Interoperabilidad}
 
 La interoperabilidad es la capacidad que tiene un sistema o producto de
 compartir datos y posibilitar el intercambio de información y
-conocimiento entre ellos \cite{weboff:interop}.
+conocimiento entre ellos \cite{interop:web}.
 En lo que respecta a repositorios, se puede conseguir dicha capacidad
 haciendo uso de estándares como, por ejemplo, el protocolo
 \emph{OAI-PMH}.
@@ -479,7 +493,7 @@ del mismo se han podido recolectar todos los metadatos existentes en el
 haciendo uso de este protocolo, por lo que su implantación también abre
 otro posible camino de importación.
 
-\imagen{oai-pmh}{Ejemplo básico del protocolo \emph{OAI-PMH}.}{0.6}
+\imagen{oai-pmh}{Ejemplo básico del protocolo \emph{OAI-PMH}.}{0.5}
 
 \subsection{Geolocalización}
 
@@ -496,7 +510,7 @@ cubrir este requisito.
 
 El \textbf{W}orld \textbf{G}eodetic \textbf{S}ystem \textbf{84} es un
 sistema de coordenadas geográficas usado mundialmente para localizar
-cualquier punto de la Tierra \cite{wiki:wsg}. Uno de los requisitos de
+cualquier punto de la Tierra \cite{wiki:wsg}. Uno de los requisitos del catálogo de
 \emph{ARIADNEplus} es que todas aquellas localizaciones señaladas a través de
 coordenadas geográficas deben utilizar este sistema.
 
