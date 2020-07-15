@@ -24,8 +24,10 @@ Se pueden tomar dos caminos distintos para mejorar la aplicación propuesta:
 
 A continuación se exponen las funcionalidades que pueden resultar interesantes añadir en la plataforma.
 
-- Dar algún tipo de soporte a los periodos temporales que pudieran aparecer dentro de los (meta)datos. Por ejemplo, representarlos gráficamente dentro de una linea temporal.
-- Sugerir periodos temporales del cliente *PeriodO* a la hora de rellenar el metadato "Temporal Coverage". De esta manera, se podrá enriquecer dicho metadato en la fase de integración correspondiente.
+- Dar soporte a los periodos temporales que pudieran aparecer dentro del metadato "*Temporal Coverage*".
+
+   - Representar gráficamente a todos los periodos dentro de una linea temporal.
+   - Sugerir periodos temporales del cliente *PeriodO* a la hora de rellenar el metadato. De esta manera, se podrá enriquecer dicho metadato en la fase de integración correspondiente.
 
 En cuanto a las posibles mejoras de los complementos:
 

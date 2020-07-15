@@ -1,0 +1,149 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Objetivos del proyecto},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Objetivos del proyecto}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+En este apartado se indican, en primer lugar, los objetivos generales
+fijados durante el comienzo del proyecto. Seguido de estos, se describen
+los objetivos específicos, que se corresponden con los pasos previos que
+se han tomado para alcanzar las metas previamente fijadas.
+
+\hypertarget{objetivos-generales}{%
+\section{Objetivos generales}\label{objetivos-generales}}
+
+\begin{itemize}
+\item
+  Integrar parte de los conjuntos de datos propuestos por el CENIEH en
+  \emph{ARIADNEplus}.
+\item
+  Proporcionar al CENIEH una infraestructura \emph{software} que
+  permita:
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    Gestionar sus (meta)datos en la integración con \emph{ARIADNEplus}.
+  \item
+    Transformar sus esquemas de (meta)datos a un esquema estandarizado
+    compatible con \emph{ARIADNEplus}.
+  \item
+    Compartir los datos de forma que estos sean accesibles desde el
+    exterior.
+  \item
+    Facilitar la integración de los (meta)datos en \emph{ARIADNEplus}.
+  \end{itemize}
+  \end{quote}
+\end{itemize}
+
+\hypertarget{objetivos-especuxedficos}{%
+\section{Objetivos específicos}\label{objetivos-especuxedficos}}
+
+\begin{itemize}
+\item
+  Estudiar el proyecto ARIADNEplus, poniendo especial incapié en el
+  proceso de integración de los datos.
+\item
+  Estudiar todos los conjuntos de datos involucrados en el proyecto.
+\item
+  Diseñar e implementar un esquema de metadatos que satisfaga las
+  necesidades de ambas partes, es decir, pueda ser transformado al
+  modelo objetivo (\emph{AO-CAT}) y, además, tenga la capacidad de
+  representar fehacientemente los conjuntos de datos propuestos por el
+  CENIEH.
+\item
+  Encontrar una aplicación \emph{software} que cumpla con un mínimo de
+  requisitos:
+
+  \begin{quote}
+  \begin{itemize}
+  \tightlist
+  \item
+    Sea \emph{software} libre.
+  \item
+    Tolere un esquema de metadatos compatible con \emph{CIDOC-CRM} o
+    alguna de sus variantes utilizadas por ARIADNEplus como \emph{ACDM}
+    o \emph{AO-CAT}.
+  \item
+    Cuente con un sistema de importación y exportación de metadatos.
+  \end{itemize}
+  \end{quote}
+\item
+  Adaptar la aplicación seleccionada a las necesidades del proyecto a
+  través del desarrollo de complementos (\emph{plugins}).
+\item
+  Estudio y uso de \emph{Zend Framework}.
+\item
+  Aplicar la arquitectura MVC
+  (\emph{Model}-\emph{View}-\emph{Controller}) en el desarrollo de los
+  \emph{plugins}.
+\item
+  Estudio y uso de lenguajes empleados para el desarrollo web como
+  \emph{PHP}, \emph{HTML}, \emph{JavaScript}, \emph{jQuery} y
+  \emph{CSS}.
+\item
+  Aplicar técnicas de integración continua a través de herramientas como
+  \emph{GitHub Actions} o \emph{Codacy}.
+\item
+  Utilizar bases de datos relacionales MySQL (MariaDB).
+\item
+  Trabajar con \emph{Docker} para facilitar el despliegue de la
+  infraestructura sobre los entornos de trabajo.
+\item
+  Aprender a utilizar el conjunto de herramientas alojadas en la
+  infraestructura \emph{D4Science}, en concreto, \emph{Vocabulary
+  Matching Tool} y \emph{X3ML Mapping Tool}.
+\item
+  Utilizar como sistema de documentación continua \emph{Read the Docs}.
+\end{itemize}
+
+\end{document}
