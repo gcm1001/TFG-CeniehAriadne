@@ -75,4 +75,25 @@ spec:
             secretKeyRef:
               name: omeka-snmp
               key: ssl
+      volumeMounts:
+        - name: db-config
+          mountPath: /var/www/html/db.ini
+          subPath: db.ini
+        - name: snmp-config
+          mountPath: /var/www/html/application/config.ini
+          subPath: config.ini
+        - name: imap-config
+          mountPath: /var/www/html/plugins/AriadnePlusTracking/mail.ini
+          subPath: mail.ini
       restartPolicy: Always
+      volumes:
+        - name: db-config
+          configMap:
+            name: db-config
+        - name: snmp-config
+          configMap:
+            name: snmp-config
+        - name: imap-config
+          configMap:
+            name: imap-config
+      
