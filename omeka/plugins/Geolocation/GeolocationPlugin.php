@@ -263,6 +263,12 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
+    /**
+     *  Update the map with a new Location based on item's Dublin Core "Spatial Coverage" metadata.
+     * 
+     * @param type $item
+     * @return boolean
+     */
     private function synchronizeSpatialCoverage_Map($item) {
         $spatialtext = metadata($item, array('Dublin Core', 'Spatial Coverage'));
         $location = $this->_db->getTable('Location')->findLocationByItem($item, true);
@@ -314,6 +320,11 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         return;
     }
 
+    /**
+     * Update the item's Dublin Core "Spatial Coverage" metadata with the lat/long and address provided from Geolocation.
+     * 
+     * @param type $item
+     */
     private function synchronizeMap_SpatialCoverage($item){
         // obtenemos el elemento 'Spatial Coverage' de la tabla 'Element' alojada en la base de datos
         $elementTable = $this->_db->getTable('Element');
@@ -349,6 +360,12 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
         $item->saveElementTexts(); //guardo las modificaciones
     }
 
+    /**
+     * Delete existing coordinates in the "Spatial Coverage" metadata.
+     * 
+     * @param type $item
+     * @return type
+     */
     private function _deleteExistingCoords($item){
         $etexts = $item->getElementTexts('Dublin Core', 'Spatial Coverage');
         if(!$etexts) return;

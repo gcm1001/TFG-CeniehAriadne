@@ -55,17 +55,17 @@
     <div class="phase-bar" style="width: <?= (($level > 0) ? $level*(100/6) : 100/6).'%' ?>;"></div>
     </div>
     <div id="phase-content">
-      <?php if($level != -1): ?>
-    <?= $this->Tracking()->showPhase(array(
-        'phase' => $level > 0 ? $level : 1, 
-        'record' => $record, 
-        'results' => isset($total_results) ? $total_results : 0, 
-        'hide' => $hide)); ?>
-      <?php else: ?>
-      <div id="load">
-        <h1>LOADING...</h1>
-      </div>
-      <?php endif; ?>
+        <?php if($level != -1): ?>
+        <?= $this->Tracking()->showPhase(array(
+          'phase' => $level > 0 ? $level : 1, 
+          'record' => $record, 
+          'results' => isset($total_results) ? $total_results : 0, 
+          'hide' => $hide)); ?>
+        <?php else: ?>
+        <div id="load">
+            <h1>LOADING...</h1>
+        </div>
+        <?php endif; ?>
     </div>
     <?php if($level == 4 || $level == 6): ?>
     <div id="phase-buttons">
@@ -74,10 +74,10 @@
             <img class="icon" src="<?= html_escape(img('reload-icon.png')); ?>">
             <span class="renew-txt"><?= __('Restart'); ?></span>
         </a>
-      <form method="post" action="<?= html_escape(url('ariadne-plus-tracking/index/renew'))?>"  id="renew-form" name="renew-form" > 
+        <form method="post" action="<?= html_escape(url('ariadne-plus-tracking/index/renew'))?>"  id="renew-form" name="renew-form" > 
           <input type="hidden" name="record_type" value="<?= html_escape($ticket->record_type); ?>" />
           <input type="hidden" name="record_id" value="<?= html_escape($ticket->record_id); ?>" />
-      </form>
+        </form>
     </div>
         <?php endif; ?>
         <?php if($level >= 0 && $level < 6): ?>
@@ -94,7 +94,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function(){
         Omeka.Tickets.notifications();
-        Omeka.Tickets.stageNotification(<?= isset($total_results) ? $total_results : 0;?>);
+        Omeka.Tickets.stageNotification();
     });
 </script>
 <?php else: ?>

@@ -65,12 +65,11 @@ echo head(array(
 		<?php echo mh_item_citation(); ?>
 		<?php echo function_exists('tours_for_item') ? tours_for_item($item->id, __('Related %s', mh_tour_label('plural'))) : null?>
 		<?php echo mh_subjects(); ?>
-		<?php #echo mh_tags();?>			
 		<?php echo mh_related_links();?>
 	</section>	
 	
 	<section class="allmetadata">
-		<?php echo mh_show_all_exist_metadata();?>
+		<?php echo mh_show_all_exist_metadata($item);?>
 		<?php echo mh_post_date(); ?>		
 		<?php echo mh_display_comments();?>
 	</section>

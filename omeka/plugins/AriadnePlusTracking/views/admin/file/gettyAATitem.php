@@ -1,5 +1,5 @@
 <div class="two columns alpha">
-	<label><b><?= __('JSON file of your matchings to Getty AAT'); ?></b></label>
+    <label><b><?= __('JSON file of your matchings to Getty AAT'); ?></b></label>
 </div>
 <div class="drawer-contents">
     <p><?= html_escape(__('The maximum file size is %s.', max_file_size())); ?></p>

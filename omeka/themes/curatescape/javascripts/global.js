@@ -10,11 +10,6 @@ jQuery(document).ready(function($) {
 				position: "top",
 				content: ["<span class='offscreen-search'>"+$('form#sidebar-search-form')[0].outerHTML+"</span>"],
 				height:2,
-			},{
-				// random button
-		        position: "bottom",
-		        content: ["<span class='offscreen-random'><a href='"+$('.random-story-link').attr('href')+"'><i class='fa fa-random fa-lg' aria-hidden='true'></i> View A Random Record<a></span>"],
-		        height:1,
 			}
 	    ];		
 		$('form#sidebar-search-form').remove();

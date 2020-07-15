@@ -183,14 +183,14 @@ mail.transport.type = "Sendmail"
 ; to switch to SMTP for sending mail through Omeka. Your configuration
 ; may not require all of the options listed.
 ;
-; mail.transport.type = "Smtp"
-; mail.transport.host = ""
-; mail.transport.port = ###     ; Port number, if applicable.
-; mail.transport.name = ""      ; Local client hostname, e.g. "localhost"
-; mail.transport.auth = "login" ; For authentication, if required.
-; mail.transport.username = ""
-; mail.transport.password = ""
-; mail.transport.ssl = ""       ; For SSL support, set to "ssl" or "tls"
+mail.transport.type = "Smtp"
+mail.transport.host = ${SNMP_HOST}
+mail.transport.port = ${SNMP_PORT}     ; Port number, if applicable.
+mail.transport.name = "localhost"      ; Local client hostname, e.g. "localhost"
+mail.transport.auth = "login" ; For authentication, if required.
+mail.transport.username = ${SNMP_USERNAME}
+mail.transport.password = ${SNMP_PASSWORD}
+mail.transport.ssl = ${SNMP_SSL}       ; For SSL support, set to "ssl" or "tls"
 
 ; mail.force_from
 ; Force all outgoing emails to have the configured From address

@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Controller for delete page.
+ *
+ * @package CuratorMonitor
+ */
 class TagsManager_DelController extends Omeka_Controller_AbstractActionController {
 
+    /**
+     *  Delete all action.
+     */
     public function allAction() {        
         $params = $this->getAllParams();
         $result = $this->_getResult($params);
@@ -25,6 +33,12 @@ class TagsManager_DelController extends Omeka_Controller_AbstractActionControlle
         $this->redirect('tags');
     }
     
+    /**
+     * Returns the searched tags.
+     * 
+     * @param type $params
+     * @return type Tags
+     */
     private function _getResult($params){
         $database = get_db();
         $tagTable = $database->getTable('Tag');
