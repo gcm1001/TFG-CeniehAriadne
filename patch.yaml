@@ -85,15 +85,14 @@ spec:
         - name: imap-config
           mountPath: /var/www/html/plugins/AriadnePlusTracking/mail.ini
           subPath: mail.ini
-      restartPolicy: Always
       volumes:
-        - name: db-config
-          configMap:
-            name: db-config
-        - name: snmp-config
-          configMap:
-            name: snmp-config
         - name: imap-config
           configMap:
             name: imap-config
-      
+        - name: snmp-config
+          configMap:
+            name: snmp-config
+        - name: db-config
+          configMap:
+            name: db-config
+      restartPolicy: Always
