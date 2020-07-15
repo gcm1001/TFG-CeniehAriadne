@@ -189,7 +189,23 @@ En la :numref:`enrichment` se muestra el flujo de datos del proceso de enriqueci
 
 El archivo generado por esta herramienta (.json) define las relaciones entre los conceptos del vocabulario de origen y los conceptos del vocabulario *Getty AAT*. Desde el catálogo de ARIADNEplus, todos aquellos términos que tengan una asociación definida, serán hiperenlaces que apunten al concepto Getty AAT asociado.
 
+.. figure:: ../_static/images/enrichedsubject.png
+   :name: enrichedsubject
+   :alt: Fase de confirmación.
+   :scale: 80%
+   :align: center
+
+   Vista de un metadato (*Subject*) antes y depués de ser enriquecido
+
 Además, vemos representada la BD donde **PeriodO** almacena sus registros. Para aportar información adicional a los periodos existentes en nuestros datos, debemos publicar en el cliente de PeriodO nuestra propia colección de periodos. De esta forma, ARIADNEplus podrá recoger desde la BD de periodO nuestra colección para, posteriormente, establecer una relación entre los periodos de un lado y de otro. Al igual que con el vocabulario, todos los periodos que tengan una asociación definida, serán hiperenlaces que apunten al objeto de periodO.
+
+.. figure:: ../_static/images/enrichedating.png
+   :name: enrichedating
+   :alt: Fase de confirmación.
+   :scale: 80%
+   :align: center
+
+   Vista de un metadato (*Dating*) antes y depués de ser enriquecido
 
 En esta fase se encontraron varios **inconvenientes**:
 - Muchos de los términos existentes en los conjuntos de datos del CENIEH no están presentes en el vocabulario *Getty AAT*. Por este motivo, solo se pudo enriquecer una pequeña parte del conjunto total.

@@ -90,7 +90,7 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
    FLUSH PRIVILEGES;
    EXIT;
 
-2. **Descargar** la version 2.7.1 de **Omeka**, desde su [web oficial](https://omeka.org/classic/download/) o desde su [repositorio oficial](http://github.com/omeka/Omeka) en GitHub.
+2. **Descargar** la version 2.7.1 de **Omeka**, desde su `web oficial <https://omeka.org/classic/download/>`__ o desde su `repositorio oficial <http://github.com/omeka/Omeka>`__ en GitHub.
 
 .. code-block::
 
@@ -253,17 +253,17 @@ Si se ha publicado la imagen en *DockerHub*, se puede hacer referencia a esta in
 .. warning::
    Elimina el servicio `omeka-db-admin` si tu servidor está destinado a producción. Este servicio incorpora la herramienta *PhpMyAdmin* a la infraestructura, la cual tiene un alto grado de vulnerabilidades.
 
-Por último, crear los *secrets* correspondientes a las contraseñas de la base de datos:
+Por último, se crean los *secrets* correspondientes a las contraseñas de la base de datos:
 
 .. code-block:: bash
 
    echo 'contraseña_usuario_db' | docker secret create omeka_db_password -
    echo 'contraseña_root_db' | docker secret create omeka_db_root_password -
-   cp configFiles/db.ini.example configFiles/db.ini
-
+   cp configFiles/db.ini.modificar configFiles/db.ini
+   cp configFiles/mail.ini.modificar configFiles/mail.ini
 
 .. warning::
-   Debes modificar el fichero recién creado `db.ini` con los datos de la base de datos. Ten en cuenta que la contraseña que introduzcas en el fichero tiene que coincidir con la del *secret* recién creado.
+   Debes modificar los ficheros recién creados (*db.ini* y *mail.ini* con los datos relacionados con la base de datos y el protocolo IMAP. Ten en cuenta que la contraseña que introduzcas en el fichero tiene que coincidir con la del *secret* *omeka_db_password*.
 
 Ahora ya se puede desplegar la infraestructura ejecutando el siguiente comando desde el directorio de trabajo (donde se encuentra la descarga del primer paso).
 
@@ -285,32 +285,73 @@ El primer paso para desplegar la aplicación mediante *Kubernetes* es montar nue
 
 El siguiente paso consiste en desplegar la aplicación. Para esta tarea utilizo el gestor de objetos *Kustomize*. Por ello, deberás contar con dicha herramienta. Además debes estar en posesión de los siguientes ficheros alojados en este repositorio:
 
-- /kustomization.yaml
-- /patch.yaml
-- /gke-mysql/*
-- /gke-omeka/*
-- /configFiles/db.ini
+- `/kustomization.yaml`
+- `/patch.yaml`
+- `/gke-mysql/*`
+- `/gke-omeka/*`
+- `/configFiles/db.ini.gke`
+- `/configFiles/mail.ini.gke`
+- `/configFiles/config.ini.gke`
 
-Ahora, debes crear el `secret` que contendrá todos los datos privados necesarios para crear la la base de datos (nombre de la base de datos, nombre de usuario, contraseña de usuario y contraseña root). 
+Se deben definir en el servidor los *secrets* y *configMaps* utilizados por los ficheros de configuración *.yaml*.
+
+Para ello se ejecutan los siguientes comandos:
 
 .. warning::
-   Antes de ejecutar los siguientes comandos debes crear las *variables de entorno* que se están utilizando: DB_PASSWORD, DB_ROOT_PASSWORD, DB_USERNAME y DB_DATABASE.
+   Sustituir los *<valores>* por los datos apropiados.
+
+- *omeka-db*: *secretos* relacionados con la base de datos.
 
 .. code-block::
 
-   kubectl create secret omeka-db \
-   --from-literal=user-password=$DB_PASSWORD \
-   --from-literal=root-password=$DB_ROOT_PASSWORD \
-   --from-literal=username=$DB_USERNAME \
-   --from-literal=database=$DB_DATABASE
+   kubectl create secret generic omeka-db \
+   --from-literal=user-password=<contraseña_db_usuario> \
+   --from-literal=root-password=<contraseña_db_root> \
+   --from-literal=username=<nombre_usuario>\
+   --from-literal=database=<nombre_bd>
 
-Además debemos crear el *configmap* que almacenará todo el contenido del fichero de configuración `db.ini` (no necesitas modificarlo ya que este emplea las variables de entorno utilizadas en los comandos anteriores).
+- *omeka-snmp*: *secretos* relacionados con el protocolo SNMP.
+
+.. code-block::
+
+   kubectl create secret generic omeka-snmp \
+   --from-literal=host=<host_snmp> \
+   --from-literal=username=<correo_electronico> \
+   --from-literal=password=<contraseña_correo> \
+   --from-literal=port=<puerto_snmp> \
+   --from-literal=ssl=<protocolo_seguridad_snmp>
+
+- *omeka-imap*: *secretos* relacionados con el protocolo IMAP.
+
+.. code-block::
+
+   kubectl create secret generic omeka-imap \
+   --from-literal=host=<host_imap> \
+   --from-literal=username=<correo_electronico> \
+   --from-literal=password=<contraseña_correo> \
+   --from-literal=port=<puerto_imap> \
+   --from-literal=ssl=<protocolo_seguridad_imap>
+
+- *db-config*: *mapa de configuración* para la base de datos.
 
 .. code-block::
 
    kubectl create configmap db-config \
-   --from-file ./configFiles/db.ini
+   --from-file=./configFiles/db.ini.gke
 
+- *snmp-config*: *mapa de configuración* para el protocolo SNMP.
+
+.. code-block::
+
+   kubectl create configmap snmp-config \
+   --from-file=./configFiles/config.ini.gke
+
+- *imap-config*: *mapa de configuración* para el protocolo IMAP.
+
+.. code-block::
+
+   kubectl create configmap imap-config \
+   --from-file=./configFiles/mail.ini.gke
 
 Por último, debemos indicar el identificador de nuestra imagen *Docker* en el fichero `/gke-omeka/deployment.yaml`.
 

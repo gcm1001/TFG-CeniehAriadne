@@ -1,0 +1,261 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Trabajos relacionados},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Trabajos relacionados}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+Algunos socios del proyecto ARIADNEplus han adoptado una solución muy
+similar a la propuesta en el presente proyecto, es decir, han hecho uso
+de aplicaciones \emph{software} de terceros para la gestión de sus
+(meta)datos y las han adaptado según sus necesidades. A continuación, se
+muestran aquellos casos que guardan una mayor relación con el proyecto.
+
+\hypertarget{casos-similares}{%
+\section{Casos similares}\label{casos-similares}}
+
+\hypertarget{fasti-online}{%
+\subsection{Fasti Online}\label{fasti-online}}
+
+Fasti Online\footnote{"Fasti Online." \url{http://www.fastionline.org/}}
+es un proyecto liderado por la Asociación Internacional de Arqueología
+Clásica (AIAC)\footnote{"AIAC -- Associazione Internazionale di
+  Archeologia Classica." \url{http://www.aiac.org/}} y el \emph{Center
+for the Study of Ancient Italy} (CSAI)\footnote{"CSAI -- Center for the
+  Study of Ancient Italy." \url{http://csaitx.org/}} de la Universidad
+de Texas, Austin\footnote{"University of Texas at Austin."
+  \url{https://www.utexas.edu/}}. Su principal objetivo es proporcionar
+una infraestructura \emph{software} que permita almacenar, gestionar y
+publicar registros relacionados con la arqueología.
+
+Para tal fin, han utilizado como base la aplicación \emph{software}
+denominada \href{https://ark.lparchaeology.com/}{ARK}. Esta es una
+aplicación web que provee servicios como la gestión, compartición y
+transformación (mapeo) de (meta)datos. Además, la aplicación es de
+código abierto, lo que significa que es personalizable y extensible.
+
+La incorporación de \emph{Fasti Online} al proyecto \emph{ARIADNE} y,
+posteriormente, al proyecto \emph{ARIADNEplus}, ha impulsado la
+implementación de nuevas funcionalidades sobre la aplicación \emph{ARK}
+como, por ejemplo, la integración de datos espaciales, nuevos mecanismos
+de búsqueda y otros servicios web como, por ejemplo, el protocolo
+\emph{OAI-PMH}.
+
+\hypertarget{conicet}{%
+\subsection{CONICET}\label{conicet}}
+
+El Consejo Nacional de Investigaciones Científicas y Técnicas
+(CONICET)\footnote{"CONICET -- Consejo Nacional de Investigaciones
+  Científicas y Técnicas." \url{https://www.conicet.gov.ar/}} es el
+principal organismo dedicado a la promoción de la ciencia y la
+tecnología en Argentina. Este, al igual que el CENIEH, es una de las
+nuevas incorporaciones al proyecto \emph{ARIADNEplus} y, como tal, han
+tenido que adaptarse para satisfacer los requisitos del proyecto.
+
+La solución planteada por este organismo es muy similar a la del
+presente proyecto. Están desarrollado una infraestructura
+\emph{software} que permita a los operarios del CONICET gestionar y
+publicar sus conjuntos de datos adoptando un esquema de metadatos
+compatible con \emph{ARIADNEPlus}. La aplicación \emph{software} que han
+decidido adaptar ha sido \href{https://duraspace.org/dspace/}{Dspace
+5.5} . Se puede acceder a su infraestructura desde el siguiente
+\href{https://suquia.ffyh.unc.edu.ar/}{enlace} .
+
+\hypertarget{dans}{%
+\subsection{DANS}\label{dans}}
+
+DANS (\emph{Data Archiving and Networked Services})\footnote{"DANS --
+  Data Archiving and Networked Services." \url{https://dans.knaw.nl/en}}
+es una institución de los Paises Bajos cuya misión principal es
+proporcionar las herramientas necesarias a investigadores para hacer que
+sus datos sean accesibles, interoperables y reutilizables.
+
+La organización DANS es responsable del desarrollo y mantenimiento del
+repositorio digital \href{https://dendro.dans.knaw.nl/}{DCCD}, el cual
+es considerado como la principal red de (meta)datos
+arqueológicos/históricos existente en Europa. Entró en funcionamiento en
+2011. Dentro del \emph{DCCD}, laboratorios belgas, daneses, holandeses,
+alemanes, letones, polacos y españoles publican contenido fruto de la
+investigación de, entre otros: sitios arqueológicos (incluidos paisajes
+antiguos), construcciones, pinturas, esculturas e instrumentos
+musicales.
+
+Esta organización participó en el proyecto \emph{ARIADNE} y,
+actualmente, forma parte del proyecto \emph{ARIADNEplus}. Con el
+objetivo de mejorar la integración europea de datos dendrocronológicos
+ofrecen, de forma gratuita, la misma solución \emph{software} empleada
+en su proyecto \emph{DCCD}, la cual es compatible con el proyecto
+\emph{ARIADNE}. Está disponible en
+\href{https://github.com/DANS-KNAW/dccd-webui}{Github} .
+
+\hypertarget{comparativa-entre-soluciones-software}{%
+\section{\texorpdfstring{Comparativa entre soluciones
+\emph{software}}{Comparativa entre soluciones software}}\label{comparativa-entre-soluciones-software}}
+
+\begin{longtable}[]{@{}lllll@{}}
+\caption{Comparativa de las principales características de las
+aplicaciones \emph{software} escogidas por cada socio.}\tabularnewline
+\toprule
+Caraterísticas & Omeka Classic (CENIEH) & ARK (Fasti Online) & DSpace
+(CONICET) & DCCD (DANS)\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Caraterísticas & Omeka Classic (CENIEH) & ARK (Fasti Online) & DSpace
+(CONICET) & DCCD (DANS)\tabularnewline
+\midrule
+\endhead
+Tipo de aplicación & Web & Web & Web & Web\tabularnewline
+Lenguaje de programación principal & PHP & PHP & Java &
+Java\tabularnewline
+Gestión de metadatos & ✔ & ✔ & ✔ & ✔\tabularnewline
+Importación masiva de metadatos & ✔ & ✔ & ✔ & ✔\tabularnewline
+Exportación masiva de metadatos & ✔ & ✔ & ✔ & ✔\tabularnewline
+Edición masiva de metadatos & ✔ & ✘ & ✘ & ✘\tabularnewline
+Cobertura espacial & ✔ & ✔ & ✔ & ✔\tabularnewline
+Cobertura temporal & ✘ & ✔ & ✘ & ✔\tabularnewline
+Protocolo OAI-PMH & ✔ & ✔ & ✔ & ✘\tabularnewline
+Herramientas de apoyo en la integración con ARIADNEplus & ✔ & ✘ & ✘ &
+✘\tabularnewline
+Herramientas para la transformación de metadatos & ✔ & ✔ & ✘ &
+✘\tabularnewline
+Sistema de usuarios & ✔ & ✔ & ✔ & ✔\tabularnewline
+Almacenamiento de ficheros & ✔ & ✔ & ✔ & ✘\tabularnewline
+Asistencia técnica gratuita & ✔ & ✘ & ✘ & ✘\tabularnewline
+Interfaz pública & ✔ & ✔ & ✔ & ✔\tabularnewline
+Interfaz intuitiva & ✔ & ✘ & ✔ & ✘\tabularnewline
+Sistema de \emph{plugins} & ✔ & ✘ & ✔ (*) & ✘\tabularnewline
+Sistema de plantillas & ✔ & ✘ & ✘ & ✘\tabularnewline
+Comunidad de usuarios activa & ✔ & ✘ & ✔ & ✘\tabularnewline
+Manuales de documentación detallados & ✔ & ✘ & ✘ & ✘\tabularnewline
+Última actualización & 2020 & 2018 & 2020 & 2015\tabularnewline
+\bottomrule
+\end{longtable}
+
+\emph{(*) Servicio de pago.}
+
+Basándonos en el contenido de la \texttt{compsolsoft}, se listarán los
+puntos fuertes y débiles que presenta la aplicación del proyecto frente
+a las propuestas de los otros socios.
+
+\hypertarget{puntos-fuertes}{%
+\subsection{Puntos fuertes}\label{puntos-fuertes}}
+
+\begin{itemize}
+\tightlist
+\item
+  Gran parte de la configuración de la aplicación puede realizarse desde
+  la interfaz gráfica, sin necesidad de modificar ficheros internos que
+  requieran un mínimo de conocimiento de la estructura interna de la
+  aplicación, como pasa en aplicaciones como \emph{ARK} o \emph{DCCD}.
+  Esto facilita en gran medida las labores de configuración de la
+  aplicación.
+\item
+  Al requerir una infraestructura \emph{LAMP} para su despliegue, la
+  instalación de la aplicación es relativamente sencilla en comparación
+  con las otras aplicaciones. Además, gracias al presente proyecto, es
+  posible instalar la aplicación a través de tecnologías como
+  \emph{Docker} o \emph{Kubernetes}, facilitando aún más su despliegue.
+\item
+  De entre todas las soluciones mostradas es, sin duda, la más sencilla
+  y segura de adaptar y personalizar. Esto es gracias al sistema de
+  complementos (\emph{plugins}) y plantillas (\emph{themes}) que
+  incorpora.
+\item
+  Gracias a las labores de desarrollo llevadas a cabo en el presente
+  proyecto, dispone de herramientas de apoyo para la integración de
+  conjuntos de datos en ARIADNEplus.
+\item
+  La comunidad de usuarios con la que cuenta \emph{Omeka Classic} es
+  superior a la de sus competidores. Muchos usuarios comparten sus
+  propios desarrollos, tanto complementos como plantillas, de forma que
+  estos pueden ser reutilizados o incluso mejorados por otros usuarios.
+  Además, existe un foro desde donde los expertos de \emph{Omeka},
+  incluídos los líderes del proyecto, brindan soporte técnico gratuito a
+  otros usuarios de la aplicación.
+\item
+  La documentación disponible es, tanto para usuarios como para
+  desarrolladores, la más clara y detallada de todas las aplicaciones
+  mostradas.
+\item
+  Actualmente el proyecto \emph{Omeka} continúa en desarrollo, es decir,
+  siguen saliendo nuevas actualizaciones con mejoras y funcionalidades
+  nuevas para la aplicación. Sin embargo, otros proyectos como
+  \emph{ARK} o \emph{DCCD} están obsoletos.
+\end{itemize}
+
+\hypertarget{puntos-duxe9biles}{%
+\subsection{Puntos débiles}\label{puntos-duxe9biles}}
+
+\begin{itemize}
+\tightlist
+\item
+  Actualmente, no dispone de ningún mecanismo que identifique aquellos
+  (meta)datos cuyo contenido sea un periodo temporal (e.g. "1190 BCE") y
+  los procese de tal forma que estos sean mostrados dentro de una línea
+  temporal y a su vez puedan ser un criterio aislado de búsqueda.
+\item
+  No posee las ventajas que proporciona el lenguaje de programación
+  \emph{Java} utilizado tanto en \emph{DSpace} como en \emph{DCCD}. Este
+  es más rápido y presenta un mejor rendimiento al ser un lenguaje
+  compilado. Además, posee una estructura más ordenada y es mucho más
+  seguro que PHP.
+\end{itemize}
+
+\end{document}

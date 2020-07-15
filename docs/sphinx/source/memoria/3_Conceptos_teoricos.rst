@@ -181,6 +181,14 @@ Conceptos teóricos relativos al desarrollo de la infraestructura
 ----------------------------------------------------------------
 A continuación se definen aquellos conceptos relacionados con el desarrollo de la infraestructura.
 
+Sistema de gestión de contenidos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Un sistema de gestión de contenidos o *CMS* (*Content Management System*) es una aplicación *software+, generalmente de tipo *web*, que permite crear un entorno de trabajo para la creación y gestión de contenidos.
+
+Este tipo de sistemas interactúan con una o varias bases de datos que almacenan el contenido sobre el que se realizan las operaciones de gestión. Además, suelen contar con sistemas que permiten adaptar la aplicación, tanto en diseño como en funcionalidad, de una forma sencilla.
+
+La aplicación escogida para este proyecto (*Omeka Classic*) se puede catalogar como *CMS*.
+
 LAMP
 ~~~~
 Las siglas LAMP son utilizadas para describir infraestructuras *software* que hacen uso de cuatro herramientas específicas:
