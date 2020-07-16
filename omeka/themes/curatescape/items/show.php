@@ -3,7 +3,7 @@
 // Determine which template to use based on the item type
 
 $type = $item->getItemType();
-$type = $type['name'];
+$type = isset($type['name']) ? $type['name'] : 'none';
 switch($type){
 /*
 	case 'Dataset':

@@ -30,7 +30,7 @@
                                     <div id="default-content">
                                         <span> WP4 Leader<input type="text" readonly="readonly" id="email-default" class="msg-input" name="msg_email" value="<?= html_escape(get_option('ariadneplus_tracking_email'));?>" ></span>
                                         <div class="edit-button edit-msg-to"> <a href="#" id="edit-msg-to"><i class="fa fa-edit"></i></a> <a href="#" id="save-msg-to" style="display: none;"><i class="fa fa-save"></i></a></div>
-                                        <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" name="msg_subject" value="<?= __("%s - Ingest", html_escape(get_option('site_title')));?>" ></span>
+                                        <span> Subject <input type="text" readonly="readonly" id="subject-default" class="msg-input" name="msg_subject" value="<?= __("%s - Data integration", html_escape(get_option('site_title')));?>" ></span>
                                         <div class="edit-button edit-msg-subject"> <a href="#" id="edit-msg-subject"><i class="fa fa-edit"></i></a> <a href="#" id="save-msg-subject" style="display: none;"><i class="fa fa-save"></i></a></div>
                                         <input type="hidden" id="msg_content" name="msg_content" value="<?= $body; ?>" form="msg-form">
                                         <input type="hidden" id="record_id" name="record_id" value="<?= html_escape($record->id); ?>" form="msg-form">

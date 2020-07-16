@@ -24,6 +24,13 @@ Omeka.CsvImportPlus = {};
             };
         });
     };
+    
+    Omeka.CsvImportPlus.refreshData = function () {
+        setTimeout(function()
+        {
+            $('#content').load(location.href + " " + '#content > *');
+        }, 2000);
+    };
 
     /**
      * Add a little script that selects the right form values if our spreadsheet

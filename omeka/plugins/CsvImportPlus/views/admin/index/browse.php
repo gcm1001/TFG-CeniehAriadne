@@ -107,6 +107,7 @@
 //<![CDATA[
 jQuery(document).ready(function () {
     Omeka.CsvImportPlus.confirm();
+    Omeka.CsvImportPlus.refreshData();
 });
 //]]>
 </script>

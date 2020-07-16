@@ -62,8 +62,8 @@ con sus propias colecciones de metadatos. Esto puede considerarse un
 problema ya que, como se ha comentado anteriormente, este tipo de
 información se representa a través de un esquema, el cual será distinto
 en cada uno de los miembros. Ante esta situación, al no coincidir el
-esquema de origen (?) con el de destino (AO-Cat), sería imposible poder
-representar los datos del origen en el catálogo.
+esquema de origen (e.g. esquema sedimentos, esquema ratón pérez, esquema litoteca...) 
+con el de destino (AO-Cat), sería imposible poder representar los datos del origen en el catálogo.
 
 \imagen{mappingProblem}{Conflicto entre esquemas de metadatos distintos.}{0.9}
 
@@ -139,7 +139,7 @@ integración con \emph{ARIADNEplus}.}
 
 \subsubsection{Transformación}
 
-Para evitar el problema mostrado en la \texttt{mappingProblem},
+Para evitar el problema mostrado en la Figura \ref{fig:mappingProblem},
 \emph{ARIADNEplus} pone a disposición de sus miembros la \textbf{herramienta
 \emph{X3ML Mapping Tool}}, disponible en el entorno virtual \emph{ARIADNEplus Mappings} del
 portal \emph{ARIADNEplus Gateway} de \emph{D4Science}. Está compuesta
@@ -314,7 +314,7 @@ Las principales opciones de importación son:
   \textbf{\emph{FTP(S)}} \cite{wiki:ftp}: es otro protocolo de transferencia de ficheros.
   Presenta las mismas características de importación que SFTP.
 \item
-  \textbf{Workspace}: se pueden subir directamente los (meta)datos en el
+  \textbf{Workspace}: se pueden subir directamente los metadatos en el
   \emph{workspace} de \emph{D4Sciente} (\emph{ARIADNEplus Gateway}). Cada socio tiene
   su propia carpeta donde puede ir almacenando los documentos \emph{XML}
   (metadatos) que desee importar.
@@ -444,7 +444,7 @@ temas para personalizar la estética del área pública de la aplicación (\emph
 
 Actualmente, \emph{Omeka} cuenta con una gran cantidad de \emph{plugins}
 disponibles, tanto en su \href{https://omeka.org/classic/plugins/}{página
-oficial} como en \href{https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html}{Github}.
+oficial} como en \href{https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html}{GitHub}.
 Esto es posible gracias a la extensa comunidad de usuarios que le
 respalda. 
 
@@ -544,7 +544,8 @@ dos formas de usar ese filtro:
 
 \subsection{Entornos de trabajo}
 
-Durante la fase de desarrollo, se ha trabajado sobre dos entornos:
+Durante la fase de desarrollo, se ha trabajado sobre dos entornos visibles 
+en el repositorio alojado en \emph{GitHub}:
 
 \begin{itemize}
 \tightlist
@@ -563,12 +564,12 @@ Durante la fase de desarrollo, se ha trabajado sobre dos entornos:
 \subsection{Despliegue de la infraestructura}
 
 Para llevar a cabo el despliegue de la infraestructura se ha utilizado
-la herramienta \emph{Github Actions}. Dependiendo del entorno de
+la herramienta \emph{GitHub Actions}. Dependiendo del entorno de
 trabajo, se ha procedido de una manera u otra:
 
 \subsubsection{Servidor de desarrollo}
 
-A través de la herramienta \emph{Github Actions} se ha automatizado el
+A través de la herramienta \emph{GitHub Actions} se ha automatizado el
 despliegue de la infraestructura sobre el servidor de desarrollo. A esta
 técnica se la conoce como despliegue continuo.
 
@@ -589,7 +590,7 @@ despliegue debido a que el acceso a este era privado, es decir, no se
 podía establecer comunicación desde el exterior sin previa conexión al
 VPN del CENIEH y el posterior acceso vía \emph{ssh} al servidor.
 
-\imagen{dockerdeploy}{Despliegue "semi-continuo" de la aplicación.}{0.9}
+\imagen{dockerdeploy}{Despliegue ``semi-continuo'' de la aplicación.}{0.9}
 
 Como solución a este inconveniente, se automatizó por separado la
 compilación y publicación de la imagen \emph{Docker} asociada a nuestra

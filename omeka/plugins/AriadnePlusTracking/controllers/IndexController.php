@@ -254,7 +254,7 @@ class AriadnePlusTracking_IndexController extends Omeka_Controller_AbstractActio
                     $jobDispatcher = Zend_Registry::get('bootstrap')->getResource('jobs');
                     $jobDispatcher->setQueueName(AriadnePlusTracking_Job_Stage::QUEUE_NAME);
                     $jobDispatcher->sendLongRunning('AriadnePlusTracking_Job_Stage', $options);
-                    $message = $this->_getStageMessage(array('term' => $term, 'newterm' => $statusElement['terms'][$key +1], 'key' => $key));
+                    $message = $this->_getStageMessage(array('level' => $this->view->tracking()->getLevelStatus($term), 'newterm' => $statusElement['terms'][$key +1], 'key' => $key));
                     $flashMessenger->addMessage($message, 'success');
                 }
             }
@@ -371,13 +371,13 @@ class AriadnePlusTracking_IndexController extends Omeka_Controller_AbstractActio
     private function _getStageMessage($args){
         $key = $args['key'];
         if($key == 0){
-            $message = __('A background job ticket is launched to assign a status'. __('This may take a while.'));
+            $message = __('A background job ticket is launched to assign a status'. __('This may take a while.')). 'Previous level: '.$args['level'];
         } elseif ($key == 6) {
-            $message = __('A background job ticket is launched to refresh published elements. This may take a while.');
+            $message = __('A background job ticket is launched to refresh published elements. This may take a while.'). 'Previous level: '.$args['level'];
         } else {
             $message = __('A background job ticket is launched to stage "%s" into "%s".',
                 $args['term'], $args['newterm'])
-                . ' ' . __('This may take a while.');                       
+                . ' ' . __('This may take a while.'). 'Previous level: '.$args['level'];                       
         }
     }
     
