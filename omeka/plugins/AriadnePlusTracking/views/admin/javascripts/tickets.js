@@ -200,8 +200,8 @@ var TIMEOUT_RENEW = 60000; //ms
     Omeka.Tickets.stageNotification = function () 
     {
         if ($('.success')[0]){
-            var level = $('input#ticket-type').val();
-            var extraTimeout = (level == 3 || level == 4) ? 6500 : 0;
+            var level = $('.success').text().match(/\d+/);
+            var extraTimeout = (level == 3 || level == 4) ? 5500 : 0;
             Swal.fire({
                 title: 'Wait please!',
                 html: 'Validating information...',
