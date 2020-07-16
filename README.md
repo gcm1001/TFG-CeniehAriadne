@@ -52,7 +52,7 @@
 
 ## 💬 Descripción
 
-En el presente TFG se propone una infraestructura software capaz de gestionar los conjuntos de datos del CENIEH para posteriormente ser integrados en la plataforma ARIADNEplus. La aplicación escogida para llevar a cabo este cometido ha sido [Omeka Classic](https://omeka.org/classic/). Sobre esta se han realizado una serie de [desarrollos propios](#plugins-propios) (_plugins_) con el fin de adaptar dicha aplicación a las necesidades del proyecto.
+En el presente TFG se propone una infraestructura _software_ capaz de gestionar los conjuntos de datos del CENIEH para posteriormente ser integrados en la plataforma _ARIADNEplus_. La aplicación escogida para llevar a cabo este cometido ha sido [Omeka Classic](https://omeka.org/classic/). Sobre esta se han realizado una serie de [desarrollos propios](#plugins-propios) (_plugins_) con el fin de adaptar dicha aplicación a las necesidades del proyecto.
 
 -----
 
@@ -99,7 +99,7 @@ El siguiente consistirá en **configurar tu servidor**. Para ello, hay que segui
 5. Movemos todo el contenido a la carpeta al servidor.
 6. **Dar permisos de escritura sobre la carpeta `files`**.
 
-Desde este instante, la aplicación será accesible desde el navegador. El último paso consistiría en completar la instalación guiada desde el navegador, disponible a través de tu dirección URL (e.g. http://mydomain.org/install).
+Desde este instante, la aplicación será accesible desde el navegador. El último paso consistiría en completar la instalación guiada desde el navegador, disponible en el directorio `/install/` de la aplicación (e.g. http://localhost/install).
 
 [***Documentación Oficial de Omeka***](https://omeka.org/classic/docs/Installation/Installation/)
 
@@ -116,10 +116,12 @@ Para proceder al despliegue **debes descargar**, de este repositorio, los siguie
 
 - /Dockerfile
 - /docker-compose.yml
-- /ConfigFiles/*
+- /ConfigFiles/*.modificar
 - /omeka/plugins/*
 
 **IMPORTANTE**: Mantén los subdirectorios intactos.
+
+Opcionalmente modificar los ficheros `/ConfigFiles/php.ini.modificar` y `/ConfigFiles/config.ini.modificar` a tu gusto.
 
 A continuación debes **compilar la imagen**. Para ello, desde el directorio raiz (donde tengas el fichero _Dockerfile_), ejecuta el siguiente comando:
 
@@ -137,19 +139,18 @@ En él, solo tenemos que cambiar la etiqueta `image` del servicio `omeka_app`:
     image: nombre_imagen:tag
 ```
 
-Si hemos publicado nuestra imagen en _DockerHub_, deberemos añadir además nuestro nombre de usuario (e.g. username/nombre_de_mi_imagen:tag).
-
-**IMPORTANTE:** elimina el servicio `omeka-db-admin` si tu servidor está destinado a producción. Este servicio implementa la herramienta PhpMyAdmin, con un alto grado de vulnerabilidades.
+Si hemos publicado nuestra imagen en _DockerHub_, deberemos añadir además nuestro nombre de usuario (e.g. *username/nombre_de_mi_imagen:tag*).
 
 Por último, debes crear los _secrets_ correspondientes a las contraseñas de la base de datos:
 
 ```
 echo 'contraseña_usuario_db' | docker secret create omeka_db_password -
 echo 'contraseña_root_db' | docker secret create omeka_db_root_password -
-cp configFiles/db.ini.example configFiles/db.ini
+cp configFiles/db.ini.modificar configFiles/db.ini
+cp configFiles/mail.ini.modificar configFiles/db.ini
 ```
 
-**IMPORTANTE**: debes modificar el fichero recién creado `db.ini` con los datos de la base de datos. Ten en cuenta que la contraseña que introduzcas en el fichero tiene que coincidir con la del  `secret` creado anteriormente.
+**IMPORTANTE**: debes modificar los ficheros recién creados (`db.ini` y `mail.ini` con los datos relacionados con la base de datos y el protocolo _IMAP_. Ten en cuenta que la contraseña que introduzcas en el fichero tiene que coincidir con la del _secret_ `omeka_db_password`.
 
 Por último, ejecuta el siguiente comando desde el directorio raiz (donde se encuentra `docker-compose.yml`).
 
@@ -157,7 +158,7 @@ Por último, ejecuta el siguiente comando desde el directorio raiz (donde se enc
 docker stack deploy -c docker-compose.yml nombre_del_entorno
 ```
 
-Desde este instante la aplicación debería ser accesible desde el navegador (puerto 80).
+Desde este instante la aplicación debería ser accesible desde el navegador (puerto 80). El último paso consistiría en completar la instalación guiada desde el navegador, disponible en el directorio `/install/` de la aplicación (e.g. http://localhost/install).
 
 <img align="right" src="/docs/readme/images/readme-kubernetes.png" width="280">
 
@@ -173,31 +174,70 @@ El primer paso para desplegar la aplicación mediante _Kubernetes_ es montar nue
 
 El siguiente paso consiste en desplegar la aplicación. Para esta tarea utilizo el gestor de objetos _Kustomize_. Por ello, deberás contar con dicha herramienta. Además debes estar en posesión de los siguientes ficheros alojados en este repositorio:
 
-- /kustomization.yaml
-- /patch.yaml
-- /gke-mysql/*
-- /gke-omeka/*
-- /configFiles/db.ini
+- `/kustomization.yaml`
+- `/patch.yaml`
+- `/gke-mysql/*`
+- `/gke-omeka/*`
+- `/configFiles/db.ini.gke`
+- `/configFiles/mail.ini.gke`
+- `/configFiles/config.ini.gke`
 
-Ahora, debes crear el `secret` que contendrá todos los datos privados necesarios para crear la la base de datos (nombre de la base de datos, nombre de usuario, contraseña de usuario y contraseña root). 
+Se deben definir en el servidor los _secrets_ y _configMaps_ utilizados por los ficheros de configuración `.yaml`.
 
-**IMPORTANTE**: Antes de ejecutar los siguientes comandos debes crear las _variables de entorno_ que se están utilizando.
+Para ello se ejecutan los siguientes comandos:
 
-```
- kubectl create secret omeka-db \
---from-literal=user-password=$DB_PASSWORD \
---from-literal=root-password=$DB_ROOT_PASSWORD \
---from-literal=username=$DB_USERNAME \
---from-literal=database=$DB_DATABASE
+- `omeka-db`: *secretos* relacionados con la base de datos.
 
 ```
-
-Además debemos crear el `configmap` que almacenará todo el contenido del fichero de configuración `db.ini` (no necesitas modificarlo ya que este emplea las variables de entorno utilizadas en los comandos anteriores).
+   kubectl create secret generic omeka-db \
+   --from-literal=user-password=<contraseña_db_usuario> \
+   --from-literal=root-password=<contraseña_db_root> \
+   --from-literal=username=<nombre_usuario>\
+   --from-literal=database=<nombre_bd>
 
 ```
-kubectl create configmap db-config \
---from-file ./configFiles/db.ini
-```
+- `omeka-snmp`: *secretos* relacionados con el protocolo SNMP.
+
+.. code-block::
+
+   kubectl create secret generic omeka-snmp \
+   --from-literal=host=<host_snmp> \
+   --from-literal=username=<correo_electronico> \
+   --from-literal=password=<contraseña_correo> \
+   --from-literal=port=<puerto_snmp> \
+   --from-literal=ssl=<protocolo_seguridad_snmp>
+
+- `omeka-imap`: *secretos* relacionados con el protocolo IMAP.
+
+.. code-block::
+
+   kubectl create secret generic omeka-imap \
+   --from-literal=host=<host_imap> \
+   --from-literal=username=<correo_electronico> \
+   --from-literal=password=<contraseña_correo> \
+   --from-literal=port=<puerto_imap> \
+   --from-literal=ssl=<protocolo_seguridad_imap>
+
+- `db-config`: *mapa de configuración* para la base de datos.
+
+.. code-block::
+
+   kubectl create configmap db-config \
+   --from-file=./configFiles/db.ini.gke
+
+- `snmp-config`: *mapa de configuración* para el protocolo SNMP.
+
+.. code-block::
+
+   kubectl create configmap snmp-config \
+   --from-file=./configFiles/config.ini.gke
+
+- `imap-config`: *mapa de configuración* para el protocolo IMAP.
+
+.. code-block::
+
+   kubectl create configmap imap-config \
+   --from-file=./configFiles/mail.ini.gke
 
 Por último, debemos indicar el identificador de nuestra imagen _Docker_ en el fichero `/gke-omeka/deployment.yaml`. 
 
@@ -215,7 +255,7 @@ Tras esto, solo faltaría ejecutar, desde el directorio raíz, el siguiente coma
 kustomize build . | kubectl apply -f -
 ```
 
-Desde este instante la aplicación debería ser accesible desde el navegador (puerto 80).
+Desde este instante la aplicación debería ser accesible desde el navegador (puerto 80). El último paso consistiría en completar la instalación guiada desde el navegador, disponible en el directorio `/install/` de la aplicación (e.g. http://localhost/install).
 
 ## 📦 *Plugins*
 
@@ -228,7 +268,7 @@ Desde este instante la aplicación debería ser accesible desde el navegador (pu
 | [Collection Files](/omeka/plugins/CollectionFiles/) | Permite asociar ficheros a colecciones |
 | [Tags Manager](/omeka/plugins/TagsManager/) | Gestiona los tags existentes en la plataforma |
 | [Admin Menu Design](/omeka/plugins/AdminMenuDesign/) | Cambia el diseño del menú y añade secciones a este |
-| [IsPartOfCollection](/omeka/plugins/IsPartOfCollection/) | Actualiza el campo "Is Part Of" del modelo de metadatos "Dublin Core" de forma automática |
+| [Auto Dublin Core](/omeka/plugins/AutoDublinCore/) | Actualiza el campo "Is Part Of" y "Source" del modelo de metadatos "Dublin Core" de forma automática |
 
 ### *Plugins* de terceros modificados
 
@@ -237,7 +277,7 @@ Desde este instante la aplicación debería ser accesible desde el navegador (pu
 | [Geolocation](/omeka/plugins/Geolocation) | Nuevo formato de localización (*Bounding Box*), Sincronización con los metadatos. |
 | [OAI-PMH Repository](/omeka/plugins/OaiPmhRepository) | Añadir una hoja de estilo (*Stylesheet*) a los documentos XML generados |
 | [OAI-PMH Harvester](/omeka/plugins/OaipmhHarvester) | Convertir la codificación de los metadatos importados a UTF-8 |
-| [CSV Import Plus](/omeka/plugins/CsvImportPlus) | PopUps de ayuda |
+| [CSV Import Plus](/omeka/plugins/CsvImportPlus) | PopUps de ayuda y actualización automática |
 
 ### *Plugins* de terceros utilizados
 
