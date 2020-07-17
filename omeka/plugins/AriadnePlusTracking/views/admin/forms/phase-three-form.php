@@ -8,7 +8,7 @@
                 <a href="https://client.perio.do/?page=backend-home&backendID=web-https%3A%2F%2Fdata.perio.do%2F" target="_blank" class="grid-item">
                     <div class="img-tool">
                         <div>
-                            <figure><img title="hover text" src="<?= html_escape(img('periodo-logo.svg'));?>" /></figure>
+                            <figure><img title="PeriodO" src="<?= html_escape(img('periodo-logo.svg'));?>" /></figure>
                             <span class="periodo-client">CLIENT</span>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                 <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/vocabulary-matching-tool" target="_blank" class="grid-item">
                     <div class="img-tool">
                         <div>
-                            <figure><img title="hover text" src="<?= html_escape(img('ariadne-gateway-logo.png'));?>" /></figure>
+                            <figure><img title="ARIADNEplus Gateway" src="<?= html_escape(img('ariadne-gateway-logo.png'));?>" /></figure>
                             <span class="vmtool">Vocabulary Matching Tool</span>
                         </div>
                     </div>

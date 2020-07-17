@@ -6,7 +6,7 @@
             <a href="http://ariadne2.isti.cnr.it/search?contributor=CENIEH" target="_blank" class="grid-item">
                 <div class="img-tool">
                     <div>
-                        <figure><img title="hover text" src="<?= html_escape(img('ariadne-logo.png')) ?>" /></figure>
+                        <figure><img title="ARIADNEplus Portal" src="<?= html_escape(img('ariadne-logo.png')) ?>" /></figure>
                         <span class="official-portal">OFFICIAL PORTAL</span>
                     </div>
                 </div>

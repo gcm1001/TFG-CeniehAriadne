@@ -1,7 +1,5 @@
 FROM php:7.4-apache
 
-MAINTAINER gcm1001@alu.ubu.es
-
 RUN apt-get update && apt-get install -qq -y --no-install-recommends \
         build-essential \
         ca-certificates \

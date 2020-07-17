@@ -95,14 +95,14 @@
                             </ul>
 
                             <div class="details">
-                                <?php echo snippet_by_word_count(metadata('item', array('Dublin Core', 'Description')), 40); ?>
+                                <?= snippet_by_word_count(metadata('item', array('Dublin Core', 'Description')), 40); ?>
                                 <p>
-                                    <strong><?php echo __('Collection'); ?>:</strong>
-                                    <?php echo link_to_collection_for_item(); ?>
+                                    <strong><?= __('Collection'); ?>:</strong>
+                                    <?= link_to_collection_for_item(); ?>
                                 </p>
                                 <p>
-                                    <strong><?php echo __('Tags'); ?>:</strong>
-                                    <?php if ($tags = tag_string('items')) echo $tags; else echo __('No Tags'); ?>
+                                    <strong><?= __('Tags'); ?>:</strong>
+                                    <?php if ($tags = tag_string('items')): ?> <?= html_escape($tags); ?> <?php else: ?> <?= __('No Tags'); ?> <?php endif;?>
                                 </p>
                                 <?php fire_plugin_hook('admin_items_browse_detailed_each', array('item' => $item, 'view' => $this)); ?>
                             </div>
