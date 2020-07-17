@@ -18,8 +18,8 @@
                 <a href="https://ariadne.d4science.org/group/ariadneplus_mappings/mapping-tool" target="_blank" class="grid-item">
                     <div class="img-tool">
                         <div>
-                            <figure><img title="X3ML Tool" src="<?= html_escape(img('3mtool.png'));?>" /></figure>
-                            <span class="mmmtool">X3ML mapping tool</span>
+                            <figure><img title="X3ML Mapping Tool" src="<?= html_escape(img('3mtool.png'));?>" /></figure>
+                            <span class="mmmtool">X3ML Mapping Tool</span>
                         </div>
                     </div>
                 </a>
