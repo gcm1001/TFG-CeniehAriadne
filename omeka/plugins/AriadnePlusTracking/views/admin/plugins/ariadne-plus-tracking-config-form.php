@@ -153,7 +153,7 @@ table {
     <div class="field">
         <?= $this->formLabel('ariadneplus_tracking_admin_mandatory_elements', __('Mandatory elements')); ?>
         <p class="explanation">
-            <?= __('The content of checked elements must be completed in phase 01 of the integration process.'); ?>
+            <?= __('The content of selected elements must be completed in phase 01 of the integration process.'); ?>
         </p>
         <button id="show-mandatory-table"> <?= __('Show') ?> </button> <b><?= __('config table') ?></b> 
         <table id="mandatory-elements-table">
@@ -200,7 +200,7 @@ table {
     <div class="field">
         <?= $this->formLabel('ariadneplus_tracking_admin_items_browse', __('Display elements')); ?>
         <p class="explanation">
-            <?= __('The content of checked elements will be displayed in the main cell or in the detailed part of the main cell of each item.'); ?>
+            <?= __('The content of selected elements will be displayed in the main cell or in the detailed part of the main cell of each item.'); ?>
         </p>
         <button id="show-elements-table"> <?= __('Show') ?> </button> <b><?= __('config table') ?></b>
         <table id="elements-table">

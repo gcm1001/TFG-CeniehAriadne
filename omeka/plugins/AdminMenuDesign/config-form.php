@@ -5,7 +5,7 @@
     text-align: center;
 }
 </style>
-<h2><?= htmlspecialchars(__("Organizes navigation menu entries into sections."));?></h2>
+<h2><?= htmlspecialchars(__("Classify main menu entries into sections."));?></h2>
 <table id="hide-elements-table">
     <thead>
         <tr>

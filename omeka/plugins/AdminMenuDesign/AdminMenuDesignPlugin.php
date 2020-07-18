@@ -129,9 +129,7 @@ class AdminMenuDesignPlugin extends Omeka_Plugin_AbstractPlugin {
         return $nav;
     }
 
-
     public function hookAdminHead($args) {
         queue_css_file('ddm');
     }
-    
 }
