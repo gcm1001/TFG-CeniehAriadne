@@ -188,7 +188,7 @@
         <label for="draw"><?= __('Enable draw plugin'); ?></label>
     </div>
     <div class="inputs five columns omega">
-        <p class="explanation"><?= __('Adds support for drawing and editing vectors and markers on edit map.'); ?></p>
+        <p class="explanation"><?= __('Add support for drawing and editing vectors and markers on edit map.'); ?></p>
         <?= get_view()->formCheckbox('draw', true,
             array('checked' => (boolean) get_option('geolocation_draw')));
         ?>

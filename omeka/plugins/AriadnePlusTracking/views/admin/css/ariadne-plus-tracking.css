@@ -1649,7 +1649,7 @@ input.msg-input {
   position: relative;
   width: 100px;
   height: 66.6px;
-  box-shadow: 0 3px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0s;
   transition-delay: 400ms;
   z-index: 1;
@@ -1661,7 +1661,7 @@ input.msg-input {
   width: 0;
   height: 0;
   top: -33.3px;
-  border-top: 0px solid transparent;
+  border-top: 0 solid transparent;
   border-right: 50px solid transparent;
   border-left: 50px solid transparent;
   border-bottom: 33.3px solid antiquewhite;
@@ -1672,7 +1672,7 @@ input.msg-input {
   position: absolute;
   bottom: 66.6px;
   left: 8.5px;
-  border-top: 0px solid transparent;
+  border-top: 0 solid transparent;
   border-right: 42px solid transparent;
   border-left: 42px solid transparent;
   border-bottom: 26.6px solid tomato;
@@ -1696,8 +1696,8 @@ input.msg-input {
 #btn-inbox-modal::before {
   position: absolute;
   content: "";
-  left: 0px;
-  bottom: 0px;
+  left: 0;
+  bottom: 0;
   height: 33.3px;
   width: 100px;
   background-color: beige;

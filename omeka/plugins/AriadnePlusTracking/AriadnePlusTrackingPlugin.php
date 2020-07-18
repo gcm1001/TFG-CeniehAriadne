@@ -1220,7 +1220,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
                             if(!empty($url)){
                                 $gettyElement = $collection->getElement('Monitor', 'GettyAAT mapping');
                                 $collection->deleteElementTextsByElementId(array($gettyElement->id));
-                                $collection->addTextForElement($gettyElement,'<a href="'.$url.'" >JSON file</a>', true);
+                                $collection->addTextForElement($gettyElement, $url);
                             }
                             foreach($jsonfiles as $oldfile){
                                     $oldfile->delete();
