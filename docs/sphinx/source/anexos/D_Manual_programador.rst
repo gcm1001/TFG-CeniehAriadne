@@ -162,7 +162,7 @@ El primer paso consiste en **configurar el servidor**:
    sudo mysql -u root -
    CREATE DATABASE omekadb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
-   GRANT ALL ON omeka.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
+   GRANT ALL ON omekadb.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
    FLUSH PRIVILEGES;
    EXIT;
 

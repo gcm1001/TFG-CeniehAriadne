@@ -225,7 +225,7 @@ Para proceder al despliegue **se deben descargar**, del `repositorio del proyect
 
 - `/Dockerfile`
 - `/docker-compose.yml`
-- `/ConfigFiles/*`
+- `/ConfigFiles/*.modificar`
 - `/omeka/plugins/*`
 
 .. warning::
@@ -289,9 +289,7 @@ El siguiente paso consiste en desplegar la aplicación. Para esta tarea utilizo 
 - `/patch.yaml`
 - `/gke-mysql/*`
 - `/gke-omeka/*`
-- `/configFiles/db.ini.gke`
-- `/configFiles/mail.ini.gke`
-- `/configFiles/config.ini.gke`
+- `/configFiles/*.gke`
 
 Se deben definir en el servidor los *secrets* y *configMaps* utilizados por los ficheros de configuración *.yaml*.
 
@@ -2466,7 +2464,7 @@ Para editar varios ítems a la vez:
       4. Si queremos que el valor coincida de forma exacta, marcar la casilla *Match Case*.
 
 3. Hacer clic sobre el botón "*Preview Selected Items*" para comprobar que los ítems seleccionados son los correctos.
-4. Seleccionar los metadatos que deseamos modificar
+4. Seleccionar los metadatos que deseamos modificar.
 
    |be-2|
 
@@ -2647,7 +2645,7 @@ El complemento *Admin Navigation Main Menu Design* permite organizar las entrada
    :scale: 60%
    :align: center
 
-   Menú principal de navegación del área de administración
+   Menú principal de navegación del área de administración.
 
 Para modificar las entradas del menú:
 
@@ -2671,7 +2669,7 @@ Para activar/desactivar la actualización automática de elementos:
    :scale: 60%
    :align: center
 
-   Página de configuración del complemento Automatic Dublin Core Updates
+   Página de configuración del complemento Automatic Dublin Core Updates.
 
 1. Acceder a la página de configuración del complemento *Automatic Dublin Core Updates* (ver `Configurar complementos (plugins)`_).
 2. Marcar/Desmarcar la casilla del elemento que se quiera activar/desactivar.
@@ -2684,6 +2682,15 @@ Para activar/desactivar la actualización automática de elementos:
 ^^^^^^^^^^^^^^^^^^^^
 El complemento *OAI-PMH Repository* permite que otros repositorios web recolecten metadatos de nuestra aplicación.
 
+.. figure:: ../_static/images/oaipmhrepo.png
+   :name: oaipmhrepo
+   :scale: 60%
+   :align: center
+
+   Vista de la página *Identify* del repositorio OAI-PMH.
+
+El *endpoint* de la aplicación tiene el siguiente formato: *http://<host>/oai-pmh-repository/request*.
+
 .. seealso::
    * `Repositorio en Github - OAI-PMH Repository <https://github.com/zerocrates/OaiPmhRepository>`__
    * `Omeka - OAI-PMH Repository  <https://omeka.org/classic/plugins/OaiPmhRepository/>`__
@@ -2691,7 +2698,51 @@ El complemento *OAI-PMH Repository* permite que otros repositorios web recolecte
 
 *Simple Pages*
 ^^^^^^^^^^^^^^
-El complemento *Simple Pages* permite añadir páginas simples como la de "About" al área pública.
+El complemento *Simple Pages* permite añadir páginas simples como la de "About" al área pública. Desde la entrada "*Simple Pages*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de páginas simples (`/admin/simple-pages/`).
+
+.. figure:: ../_static/images/simplepages.png
+   :name: simplepages
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *Simple Pages*.
+
+Para añadir una página simple:
+
+.. |sp-1| image:: ../_static/images/sp-1.png
+   :scale: 60%
+   :align: middle
+
+1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+2. Hacer clic sobre el botón "*Add a Page*".
+3. Rellenar el formulario:
+
+   |sp-1|
+
+   a. *Title*: nombre y cabecera para la página.
+   b. *Slug*: parte de la *URL* que referencia a la página.
+   c. *Use HTML editor?*: activar/desactivar el editor HTML para crear el contenido de la página.
+   d. *Text*: contenido de la página.
+   e. *Parent*: página "padre".
+   f. *Order*: orden de la página respecto a otras con el mismo "padre".
+   g. *Publish this page?*: publicar/desplublicar la página.
+
+4. Hacer clic sobre el botón "*Save changes*".
+
+Para eliminar una página simple:
+
+1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+2. Localizar la página a eliminar en la tabla principal.
+3. Hacer clic sobre el texto "*Delete*".
+4. Confirmar la eliminación haciendo clic sobre el botón rojo "*Delete*".
+
+Para editar una página simple:
+
+1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+2. Localizar la página a eliminar en la tabla principal.
+3. Hacer clic sobre el texto "*Edit*".
+4. Modificar el formulario.
+5. Hacer clic sobre el botón "*Save changes*".
 
 .. seealso::
    * `Repositorio en Github - Simple Pages <https://github.com/omeka/plugin-SimplePages>`__
@@ -2700,7 +2751,16 @@ El complemento *Simple Pages* permite añadir páginas simples como la de "About
 
 *History Log*
 ^^^^^^^^^^^^^
-El complemento *History Log* permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma.
+El complemento *History Log* permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma. Desde la entrada "*History Logs*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (`/admin/history-log/`).
+
+.. figure:: ../_static/images/historylog.png
+   :name: historylog
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *History Log*.
+
+Desde su página principal se pueden hacer búsquedas avanzadas y aplicar filtros sobre todos los registros de la aplicación.
 
 .. seealso::
    * `Repositorio en Github - History Log <https://github.com/UCSCLibrary/HistoryLog>`__
@@ -2708,14 +2768,82 @@ El complemento *History Log* permite llevar un registro detallado de todas las a
 
 *Getty Suggest*
 ^^^^^^^^^^^^^^^
-El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Getty* durante el relleno de un elemento (metadato).
+El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Getty* durante el relleno de un elemento (metadato). Desde la entrada "*Getty Suggest*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (`/admin/getty-suggest/`).
+
+.. figure:: ../_static/images/gettysuggest.png
+   :name: gettysuggest
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *Getty Suggest*.
+
+Para activar la sugerencia de vocabulario en un metadato:
+
+1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+2. Rellenar el formulario.
+
+   a. *Element*: metadato en el que se activará la sugerencia.
+   b. *Authority/Vocab*: vocabulario *Getty* a sugerir.
+
+3. Hacer clic sobre el botón "*Add Suggest*".
+
+Para desactivar la sugerencia de vocabulario en un metadato:
+
+1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+2. Buscar en la tabla de asignaciones el metadato a desactivar.
+3. Hacer clic sobre el botón "*Delete*".
+
+Para editar la sugerencia de vocabulario en un metadato:
+
+1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+2. Buscar en la tabla de asignaciones el metadato a editar.
+3. Hacer clic sobre el botón "*Edit*".
+4. Modificar desde la tabla el metadato o la autoridad.
+5. Hacer clic sobre el botón "*Save*".
 
 .. seealso::
    * `Repositorio en Github - Getty Suggest <https://github.com/UCSCLibrary/GettySuggest>`__
 
 *Simple Vocab*
 ^^^^^^^^^^^^^^
-El complemento *Simple Vocab* permite crear y gestionar vocabularios simples para elementos de un determinado esquema.
+El complemento *Simple Vocab* permite crear y gestionar vocabularios simples para elementos de un determinado esquema. Desde la entrada "*Simple Vocab*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de vocabularios simples (`/admin/simple-vocab/`).
+
+.. figure:: ../_static/images/simplevocab.png
+   :name: simplevocab
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *Simple Vocab*.
+
+Para crear un vocabulario sobre un metadato específico:
+
+1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+2. Rellenar el formulario.
+
+   a. *Element*: metadato en el que se activará el vocabulario.
+   b. *Vocabulary terms*: términos del vocabulario, uno por línea.
+
+3. Hacer clic sobre el botón "*Save Changes*".
+
+Para eliminar un vocabulario sobre un metadato específico:
+
+1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+2. Seleccionar en el formulario el metadato donde se encuentra activado el vocabulario.
+
+   a. *Element*: metadato involucrado.
+
+3. Eliminar todos los términos del campo "*Vocabulary Terms*".
+4. Hacer clic sobre el botón "*Save Changes*".
+
+Para editar un vocabulario sobre un metadato específico:
+
+1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+2. Seleccionar en el formulario el metadato donde se encuentra activado el vocabulario.
+
+   a. *Element*: metadato involucrado.
+
+3. Editar los términos del campo "*Vocabulary Terms*".
+4. Hacer clic sobre el botón "*Save Changes*".
 
 .. seealso::
    * `Repositorio en Github - Simple Vocab <https://github.com/omeka/plugin-SimpleVocab>`__

@@ -313,7 +313,7 @@ El primer paso consiste en \textbf{configurar el servidor}:
    	CREATE DATABASE omekadb CHARACTER SET utf8mb4 \
    	COLLATE utf8mb4_unicode_ci;
    	CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
-   	GRANT ALL ON omeka.* TO 'usuario'@'localhost' \
+   	GRANT ALL ON omekadb.* TO 'usuario'@'localhost' \
       IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
    	FLUSH PRIVILEGES;
    	EXIT;
@@ -502,12 +502,12 @@ Para instalar un tema (\emph{theme}):
   Desde la página de configuración de diseño
   ({/admin/appearance/}).
 \item
-  Hacer clic sobre la entrada "\emph{Themes}" de la barra de navegación
+  Hacer clic sobre la entrada ``\emph{Themes}'' de la barra de navegación
   existente.
 \item
   Localizar el nombre del tema que se desea instalar.
 \item
-  Hacer clic sobre el botón "\emph{Use this theme}".
+  Hacer clic sobre el botón ``\emph{Use this theme}''.
 \end{enumerate}
 
 Para obtener información más detallada acerca de la gestión de temas,
@@ -752,6 +752,16 @@ kubectl create secret generic omeka-db \
 --from-literal=database=<nombre_bd>
   \end{verbatim}
 \item
+  \emph{omeka-snmp}: \emph{secretos} relacionados con el protocolo SNMP.
+    \begin{verbatim}
+kubectl create secret generic omeka-snmp \
+--from-literal=host=<host_snmp> \
+--from-literal=username=<correo_electronico> \
+--from-literal=password=<contraseña_correo> \
+--from-literal=port=<puerto_snmp> \
+--from-literal=ssl=<protocolo_seguridad_snmp>
+  \end{verbatim}
+\item
   \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
     \begin{verbatim}
 kubectl create secret generic omeka-imap \
@@ -760,16 +770,6 @@ kubectl create secret generic omeka-imap \
 --from-literal=password=<contraseña_correo> \
 --from-literal=port=<puerto_imap> \
 --from-literal=ssl=<protocolo_seguridad_imap>
-  \end{verbatim}
-\item
-  \emph{omeka-imap}: \emph{secretos} relacionados con el protocolo IMAP.
-    \begin{verbatim}
-kubectl create secret generic omeka-snmp \
---from-literal=host=<host_snmp> \
---from-literal=username=<correo_electronico> \
---from-literal=password=<contraseña_correo> \
---from-literal=port=<puerto_snmp> \
---from-literal=ssl=<protocolo_seguridad_snmp>
   \end{verbatim}
   \item
   \emph{db-config}: mapa de configuración para la base de datos.

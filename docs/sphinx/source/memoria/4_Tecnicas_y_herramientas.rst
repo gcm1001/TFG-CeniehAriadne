@@ -28,7 +28,7 @@ GitKraken es un cliente para el control de versiones `Git` que nos permite reali
 
 -  Herramienta elegida: `GitHub <https://github.com/>`__.
 
-Github es el servicio de `hosting` de Git más utilizado para albergar repositorios de código en la nube. El hecho de que cuente con una enorme comunidad de usuarios y que además ofrezca servicios exclusivos y gratuitos a estudiantes, lo convierte en la mejor opción posible. Alguno de estos servicios son: repositorios privados, cantidad ilimitada de colaboradores por repositorio y código propietario entre otros.
+GitHub es el servicio de `hosting` de Git más utilizado para albergar repositorios de código en la nube. El hecho de que cuente con una enorme comunidad de usuarios y que además ofrezca servicios exclusivos y gratuitos a estudiantes, lo convierte en la mejor opción posible. Alguno de estos servicios son: repositorios privados, cantidad ilimitada de colaboradores por repositorio y código propietario entre otros.
 
 Gestor de contenidos
 --------------------
@@ -72,7 +72,7 @@ Librerías
 
 *PHPUnit*
 ~~~~~~~~~
-`PHPUnit <https://phpunit.de/>`__ es un *framework* utilizado para desarrollar pruebas unitarias sobre aplicaciones basadas en PHP. Es un proyecto *open-source* creado por Sebastian Bergmann cuyo repositorio oficial se encuentra en `Github <https://github.com/sebastianbergmann/phpunit>`__.
+`PHPUnit <https://phpunit.de/>`__ es un *framework* utilizado para desarrollar pruebas unitarias sobre aplicaciones basadas en PHP. Es un proyecto *open-source* creado por Sebastian Bergmann cuyo repositorio oficial se encuentra en `GitHub <https://github.com/sebastianbergmann/phpunit>`__.
 
 *ZipStream*
 ~~~~~~~~~~~
@@ -151,7 +151,7 @@ Generador de documentación
 
 He decidido utilizar el generador de documentación *Sphinx* ya que es mucho más completo que *MkDocs*. Además de soportar el lenguaje de marcado ligero *Markdown* es compatible con *reStructuredText*. Esta compatibilidad hace que sea posible usar ambos lenguajes en un mismo proyecto *Sphinx*. Además, con el uso del conversor `Pandoc <http://pandoc.org/>`__, toda la documentación generada a partir de ambos lenguajes se puede exportar a multitud de formatos, entre los que se encuentra LaTeX.
 
-*Markdown* es un lenguaje muy conocido debido a que es utilizado en plataformas como *Github* o *StackOverflow*. Fue creado para generar contenido de una manera sencilla de escribir y fácil de leer. Permite además convertir el texto marcado en documentos *XHTML*.
+*Markdown* es un lenguaje muy conocido debido a que es utilizado en plataformas como *GitHub* o *StackOverflow*. Fue creado para generar contenido de una manera sencilla de escribir y fácil de leer. Permite además convertir el texto marcado en documentos *XHTML*.
 
 *reStructuredText* presenta también una sintaxis sencilla y de fácil lectura. La principal ventaja respecto a *Markdown* es que permite elaborar expresiones más complejas sin el uso de librerías/aplicaciones externas.
 
@@ -162,13 +162,13 @@ Herramientas de integración continua
 
 Compilación y Despliegue
 ~~~~~~~~~~~~~~~~~~~~~~~~
--  Herramientas consideradas: `Github Actions <https://github.com/features/actions>`__,
+-  Herramientas consideradas: `GitHub Actions <https://github.com/features/actions>`__,
    `Travis CI <https://travis-ci.org/>`__ y
    `Jenkins <https://jenkins.io/>`__.
 
--  Herramienta elegida: `Github Actions <https://github.com/features/actions>`__.
+-  Herramienta elegida: `GitHub Actions <https://github.com/features/actions>`__.
 
-Para aplicar la integración continua al proyecto se ha dedicido utilizar *Github Actions*. El principal motivo de esta elección es que todas sus funciones se encuentran integradas en la propia interfaz de *Github*, lo que facilita en gran medida su uso. Además, permite reutilizar código elaborado por otros usuarios de la comunidad en los flujos de trabajo (*workflows*) personales.
+Para aplicar la integración continua al proyecto se ha dedicido utilizar *GitHub Actions*. El principal motivo de esta elección es que todas sus funciones se encuentran integradas en la propia interfaz de *GitHub*, lo que facilita en gran medida su uso. Además, permite reutilizar código elaborado por otros usuarios de la comunidad en los flujos de trabajo (*workflows*) personales.
 
 Calidad del código
 ~~~~~~~~~~~~~~~~~~

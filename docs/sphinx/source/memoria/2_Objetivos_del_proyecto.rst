@@ -9,15 +9,15 @@ Objetivos generales
 - Integrar parte de los conjuntos de datos propuestos por el CENIEH en *ARIADNEplus*.
 - Proporcionar al CENIEH una infraestructura *software* que permita:
 
-   - Gestionar sus (meta)datos en la integración con *ARIADNEplus*.
-   - Transformar sus esquemas de (meta)datos a un esquema estandarizado compatible con *ARIADNEplus*.
+   - Gestionar sus metadatos en la integración con *ARIADNEplus*.
+   - Transformar sus esquemas de metadatos a un esquema estandarizado compatible con *ARIADNEplus*.
    - Compartir los datos de forma que estos sean accesibles desde el exterior.
-   - Facilitar la integración de los (meta)datos en *ARIADNEplus*.
+   - Facilitar la integración de los metadatos en *ARIADNEplus*.
 
 Objetivos específicos
 ---------------------
 
-- Estudiar el proyecto ARIADNEplus, poniendo especial incapié en el proceso de integración de los datos.
+- Estudiar el proyecto ARIADNEplus, poniendo especial hincapié en el proceso de integración de los datos.
 - Estudiar todos los conjuntos de datos involucrados en el proyecto.
 - Diseñar e implementar un esquema de metadatos que satisfaga las necesidades de ambas partes, es decir, pueda ser transformado al modelo objetivo (*AO-CAT*) y, además, tenga la capacidad de representar fehacientemente los conjuntos de datos propuestos por el CENIEH.
 - Encontrar una aplicación *software* que cumpla con un mínimo de requisitos:

@@ -258,7 +258,7 @@ Desarrollar desde cero una infraestructura *software* que cumpliera con todos lo
 
 Se consideraron varios productos *software* para acabar escogiendo `Omeka Classic <https://omeka.org/classic/>`__. Una de las características que hacen de la aplicación una magnífica plataforma para el proyecto es su **escalabilidad**. Gracias a su sistema de **complementos** o *plugins*, cualquier programador tiene la posibilidad de adaptarla a sus necesidades individuales sin necesidad de modificar el código base de la aplicación.
 
-Actualmente, *Omeka* cuenta con una gran cantidad de *plugins* disponibles tanto en su `página oficial <https://omeka.org/classic/plugins/>`__ como en `Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__. Esto es posible gracias a la extensa comunidad de usuarios que le respalda. Parte de esos *plugins* se han podido utilizar para adaptar la infraestructura a las necesidades del proyecto, sin embargo, se han tenido que desarrollar nuevos *plugins* para cubrir requisitos específicos. Además, se han llevado a cabo modificaciones sobre alguno de los *plugins* de terceros utilizados.
+Actualmente, *Omeka* cuenta con una gran cantidad de *plugins* disponibles tanto en su `página oficial <https://omeka.org/classic/plugins/>`__ como en `GitHub <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__. Esto es posible gracias a la extensa comunidad de usuarios que le respalda. Parte de esos *plugins* se han podido utilizar para adaptar la infraestructura a las necesidades del proyecto, sin embargo, se han tenido que desarrollar nuevos *plugins* para cubrir requisitos específicos. Además, se han llevado a cabo modificaciones sobre alguno de los *plugins* de terceros utilizados.
 
 Por tanto, parte de las tareas de esta fase están relacionadas con la creación y modificación de *plugins* para *Omeka*.
 
@@ -325,11 +325,11 @@ Durante la fase de desarrollo, se ha trabajado sobre dos entornos:
 
 Despliegue de la infraestructura
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Para llevar a cabo el despliegue de la infraestructura se ha utilizado la herramienta *Github Actions*. Dependiendo del entorno de trabajo, se ha procedido de una manera u otra:
+Para llevar a cabo el despliegue de la infraestructura se ha utilizado la herramienta *GitHub Actions*. Dependiendo del entorno de trabajo, se ha procedido de una manera u otra:
 
 Servidor de desarrollo
 ^^^^^^^^^^^^^^^^^^^^^^
-A través de la herramienta *Github Actions* se ha automatizado el despliegue de la infraestructura sobre el servidor de desarrollo. A esta técnica se la conoce como despliegue continuo.
+A través de la herramienta *GitHub Actions* se ha automatizado el despliegue de la infraestructura sobre el servidor de desarrollo. A esta técnica se la conoce como despliegue continuo.
 
 .. figure:: ../_static/images/cicd.png
    :name: cicd

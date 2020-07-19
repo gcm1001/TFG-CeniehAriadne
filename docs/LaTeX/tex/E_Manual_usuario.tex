@@ -12,14 +12,25 @@ mostrará el manual de usuario.
 
 
 \section{Requisitos}
-Los requisitos de usuario varían en función del modo de instalación que
+Los requisitos de usuario varían en función del modo de instalación que 
 vaya a llevar a cabo el usuario. Existen tres modos de instalación:
 Manual, \emph{Docker} y \emph{Kubernetes}.
 
 Como es lógico, además de los requisitos que se van a mostrar a
 continuación, se debe contar con un \textbf{navegador web} desde el que
-se pueda acceder a la aplicación web.
+se pueda acceder a la aplicación web. Este debe estar actualizado y 
+tener activado el uso de \emph{JavaScript}. A continuación se listan
+los navegadores sobre los que se han realizado pruebas:
 
+\begin{itemize}
+\tightlist
+\item
+  Firefox Browser (versión 78.0.2).
+\item
+  Google Chrome (versión 84.0.4147.89).
+\item
+  Opera (versión 69.0.3686.77).
+\end{itemize}
 
 \subsection{Manual}
 
@@ -83,6 +94,18 @@ Como se ha comentado en el apartado anterior, existen tres posibilidades
 distintas para instalar la aplicación en un servidor: \emph{Manual},
 \emph{Docker} o \emph{Kubernetes}.
 
+Antes de proceder con la instalación, es posible probar la aplicación desde \url{ubucenh.es}.
+Además, para poder acceder al área de administración (\url{ubucenh.es/admin/}), 
+se ha creado un usuario de prueba cuyas credenciales son las siguientes:
+
+\begin{itemize}
+\tightlist
+\item
+  Nombre de usuario: \emph{testUBU}
+\item 
+  Contraseña: \emph{Usu4ri0dePrueb4}
+\end{itemize} 
+
 \subsection{Manual}
 El primer paso consiste en \textbf{configurar el servidor}. Para ello,
 hay que seguir una serie de indicaciones:
@@ -116,7 +139,7 @@ sudo mysql -u root -
 CREATE DATABASE omekadb CHARACTER SET utf8mb4 \
   COLLATE utf8mb4_unicode_ci;
 CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
-GRANT ALL ON omeka.* TO 'usuario'@'localhost' \
+GRANT ALL ON omekadb.* TO 'usuario'@'localhost' \
   IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT;
@@ -202,7 +225,7 @@ aplicación.
 \begin{verbatim}
 nano /etc/apache2/sites-available/omeka.conf
 \end{verbatim}
-Cambiar los valores "\emph{DocumentRoot}" y "\emph{ServerName}". ..
+Cambiar los valores ``\emph{DocumentRoot}'' y ``\emph{ServerName}''. ..
 code-block:
 \begin{verbatim}
 <VirtualHost *:80>
@@ -260,7 +283,7 @@ proyecto}, los siguientes ficheros:
 \item
   {/docker-compose.yml}
 \item
-  {/ConfigFiles/*}
+  {/ConfigFiles/*.modificar}
 \item
   {/omeka/plugins/*}
 \end{itemize}
@@ -347,11 +370,7 @@ ficheros alojados en este repositorio:
 \item
   /gke-omeka/*
 \item
-  /configFiles/db.ini.gke
-\item
-  /configFiles/config.ini.gke
-\item
-  /configFiles/mail.ini.gke
+  /configFiles/*.gke
 \end{itemize}
 
 Se deben definir en el servidor los \emph{secrets} y \emph{configMaps} utilizados por los ficheros de configuración \emph{.yaml}.
@@ -441,7 +460,6 @@ Gracias a \emph{Read the Docs} es posible acceder al manual de usuario desde el 
 \end{mdframed}
 
 \imagen{manualdeusuario}{Página principal del manual de usuario.}{1}
-
 
 
 

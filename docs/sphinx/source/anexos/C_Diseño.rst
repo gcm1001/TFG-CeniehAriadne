@@ -23,6 +23,9 @@ Para la gestión de datos, la aplicación hace uso de las siguientes entidades:
 - **Fichero de colección** (*CollectionFile*): representa un fichero asignado a una colección.
 - **Localización** (*Location*): representa la localización de un ítem.
 - **Localización rectangular** (*BoxLocation*): representa la localización rectangular de un ítem.
+- **Ticket de seguimiento ARIADNEplus** (*AriadnePlusTrackingTicket*): representa el *ticket* de seguimiento utilizado para el proceso de integración de un ítem o colección.
+- **Entrada de registro ARIADNEplus** (*AriadnePlusLogEntry*): recoge todos los registros acontecidos durante un cambio de fase.
+- **Mensaje de registros ARIADNEplus** (*AriadnePlusLogMsg*): recoge el contenido de un registro.
 
 .. figure:: ../_static/images/e-r-uml.png
    :name: e-r-uml

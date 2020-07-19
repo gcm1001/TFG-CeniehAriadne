@@ -57,9 +57,24 @@ entidades:
 \item
   \textbf{Localización rectangular} (\emph{BoxLocation}): representa la
   localización rectangular de un ítem.
+\item
+  \textbf{Ticket de seguimiento ARIADNEplus} (\emph{AriadnePlusTrackingTicket}): representa
+  el \emph{ticket} de seguimiento utilizado para el proceso de integración de un ítem o colección.
+\item
+  \textbf{Entrada de registro ARIADNEplus} (\emph{AriadnePlusLogEntry}): recoge todos los registros
+  acontecidos durante un cambio de fase.
+\item
+  \textbf{Mensaje de registros ARIADNEplus} (\emph{AriadnePlusLogMsg}): recoge el contenido de un
+  registro.
+\item
+  \textbf{Usuario} (\emph{User}): representa un usuario.
+  registro.
 \end{itemize}
 
 \imagen{e-r-uml}{Diagrama E/R de datos relacionados con la gestión de datos.}{0.9}
+
+Se han excluido aquellas entidades que forman parte de complementos utilizados pero 
+no desarrollados en este trabajo.
 
 \section{Diseño arquitectónico}
 
@@ -320,7 +335,7 @@ estos últimos se han modificado 3 para añadir nuevas funcionalidades
   web recolecten metadatos de nuestra aplicación.
 \item
   \emph{omeka.plugins.SimplePages}: permite añadir páginas simples como
-  la de "About" al área pública.
+  la de ``About'' al área pública.
 \item
   \emph{omeka.plugins.SimpleVocab}: permite crear y gestionar
   vocabularios simples para elementos de un determinado esquema.
@@ -434,8 +449,8 @@ nuevos:
   el uso de \emph{JavaScrip} dentro de las vistas del complemento.
 \item
   \emph{omeka.plugins.AriadnePlusTracking.views.file}: implementa la
-  carga de ficheros. En este caso se utiliza para el campo "JSON file of
-  your matchings to Getty AAT" del esquema Monitor.
+  carga de ficheros. En este caso se utiliza para el campo ``JSON file of
+  your matchings to Getty AAT'' del esquema Monitor.
 \item
   \emph{omeka.plugins.AriadnePlusTracking.views.forms}: implementa los
   formularios de las \emph{vistas}.
