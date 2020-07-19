@@ -1423,6 +1423,7 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
         $status = metadata($item, array('Monitor', 'Metadata Status'));
         
         if($status != null && $status != ''){
+            $ticket = $view->tracking()->getTicketByRecordId($item->id);
             $blocks = array('files','tags','item-type-metadata');
             if($status != 'Incomplete' && $status != 'Proposed'){
               array_push($blocks,'dublin-core', 'map', 'tags', 'inputs');
@@ -1434,6 +1435,9 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
               array_push($blocks,'monitor');
               $this->_printValidationScripts(array('status' => $status, 
                   'view' => $view, 'record' => $item));
+            }
+            if(!$ticket){
+              array_push($blocks,'monitor');
             }
             $this->_printRestrictScripts(array('sections' => $blocks,
                 'view' => $view));

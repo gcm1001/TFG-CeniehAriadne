@@ -28,7 +28,7 @@ GitKraken es un cliente para el control de versiones `Git` que nos permite reali
 
 -  Herramienta elegida: `GitHub <https://github.com/>`__.
 
-Github es el servicio de `hosting` de Git más utilizado para albergar repositorios de código en la nube. El hecho de que cuente con una enorme comunidad de usuarios y que además ofrezca servicios exclusivos y gratuitos a estudiantes, lo convierte en la mejor opción posible. Alguno de estos servicios son: repositorios privados, cantidad ilimitada de colaboradores por repositorio y código propietario entre otros.
+GitHub es el servicio de `hosting` de Git más utilizado para albergar repositorios de código en la nube. El hecho de que cuente con una enorme comunidad de usuarios y que además ofrezca servicios exclusivos y gratuitos a estudiantes, lo convierte en la mejor opción posible. Alguno de estos servicios son: repositorios privados, cantidad ilimitada de colaboradores por repositorio y código propietario entre otros.
 
 Gestor de contenidos
 --------------------
@@ -72,7 +72,7 @@ Librerías
 
 *PHPUnit*
 ~~~~~~~~~
-`PHPUnit <https://phpunit.de/>`__ es un *framework* utilizado para desarrollar pruebas unitarias sobre aplicaciones basadas en PHP. Es un proyecto *open-source* creado por Sebastian Bergmann cuyo repositorio oficial se encuentra en `Github <https://github.com/sebastianbergmann/phpunit>`__.
+`PHPUnit <https://phpunit.de/>`__ es un *framework* utilizado para desarrollar pruebas unitarias sobre aplicaciones basadas en PHP. Es un proyecto *open-source* creado por Sebastian Bergmann cuyo repositorio oficial se encuentra en `GitHub <https://github.com/sebastianbergmann/phpunit>`__.
 
 *ZipStream*
 ~~~~~~~~~~~
@@ -151,7 +151,7 @@ Generador de documentación
 
 He decidido utilizar el generador de documentación *Sphinx* ya que es mucho más completo que *MkDocs*. Además de soportar el lenguaje de marcado ligero *Markdown* es compatible con *reStructuredText*. Esta compatibilidad hace que sea posible usar ambos lenguajes en un mismo proyecto *Sphinx*. Además, con el uso del conversor `Pandoc <http://pandoc.org/>`__, toda la documentación generada a partir de ambos lenguajes se puede exportar a multitud de formatos, entre los que se encuentra LaTeX.
 
-*Markdown* es un lenguaje muy conocido debido a que es utilizado en plataformas como *Github* o *StackOverflow*. Fue creado para generar contenido de una manera sencilla de escribir y fácil de leer. Permite además convertir el texto marcado en documentos *XHTML*.
+*Markdown* es un lenguaje muy conocido debido a que es utilizado en plataformas como *GitHub* o *StackOverflow*. Fue creado para generar contenido de una manera sencilla de escribir y fácil de leer. Permite además convertir el texto marcado en documentos *XHTML*.
 
 *reStructuredText* presenta también una sintaxis sencilla y de fácil lectura. La principal ventaja respecto a *Markdown* es que permite elaborar expresiones más complejas sin el uso de librerías/aplicaciones externas.
 
@@ -162,13 +162,23 @@ Herramientas de integración continua
 
 Compilación y Despliegue
 ~~~~~~~~~~~~~~~~~~~~~~~~
--  Herramientas consideradas: `Github Actions <https://github.com/features/actions>`__,
+-  Herramientas consideradas: `GitHub Actions <https://github.com/features/actions>`__,
    `Travis CI <https://travis-ci.org/>`__ y
    `Jenkins <https://jenkins.io/>`__.
 
--  Herramienta elegida: `Github Actions <https://github.com/features/actions>`__.
+-  Herramienta elegida: `GitHub Actions <https://github.com/features/actions>`__.
 
-Para aplicar la integración continua al proyecto se ha dedicido utilizar *Github Actions*. El principal motivo de esta elección es que todas sus funciones se encuentran integradas en la propia interfaz de *Github*, lo que facilita en gran medida su uso. Además, permite reutilizar código elaborado por otros usuarios de la comunidad en los flujos de trabajo (*workflows*) personales.
+Para aplicar la integración continua al proyecto se ha dedicido utilizar *GitHub Actions*. El principal motivo de esta elección es que todas sus funciones se encuentran integradas en la propia interfaz de *GitHub*, lo que facilita en gran medida su uso. Además, permite reutilizar código elaborado por otros usuarios de la comunidad en los flujos de trabajo (*workflows*) personales.
+
+*Workflows* del proyecto: `GitHub Actions <https://github.com/gcm1001/TFG-CeniehAriadne/actions>`__.
+
+.. figure:: ../_static/images/workflow.png
+   :name: workflow-memo
+   :alt: Ejecución de uno de los flujos de trabajo del proyecto
+   :width: 70%
+   :align: center
+
+   Ejecución de uno de los flujos de trabajo del proyecto.
 
 Calidad del código
 ~~~~~~~~~~~~~~~~~~
@@ -180,9 +190,29 @@ Calidad del código
 
 La opción escogida ha sido *Codacy* ya que, de entre las tres propuestas, es la que está más enfocada a la revisión de código automatizada, que es lo se estaba buscando. Da soporte a todos los lenguajes que se han utilizado en el proyecto ( *PHP*, *HTML*, *JavaScript* y *CSS* ). Además, el proceso de configuración no se hace nada pesado gracias a que se puede llevar a cabo desde su propia interfaz gráfica. Entre sus configuraciones más utilizadas están la exclusión de ficheros, la activación/desactivación de patrones de código, la selección de ramas y la gestión de integraciones.
 
+*Dashboard* del proyecto: `Codacy <https://app.codacy.com/manual/gcm1001/TFG-CeniehAriadne/dashboard>`__.
+
+.. figure:: ../_static/images/codacy.png
+   :name: codacy-memo
+   :alt: Panel principal de Codacy asociado al proyecto
+   :width: 70%
+   :align: center
+
+   Panel principal de Codacy asociado al proyecto.
+
 Documentación continua
 ~~~~~~~~~~~~~~~~~~~~~~
 `Read the Docs <https://readthedocs.org/>`__ es una plataforma web que facilita la tarea de documentar productos *software* automatizando la compilación, versionado y hospedaje de los ficheros generados por la herramienta de documentación *Sphinx*. El proceso es muy sencillo, basta con alojar la documentación *Sphinx* en un repositorio, realizar un *commit* sobre este y, automáticamente, se actualizan los cambios en la documentación alojada en *readthedocs.org*. Presenta múltiples formatos de exportación y permite configurar múltiples aspectos (traducciones, variables de entorno, reglas de automatización, etc.). Todos estos servicios se ofrecen de forma gratuita.
+
+*Host* de la documentación del proyecto: `ReadTheDocs <tfg-ceniehariadne.rtfd.io>`__.
+
+.. figure:: ../_static/images/rtd.png
+   :name: rtd-memo
+   :alt: Página principal de la documentación del proyecto
+   :width: 70%
+   :align: center
+
+   Página principal de la documentación del proyecto.
 
 Herramienta de diagramación
 ---------------------------
@@ -212,6 +242,9 @@ Otras herramientas
 ~~~~~~~~
 La tecnología `Docker <https://www.docker.com/>`__ permite desplegar una aplicación distribuida y empaquetarla junto a todas sus dependencias y librerías en un uno o varios "objetos" denominados contenedores o *containers*. Estos pueden ser ejecutados en cualquier servidor Linux, aumentando así la flexibilidad y portabilidad de nuestra aplicación.
 
+Imagen *Docker* del proyecto: `DockerHub <https://hub.docker.com/repository/docker/gcm1001/omeka_cenieh>`__
+
+
 *Google Cloud*
 ~~~~~~~~~~~~~~
 `Google Cloud <https://cloud.google.com/>`__ es una plataforma creada por la compañía *Google* desde la que puedes acceder a numerosos servicios relacionados con el desarrollo web. Alguno de sus servicios son: *Cloud Computing*, *Networking*, *Data Storage*, *Data Analytics*, *Machine learning*, etc.
@@ -219,6 +252,16 @@ La tecnología `Docker <https://www.docker.com/>`__ permite desplegar una aplica
 *GKE – Google Kubernetes Engine*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 `Google Kubernetes Engine <https://cloud.google.com/kubernetes-engine>`__ (GKE) proporciona un entorno desde donde puedes implementar, administrar y escalar aplicaciones en contenedores mediante la infraestructura de *Google*. El entorno de GKE consta de varias máquinas (en particular, instancias de *Compute Engine*) que se agrupan para formar un clúster.
+
+Aplicación del proyecto desplegada en el clúster: `ubucenh.es <ubucenh.es>`__.
+
+.. figure:: ../_static/images/gke-cluster.png
+   :name: gke-cluster
+   :alt: Vista del panel de administración del clúster en Google Cloud
+   :width: 70%
+   :align: center
+
+   Vista del panel de administración del clúster en *Google Cloud*.
 
 *Kubernetes*
 ~~~~~~~~~~~~

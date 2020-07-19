@@ -8,11 +8,12 @@ Conclusiones
 ------------
 A continuación se listan las conclusiones más relevantes que se han obtenido tras finalizar el proyecto.
 
-- En cuanto a los objetivos generales del proyecto, considero que se han cumplido ambos. Los operarios del *CENIEH* cuentan con una aplicación que les facilita el proceso de integración de sus datos en *ARIADNEplus* y, además, se ha conseguido integrar una de las colecciones propuestas haciendo uso de esta aplicación.
-- Durante la fase de investigación del proyecto, se han aprendido multitud de técnicas y conocimientos nuevos relacionados con la creación, implementación y gestión de metadatos.
+- En cuanto a los objetivos generales del proyecto, se han cumplido ambos. Los operarios del *CENIEH* cuentan con una aplicación que les facilita el proceso de integración de sus datos en *ARIADNEplus* y, además, se ha conseguido integrar una de las colecciones propuestas haciendo uso de esta aplicación.
+- Durante la fase de investigación del proyecto, se han aprendido multitud de técnicas y conocimientos nuevos relacionados con la creación, implementación y gestión de metadatos así como de las herramientas y aplicaciones utilizadas para su gestión y distribución.
 - El ser parte de un proyecto internacional como *ARIADNEplus* me ha permitido conocer nuevos métodos de trabajo como, por ejemplo, la utilización de entornos de investigación virtuales (*VREs*). Gracias a estos he podido comunicarme con los demás socios del proyecto, utilizar servicios y herramientas comunes, y compartir recursos digitales de todo tipo.
-- En la parte de desarrollo del proyecto se han aplicado la mayoría de los conocimientos adquiridos durante el grado. Asímismo, se han utilizado otras materias que han requerido un estudio especial como *PHP*, *Zend Framework*, *Hooking*, etc.
-- El desarrollo de *plugins* o complementos para la adaptación de la aplicación propuesta ha supuesto una experiencia totalmente nueva que me ha permitido conocer cómo funcionan este tipo de aplicaciones.
+- El elevado número de participantes del proyecto y la complejidad del mismo han permitido comprobar la necesidad de una continua comunicación y la dificultad a la hora de obtener los requisitos.
+- En la parte de desarrollo del proyecto se han aplicado la mayoría de los conocimientos adquiridos durante el Grado de Ingeniería Informática relacionados fundamentalmente con Bases de Datos, Diseño y Desarrollo Avanzado de Aplicaciones Web basadas en componentes y aplicando buenas prácticas de agilidad de integración y despliegue continuo. Asímismo, se han utilizado otras técnicas de desarrollo que han requerido un estudio especial como *PHP*, *Zend Framework*, *Hooking*, etc.
+- El desarrollo basado en componentes web para la adaptación de la aplicación propuesta ha supuesto una experiencia totalmente nueva que me ha permitido conocer cómo funcionan este tipo de aplicaciones.
 - En el proyecto se han aplicado técnicas de integración continua que han permitido agilizar muchas de las tareas involucradas en su desarrollo, afectando positivamente a la calidad del código y a la depuración de errores.
 
 Líneas de trabajo futuras

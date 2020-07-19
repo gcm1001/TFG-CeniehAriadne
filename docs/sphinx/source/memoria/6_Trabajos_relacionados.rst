@@ -2,7 +2,7 @@
 Trabajos relacionados
 =====================
 
-Algunos socios del proyecto ARIADNEplus han adoptado una solución muy similar a la propuesta en el presente proyecto, es decir, han hecho uso de aplicaciones *software* de terceros para la gestión de sus (meta)datos y las han adaptado según sus necesidades. A continuación, se muestran aquellos casos que guardan una mayor relación con el proyecto.
+Algunos socios del proyecto ARIADNEplus han adoptado una solución muy similar a la propuesta en el presente proyecto, es decir, han hecho uso de aplicaciones *software* de terceros para la gestión de sus metadatos y las han adaptado según sus necesidades. A continuación, se muestran aquellos casos que guardan una mayor relación con el proyecto.
 
 Casos similares
 ---------------
@@ -27,7 +27,7 @@ DANS (*Data Archiving and Networked Services*) [#]_ es una institución de los P
 
 La organización DANS es responsable del desarrollo y mantenimiento del repositorio digital `DCCD <https://dendro.dans.knaw.nl/>`__, el cual es considerado como la principal red de (meta)datos arqueológicos/históricos existente en Europa. Entró en funcionamiento en 2011. Dentro del *DCCD*, laboratorios belgas, daneses, holandeses, alemanes, letones, polacos y españoles publican contenido fruto de la investigación de, entre otros: sitios arqueológicos (incluidos paisajes antiguos), construcciones, pinturas, esculturas e instrumentos musicales.
 
-Esta organización participó en el proyecto *ARIADNE* y, actualmente, forma parte del proyecto *ARIADNEplus*. Con el objetivo de mejorar la integración europea de datos dendrocronológicos ofrecen, de forma gratuita, la misma solución *software* empleada en su proyecto *DCCD*, la cual es compatible con el proyecto *ARIADNE*. Está disponible en `Github <https://github.com/DANS-KNAW/dccd-webui>`__ .
+Esta organización participó en el proyecto *ARIADNE* y, actualmente, forma parte del proyecto *ARIADNEplus*. Con el objetivo de mejorar la integración europea de datos dendrocronológicos ofrecen, de forma gratuita, la misma solución *software* empleada en su proyecto *DCCD*, la cual es compatible con el proyecto *ARIADNE*. Está disponible en `GitHub <https://github.com/DANS-KNAW/dccd-webui>`__ .
 
 
 Comparativa entre soluciones *software*
@@ -52,13 +52,13 @@ Comparativa entre soluciones *software*
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Edición masiva de metadatos                             | ✔                      | ✘                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
-   | Cobertura espacial                                      | ✔                      | ✔                  | ✔                | ✔           |
+   | Múltiples formatos de localización                      | ✔                      | ✘                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Cobertura temporal                                      | ✘                      | ✔                  | ✘                | ✔           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Protocolo OAI-PMH                                       | ✔                      | ✔                  | ✔                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
-   | Herramientas de apoyo en la integración con ARIADNEplus | ✔                      | ✘                  | ✘                | ✘           |
+   | Soporte para ARIADNEplus                                | ✔                      | ✘                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Herramientas para la transformación de metadatos        | ✔                      | ✔                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+

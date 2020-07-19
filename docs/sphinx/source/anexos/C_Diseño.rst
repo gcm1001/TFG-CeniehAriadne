@@ -23,6 +23,10 @@ Para la gestión de datos, la aplicación hace uso de las siguientes entidades:
 - **Fichero de colección** (*CollectionFile*): representa un fichero asignado a una colección.
 - **Localización** (*Location*): representa la localización de un ítem.
 - **Localización rectangular** (*BoxLocation*): representa la localización rectangular de un ítem.
+- **Ticket de seguimiento ARIADNEplus** (*AriadnePlusTrackingTicket*): representa el *ticket* de seguimiento utilizado para el proceso de integración de un ítem o colección.
+- **Entrada de registro ARIADNEplus** (*AriadnePlusLogEntry*): recoge todos los registros acontecidos durante un cambio de fase.
+- **Mensaje de registros ARIADNEplus** (*AriadnePlusLogMsg*): recoge el contenido de un registro.
+- **Usuario** (*User*): representa un usuario.
 
 .. figure:: ../_static/images/e-r-uml.png
    :name: e-r-uml
@@ -31,6 +35,7 @@ Para la gestión de datos, la aplicación hace uso de las siguientes entidades:
 
    Diagrama E/R de datos relacionados con la gestión de datos.
 
+Se han excluido aquellas entidades añadidas por complementos externos que no han sido desarrollados en este trabajo.
 
 Diseño arquitectónico
 ---------------------
@@ -134,9 +139,9 @@ A continuación, se muestran los paquetes de todos los complementos instalados e
 Son un total de 21 complementos, de los cuales 6 han sido creados específicamente para el proyecto (verdes) y el resto (azules) han sido recogidos de la página oficial de Omeka o de repositorios externos. De estos últimos se han modificado 3 para añadir nuevas funcionalidades (naranjas).
 
 - *omeka.plugins.AdminMenuDesign*: permite ordenar las entradas del menú principal de navegación del área de administración en secciones (submenús).
-- *omeka.plugins.AriadnePlusTracking*: implementa todas las funcionalidades relacionadas con los tickets de seguimiento para los procesos de integración en ARIADNEplus.
+- *omeka.plugins.AriadnePlusTracking*: implementa todas las funcionalidades relacionadas con los tickets de seguimiento para los procesos de integración en *ARIADNEplus*.
 - *omeka.plugins.BulkMetadataEditor*: permite añadir, editar o eliminar metadatos de ítems de forma masiva.
-- *omeka.plugins.CENIEHExport*: permite exportar ítems y colecciones en un formato compatible con ARIADNEplus.
+- *omeka.plugins.CENIEHExport*: permite exportar ítems y colecciones en un formato compatible con *ARIADNEplus*.
 - *omeka.plugins.CollectionFiles*: permite asociar ficheros a colecciones.
 - *omeka.plugins.GettySuggest*: permite sugerir términos de los vocabularios Getty durante el relleno de un metadato.
 - *omeka.plugins.CsvImportPlus*: permite importar elementos (metadatos, localizaciones, etc.) en formato CSV y gestionar las importaciones.
@@ -171,7 +176,7 @@ Cada complemento puede contar con las siguientes clases, de las cuales sólo la 
    :scale: 100%
    :align: center
 
-   Paquete tipo del complemento ficticio FuncExtra.
+   Paquete tipo del complemento ficticio *FuncExtra*.
 
 Como se puede apreciar, el nombre de cada clase varía en función del complemento al que pertenece y, en el caso de los *modelos* y *controladores*, hay que considerar además el nombre del *modelo* o *controlador* que se está implementando. Adoptando estas medidas, se evitan posibles conflictos en la nomenclatura de las clases.
 
@@ -182,7 +187,7 @@ En el siguiente diagrama se muestra la interacción entre los componentes del co
    :scale: 70%
    :align: center
 
-   Diagrama de clases del complemento ficticio FuncExtra.
+   Diagrama de clases del complemento ficticio *FuncExtra*.
 
 Vemos como las implementaciones de las tres capas del complemeto *FuncExtra* (*models*, *views* y *controllers*) se acoplan a las capas de la aplicación principal para despúes interactuar entre ellas junto a todas las demás implementaciones de la aplicación, incluyendo las de los otros complementos instalados. Este acoplamiento hace posible que desde nuestro complemento se puedan reutilizar implementaciones tanto de la propia aplicación como de los otros complementos.
 
@@ -199,7 +204,7 @@ A continuación, por motivos de brevedad, se mostrarán únicamente los diagrama
    :scale: 100%
    :align: center
 
-   Diagrama de clases del complemento AdminMenuDesign.
+   Diagrama de clases del complemento *AdminMenuDesign*.
 
 En el complemento *AdminMenuDesign* se hace uso de un paquete nuevo:
 
@@ -210,7 +215,7 @@ En el complemento *AdminMenuDesign* se hace uso de un paquete nuevo:
    :scale: 70%
    :align: center
 
-   Diagrama de clases del complemento AriadnePlusTracking.
+   Diagrama de clases del complemento *AriadnePlusTracking*.
 
 En el complemento *AriadnePlusTracking* se utilizan varios paquetes nuevos:
 
@@ -227,7 +232,7 @@ En el complemento *AriadnePlusTracking* se utilizan varios paquetes nuevos:
    :scale: 100%
    :align: center
 
-   Diagrama de clases del complemento CENIEHExport.
+   Diagrama de clases del complemento *CENIEHExport*.
 
 En el complemento *CENIEHExport* se hace uso de una nueva librería:
 
@@ -239,7 +244,7 @@ En el complemento *CENIEHExport* se hace uso de una nueva librería:
    :scale: 70%
    :align: center
 
-   Diagrama de clases del complemento CollectionFiles
+   Diagrama de clases del complemento *CollectionFiles*.
 
 En el complemento *CollectionFiles* se utiliza una nueva librería:
 
@@ -255,14 +260,14 @@ Además, se utilizan dos paquetes nuevos:
    :scale: 100%
    :align: center
 
-   Diagrama de clases del complemento AutoDublinCore
+   Diagrama de clases del complemento *AutoDublinCore*.
 
 .. figure:: ../_static/images/pck-10.png
    :name: da-pck-10
    :scale: 100%
    :align: center
 
-   Diagrama de clases del complemento TagsManager
+   Diagrama de clases del complemento *TagsManager*.
 
 
 Diseño procedimental
@@ -290,28 +295,28 @@ Para la creación del complemento *AriadnePlusTracking* se llevaron a cabo una s
    :scale: 35%
    :align: center
 
-   Prototipos: página principal (ARIADNEplus Tracking)
+   Prototipos: página principal (*ARIADNEplus Tracking*).
 
 .. figure:: ../_static/images/new-prototipe.png
    :name: new-prototipe
    :scale: 35%
    :align: center
 
-   Prototipos: creación de un ticket (ARIADNEplus Tracking)
+   Prototipos: creación de un ticket (*ARIADNEplus Tracking*).
 
 .. figure:: ../_static/images/phase-1-2-prototipe.png
    :name: phase-1-2-prototipe
    :scale: 35%
    :align: center
 
-   Prototipos: primera y segunda fase de un ticket (ARIADNEplus Tracking)
+   Prototipos: primera y segunda fase de un ticket (*ARIADNEplus Tracking*).
 
 .. figure:: ../_static/images/phase-3-4-prototipe.png
    :name: phase-3-4-prototipe
    :scale: 35%
    :align: center
 
-   Prototipos: tercera y cuarta fase de un ticket (ARIADNEplus Tracking)
+   Prototipos: tercera y cuarta fase de un ticket (*ARIADNEplus Tracking*).
 
 
 .. figure:: ../_static/images/phase-5-6-prototipe.png
@@ -319,5 +324,5 @@ Para la creación del complemento *AriadnePlusTracking* se llevaron a cabo una s
    :scale: 35%
    :align: center
 
-   Prototipos: quinta y sexta fase de un ticket (ARIADNEplus Tracking)
+   Prototipos: quinta y sexta fase de un ticket (*ARIADNEplus Tracking*).
 

@@ -14,10 +14,10 @@ Los objetivos generales que se desean alcanzar con el desarrollo del proyecto so
 
 - Proporcionar una infraestructura *software* que permita:
 
-   - Gestionar los (meta)datos del CENIEH en la integración con ARIADNEplus.
-   - Transformar el esquema de (meta)datos de origen (CENIEH) a un esquema estandarizado compatible con ARIADNEplus.
+   - Gestionar los (meta)datos del CENIEH en la integración con *ARIADNEplus*.
+   - Transformar el esquema de (meta)datos de origen (CENIEH) a un esquema estandarizado compatible con *ARIADNEplus*.
    - Compartir los datos de forma que estos sean accesibles desde el exterior.
-   - Facilitar la integración de los (meta)datos en ARIADNEplus.
+   - Facilitar la integración de los (meta)datos en *ARIADNEplus*.
 
 Catálogo de requisitos
 ----------------------
@@ -110,7 +110,7 @@ Requisitos funcionales del área de administración
 
       - **RFAA-7.4.1 Deshacer recolección**: el operario debe poder deshacer una recolección ya ejecutada.
 
-- **RFAA-8 Seguimiento ARIADNEplus**: el operario tiene que ser capaz de realizar un seguimiento del proceso de integración de datos en ARIADNEplus.
+- **RFAA-8 Seguimiento ARIADNEplus**: el operario tiene que ser capaz de realizar un seguimiento del proceso de integración de datos en *ARIADNEplus*.
 
    - **RFAA-8.1 Crear ticket de seguimiento**: el operario debe poder crear un ticket de seguimiento.
    - **RFAA-8.2 Eliminar ticket de seguimiento**: el operario debe poder eliminar un ticket de seguimiento ya existente.

@@ -6,6 +6,8 @@ A continuación se van a mostrar los aspectos más relevantes del desarrollo del
 
 Ciclo de vida del proyecto
 --------------------------
+En Mayo de 2019, tuvo lugar una reunión entre las diferentes partes involucradas, UBU y CENIEH, donde se sentaron las bases del proyecto. A esta le siguieron muchas otras donde se fueron detallando distintos aspectos del trabajo a realizar. Además, dos de los miembros de la UBU participaron en un \emph{workshop} que tuvo lugar en Pisa, Italia, donde se adquirieron nuevos conocimientos acerca del proyecto \emph{ARIADNEplus} y se estableció un primer contacto entre la UBU y los demás participantes del proyecto.
+
 El 01 de febrero de 2020 se inició este proyecto con el objetivo de llevar a cabo el proceso de integración de los datos del CENIEH en ARIADNEplus. Adicionalmente, se propuso implantar en el CENIEH una infraestructura *software* mediante la cual los investigadores del CENIEH fueran capaces de llevar a cabo las tareas de integración por sí solos. De esta manera, a través de la infraestructura propuesta, serían capaces de continuar con las labores de integración una vez concluido el periodo de colaboración entre el CENIEH y la UBU.
 
 El proyecto ha tenido una duración total de 5 meses, lo que significa que el 01 de julio de 2020 finalizaron las tareas implicadas en el proyecto. Sin embargo, las tareas de integración se siguieron llevando a cabo desde el CENIEH hasta el 31 de julio de 2020, fecha en la que se da por concluido el periodo de colaboración.
@@ -258,7 +260,7 @@ Desarrollar desde cero una infraestructura *software* que cumpliera con todos lo
 
 Se consideraron varios productos *software* para acabar escogiendo `Omeka Classic <https://omeka.org/classic/>`__. Una de las características que hacen de la aplicación una magnífica plataforma para el proyecto es su **escalabilidad**. Gracias a su sistema de **complementos** o *plugins*, cualquier programador tiene la posibilidad de adaptarla a sus necesidades individuales sin necesidad de modificar el código base de la aplicación.
 
-Actualmente, *Omeka* cuenta con una gran cantidad de *plugins* disponibles tanto en su `página oficial <https://omeka.org/classic/plugins/>`__ como en `Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__. Esto es posible gracias a la extensa comunidad de usuarios que le respalda. Parte de esos *plugins* se han podido utilizar para adaptar la infraestructura a las necesidades del proyecto, sin embargo, se han tenido que desarrollar nuevos *plugins* para cubrir requisitos específicos. Además, se han llevado a cabo modificaciones sobre alguno de los *plugins* de terceros utilizados.
+Actualmente, *Omeka* cuenta con una gran cantidad de *plugins* disponibles tanto en su `página oficial <https://omeka.org/classic/plugins/>`__ como en `GitHub <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__. Esto es posible gracias a la extensa comunidad de usuarios que le respalda. Parte de esos *plugins* se han podido utilizar para adaptar la infraestructura a las necesidades del proyecto, sin embargo, se han tenido que desarrollar nuevos *plugins* para cubrir requisitos específicos. Además, se han llevado a cabo modificaciones sobre alguno de los *plugins* de terceros utilizados.
 
 Por tanto, parte de las tareas de esta fase están relacionadas con la creación y modificación de *plugins* para *Omeka*.
 
@@ -325,11 +327,11 @@ Durante la fase de desarrollo, se ha trabajado sobre dos entornos:
 
 Despliegue de la infraestructura
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Para llevar a cabo el despliegue de la infraestructura se ha utilizado la herramienta *Github Actions*. Dependiendo del entorno de trabajo, se ha procedido de una manera u otra:
+Para llevar a cabo el despliegue de la infraestructura se ha utilizado la herramienta *GitHub Actions*. Dependiendo del entorno de trabajo, se ha procedido de una manera u otra:
 
 Servidor de desarrollo
 ^^^^^^^^^^^^^^^^^^^^^^
-A través de la herramienta *Github Actions* se ha automatizado el despliegue de la infraestructura sobre el servidor de desarrollo. A esta técnica se la conoce como despliegue continuo.
+A través de la herramienta *GitHub Actions* se ha automatizado el despliegue de la infraestructura sobre el servidor de desarrollo. A esta técnica se la conoce como despliegue continuo.
 
 .. figure:: ../_static/images/cicd.png
    :name: cicd

@@ -96,12 +96,15 @@ El siguiente consistirá en **configurar tu servidor**. Para ello, hay que segui
 3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio donde podamos trabajar.
 4. Buscar el fichero `db.ini` y sustituir los valores 'XXXXX' por los datos de la base de datos (anotados en el paso 1).
    - No es necesario modificar los parámetros `prefix` o `port`.
+5. **Descargar** el contenido de este repositorio del proyecto.
+6. **Descomprimir** las carpetas `/omeka/plugins` y `/omeka/themes` del fichero `.zip` recién descargado.
+7. Desde el directorio de trabajo, **reemplazar las carpetas originales** *plugins* y *themes* por las recién descomprimidas.
 5. Movemos todo el contenido a la carpeta al servidor.
 6. **Dar permisos de escritura sobre la carpeta `files`**.
 
 Desde este instante, la aplicación será accesible desde el navegador. El último paso consistiría en completar la instalación guiada desde el navegador, disponible en el directorio `/install/` de la aplicación (e.g. http://localhost/install).
 
-[***Documentación Oficial de Omeka***](https://omeka.org/classic/docs/Installation/Installation/)
+Ver [***Manual de usuario***](https://tfg-ceniehariadne.readthedocs.io/es/latest/anexos/E_Manual_usuario.html#manual-de-usuario) para información más detallada.
 
 ### Docker
 
@@ -178,9 +181,7 @@ El siguiente paso consiste en desplegar la aplicación. Para esta tarea utilizo 
 - `/patch.yaml`
 - `/gke-mysql/*`
 - `/gke-omeka/*`
-- `/configFiles/db.ini.gke`
-- `/configFiles/mail.ini.gke`
-- `/configFiles/config.ini.gke`
+- `/configFiles/*.gke`
 
 Se deben definir en el servidor los _secrets_ y _configMaps_ utilizados por los ficheros de configuración `.yaml`.
 
@@ -249,7 +250,7 @@ Por último, debemos indicar el identificador de nuestra imagen _Docker_ en el f
 ...
 ```
 
-Tras esto, solo faltaría ejecutar, desde el directorio raíz, el siguiente comando:
+A continuación, desde el directorio raíz, ejecutar el siguiente comando:
 
 ```
 kustomize build . | kubectl apply -f -

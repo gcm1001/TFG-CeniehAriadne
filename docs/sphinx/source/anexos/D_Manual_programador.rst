@@ -162,7 +162,7 @@ El primer paso consiste en **configurar el servidor**:
    sudo mysql -u root -
    CREATE DATABASE omekadb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
-   GRANT ALL ON omeka.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
+   GRANT ALL ON omekadb.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
    FLUSH PRIVILEGES;
    EXIT;
 
@@ -186,6 +186,7 @@ El primer paso consiste en **configurar el servidor**:
    nano db.ini
 
    No es necesario modificar los parámetros `prefix` o `port`.
+
 .. code-block::
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -334,7 +335,7 @@ El procedimiento a seguir es el siguientefa:
    :scale: 60%
    :align: center
 
-   Vista del panel de administración de Google Cloud tras finalizar los pasos marcados.
+   Vista del panel de administración de *Google Cloud* tras finalizar los pasos marcados.
 
 
 Etapa 02: Configuración del *workflow*
@@ -469,7 +470,7 @@ La última etapa consiste en ejecutar un *commit* sobre la rama *master* (siempr
    :scale: 60%
    :align: center
 
-   Ejecución del workflow.
+   Ejecución del *workflow*.
 
 Codacy
 ^^^^^^
@@ -488,7 +489,7 @@ Para poder utilizar esta plataforma con *GitHub* hay que seguir los siguientes p
    :scale: 60%
    :align: center
 
-   Panel principal de la plataforma Codacy.
+   Panel principal de la plataforma *Codacy*.
 
 Tras esta primera revisión, cada vez que se ejecute un *commit* sobre la rama *main* del repositorio, *Codacy* evaluará la calidad de los cambios cometidos de forma automática.
 
@@ -515,7 +516,7 @@ Además, se pueden configurar otros aspectos de la documentación. Para ello, es
    :scale: 60%
    :align: center
 
-   Página principal de la documentación del proyecto hospedada en Read The Docs.
+   Página principal de la documentación del proyecto hospedada en *Read The Docs*.
 
 
 Pruebas del sistema

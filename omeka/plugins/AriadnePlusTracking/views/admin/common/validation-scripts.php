@@ -34,7 +34,7 @@ $mandatoryMonElements = $view->tracking()->getAllElementNames();
             };
      <?php endforeach; ?>
        
-       jQuery('[class^=mandatory-]').change(function(){
+       jQuery('[class*=mandatory-]').change(function(){
                 if(jQuery.trim(jQuery(this).val()).length){
                     jQuery(this).removeClass().addClass('mandatory-fill');
                 } else {

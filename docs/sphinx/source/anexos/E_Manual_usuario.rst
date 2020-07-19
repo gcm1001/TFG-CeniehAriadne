@@ -225,7 +225,7 @@ Para proceder al despliegue **se deben descargar**, del `repositorio del proyect
 
 - `/Dockerfile`
 - `/docker-compose.yml`
-- `/ConfigFiles/*`
+- `/ConfigFiles/*.modificar`
 - `/omeka/plugins/*`
 
 .. warning::
@@ -289,9 +289,7 @@ El siguiente paso consiste en desplegar la aplicación. Para esta tarea utilizo 
 - `/patch.yaml`
 - `/gke-mysql/*`
 - `/gke-omeka/*`
-- `/configFiles/db.ini.gke`
-- `/configFiles/mail.ini.gke`
-- `/configFiles/config.ini.gke`
+- `/configFiles/*.gke`
 
 Se deben definir en el servidor los *secrets* y *configMaps* utilizados por los ficheros de configuración *.yaml*.
 
@@ -391,7 +389,7 @@ Este área se encuentra ubicado en la ruta `/admin` desde la raíz del directori
    :scale: 60%
    :align: center
 
-   Inicio de sesión del área de administración
+   Inicio de sesión del área de administración.
 
 Después de introducir un nombre de usuario y contraseña válidos, se debe pulsar sobre el botón "*Login*". Si todo es correcto, accederemos al interior de la zona de administración.
 
@@ -404,7 +402,7 @@ Dentro del área de administración podemos desplazarnos a través de los dos me
    :scale: 60%
    :align: center
 
-   Vista principal del panel de administración
+   Vista principal del panel de administración.
 
 1. **Menú global**: recoge los accesos hacia las principales zonas de configuración de la aplicación.
 
@@ -532,7 +530,7 @@ Desde la entrada "*Appearance*" del menú global podemos configurar todos los as
    :scale: 60%
    :align: center
 
-   Vista principal de la página de configuración del diseño de la aplicación
+   Vista principal de la página de configuración del diseño de la aplicación.
 
 - *Themes*: permite seleccionar y configurar el tema público de la aplicación.
 - *Navigation*: permite gestionar la navegación pública de la aplicación ordenando, editando y añadiendo nuevas entradas. Además se puede seleccionar la página principal (*homepage*).
@@ -650,7 +648,7 @@ Existen ciertos aspectos del diseño de la aplicación que no están ligados ni 
    :scale: 60%
    :align: center
 
-   Vista de la página de configuración de ciertos aspectos del diseño de la aplicación
+   Vista de la página de configuración de ciertos aspectos del diseño de la aplicación.
 
 Para configurar estos aspectos:
 
@@ -679,7 +677,7 @@ Para acceder al gestor de usuarios se utiliza la entrada "*Users*" del menú glo
    :scale: 60%
    :align: center
 
-   Vista principal del gestor de usuarios
+   Vista principal del gestor de usuarios.
 
 Crear un nuevo usuario
 **********************
@@ -767,7 +765,7 @@ Muchos de los elementos de la aplicación pueden ser configurados. Desde la entr
    :scale: 60%
    :align: center
 
-   Vista de la página de configuración principal de la aplicación
+   Vista de la página de configuración principal de la aplicación.
 
 A través de la barra de navegación podemos desplazarnos por las distintas zonas de configuración, cada una de las cuales abarca un aspecto determinado.
 
@@ -902,7 +900,7 @@ Los ítems son los **elementos principales** de la aplicación, utilizados para 
    :scale: 60%
    :align: center
 
-   Vista principal del gestor de ítems
+   Vista principal del gestor de ítems.
 
 Propiedades de un *Item*
 ************************
@@ -928,7 +926,7 @@ Si se desean generar conjuntos de datos desde la aplicación, el primer paso es 
    :scale: 60%
    :align: center
 
-   Vista utilizada para la creación de ítems
+   Vista utilizada para la creación de ítems.
 
 Para crear un ítem:
 
@@ -958,7 +956,7 @@ Existen numerosos motivos por los que pueden surgir la necesidad de editar un í
    :scale: 60%
    :align: center
 
-   Vista utilizada para la edición de ítems
+   Vista utilizada para la edición de ítems.
 
 Para editar un ítem existente:
 
@@ -1019,7 +1017,7 @@ Como se puede apreciar en la :numref:`items-view`, los ítems son mostrados en u
    :scale: 60%
    :align: center
 
-   Ítems especiales vistos desde el gestor de ítems: el primero es destacado, el segundo es privado y el tercero almacena un fichero (imagen)
+   Ítems especiales vistos desde el gestor de ítems: el primero es destacado, el segundo es privado y el tercero almacena un fichero (imagen).
 
 Otra particularidad del gestor es que, en función de los valores especiales del ítem, se le da un formato u otro.
 
@@ -1093,7 +1091,7 @@ La aplicación te permite modificar o eliminar varios ítems a la vez desde el g
    :scale: 60%
    :align: center
 
-   Vista utilizada para la edición masiva de ítems
+   Vista utilizada para la edición masiva de ítems.
 
 Para editar/eliminar varios ítems a la vez:
 
@@ -1125,7 +1123,7 @@ En la página principal del gestor de ítems (`/admin/items/`) solo se pueden vi
    :scale: 60%
    :align: center
 
-   Vista utilizada para visualizar ítems
+   Vista utilizada para visualizar ítems.
 
 Para visualizar un ítem:
 
@@ -1220,7 +1218,7 @@ A través de la página de visualización de ficheros (`/admin/files/show/<idFil
    :scale: 60%
    :align: center
 
-   Vista utilizada para visualizar ficheros
+   Vista utilizada para visualizar ficheros.
 
 Para visualizar un fichero:
 
@@ -1239,7 +1237,7 @@ La aplicación permite asociar metadatos del esquema *Dublin Core* a los fichero
    :scale: 60%
    :align: center
 
-   Vista utilizada para editar ficheros
+   Vista utilizada para editar ficheros.
 
 [Opción 1] Para añadir metadatos a un fichero:
 
@@ -1270,7 +1268,7 @@ Las colecciones pueden ser usadas en una gran variedad de contextos en los que p
    :scale: 60%
    :align: center
 
-   Vista principal del gestor de colecciones
+   Vista principal del gestor de colecciones.
 
 Crear una colección
 *******************
@@ -1281,7 +1279,7 @@ Antes de poder agrupar ítems en una colección, esta debe ser creada.
    :scale: 60%
    :align: center
 
-   Vista utilizada para crear colecciones
+   Vista utilizada para crear colecciones.
 
 Para crear una colección:
 
@@ -1306,7 +1304,7 @@ Para añadir un solo ítem a una colección:
    :scale: 60%
    :align: center
 
-   Añadir un ítem a una colección
+   Añadir un ítem a una colección.
 
 1. Desde el gestor de ítems (`/admin/items/`).
 2. Localizar la fila en la que se encuentra el ítem y hacer clic sobre el hipertexto "*Edit*" situado justo debajo del título del ítem.
@@ -1320,7 +1318,7 @@ Para añadir varios ítems a una colección:
    :scale: 60%
    :align: center
 
-   Añadir varios ítems a una colección
+   Añadir varios ítems a una colección.
 
 1. Desde el gestor de ítems (`/admin/items/`).
 2. Buscar los ítems que se quieran añadir a la colección.
@@ -1340,7 +1338,7 @@ Es posible modificar los datos exclusivos de la colección (no de sus ítems) un
    :scale: 60%
    :align: center
 
-   Vista utilizada para editar colecciones
+   Vista utilizada para editar colecciones.
 
 Para editar una colección existente:
 
@@ -1369,7 +1367,7 @@ Desde la página principal del gestor de colecciones (`/admin/collections/`) sol
    :scale: 60%
    :align: center
 
-   Vista utilizada para visualizar colecciones
+   Vista utilizada para visualizar colecciones.
 
 Para visualizar una colección:
 
@@ -1390,7 +1388,7 @@ Desde la entrada "*Tags*", dentro de la sección "*Data Manager*"  del menú pri
    :scale: 60%
    :align: center
 
-   Vista principal del gestor de etiquetas
+   Vista principal del gestor de etiquetas.
 
 Desde el gestor de etiquetas, en la parte derecha se pueden observar todos los *tags* empleados en cada uno de los ítems existentes en la plataforma, mientras que en la parte izquierda, al lado del menú principal, hay un buscador y una explicación de cómo están representados los *tags*.
 
@@ -1412,7 +1410,7 @@ Para ordenar etiquetas:
    :scale: 100%
    :align: center
 
-   Botones para ordenar etiquetas o tags
+   Botones para ordenar etiquetas o *tags*.
 
 Buscar *tags*
 *************
@@ -1423,7 +1421,7 @@ Se pueden buscar etiquetas por su nombre.
    :scale: 100%
    :align: center
 
-   Botones para ordenar etiquetas o tags
+   Botones para ordenar etiquetas o *tags*.
 
 Para buscar etiquetas:
 
@@ -1446,7 +1444,7 @@ Una vez creada una etiqueta, se puede modificar el nombre de esta. Este cambió 
    :scale: 100%
    :align: center
 
-   Botones para ordenar etiquetas o tags
+   Botones para ordenar etiquetas o *tags*.
 
 Para editar una etiqueta:
 
@@ -1556,7 +1554,7 @@ Se pueden modificar tipos de ítem existentes para modificar sus elementos (meta
    :scale: 60%
    :align: center
 
-   Vista desde donde se edita un tipo de ítem
+   Vista desde donde se edita un tipo de ítem.
 
 Para modificar un tipo de ítem existente:
 
@@ -1649,7 +1647,7 @@ Antes de realizar tareas de gestión sobre un determinado tipo de ítem, se pued
    :scale: 60%
    :align: center
 
-   Vista desde donde se visualiza un tipo de ítem
+   Vista desde donde se visualiza un tipo de ítem.
 
 Para visualizar un tipo de ítem existente.
 
@@ -1694,7 +1692,7 @@ Este complemento nos ofrece una herramienta que nos permite importar conjuntos d
    :scale: 60%
    :align: center
 
-   Vista principal de la herramienta CSV Import+
+   Vista principal de la herramienta *CSV Import+*.
 
 Cuando se accede a esta herramienta, se nos muestra el primer paso a realizar para llevar a cabo la importación (ver :numref:`csv-import-plus-1`). Este es un formulario donde el usuario debe configurar los aspectos de la importación.
 
@@ -1703,7 +1701,7 @@ Cuando se accede a esta herramienta, se nos muestra el primer paso a realizar pa
    :scale: 60%
    :align: center
 
-   Vista correspondiente al paso 2 del proceso de importación de la herramienta CSV Import+
+   Vista correspondiente al paso 2 del proceso de importación de la herramienta *CSV Import+*.
 
 Además, existe un segundo paso opcional, donde se lleva a cabo el mapeo de datos de forma manual (ver :numref:`csv-import-plus-2`).
 
@@ -1712,7 +1710,7 @@ Además, existe un segundo paso opcional, donde se lleva a cabo el mapeo de dato
    :scale: 60%
    :align: center
 
-   Vista desde donde se visualizan los registros de la herramienta CSV Import+
+   Vista desde donde se visualizan los registros de la herramienta *CSV Import+*.
 
 Tras finalizar el recorrido de importación, es posible visualizar el registro de cada importación desde la misma herramienta (`/admin/csv-import-plus/`), dentro de la pestaña "*Status*".
 
@@ -2106,7 +2104,7 @@ A través de esta herramienta se pueden importar registros almacenados en otros 
    :scale: 60%
    :align: center
 
-   Vista principal del complemento OAI-PMH Harvester
+   Vista principal del complemento OAI-PMH Harvester.
 
 Recolectar metadatos de otros repositorios
 ******************************************
@@ -2117,7 +2115,7 @@ Antes de empezar con el proceso de recolección, hay que cerciorarse de que el r
    :scale: 60%
    :align: center
 
-   Vista de los conjuntos de metadatos ofrecidos por un repositorio on-line
+   Vista de los conjuntos de metadatos ofrecidos por un repositorio on-line.
 
 Para importar metadatos mediante el protocolo OAI-PMH:
 
@@ -2147,7 +2145,7 @@ Después de que se haya completado el proceso de recolección de metadatos, apar
    :scale: 60%
    :align: center
 
-   Vista de los conjuntos de metadatos ofrecidos por un repositorio on-line
+   Vista de los conjuntos de metadatos ofrecidos por un repositorio *on-line*.
 
 Al hacer clic sobre ese botón se iniciará de nuevo el proceso de recolección, importando los nuevos ítems y aplicando cambios en los ya existentes.
 
@@ -2162,7 +2160,7 @@ Si queremos observar los acontecimientos que van sucediendo durante la importaci
    :scale: 60%
    :align: center
 
-   Vista de los datos de una recolección
+   Vista de los datos de una recolección.
 
 Para visualizar los datos de una importación:
 
@@ -2186,14 +2184,14 @@ Para deshacer una importación:
 
 *ARIADNEplus Tracking*
 ^^^^^^^^^^^^^^^^^^^^^^
-El complemento *ARIADNEplus Tracking* incluye nuevas funciones que facilitan el **proceso de integración** en ARIADNEplus para cada conjunto de datos almacenado en la plataforma. Antes de iniciar cualquier proceso de integración, deben existir conjuntos de datos dentro de la plataforma con los que podamos trabajar (Ver `Importar datos CSV`_ , `Recolectar metadatos de otros repositorios`_ , `Crear un ítem`_ o `Crear una colección`_).
+El complemento *ARIADNEplus Tracking* incluye nuevas funciones que facilitan el **proceso de integración** en *ARIADNEplus* para cada conjunto de datos almacenado en la plataforma. Antes de iniciar cualquier proceso de integración, deben existir conjuntos de datos dentro de la plataforma con los que podamos trabajar (Ver `Importar datos CSV`_ , `Recolectar metadatos de otros repositorios`_ , `Crear un ítem`_ o `Crear una colección`_).
 
 .. figure:: ../_static/images/ariadne-plus-tracking.png
    :name: ariadne-plus-tracking
    :scale: 60%
    :align: center
 
-   Vista principal del complemento ARIADNEplus Tracking
+   Vista principal del complemento *ARIADNEplus* Tracking.
 
 Crear un ticket
 ***************
@@ -2466,7 +2464,7 @@ Para editar varios ítems a la vez:
       4. Si queremos que el valor coincida de forma exacta, marcar la casilla *Match Case*.
 
 3. Hacer clic sobre el botón "*Preview Selected Items*" para comprobar que los ítems seleccionados son los correctos.
-4. Seleccionar los metadatos que deseamos modificar
+4. Seleccionar los metadatos que deseamos modificar.
 
    |be-2|
 
@@ -2647,7 +2645,7 @@ El complemento *Admin Navigation Main Menu Design* permite organizar las entrada
    :scale: 60%
    :align: center
 
-   Menú principal de navegación del área de administración
+   Menú principal de navegación del área de administración.
 
 Para modificar las entradas del menú:
 
@@ -2671,7 +2669,7 @@ Para activar/desactivar la actualización automática de elementos:
    :scale: 60%
    :align: center
 
-   Página de configuración del complemento Automatic Dublin Core Updates
+   Página de configuración del complemento Automatic Dublin Core Updates.
 
 1. Acceder a la página de configuración del complemento *Automatic Dublin Core Updates* (ver `Configurar complementos (plugins)`_).
 2. Marcar/Desmarcar la casilla del elemento que se quiera activar/desactivar.
@@ -2684,6 +2682,15 @@ Para activar/desactivar la actualización automática de elementos:
 ^^^^^^^^^^^^^^^^^^^^
 El complemento *OAI-PMH Repository* permite que otros repositorios web recolecten metadatos de nuestra aplicación.
 
+.. figure:: ../_static/images/oaipmhrepo.png
+   :name: oaipmhrepo
+   :scale: 60%
+   :align: center
+
+   Vista de la página *Identify* del repositorio OAI-PMH.
+
+El *endpoint* de la aplicación tiene el siguiente formato: *http://<host>/oai-pmh-repository/request*.
+
 .. seealso::
    * `Repositorio en Github - OAI-PMH Repository <https://github.com/zerocrates/OaiPmhRepository>`__
    * `Omeka - OAI-PMH Repository  <https://omeka.org/classic/plugins/OaiPmhRepository/>`__
@@ -2691,7 +2698,51 @@ El complemento *OAI-PMH Repository* permite que otros repositorios web recolecte
 
 *Simple Pages*
 ^^^^^^^^^^^^^^
-El complemento *Simple Pages* permite añadir páginas simples como la de "About" al área pública.
+El complemento *Simple Pages* permite añadir páginas simples como la de "About" al área pública. Desde la entrada "*Simple Pages*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de páginas simples (`/admin/simple-pages/`).
+
+.. figure:: ../_static/images/simplepages.png
+   :name: simplepages
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *Simple Pages*.
+
+Para añadir una página simple:
+
+.. |sp-1| image:: ../_static/images/sp-1.png
+   :scale: 60%
+   :align: middle
+
+1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+2. Hacer clic sobre el botón "*Add a Page*".
+3. Rellenar el formulario:
+
+   |sp-1|
+
+   a. *Title*: nombre y cabecera para la página.
+   b. *Slug*: parte de la *URL* que referencia a la página.
+   c. *Use HTML editor?*: activar/desactivar el editor HTML para crear el contenido de la página.
+   d. *Text*: contenido de la página.
+   e. *Parent*: página "padre".
+   f. *Order*: orden de la página respecto a otras con el mismo "padre".
+   g. *Publish this page?*: publicar/desplublicar la página.
+
+4. Hacer clic sobre el botón "*Save changes*".
+
+Para eliminar una página simple:
+
+1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+2. Localizar la página a eliminar en la tabla principal.
+3. Hacer clic sobre el texto "*Delete*".
+4. Confirmar la eliminación haciendo clic sobre el botón rojo "*Delete*".
+
+Para editar una página simple:
+
+1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+2. Localizar la página a eliminar en la tabla principal.
+3. Hacer clic sobre el texto "*Edit*".
+4. Modificar el formulario.
+5. Hacer clic sobre el botón "*Save changes*".
 
 .. seealso::
    * `Repositorio en Github - Simple Pages <https://github.com/omeka/plugin-SimplePages>`__
@@ -2700,7 +2751,16 @@ El complemento *Simple Pages* permite añadir páginas simples como la de "About
 
 *History Log*
 ^^^^^^^^^^^^^
-El complemento *History Log* permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma.
+El complemento *History Log* permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma. Desde la entrada "*History Logs*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (`/admin/history-log/`).
+
+.. figure:: ../_static/images/historylog.png
+   :name: historylog
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *History Log*.
+
+Desde su página principal se pueden hacer búsquedas avanzadas y aplicar filtros sobre todos los registros de la aplicación.
 
 .. seealso::
    * `Repositorio en Github - History Log <https://github.com/UCSCLibrary/HistoryLog>`__
@@ -2708,14 +2768,82 @@ El complemento *History Log* permite llevar un registro detallado de todas las a
 
 *Getty Suggest*
 ^^^^^^^^^^^^^^^
-El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Getty* durante el relleno de un elemento (metadato).
+El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Getty* durante el relleno de un elemento (metadato). Desde la entrada "*Getty Suggest*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (`/admin/getty-suggest/`).
+
+.. figure:: ../_static/images/gettysuggest.png
+   :name: gettysuggest
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *Getty Suggest*.
+
+Para activar la sugerencia de vocabulario en un metadato:
+
+1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+2. Rellenar el formulario.
+
+   a. *Element*: metadato en el que se activará la sugerencia.
+   b. *Authority/Vocab*: vocabulario *Getty* a sugerir.
+
+3. Hacer clic sobre el botón "*Add Suggest*".
+
+Para desactivar la sugerencia de vocabulario en un metadato:
+
+1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+2. Buscar en la tabla de asignaciones el metadato a desactivar.
+3. Hacer clic sobre el botón "*Delete*".
+
+Para editar la sugerencia de vocabulario en un metadato:
+
+1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+2. Buscar en la tabla de asignaciones el metadato a editar.
+3. Hacer clic sobre el botón "*Edit*".
+4. Modificar desde la tabla el metadato o la autoridad.
+5. Hacer clic sobre el botón "*Save*".
 
 .. seealso::
    * `Repositorio en Github - Getty Suggest <https://github.com/UCSCLibrary/GettySuggest>`__
 
 *Simple Vocab*
 ^^^^^^^^^^^^^^
-El complemento *Simple Vocab* permite crear y gestionar vocabularios simples para elementos de un determinado esquema.
+El complemento *Simple Vocab* permite crear y gestionar vocabularios simples para elementos de un determinado esquema. Desde la entrada "*Simple Vocab*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de vocabularios simples (`/admin/simple-vocab/`).
+
+.. figure:: ../_static/images/simplevocab.png
+   :name: simplevocab
+   :scale: 60%
+   :align: center
+
+   Vista de la página principal del complemento *Simple Vocab*.
+
+Para crear un vocabulario sobre un metadato específico:
+
+1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+2. Rellenar el formulario.
+
+   a. *Element*: metadato en el que se activará el vocabulario.
+   b. *Vocabulary terms*: términos del vocabulario, uno por línea.
+
+3. Hacer clic sobre el botón "*Save Changes*".
+
+Para eliminar un vocabulario sobre un metadato específico:
+
+1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+2. Seleccionar en el formulario el metadato donde se encuentra activado el vocabulario.
+
+   a. *Element*: metadato involucrado.
+
+3. Eliminar todos los términos del campo "*Vocabulary Terms*".
+4. Hacer clic sobre el botón "*Save Changes*".
+
+Para editar un vocabulario sobre un metadato específico:
+
+1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+2. Seleccionar en el formulario el metadato donde se encuentra activado el vocabulario.
+
+   a. *Element*: metadato involucrado.
+
+3. Editar los términos del campo "*Vocabulary Terms*".
+4. Hacer clic sobre el botón "*Save Changes*".
 
 .. seealso::
    * `Repositorio en Github - Simple Vocab <https://github.com/omeka/plugin-SimpleVocab>`__

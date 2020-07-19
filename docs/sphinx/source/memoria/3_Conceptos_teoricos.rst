@@ -9,7 +9,7 @@ En esta sección se definen todos aquellos conceptos relacionados con la investi
 
 *ARIADNEplus*
 ~~~~~~~~~~~~~
-*ARIADNEplus* [#]_ es la continuación del proyecto *ARIADNE* [#]_, el cual fue fundado por la Comisión Europea en febrero de 2013. Nació con el propósito de estimular la investigación en áreas relacionadas con la arqueología mediante la integración de diversas infraestructuras de datos arqueológicas situadas en Europa. Fruto de este proyecto surgió un catálogo *on-line* de (meta)datos referentes a conjuntos de datos que incluían reportes no publicados, imágenes, mapas, bases de datos, y otros tipos de información arqueológica.
+*ARIADNEplus* [#]_ es la continuación del proyecto *ARIADNE* [#]_, el cual fue fundado por la Comisión Europea en febrero de 2013. Nació con el propósito de estimular la investigación en áreas relacionadas con la arqueología mediante la integración de diversas infraestructuras de datos arqueológicas situadas en Europa. Fruto de este proyecto surgió un catálogo *on-line* de metadatos referentes a conjuntos de datos que incluían reportes no publicados, imágenes, mapas, bases de datos, y otros tipos de información arqueológica.
 
 Este segundo proyecto forma parte del programa *H2020*, fundado también por la Comisión Europea. El proyecto se encuentra en desarrollo desde enero de 2019 y tiene previsto una duración total de 48 meses. A través de *ARIADNEplus*, se actualizarán y extenderán los datos del catálogo *on-line* anterior añadiendo a los mismos dimensión geográfica y temporal. Además, se van a incorporar más organizaciones arqueológicas Europeas (entre ellas el CENIEH). También proveerá nuevos servicios en la nube para procesar y re-utilizar los datos incluidos en su portal.
 
@@ -35,7 +35,7 @@ Para aportar algo de claridad a esta definición aplicaré el concepto de "metad
    :scale: 80%
    :align: center
 
-   Ejemplo de metadatos
+   Ejemplo de metadatos.
 
 En la actualidad, estas "fichas" se encuentran en formato digital a través de lenguajes de marcado como *XML* o *RDF*.
 
@@ -51,7 +51,7 @@ Cada esquema está formado por un conjunto de campos de diferentes tipos, los cu
    :scale: 80%
    :align: center
 
-   Estructura básica de un esquema de metadatos
+   Estructura básica de un esquema de metadatos.
 
 En la :numref:`diagramacampos`, podemos observar la **estructura básica** de cualquier esquema:
 
@@ -88,7 +88,7 @@ La ontología *AO-Cat* (\ **A**\ RIADNE **O**\ ntology **-** **Cat**\ alog) deri
    :scale: 40%
    :align: center
 
-   Diagrama de clases para la ontología AO-CAT
+   Diagrama de clases para la ontología AO-CAT.
 
 Es el **modelo utilizado por el catálogo actual de ARIADNEplus** y, por tanto, los metadatos del CENIEH se tendrán que adaptar a este modelo.
 
@@ -104,7 +104,7 @@ El mapeo de datos consiste en crear asignaciones entre dos elementos que pertene
    :scale: 100%
    :align: center
 
-   Ejemplo de mapeo entre el esquema "Dublin Core" y el modelo "AO-Cat"
+   Ejemplo de mapeo entre el esquema "Dublin Core" y el modelo "AO-Cat".
 
 Enriquecimiento de datos (*Data Enrichment*)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,7 +149,7 @@ En este espacio de trabajo los miembros de ARIADNEplus organizan y comparten rec
    :scale: 40%
    :align: center
 
-   Espacio de trabajo (*Workspace*) del proyecto ARIADNEPlus
+   Espacio de trabajo (*Workspace*) del proyecto ARIADNEPlus.
 
 Además, este mismo espacio se puede utilizar como medio de importación. Para tal fin, como podemos ver en el imagen, existen dos carpetas públicas, *Matched Vocabularies* y *Metadata Ingestion*, en cuyo interior se aloja una carpeta para cada miembro. Estas tienen el nombre de cada socio y su misión es almacenar los ficheros de mapeo de vocabulario (*.json*) y los ficheros con los metadatos (*.xml*). De esta manera, el coordinador asignado solo tendrá que acceder a la carpeta del miembro que pretenda ejecutar una importación.
 
@@ -214,7 +214,7 @@ El término *hooking* es utilizado para referirse a todas aquellas técnicas uti
    :scale: 100%
    :align: center
 
-   Ejemplo de *hook*
+   Ejemplo de *hook*.
 
 Prácticas ágiles
 ~~~~~~~~~~~~~~~~
@@ -265,7 +265,7 @@ Gracias a que la aplicación escogida ofrece este servicio, haciendo uso del mis
    :scale: 70%
    :align: center
 
-   Ejemplo básico del protocolo OAI-PMH
+   Ejemplo básico del protocolo OAI-PMH.
 
 Geolocalización
 ~~~~~~~~~~~~~~~
