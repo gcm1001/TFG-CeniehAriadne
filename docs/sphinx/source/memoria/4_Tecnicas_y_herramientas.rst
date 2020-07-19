@@ -170,6 +170,16 @@ Compilación y Despliegue
 
 Para aplicar la integración continua al proyecto se ha dedicido utilizar *GitHub Actions*. El principal motivo de esta elección es que todas sus funciones se encuentran integradas en la propia interfaz de *GitHub*, lo que facilita en gran medida su uso. Además, permite reutilizar código elaborado por otros usuarios de la comunidad en los flujos de trabajo (*workflows*) personales.
 
+*Workflows* del proyecto: `GitHub Actions <https://github.com/gcm1001/TFG-CeniehAriadne/actions>`__.
+
+.. figure:: ../_static/images/workflow.png
+   :name: workflow-memo
+   :alt: Ejecución de uno de los flujos de trabajo del proyecto
+   :width: 70%
+   :align: center
+
+   Ejecución de uno de los flujos de trabajo del proyecto.
+
 Calidad del código
 ~~~~~~~~~~~~~~~~~~
 -  Herramientas consideradas: `Codacy <https://codacy.com>`__,
@@ -180,9 +190,29 @@ Calidad del código
 
 La opción escogida ha sido *Codacy* ya que, de entre las tres propuestas, es la que está más enfocada a la revisión de código automatizada, que es lo se estaba buscando. Da soporte a todos los lenguajes que se han utilizado en el proyecto ( *PHP*, *HTML*, *JavaScript* y *CSS* ). Además, el proceso de configuración no se hace nada pesado gracias a que se puede llevar a cabo desde su propia interfaz gráfica. Entre sus configuraciones más utilizadas están la exclusión de ficheros, la activación/desactivación de patrones de código, la selección de ramas y la gestión de integraciones.
 
+*Dashboard* del proyecto: `Codacy <https://app.codacy.com/manual/gcm1001/TFG-CeniehAriadne/dashboard>`__.
+
+.. figure:: ../_static/images/codacy.png
+   :name: codacy-memo
+   :alt: Panel principal de Codacy asociado al proyecto
+   :width: 70%
+   :align: center
+
+   Panel principal de Codacy asociado al proyecto.
+
 Documentación continua
 ~~~~~~~~~~~~~~~~~~~~~~
 `Read the Docs <https://readthedocs.org/>`__ es una plataforma web que facilita la tarea de documentar productos *software* automatizando la compilación, versionado y hospedaje de los ficheros generados por la herramienta de documentación *Sphinx*. El proceso es muy sencillo, basta con alojar la documentación *Sphinx* en un repositorio, realizar un *commit* sobre este y, automáticamente, se actualizan los cambios en la documentación alojada en *readthedocs.org*. Presenta múltiples formatos de exportación y permite configurar múltiples aspectos (traducciones, variables de entorno, reglas de automatización, etc.). Todos estos servicios se ofrecen de forma gratuita.
+
+*Host* de la documentación del proyecto: `ReadTheDocs <tfg-ceniehariadne.rtfd.io>`__.
+
+.. figure:: ../_static/images/rtd.png
+   :name: rtd-memo
+   :alt: Página principal de la documentación del proyecto
+   :width: 70%
+   :align: center
+
+   Página principal de la documentación del proyecto.
 
 Herramienta de diagramación
 ---------------------------
@@ -212,6 +242,9 @@ Otras herramientas
 ~~~~~~~~
 La tecnología `Docker <https://www.docker.com/>`__ permite desplegar una aplicación distribuida y empaquetarla junto a todas sus dependencias y librerías en un uno o varios "objetos" denominados contenedores o *containers*. Estos pueden ser ejecutados en cualquier servidor Linux, aumentando así la flexibilidad y portabilidad de nuestra aplicación.
 
+Imagen *Docker* del proyecto: `DockerHub <https://hub.docker.com/repository/docker/gcm1001/omeka_cenieh>`__
+
+
 *Google Cloud*
 ~~~~~~~~~~~~~~
 `Google Cloud <https://cloud.google.com/>`__ es una plataforma creada por la compañía *Google* desde la que puedes acceder a numerosos servicios relacionados con el desarrollo web. Alguno de sus servicios son: *Cloud Computing*, *Networking*, *Data Storage*, *Data Analytics*, *Machine learning*, etc.
@@ -219,6 +252,16 @@ La tecnología `Docker <https://www.docker.com/>`__ permite desplegar una aplica
 *GKE – Google Kubernetes Engine*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 `Google Kubernetes Engine <https://cloud.google.com/kubernetes-engine>`__ (GKE) proporciona un entorno desde donde puedes implementar, administrar y escalar aplicaciones en contenedores mediante la infraestructura de *Google*. El entorno de GKE consta de varias máquinas (en particular, instancias de *Compute Engine*) que se agrupan para formar un clúster.
+
+Aplicación del proyecto desplegada en el clúster: `ubucenh.es <ubucenh.es>`__.
+
+.. figure:: ../_static/images/gke-cluster.png
+   :name: gke-cluster
+   :alt: Vista del panel de administración del clúster en Google Cloud
+   :width: 70%
+   :align: center
+
+   Vista del panel de administración del clúster en *Google Cloud*.
 
 *Kubernetes*
 ~~~~~~~~~~~~

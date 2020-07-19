@@ -4,6 +4,13 @@ $elementId = array_key_first($statusTermsElements);
 ?>
 <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function(){
+        Swal.fire({
+            icon: 'info',
+            title: 'Restricted Item',
+            text: 'CAUTION: This Item is being integrated into ARIADNEplus.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
         jQuery('#collection-id').attr('disabled',true);
         jQuery('#public').attr('disabled',true); 
         jQuery('#featured').attr('disabled',true);

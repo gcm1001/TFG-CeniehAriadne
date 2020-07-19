@@ -479,7 +479,7 @@ class CsvImportPlus_IndexController extends Omeka_Controller_AbstractActionContr
 
         if ($csvImport->queue()) {
             $this->_dispatchImportTask($csvImport, CsvImportPlus_ImportTask::METHOD_START);
-            $this->_helper->flashMessenger(__('Import started.'), 'success');
+            $this->_helper->flashMessenger(__('Import started. Reload this page for status updates.'), 'success');
         }
         else {
             $this->_helper->flashMessenger(__('Import could not be started. Please check error logs for more details.'), 'error');

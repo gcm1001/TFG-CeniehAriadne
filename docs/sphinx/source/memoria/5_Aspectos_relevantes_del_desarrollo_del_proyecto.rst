@@ -6,6 +6,8 @@ A continuación se van a mostrar los aspectos más relevantes del desarrollo del
 
 Ciclo de vida del proyecto
 --------------------------
+En Mayo de 2019, tuvo lugar una reunión entre las diferentes partes involucradas, UBU y CENIEH, donde se sentaron las bases del proyecto. A esta le siguieron muchas otras donde se fueron detallando distintos aspectos del trabajo a realizar. Además, dos de los miembros de la UBU participaron en un \emph{workshop} que tuvo lugar en Pisa, Italia, donde se adquirieron nuevos conocimientos acerca del proyecto \emph{ARIADNEplus} y se estableció un primer contacto entre la UBU y los demás participantes del proyecto.
+
 El 01 de febrero de 2020 se inició este proyecto con el objetivo de llevar a cabo el proceso de integración de los datos del CENIEH en ARIADNEplus. Adicionalmente, se propuso implantar en el CENIEH una infraestructura *software* mediante la cual los investigadores del CENIEH fueran capaces de llevar a cabo las tareas de integración por sí solos. De esta manera, a través de la infraestructura propuesta, serían capaces de continuar con las labores de integración una vez concluido el periodo de colaboración entre el CENIEH y la UBU.
 
 El proyecto ha tenido una duración total de 5 meses, lo que significa que el 01 de julio de 2020 finalizaron las tareas implicadas en el proyecto. Sin embargo, las tareas de integración se siguieron llevando a cabo desde el CENIEH hasta el 31 de julio de 2020, fecha en la que se da por concluido el periodo de colaboración.

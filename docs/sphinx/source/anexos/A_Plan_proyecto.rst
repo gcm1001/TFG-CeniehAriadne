@@ -117,6 +117,13 @@ Los objetivos planteados para este *sprint* fueron: finalizar el desarrollo de l
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Los objetivos planteados para este *sprint* fueron: continuar con el proceso de integración del CIR en ARIADNEplus. Seguir desarrollando labores de documentación (memoria y anexos).
 
+`Ver listado de tareas <https://github.com/gcm1001/TFG-CeniehAriadne/milestone/8>`__ asociadas al *Sprint* 7.
+
+.. image:: ../_static/images/sprint07.png
+   :alt: Diagrama *burndown* del *sprint* 7.
+   :scale: 80%
+   :align: center
+
 Estudio de viabilidad
 ---------------------
 
@@ -132,7 +139,7 @@ Costes de personal
 ******************
 El proyecto se ha llevado a cabo por un desarrollador empleado a tiempo parcial durante 6 meses. La contratación se llevó a cabo mediante el programa de cooperación educativa entre la Universidad de Burgos y el consorcio CENIEH. De este acuerdo salieron dos contratos, uno de cuatro meses de duración y otro de dos.
 
-.. table:: Contrato prácticas curriculares
+.. table:: Contrato prácticas curriculares.
    :name: contratoa
    :widths: auto
 
@@ -150,7 +157,7 @@ El proyecto se ha llevado a cabo por un desarrollador empleado a tiempo parcial 
    | Total (4 meses)       | 1600,00€ |
    +-----------------------+----------+
 
-.. table:: Contrato prácticas extracurriculares
+.. table:: Contrato prácticas extracurriculares.
    :name: contratob
    :widths: auto
 
@@ -161,21 +168,43 @@ El proyecto se ha llevado a cabo por un desarrollador empleado a tiempo parcial 
    +-----------------------+---------+
    | Retención IRPF        | 0,00€   |
    +-----------------------+---------+
-   | Seguridad social      | 8,49€   |
+   | Seguridad social      | 56,90€  |
    +-----------------------+---------+
-   | Salario mensual bruto | 400,00€ |
+   | Salario mensual bruto | 448,91€ |
    +-----------------------+---------+
-   | Total (2 meses)       | 800,00€ |
+   | Total (2 meses)       | 897,82€ |
    +-----------------------+---------+
 
 
 El primer contrato, al tratarse de prácticas curriculares, queda exento de pagar cualquier tipo de cotización. Sin embargo, en el segundo contrato, al tratarse de prácticas extracurriculares se debe cotizar a la seguridad social.
 
+En el caso de que el sueldo hubiera sido estándar, es decir, sin una beca de por medio, los costes de personal se corresponderían con la siguiente tabla.
+
+.. table:: Contrato estándar a media jornada de un desarrollador profesional.
+   :name: contratoc
+   :widths: auto
+
+   +-----------------------+---------+
+   | Concepto              | Coste   |
+   +=======================+=========+
+   | Salario mensual neto  | 521,08€ |
+   +-----------------------+---------+
+   | Retención IRPF        | 271,28€ |
+   +-----------------------+---------+
+   | Seguridad social      | 337.97€ |
+   +-----------------------+---------+
+   | Salario mensual bruto | 1130,33€|
+   +-----------------------+---------+
+   | Total (2 meses)       | 6782,00€|
+   +-----------------------+---------+
+
+Para el cálculo del IRPF se ha consultado el cuadro informativo tipos de retención aplicables (2020) ofrecido por la Agencia Estatal de Administración Tributaria. En cuanto a la seguridad social, se han consultado las bases y tipos de cotización (2019) desde la página oficial del Ministerio de Trabajo, Migraciones y Seguridad Social.
+
 Costes de *hardware*
 ********************
 En este apartado se describen los costes relacionados con el equipamiento *hardware* que se ha utilizado para el desarrollo del proyecto. Para calcular el coste amortizado, se ha tenido en cuenta que el tiempo de uso coincide con la duración del proyecto (6 meses) y que su vida útil gira en torno a los 5 años.
 
-.. table:: Costes de hardware
+.. table:: Costes de hardware.
    :name: costehard
    :widths: auto
 
@@ -199,7 +228,7 @@ Otros costes
 ************
 En la siguiente tabla se recogen los demás costes incluídos en el proyecto.
 
-.. table:: Otros costes
+.. table:: Otros costes.
    :name: otroscostes
    :widths: auto
 
@@ -217,7 +246,7 @@ Costes totales
 **************
 Sumando el total de cada uno de los costes anteriores mostrados con anterioridad, se obtiene el coste total.
 
-.. table:: Costes totales
+.. table:: Costes totales.
    :name: costestotales
    :widths: auto
 
@@ -235,7 +264,7 @@ Sumando el total de cada uno de los costes anteriores mostrados con anterioridad
    | Total      | 2806,90€ |
    +------------+----------+
 
-Se podría añadir a esta cantidad el importe de 91.935 € que la Comisión Europea concedió al CENIEH para su integración en ARIADNEplus.
+Se podría añadir a esta cantidad el importe de 91.935 € que la Comisión Europea concedió al CENIEH para su integración en *ARIADNEplus*.
 
 Beneficios
 ^^^^^^^^^^
@@ -253,7 +282,7 @@ A lo largo del proyecto se han desarrollado varios complementos *software* para 
 
 Al hacer uso de recursos de terceros durante el desarrollo de los complementos, la elección de la licencia se ve condicionada por las licencias a las que estos están sometidos.
 
-.. table:: Licencias de las dependencias utilizadas
+.. table:: Licencias de las dependencias utilizadas.
    :name: licencias
    :widths: auto
 

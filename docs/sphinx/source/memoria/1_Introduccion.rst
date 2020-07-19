@@ -10,7 +10,7 @@ El Centro Nacional de Investigación sobre la Evolución Humana, también conoci
    :width: 70%
    :align: center
 
-   Vista del catálogo oficial de ARIADNEplus
+   Vista del catálogo oficial de *ARIADNEplus*.
 
 Los conjuntos de datos almacenados en el catálogo de *ARIADNEplus* son meramente descriptivos, es decir, no contienen el dato al que hacen referencia. Es por tanto competencia de los socios discernir quién tiene acceso a los datos reales y quién no. Podría decirse que el catálogo actúa simplemenete como un escaparate que permite mostrar a los investigadores de todo el mundo información sobre el qué, cuándo y dónde de los datos expuestos.
 
@@ -20,7 +20,7 @@ Los conjuntos de datos almacenados en el catálogo de *ARIADNEplus* son merament
    :width: 70%
    :align: center
 
-   Filtros de búsqueda principales del catálogo ARIADNEplus
+   Filtros de búsqueda principales del catálogo *ARIADNEplus*.
 
 Son estos tres conceptos, el qué, cuándo y dónde, los pilares de información sobre los que está construido el catálogo. Hacen referencia al tipo de dato (e.g. *fieldwork*), al espacio temporal en el que se enmarca (e.g. *Neolithic*) , y al lugar geográfico donde se ubica (e.g. *Sierra de Atapuerca*).
 

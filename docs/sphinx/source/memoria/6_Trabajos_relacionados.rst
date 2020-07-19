@@ -2,7 +2,7 @@
 Trabajos relacionados
 =====================
 
-Algunos socios del proyecto ARIADNEplus han adoptado una solución muy similar a la propuesta en el presente proyecto, es decir, han hecho uso de aplicaciones *software* de terceros para la gestión de sus (meta)datos y las han adaptado según sus necesidades. A continuación, se muestran aquellos casos que guardan una mayor relación con el proyecto.
+Algunos socios del proyecto ARIADNEplus han adoptado una solución muy similar a la propuesta en el presente proyecto, es decir, han hecho uso de aplicaciones *software* de terceros para la gestión de sus metadatos y las han adaptado según sus necesidades. A continuación, se muestran aquellos casos que guardan una mayor relación con el proyecto.
 
 Casos similares
 ---------------
@@ -52,13 +52,13 @@ Comparativa entre soluciones *software*
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Edición masiva de metadatos                             | ✔                      | ✘                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
-   | Cobertura espacial                                      | ✔                      | ✔                  | ✔                | ✔           |
+   | Múltiples formatos de localización                      | ✔                      | ✘                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Cobertura temporal                                      | ✘                      | ✔                  | ✘                | ✔           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Protocolo OAI-PMH                                       | ✔                      | ✔                  | ✔                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
-   | Herramientas de apoyo en la integración con ARIADNEplus | ✔                      | ✘                  | ✘                | ✘           |
+   | Soporte para ARIADNEplus                                | ✔                      | ✘                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+
    | Herramientas para la transformación de metadatos        | ✔                      | ✔                  | ✘                | ✘           |
    +---------------------------------------------------------+------------------------+--------------------+------------------+-------------+

@@ -35,7 +35,7 @@ Para aportar algo de claridad a esta definición aplicaré el concepto de "metad
    :scale: 80%
    :align: center
 
-   Ejemplo de metadatos
+   Ejemplo de metadatos.
 
 En la actualidad, estas "fichas" se encuentran en formato digital a través de lenguajes de marcado como *XML* o *RDF*.
 
@@ -51,7 +51,7 @@ Cada esquema está formado por un conjunto de campos de diferentes tipos, los cu
    :scale: 80%
    :align: center
 
-   Estructura básica de un esquema de metadatos
+   Estructura básica de un esquema de metadatos.
 
 En la :numref:`diagramacampos`, podemos observar la **estructura básica** de cualquier esquema:
 
@@ -88,7 +88,7 @@ La ontología *AO-Cat* (\ **A**\ RIADNE **O**\ ntology **-** **Cat**\ alog) deri
    :scale: 40%
    :align: center
 
-   Diagrama de clases para la ontología AO-CAT
+   Diagrama de clases para la ontología AO-CAT.
 
 Es el **modelo utilizado por el catálogo actual de ARIADNEplus** y, por tanto, los metadatos del CENIEH se tendrán que adaptar a este modelo.
 
@@ -104,7 +104,7 @@ El mapeo de datos consiste en crear asignaciones entre dos elementos que pertene
    :scale: 100%
    :align: center
 
-   Ejemplo de mapeo entre el esquema "Dublin Core" y el modelo "AO-Cat"
+   Ejemplo de mapeo entre el esquema "Dublin Core" y el modelo "AO-Cat".
 
 Enriquecimiento de datos (*Data Enrichment*)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,7 +149,7 @@ En este espacio de trabajo los miembros de ARIADNEplus organizan y comparten rec
    :scale: 40%
    :align: center
 
-   Espacio de trabajo (*Workspace*) del proyecto ARIADNEPlus
+   Espacio de trabajo (*Workspace*) del proyecto ARIADNEPlus.
 
 Además, este mismo espacio se puede utilizar como medio de importación. Para tal fin, como podemos ver en el imagen, existen dos carpetas públicas, *Matched Vocabularies* y *Metadata Ingestion*, en cuyo interior se aloja una carpeta para cada miembro. Estas tienen el nombre de cada socio y su misión es almacenar los ficheros de mapeo de vocabulario (*.json*) y los ficheros con los metadatos (*.xml*). De esta manera, el coordinador asignado solo tendrá que acceder a la carpeta del miembro que pretenda ejecutar una importación.
 
@@ -214,7 +214,7 @@ El término *hooking* es utilizado para referirse a todas aquellas técnicas uti
    :scale: 100%
    :align: center
 
-   Ejemplo de *hook*
+   Ejemplo de *hook*.
 
 Prácticas ágiles
 ~~~~~~~~~~~~~~~~
@@ -265,7 +265,7 @@ Gracias a que la aplicación escogida ofrece este servicio, haciendo uso del mis
    :scale: 70%
    :align: center
 
-   Ejemplo básico del protocolo OAI-PMH
+   Ejemplo básico del protocolo OAI-PMH.
 
 Geolocalización
 ~~~~~~~~~~~~~~~
