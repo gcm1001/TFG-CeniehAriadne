@@ -6,7 +6,14 @@ visibilidad a los problemas encontrados.
 
 \section{Ciclo de vida del proyecto}
 
-El 01 de febrero de 2020, se inició este proyecto con el objetivo de
+En Mayo de 2019, tuvo lugar una reunión entre las diferentes partes involucradas,
+UBU y CENIEH, donde se sentaron las bases del proyecto. A esta le siguieron
+muchas otras donde se fueron detallando distintos aspectos del trabajo a realizar. 
+Además, dos de los miembros de la UBU participaron en un \emph{workshop} que tuvo lugar en Pisa, 
+Italia, donde se adquirieron nuevos conocimientos acerca del proyecto \emph{ARIADNEplus} y se
+estableció un primer contacto entre la UBU y los demás participantes del proyecto.
+
+El 01 de febrero de 2020 se inició este trabajo con el objetivo de
 llevar a cabo el proceso de integración de los datos del \emph{CENIEH} en
 \emph{ARIADNEplus}. Adicionalmente, se propuso implantar en el\emph{CENIEH} una
 infraestructura \emph{software} mediante la cual sus investigadores
@@ -165,7 +172,7 @@ Los componentes clave de este servicio son:
 \begin{itemize}
 \tightlist
 \item
-  \emph{\textbf{3M Editor}} provee la interfaz que permite crear asignaciones
+  \emph{\textbf{3M Editor}}: provee la interfaz que permite crear asignaciones
   entre los elementos del esquema de metadatos a mapear y el esquema
   objetivo.
 \end{itemize}
@@ -176,7 +183,7 @@ Los componentes clave de este servicio son:
 \tightlist
 \item
   \emph{\textbf{X3ML Engine}}: ejecuta la transformación de los elementos de
-  origen al formato de destino. Tomando como entrada los datos de origen
+  origen al formato de destino. Tomando como entrada los metadatos de origen
   (en formato \emph{XML}), la descripción de las asignaciones existentes en el
   fichero de definición de mapeo y el archivo que contiene las políticas
   para la generación de \emph{URIs}, es responsable de transformar el documento
@@ -257,8 +264,7 @@ que apunten al término \emph{Getty AAT} asociado.
 
 \imagen{enrichedsubject}{Vista de un metadato (\emph{Subject}) antes y depués de ser enriquecido.}{0.9}
 
-Además, vemos representada la base de datos donde \textbf{PeriodO} almacena sus
-registros. Para aportar información adicional a los periodos existentes
+Además, en la Figura \ref{fig:enrichment} vemos representada la base de datos donde \textbf{PeriodO} almacena sus registros. Para aportar información adicional a los periodos existentes
 en nuestros datos, debemos publicar en el cliente de \emph{PeriodO} nuestra
 propia colección de periodos. De esta forma, \emph{ARIADNEplus} podrá recoger
 desde la BD de \emph{periodO} nuestra colección para, posteriormente,
@@ -552,13 +558,12 @@ en el repositorio alojado en \emph{GitHub}:
 \item
   \textbf{Entorno de desarrollo}: se actualiza al cometer cambios sobre
   la rama \emph{develop}. Permite llevar un seguimiento diario del
-  estado de la aplicación durante el desarrollo de la misma. Es público.
+  estado de la aplicación durante el desarrollo de la misma.
 \item
   \textbf{Entorno de producción}: se actualiza al cometer cambios sobre
   la rama \emph{main}. En su interior se puede encontrar una versión
   estable de la aplicación. El intervalo de tiempo de actualización gira
-  entorno a las dos semanas. Es privado, sólo tienen acceso los miembros
-  del \emph{CENIEH}.
+  entorno a las dos semanas. 
 \end{itemize}
 
 \subsection{Despliegue de la infraestructura}
@@ -575,7 +580,7 @@ técnica se la conoce como despliegue continuo.
 
 \imagen{cicd}{Despliegue continuo de la aplicación.}{0.9}
 
-En la emph{Figura} \ref{fig:cicd} vemos representado el proceso mediante el cual se lleva
+En la \emph{Figura} \ref{fig:cicd} vemos representado el proceso mediante el cual se lleva
 a cabo el despliegue. Con el \emph{workflow} configurado y alojado en la
 ruta \emph{.github/workflows} de mi repositorio en GitHub, cuando
 ejecuto un \emph{push} sobre la rama \emph{develop}, si los cambios
