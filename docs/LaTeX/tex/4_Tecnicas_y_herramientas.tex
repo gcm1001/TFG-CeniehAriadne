@@ -252,7 +252,7 @@ la infraestructura \emph{software}. Además, se pueden instalar
 complementos que permiten extender su compatibilidad con otros marcos de
 trabajo como \emph{Zend Framework}.
 
-\subsection{LaTeX}
+\subsection{\LaTeX{}}
 
 \begin{itemize}
 \tightlist
@@ -265,9 +265,9 @@ trabajo como \emph{Zend Framework}.
   \href{http://www.xm1math.net/texmaker/}{Texmaker}.
 \end{itemize}
 
-\emph{Texmaker} es un editor libre y gratuito para LaTeX distribuido
+\emph{Texmaker} es un editor libre y gratuito para \LaTeX{} distribuido
 bajo la licencia GPL. Incluye múltiples herramientas necesarias para
-elaborar documentos tanto con LaTeX como BibText o Metapost. También
+elaborar documentos tanto con \LaTeX{} como BibText o Metapost. También
 incorpora funciones adicionales como la corrección ortográfica, el
 auto-completado y plegado de código o un visor de pdf compatible con
 SyncTeX y con modo de visualización continua. Además, es
@@ -293,7 +293,7 @@ de marcado ligero \emph{Markdown} es compatible con
 ambos lenguajes en un mismo proyecto \emph{Sphinx}. Además, con el uso
 del conversor \href{http://pandoc.org/}{Pandoc}, toda la documentación
 generada a partir de ambos lenguajes se puede exportar a multitud de
-formatos, entre los que se encuentra LaTeX.
+formatos, entre los que se encuentra \LaTeX{}.
 
 \emph{Markdown} es un lenguaje muy conocido debido a que es utilizado en
 plataformas como \emph{GitHub} o \emph{StackOverflow}. Fue creado para
@@ -305,9 +305,9 @@ fácil lectura. La principal ventaja respecto a \emph{Markdown} es que
 permite elaborar expresiones más complejas sin el uso de
 librerías/aplicaciones externas.
 
-\emph{LaTeX} es el estándar de facto para la publicación de documentos
+\LaTeX{} es el estándar de facto para la publicación de documentos
 científicos. Permite la creación de documentos con una alta calidad
-tipográfica. Utiliza \emph{TeX} como motor a la hora de darle formato a
+tipográfica. Utiliza \TeX{} como motor a la hora de darle formato a
 los documentos.
 
 \section{Herramientas de integración continua}
@@ -333,6 +333,10 @@ sus funciones se encuentran integradas en la propia interfaz de
 reutilizar código elaborado por otros usuarios de la comunidad en los
 flujos de trabajo (\emph{workflows}) personales.
 
+\emph{Workflows} del proyecto: \href{https://github.com/gcm1001/TFG-CeniehAriadne/actions}{GitHub Actions}.
+
+\imagen{workflow}{Ejecución de uno de los flujos de trabajo del proyecto.}{0.8}
+
 \subsection{Calidad del código}
 
 \begin{itemize}
@@ -355,6 +359,10 @@ interfaz gráfica. Entre sus configuraciones más utilizadas están la
 exclusión de ficheros, la activación/desactivación de patrones de
 código, la selección de ramas y la gestión de integraciones.
 
+\emph{Dashboard} del proyecto: \href{https://app.codacy.com/manual/gcm1001/TFG-CeniehAriadne/dashboard}{Codacy}.
+
+\imagen{codacy}{Panel principal de Codacy asociado al proyecto.}{0.8}
+
 \subsection{Documentación continua}
 
 \href{https://readthedocs.org/}{Read the Docs} es una plataforma web que
@@ -369,7 +377,11 @@ múltiples aspectos (traducciones, variables de entorno, reglas de
 automatización, etc.). Todos estos servicios se ofrecen de forma
 gratuita.
 
-\section{Herramienta de diagramación}
+\emph{Host} de la documentación del proyecto: \href{tfg-ceniehariadne.rtfd.io}{ReadTheDocs}.
+
+\imagen{rtd}{Página principal de la documentación del proyecto.}{0.9}
+
+\section{Herramienta para crear diagramas}
 
 \begin{itemize}
 \tightlist
@@ -423,6 +435,8 @@ y librerías en un uno o varios ``objetos'' denominados contenedores o
 Linux, aumentando así la flexibilidad y portabilidad de nuestra
 aplicación.
 
+Imagen \emph{Docker} del proyecto: \href{https://hub.docker.com/repository/docker/gcm1001/omeka_cenieh}{DockerHub}
+
 \subsection{\emph{Google Cloud}}
 
 \href{https://cloud.google.com/}{Google Cloud} es una plataforma creada
@@ -439,6 +453,10 @@ administrar y escalar aplicaciones en contenedores mediante la
 infraestructura de \emph{Google}. El entorno de GKE consta de varias
 máquinas (en particular, instancias de \emph{Compute Engine}) que se
 agrupan para formar un clúster.
+
+Aplicación del proyecto desplegada en el clúster: \href{ubucenh.es}{ubucenh.es}
+
+\imagen{gke-cluster}{Vista del panel de administración del clúster en \emph{Google Cloud}.}{0.9}
 
 \subsection{\emph{Kubernetes}}
 
