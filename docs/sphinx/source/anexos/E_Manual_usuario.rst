@@ -83,10 +83,10 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
 ::
 
-   sudo mysql -u root -
+   sudo mysql -u root -p
    CREATE DATABASE omekadb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
-   GRANT ALL ON omeka.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
+   GRANT ALL ON omekadb.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
    FLUSH PRIVILEGES;
    EXIT;
 
@@ -106,7 +106,7 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
 ::
 
-   cd <directorio_de_trabajo>
+   cd <directorio_de_trabajo>/omeka-2.7.1
    nano db.ini
 
    No es necesario modificar los parámetros ``prefix`` o ``port``.
@@ -150,24 +150,23 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
 ::
 
-   cd <*directorio_de_trabajo*>
-   rm -rf ./plugins ./themes
-   sudo cp -r ./TFG-CeniehAriadne-master/omeka/* .
+   cd <directorio_de_trabajo>
+   rm -rf ./omeka-2.7.1/plugins ./omeka-2.7.1/themes
+   sudo cp -r ./TFG-CeniehAriadne-master/omeka/* ./omeka-2.7.1
    rm -rf ./TFG-CeniehAriadne-master
 
 8. Mover todo el contenido del directorio de trabajo a la carpeta del servidor Apache.
 
 ::
 
-   mv -r <*directorio_de_trabajo*>/* <*directorio_del_servidor*>
+   mv <*directorio_de_trabajo*>/omeka-2.7.1/* <*directorio_del_servidor*>
 
-9. **Dar permisos de lectura y escritura sobre todo el contenido de la aplicación**.
+9. **Dar permisos de lectura y escritura sobre el directorio /files/ de la aplicación**.
 
 ::
 
-   cd <*directorio_del_servidor*>
-   sudo chown -R www-data:www-data <*directorio_de_trabajo*>
-   sudo chmod -R 755 <*directorio_de_trabajo*>
+   sudo chown -R www-data:www-data <directorio_del_servidor>/files
+   sudo chmod -R 755 <directorio_del_servidor>/files
 
 10. **Configurar el servidor Apache**:
 
@@ -177,16 +176,16 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
       nano /etc/apache2/sites-available/omeka.conf
 
-   Cambiar los valores "*DocumentRoot*" y "*ServerName*".
+   Cambiar los valores entre comillas (" ").
 
    ::
 
       <VirtualHost *:80>
-           ServerAdmin [email protected]
-           DocumentRoot <directorio_del_servidor>
-           ServerName <nombre_del_servidor>
+           ServerAdmin "correo_administrador"
+           DocumentRoot "directorio_del_servidor"
+           ServerName "nombre_del_servidor"
 
-           <Directory /var/www/html/omeka/>
+           <Directory /var/www/>
                 Options FollowSymlinks
                 AllowOverride All
                 Require all granted
@@ -194,13 +193,13 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
            ErrorLog ${APACHE_LOG_DIR}/error.log
            CustomLog ${APACHE_LOG_DIR}/access.log combined
-
       </VirtualHost>
 
    b. **Activar el sitio y el módulo rewrite** y **reiniciar el servidor** para aplicar los cambios.
 
    ::
 
+      a2dissite 000-default.conf
       a2ensite omeka.conf
       a2enmod rewrite
       systemctl restart apache2.service

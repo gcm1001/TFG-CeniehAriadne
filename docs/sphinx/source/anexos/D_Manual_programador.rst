@@ -76,7 +76,6 @@ El proceso de activación no tiene mucha complicación. Desde cualquier terminal
 ::
 
    sudo a2enmod rewrite
-   sudo /etc/init.d/apache2 restart
 
 2. Editar el archivo de configuración del sitio asignado para la aplicación (el sitio por defecto es *000-default*).
 
@@ -97,6 +96,11 @@ El proceso de activación no tiene mucha complicación. Desde cualquier terminal
       </Directory>
    </VirtualHost>
 
+4. Reiniciar el servidor para aplicar cambios.
+
+::
+
+   sudo /etc/init.d/apache2 restart
 
 MySQL/MariaDB
 ^^^^^^^^^^^^^
@@ -163,7 +167,7 @@ El primer paso consiste en **configurar el servidor**:
 
 ::
 
-   sudo mysql -u root -
+   sudo mysql -u root -p
    CREATE DATABASE omekadb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
    GRANT ALL ON omekadb.* TO 'usuario'@'localhost' IDENTIFIED BY 'contraseña' WITH GRANT OPTION;
@@ -242,7 +246,7 @@ El primer paso consiste en **configurar el servidor**:
 
 ::
 
-   mv -r <directorio_de_trabajo>/* <directorio_del_servidor>
+   mv <directorio_de_trabajo>/* <directorio_del_servidor>
 
 9. **Dar permisos de lectura y escritura sobre todo el contenido de la aplicación**.
 
