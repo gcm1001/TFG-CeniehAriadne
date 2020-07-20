@@ -168,18 +168,16 @@ terminal de Linux:
   demonio de Apache.
   \begin{verbatim}
   sudo a2enmod rewrite
-  sudo /etc/init.d/apache2 restart
   \end{verbatim}
 \item
   Editar el archivo de configuración del sitio asignado para la
   aplicación (el sitio por defecto es \emph{000-default}).
   \begin{verbatim}
-  sudo nano /etc/apache2/sites-enabled/000-default
+  sudo nano /etc/apache2/sites-enabled/000-default.conf
   \end{verbatim}
 \item
   Dentro de la etiqueta \emph{Directory}, asignar el valor \emph{All} a
   la directiva \emph{AllowOverride}.
-  
   \begin{verbatim}
   <VirtualHost>
   ...
@@ -189,6 +187,10 @@ terminal de Linux:
      </Directory>
   </VirtualHost>
   \end{verbatim}
+\item Reiniciar el servidor para aplicar cambios.
+  \begin{verbatim}
+  sudo /etc/init.d/apache2 restart
+  \end{verbatim}  
 \end{enumerate}
 
 \subsubsection{MySQL/MariaDB}
@@ -309,7 +311,7 @@ El primer paso consiste en \textbf{configurar el servidor}:
   \item
     La base de datos ha de estar codificada en {utf8}.
     \begin{verbatim}
- 	sudo mysql -u root -
+ 	sudo mysql -u root -p
    	CREATE DATABASE omekadb CHARACTER SET utf8mb4 \
    	COLLATE utf8mb4_unicode_ci;
    	CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'contraseña';
@@ -337,7 +339,7 @@ unzip omeka-2.7.1.zip -d <directorio_de_trabajo>
   \textbf{sustituir los valores 'XXXXX' por los datos de la base de
   datos} (anotados en el paso 1).
 \begin{verbatim}
-cd <directorio_de_trabajo>
+cd <directorio_de_trabajo>/omeka-2.7.1
 nano db.ini
 \end{verbatim}
   No es necesario modificar los parámetros `prefix` o `port`.
@@ -372,23 +374,23 @@ unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' \
   descargadas.
 \begin{verbatim}
 cd <directorio_de_trabajo>
-rm -rf ./plugins ./themes
-sudo cp -r ./TFG-CeniehAriadne-master/omeka/* .
+rm -rf ./omeka-2.7.1/plugins ./omeka-2.7.1/themes
+sudo cp -r ./TFG-CeniehAriadne-master/omeka/* ./omeka-2.7.1
 rm -rf ./TFG-CeniehAriadne-master
 \end{verbatim}
 \item
   Mover todo el contenido del directorio de trabajo a la carpeta del
   servidor Apache.
 \begin{verbatim}
-mv -r <directorio_de_trabajo>/* <directorio_del_servidor>
+mv -r <directorio_de_trabajo>/omeka-2.7.1/* <directorio_del_servidor>
 \end{verbatim}
 \item
   \textbf{Dar permisos de lectura y escritura sobre todo el contenido de
   la aplicación}.
 \begin{verbatim}
 cd <directorio_del_servidor>
-sudo chown -R www-data:www-data <directorio_de_trabajo>
-sudo chmod -R 755 <directorio_de_trabajo>
+sudo chown -R www-data:www-data <directorio_del_servidor>
+sudo chmod -R 755 <directorio_del_servidor>
 \end{verbatim}
 \end{enumerate}
 
