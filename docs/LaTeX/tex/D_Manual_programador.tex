@@ -404,6 +404,52 @@ básica, es decir, no se verán los cambios introducidos por los
 complementos/temas. Para ello, es necesario instalarlos desde la
 interfaz. En los siguientes apartados se explicará como hacerlo.
 
+\subsection{Activar el entorno de desarrollo en la aplicación}
+
+Con la aplicación ya instalada, antes de empezar a desarrollar nuevos complementos
+o temas es aconsejable activar el entorno de desarrollo. Esta opción permite
+ver en detalle los errores que van sucediendo en la aplicación.
+
+Para activar esta opción es necesario modificar el archivo \emph{.htaccess} 
+ubicado en el directorio raiz de la aplicación. En él, se debe descomentar la 
+siguiente línea (quitando el caracter '\#'):
+\begin{verbatim}
+#SetEnv APPLICATION_ENV development
+\end{verbatim}
+
+Además, también es recomentable activar las opciones de depuración y registro de errores. 
+Estas nos facilitan la tarea de encontrar errores durante la etapa de desarrollo. Para ello, se debe modificar el fichero \emph{config.ini} situado en el directorio {/application/config/} de la aplicación. Desde este se pueden activar múltiples opciones (asignando \emph{true}):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Depuración de excepciones.
+\begin{verbatim}
+debug.exceptions = true
+\end{verbatim}
+\item
+  Depuración de peticiones.
+  \begin{verbatim}
+debug.request = true
+\end{verbatim}
+\item
+  Depuración de consultas a la base de datos.
+  \begin{verbatim}
+debug.profileDb = true
+\end{verbatim}
+\item
+  Depuración de \emph{email}.
+  \begin{verbatim}
+debug.email = true
+\end{verbatim}  
+\item
+  Registro de errores. 
+  \begin{verbatim}
+log.errors = true
+\end{verbatim}  
+\end{enumerate}
+
 \subsection{Añadir funcionalidades a la aplicación}
 
 Una de las características que hacen de la aplicación una magnífica

@@ -250,6 +250,49 @@ Desde este instante, **la aplicación será accesible desde el navegador** (puer
 
 Para finalizar con la instalación, se debe **completar el formulario de instalación** disponible en el directorio `/install` de la aplicación (e.g *http://miaplicacion.es/install*). Cuando se haya completado, la aplicación únicamente contará con la funcionalidad básica, es decir, no se verán los cambios introducidos por los complementos/temas. Para ello, es necesario instalarlos desde la interfaz. En los siguientes apartados se explicará como hacerlo.
 
+Activar el entorno de desarrollo en la aplicación
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Con la aplicación ya instalada, antes de empezar a desarrollar nuevos complementos o temas es aconsejable activar el entorno de desarrollo. Esta opción permite ver en detalle los errores que van sucediendo en la aplicación.
+
+Para activar esta opción es necesario modificar el archivo *.htaccess* ubicado en el directorio raiz de la aplicación. En él, se debe descomentar la siguiente línea (quitando el caracter '#'):
+
+.. code-block::
+
+   #SetEnv APPLICATION_ENV development
+
+Además, también es recomentable activar las opciones de depuración y registro de errores.  Estas nos facilitan la tarea de encontrar errores durante la etapa de desarrollo. Para ello, se debe modificar el fichero *config.ini* situado en el directorio `/application/config/` de la aplicación. Desde este se pueden activar múltiples opciones (asignando *true*):
+
+1. Depuración de excepciones.
+
+.. code-block::
+
+   debug.exceptions = true
+
+2. Depuración de peticiones.
+
+.. code-block::
+
+   debug.request = true
+
+3. Depuración de consultas a la base de datos.
+
+.. code-block::
+
+   debug.profileDb = true
+
+4. Depuración de *email*.
+
+.. code-block::
+
+   debug.email = true
+
+5. Registro de errores.
+
+.. code-block::
+
+   log.errors = true
+
 Añadir funcionalidades a la aplicación
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Una de las características que hacen de la aplicación una magnífica plataforma para el proyecto es su **escalabilidad**. Gracias a su sistema de **complementos** o *plugins*, cualquier programador tiene la posibilidad de adaptarla a sus necesidades individuales sin necesidad de modificar el código base de la aplicación.

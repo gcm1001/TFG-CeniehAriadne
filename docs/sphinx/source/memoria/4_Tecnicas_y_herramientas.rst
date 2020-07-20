@@ -256,7 +256,7 @@ Imagen *Docker* del proyecto: `DockerHub <https://hub.docker.com/repository/dock
 Aplicación del proyecto desplegada en el clúster: `ubucenh.es <ubucenh.es>`__.
 
 .. figure:: ../_static/images/gke-cluster.png
-   :name: gke-cluster
+   :name: gke-cluster-memo
    :alt: Vista del panel de administración del clúster en Google Cloud
    :width: 70%
    :align: center
