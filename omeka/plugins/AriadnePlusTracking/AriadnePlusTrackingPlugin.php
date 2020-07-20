@@ -1464,8 +1464,6 @@ class AriadnePlusTrackingPlugin extends Omeka_Plugin_AbstractPlugin
             }
             if($status == 'Enriched' || $status == 'Incomplete' || $status == 'Proposed'){
               array_push($blocks,'monitor');
-              $this->_printValidationScripts(array('status' => $status, 
-                  'view' => $view, 'record' => $collection));
             }
             $this->_printRestrictScripts(array('sections' => $blocks,
                 'view' => $view));

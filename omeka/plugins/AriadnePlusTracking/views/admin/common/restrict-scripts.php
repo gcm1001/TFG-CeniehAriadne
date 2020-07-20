@@ -6,8 +6,8 @@ $elementId = array_key_first($statusTermsElements);
     jQuery(document).ready(function(){
         Swal.fire({
             icon: 'info',
-            title: 'Restricted Item',
-            text: 'CAUTION: This Item is being integrated into ARIADNEplus.',
+            title: 'Restricted Record',
+            text: 'CAUTION: This Record is being integrated into ARIADNEplus.',
             allowOutsideClick: false,
             allowEscapeKey: false,
         });
