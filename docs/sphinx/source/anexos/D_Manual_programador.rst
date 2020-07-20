@@ -10,33 +10,33 @@ Estructura de directorios
 -------------------------
 A continuación se listan los directorios que forman parte del repositorio del proyecto:
 
-- */*: raíz del proyecto. Esta contiene ficheros de configuración de *Docker*, *Kustomize* (*Kubernetes*) y *GitHub*, el fichero *README.md*, y una copia de la licencia del repositorio.
-- */.github/worksflows/*: contiene los flujos de trabajo (*workflows*) utilizados por el servicio *GitHub Actions*.
-- */configFiles/*: recoge los ficheros de configuración de la aplicación utilizados para crear las imágenes de *Docker* que contienen a la aplicación.
-- */docs/*: contiene toda la documentación del proyecto.
-- */docs/LaTeX/*: documentación en formato *LaTeX*.
-- */docs/readme/*: recoge material auxiliar (imágenes y gifs) utilizados en el *README.md*.
-- */docs/sphinx/*: documentación en formato *reStructureText*.
-- */gke-mysql/*: contiene los ficheros de configuración *Kustomize* utilizados para desplegar en *Kubernetes* el contenedor de la base de datos.
-- */gke-omeka/*: contiene los ficheros de configuración *Kustomize* utilizados para desplegar en *Kubernetes* el contenedor de la aplicación.
-- */omeka/*: recoge los archivos de la aplicación.
-- */omeka/plugins/*: complementos propuestos para la aplicación.
-- */omeka/themes/*: tema propuesto para la aplicación.
-- */omeka/themes/curatescape/*: nivel superior del tema. Contiene todas las vistas públicas, ficheros de configuración, información y personalización del tema, y la imagen de la portada del tema.
+- ``/``: raíz del proyecto. Esta contiene ficheros de configuración de *Docker*, *Kustomize* (*Kubernetes*) y *GitHub*, el fichero *README.md*, y una copia de la licencia del repositorio.
+- ``/.github/worksflows/``: contiene los flujos de trabajo (*workflows*) utilizados por el servicio *GitHub Actions*.
+- ``/configFiles/``: recoge los ficheros de configuración de la aplicación utilizados para crear las imágenes de *Docker* que contienen a la aplicación.
+- ``/docs/``: contiene toda la documentación del proyecto.
+- ``/docs/LaTeX/``: documentación en formato *LaTeX*.
+- ``/docs/readme/``: recoge material auxiliar (imágenes y gifs) utilizados en el *README.md*.
+- ``/docs/sphinx/``: documentación en formato *reStructureText*.
+- ``/gke-mysql/``: contiene los ficheros de configuración *Kustomize* utilizados para desplegar en *Kubernetes* el contenedor de la base de datos.
+- ``/gke-omeka/``: contiene los ficheros de configuración *Kustomize* utilizados para desplegar en *Kubernetes* el contenedor de la aplicación.
+- ``/omeka/``: recoge los archivos de la aplicación.
+- ``/omeka/plugins/``: complementos propuestos para la aplicación.
+- ``/omeka/themes/``: tema propuesto para la aplicación.
+- ``/omeka/themes/curatescape/``: nivel superior del tema. Contiene todas las vistas públicas, ficheros de configuración, información y personalización del tema, y la imagen de la portada del tema.
 
-El directorio */omeka/plugins/* cuenta además con un total de 21 subdirectorios, cada uno de los cuales se corresponde con un complemento. A continuación se expone la estructura de directorios que puede adquirir cada complemento:
+El directorio ``/omeka/plugins/`` cuenta además con un total de 21 subdirectorios, cada uno de los cuales se corresponde con un complemento. A continuación se expone la estructura de directorios que puede adquirir cada complemento:
 
-- */omeka/plugins/<NombreDelComplemento>*/: nivel superior del complemento. Contiene el fichero principal y el fichero de información del complemento. En caso de ser configurable, puede contener además el fichero de la página de configuración.
-- */omeka/plugins/<NombreDelComplemento>/controllers/*: *controladores* del complemento.
-- */omeka/plugins/<NombreDelComplemento>/views/*: *vistas*.
-- */omeka/plugins/<NombreDelComplemento>/views/public/*: *vistas* del área pública.
-- */omeka/plugins/<NombreDelComplemento>/views/admin/*: *vistas* del área de administración.
-- */omeka/plugins/<NombreDelComplemento>/views/shared/*: *vistas* comunes.
-- */omeka/plugins/<NombreDelComplemento>/models/*: *modelos*.
-- */omeka/plugins/<NombreDelComplemento>/libraries/*: funcionalidades externas a la aplicación.
-- */omeka/plugins/<NombreDelComplemento>/languages/*: traducciones.
-- */omeka/plugins/<NombreDelComplemento>/forms/*: formularios.
-- */omeka/plugins/<NombreDelComplemento>/tests/*: test unitarios.
+- ``/omeka/plugins/<NombreDelComplemento>``/: nivel superior del complemento. Contiene el fichero principal y el fichero de información del complemento. En caso de ser configurable, puede contener además el fichero de la página de configuración.
+- ``/omeka/plugins/<NombreDelComplemento>/controllers/``: *controladores* del complemento.
+- ``/omeka/plugins/<NombreDelComplemento>/views/``: *vistas*.
+- ``/omeka/plugins/<NombreDelComplemento>/views/public/``: *vistas* del área pública.
+- ``/omeka/plugins/<NombreDelComplemento>/views/admin/``: *vistas* del área de administración.
+- ``/omeka/plugins/<NombreDelComplemento>/views/shared/``: *vistas* comunes.
+- ``/omeka/plugins/<NombreDelComplemento>/models/``: *modelos*.
+- ``/omeka/plugins/<NombreDelComplemento>/libraries/``: funcionalidades externas a la aplicación.
+- ``/omeka/plugins/<NombreDelComplemento>/languages/``: traducciones.
+- ``/omeka/plugins/<NombreDelComplemento>/forms/``: formularios.
+- ``/omeka/plugins/<NombreDelComplemento>/tests/``: test unitarios.
 
 Manual de programador
 ---------------------
@@ -73,20 +73,21 @@ El proceso de activación no tiene mucha complicación. Desde cualquier terminal
 
 1. Activar el módulo *rewrite* y aplicar cambios reiniciando el demonio de Apache.
 
-.. code-block::
+::
 
    sudo a2enmod rewrite
    sudo /etc/init.d/apache2 restart
 
 2. Editar el archivo de configuración del sitio asignado para la aplicación (el sitio por defecto es *000-default*).
 
-.. code-block::
+::
 
    sudo nano /etc/apache2/sites-enabled/000-default
 
-3. Dentro de la etiqueta *Directory*, asignar el valor *All* a la directiva *AllowOverride*.
 
-.. code-block::
+3. Dentro de la etiqueta ``Directory``, asignar el valor *All* a la directiva *AllowOverride*.
+
+::
 
    <VirtualHost>
    ...
@@ -95,6 +96,7 @@ El proceso de activación no tiene mucha complicación. Desde cualquier terminal
          ...
       </Directory>
    </VirtualHost>
+
 
 MySQL/MariaDB
 ^^^^^^^^^^^^^
@@ -111,22 +113,24 @@ Además, para poder hacer uso tanto de la aplicación como de todos los compleme
 - *curl*: permite conectarse y comunicarse con diferentes tipos de servidores y diferentes tipos de protocolos.
 - *mbstring*: permite manejar codificaciones basadas en *Unicode*, tales como *UTF-8* y *UCS-2*.
 
-Una vez instalados, se deben realizar los siguientes cambios en el fichero de configuración PHP del servidor Apache (se suele encontrar en la ruta */etc/php/<version>/apache2/*):
+Una vez instalados, se deben realizar los siguientes cambios en el fichero de configuración PHP del servidor Apache (se suele encontrar en la ruta ``/etc/php/<version>/apache2/``):
 
 1. Comenzar la edición del fichero.
 
-.. code-block::
+::
 
    sudo nano /etc/php/7.2/apache2/php.ini
 
+
 2. Activar las extensiones instaladas descomentando (quitar el ';') las siguientes líneas.
 
-.. code-block::
+::
 
    extension=curl
    extension=mbstring
    extension=exif
    extension=mysqli
+
 
 Recuerda que los cambios cometidos en este fichero no se aplican hasta reiniciar el servidor Apache.
 
@@ -157,7 +161,7 @@ El primer paso consiste en **configurar el servidor**:
 
    * La base de datos ha de estar codificada en `utf8`.
 
-.. code-block::
+::
 
    sudo mysql -u root -
    CREATE DATABASE omekadb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -166,28 +170,31 @@ El primer paso consiste en **configurar el servidor**:
    FLUSH PRIVILEGES;
    EXIT;
 
-2. **Descargar** la version 2.7.1 de **Omeka**, desde su [web oficial](https://omeka.org/classic/download/) o desde su [repositorio oficial](http://github.com/omeka/Omeka) en GitHub.
 
-.. code-block::
+2. **Descargar** la version 2.7.1 de **Omeka**, desde su `web oficial <https://omeka.org/classic/download/>`__ o desde su `repositorio oficial <http://github.com/omeka/Omeka) en GitHub>`__.
+
+::
 
    cd /tmp && wget https://github.com/omeka/Omeka/releases/download/v2.7.1/omeka-2.7.1.zip
 
-3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio desde donde podamos trabajar.
 
-.. code-block::
+3. **Descomprimir** el fichero ``.zip`` recién descargado sobre un directorio desde donde podamos trabajar.
+
+::
 
    unzip omeka-2.7.1.zip -d <directorio_de_trabajo>
 
-4. Desde el directorio escogido, buscar el fichero `db.ini` y **sustituir los valores 'XXXXX' por los datos de la base de datos** (anotados en el paso 1).
 
-.. code-block::
+4. Desde el directorio escogido, buscar el fichero ``db.ini`` y **sustituir los valores 'XXXXX' por los datos de la base de datos** (anotados en el paso 1).
+
+::
 
    cd <directorio_de_trabajo>
    nano db.ini
 
-   No es necesario modificar los parámetros `prefix` o `port`.
+   No es necesario modificar los parámetros ``prefix`` o ``port``.
 
-.. code-block::
+::
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ; Database Configuration File ;
@@ -211,20 +218,20 @@ El primer paso consiste en **configurar el servidor**:
 
 5. **Descargar** el contenido del `repositorio del proyecto <https://github.com/gcm1001/TFG-CeniehAriadne>`__.
 
-.. code-block::
+::
 
    cd /tmp && wget https://github.com/gcm1001/TFG-CeniehAriadne/archive/master.zip
 
-6. **Descomprimir** las carpetas `/omeka/plugins` y `/omeka/themes` del fichero `.zip` recién descargado.
+6. **Descomprimir** las carpetas ``/omeka/plugins`` y ``/omeka/themes`` del fichero ``.zip`` recién descargado.
 
-.. code-block::
+::
 
    unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' 'TFG-CeniehAriadne-master/omeka/themes/*' -d <directorio_de_trabajo>
 
 
 7. Desde el directorio de trabajo, **reemplazar las carpetas originales** *plugins* y *themes* por las previamente descargadas.
 
-.. code-block::
+::
 
    cd <directorio_de_trabajo>
    rm -rf ./plugins ./themes
@@ -233,13 +240,13 @@ El primer paso consiste en **configurar el servidor**:
 
 8. Mover todo el contenido del directorio de trabajo a la carpeta del servidor Apache.
 
-.. code-block::
+::
 
    mv -r <directorio_de_trabajo>/* <directorio_del_servidor>
 
 9. **Dar permisos de lectura y escritura sobre todo el contenido de la aplicación**.
 
-.. code-block::
+::
 
    cd <directorio_del_servidor>
    sudo chown -R www-data:www-data <directorio_de_trabajo>
@@ -248,48 +255,48 @@ El primer paso consiste en **configurar el servidor**:
 
 Desde este instante, **la aplicación será accesible desde el navegador** (puerto 80).
 
-Para finalizar con la instalación, se debe **completar el formulario de instalación** disponible en el directorio `/install` de la aplicación (e.g *http://miaplicacion.es/install*). Cuando se haya completado, la aplicación únicamente contará con la funcionalidad básica, es decir, no se verán los cambios introducidos por los complementos/temas. Para ello, es necesario instalarlos desde la interfaz. En los siguientes apartados se explicará como hacerlo.
+Para finalizar con la instalación, se debe **completar el formulario de instalación** disponible en el directorio ``/install`` de la aplicación (e.g *http://miaplicacion.es/install*). Cuando se haya completado, la aplicación únicamente contará con la funcionalidad básica, es decir, no se verán los cambios introducidos por los complementos/temas. Para ello, es necesario instalarlos desde la interfaz. En los siguientes apartados se explicará como hacerlo.
 
 Activar el entorno de desarrollo en la aplicación
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Con la aplicación ya instalada, antes de empezar a desarrollar nuevos complementos o temas es aconsejable activar el entorno de desarrollo. Esta opción permite ver en detalle los errores que van sucediendo en la aplicación.
 
-Para activar esta opción es necesario modificar el archivo *.htaccess* ubicado en el directorio raiz de la aplicación. En él, se debe descomentar la siguiente línea (quitando el caracter '#'):
+Para activar esta opción es necesario modificar el archivo ``.htaccess`` ubicado en el directorio raiz de la aplicación. En él, se debe descomentar la siguiente línea (quitando el caracter '#'):
 
-.. code-block::
+::
 
    #SetEnv APPLICATION_ENV development
 
-Además, también es recomentable activar las opciones de depuración y registro de errores.  Estas nos facilitan la tarea de encontrar errores durante la etapa de desarrollo. Para ello, se debe modificar el fichero *config.ini* situado en el directorio `/application/config/` de la aplicación. Desde este se pueden activar múltiples opciones (asignando *true*):
+Además, también es recomentable activar las opciones de depuración y registro de errores.  Estas nos facilitan la tarea de encontrar errores durante la etapa de desarrollo. Para ello, se debe modificar el fichero ``config.ini`` situado en el directorio ``/application/config/`` de la aplicación. Desde este se pueden activar múltiples opciones (asignando *true*):
 
 1. Depuración de excepciones.
 
-.. code-block::
+::
 
    debug.exceptions = true
 
 2. Depuración de peticiones.
 
-.. code-block::
+::
 
    debug.request = true
 
 3. Depuración de consultas a la base de datos.
 
-.. code-block::
+::
 
    debug.profileDb = true
 
 4. Depuración de *email*.
 
-.. code-block::
+::
 
    debug.email = true
 
 5. Registro de errores.
 
-.. code-block::
+::
 
    log.errors = true
 
@@ -305,12 +312,12 @@ En este apartado se muestra el procedimiento a seguir para instalar complementos
 
 Si se ha instalado la aplicación siguiendo los pasos incluídos en este manual (ver `Instalación de la aplicación`_), los complementos que incluyen cada una de las funcionalidades desarrolladas en este proyecto se encuentran ya ubicados en el interior de la aplicación.
 
-En el caso de que se quiera añadir algún complemento adicional a los propuestos en este proyecto, se deben trasladar antes sus ficheros al directorio `/plugins/` de la aplicación.
+En el caso de que se quiera añadir algún complemento adicional a los propuestos en este proyecto, se deben trasladar antes sus ficheros al directorio ``/plugins/`` de la aplicación.
 
 Con los complementos ya ubicados en el interior de la aplicación, hay que hacer uso de la interfaz para completar su instalación. Los pasos a seguir son:
 
-1. Acceder al área de administración (`aplicacion.es/admin/`).
-1. Desde el gestor de complementos (`aplicacion.es/admin/plugins`).
+1. Acceder al área de administración (``aplicacion.es/admin/``).
+1. Desde el gestor de complementos (``aplicacion.es/admin/plugins``).
 2. Localizar el nombre del complemento que se desea instalar.
 3. Hacer clic sobre el botón "*Install*" situado en la parte derecha del complemento.
 4. En caso de que el *plugin* sea configurable, rellenar el formulario de configuración y hacer clic sobre el botón "*Save Changes*".
@@ -327,14 +334,14 @@ Cómo instalar temas en la aplicación
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Su proceso de instalación es muy similiar al de los complementos. Al igual que pasaba con estos, si se han seguido los pasos de instalación (ver `Instalación de la aplicación`_), el tema propuesto se encuentra ya almacenado en el interior de la aplicación.
 
-En el caso de que se quiera añadir algún otro tema, se deben trasladar antes sus ficheros al directorio `/themes/` de la aplicación.
+En el caso de que se quiera añadir algún otro tema, se deben trasladar antes sus ficheros al directorio ``/themes/`` de la aplicación.
 
 Con el tema ya almacenado en la aplicación, se puede llevar a cabo el proceso de instalación desde la interfaz.
 
 Para instalar un tema (*theme*):
 
-1. Acceder al área de administración (`aplicacion.es/admin/`).
-2. Desde la página de configuración de diseño (`aplicacion.es/admin/appearance/`).
+1. Acceder al área de administración (``aplicacion.es/admin/``).
+2. Desde la página de configuración de diseño (``aplicacion.es/admin/appearance/``).
 3. Hacer clic sobre la entrada "*Themes*" de la barra de navegación existente.
 4. Localizar el nombre del tema que se desea instalar.
 5. Hacer clic sobre el botón "*Use this theme*".
@@ -385,9 +392,9 @@ Etapa 02: Configuración del *workflow*
 **************************************
 Para implementar las técnicas de integración continua a través de *Github Actions*, es necesario crear un flujo de trabajo (*workflow*) donde definir los procesos que se pretenden automatizar.
 
-*Github Actions* permite definir más de un flujo de trabajo por repositorio. Estos deben ser almacenados dentro del repositorio sobre el directorio `/.github/worflows`. La sintaxis que siguen estos ficheros es *YAML*, por lo que la extensión ha de ser *.yaml*.
+*Github Actions* permite definir más de un flujo de trabajo por repositorio. Estos deben ser almacenados dentro del repositorio sobre el directorio ``/.github/worflows``. La sintaxis que siguen estos ficheros es *YAML*, por lo que la extensión ha de ser ``.yaml``.
 
-En este proyecto, el fichero de configuración utilizado para definir el *worflow* que automatiza el despliegue de la aplicación se llama *gke.yaml*.
+En este proyecto, el fichero de configuración utilizado para definir el *worflow* que automatiza el despliegue de la aplicación se llama ``gke.yaml``.
 
 A continuacón se explica brevemente en qué consiste cada una de las etiquetas utilizadas en este fichero:
 
@@ -432,19 +439,19 @@ El primer paso consiste en **configurar los recursos base** de nuestra plataform
 
 Para configurar ambos recursos hay que crear los siguientes ficheros:
 
-- *service.yaml*: configura el servicio del recurso.
-- *deployment.yaml*: configura despliegue del recurso.
-- *kustomization.yaml*: recoge los componentes (servicio y despliegue) del recurso. Es utilizado por *Kustomize* para construir el entorno.
+- ``service.yaml``: configura el servicio del recurso.
+- ``deployment.yaml``: configura despliegue del recurso.
+- ``kustomization.yaml``: recoge los componentes (servicio y despliegue) del recurso. Es utilizado por *Kustomize* para construir el entorno.
 
-En el repositorio del proyecto, estos ficheros se encuentran ubicados en las carpetas */gke-omeka/* y */gke-mysql/*.
+En el repositorio del proyecto, estos ficheros se encuentran ubicados en las carpetas ``/gke-omeka/`` y ``/gke-mysql/``.
 
-A continuación, se modifica la plantilla base del recurso *gke-omeka* a través del fichero de configuración */patch.yaml*. En él se definen las variables de entorno que recogerán la información sensible de la aplicación (todas asociadas con un valor *secreto*).
+A continuación, se modifica la plantilla base del recurso *gke-omeka* a través del fichero de configuración ``/patch.yaml``. En él se definen las variables de entorno que recogerán la información sensible de la aplicación (todas asociadas con un valor *secreto*).
 
-Para finalizar, sobre el directorio raíz del repositorio, se crea el fichero de configuración principal */kustomization.yaml*. Este indicará a *Kustomize* qué recursos pretendemos instalar (*gke-mysql* y *gke-mysql*) y las modificaciones a realizar sobre la plantilla de la aplicación (*patch.yaml*).
+Para finalizar, sobre el directorio raíz del repositorio, se crea el fichero de configuración principal ``/kustomization.yaml``. Este indicará a *Kustomize* qué recursos pretendemos instalar (*gke-mysql* y *gke-mysql*) y las modificaciones a realizar sobre la plantilla de la aplicación (``patch.yaml``).
 
 Etapa 04: Crear los *secretos* en el servidor
 *********************************************
-Los *secretos* y *mapas de configuración* utilizados por los ficheros *.yaml* de la etapa anterior tienen que estar definidos en el servidor de *Google Cloud*.
+Los *secretos* y *mapas de configuración* utilizados por los ficheros ``.yaml`` de la etapa anterior tienen que estar definidos en el servidor de *Google Cloud*.
 
 Para ello se ejecutan los siguientes comandos:
 
@@ -453,7 +460,7 @@ Para ello se ejecutan los siguientes comandos:
 
 - *omeka-db*: *secretos* relacionados con la base de datos.
 
-.. code-block::
+::
 
    kubectl create secret generic omeka-db \
    --from-literal=user-password=<contraseña_db_usuario> \
@@ -463,7 +470,7 @@ Para ello se ejecutan los siguientes comandos:
 
 - *omeka-snmp*: *secretos* relacionados con el protocolo SNMP.
 
-.. code-block::
+::
 
    kubectl create secret generic omeka-snmp \
    --from-literal=host=<host_snmp> \
@@ -474,7 +481,7 @@ Para ello se ejecutan los siguientes comandos:
 
 - *omeka-imap*: *secretos* relacionados con el protocolo IMAP.
 
-.. code-block::
+::
 
    kubectl create secret generic omeka-imap \
    --from-literal=host=<host_imap> \
@@ -485,21 +492,21 @@ Para ello se ejecutan los siguientes comandos:
 
 - *db-config*: *mapa de configuración* para la base de datos.
 
-.. code-block::
+::
 
    kubectl create configmap db-config \
    --from-file=./configFiles/db.ini.gke
 
 - *snmp-config*: *mapa de configuración* para el protocolo SNMP.
 
-.. code-block::
+::
 
    kubectl create configmap snmp-config \
    --from-file=./configFiles/config.ini.gke
 
 - *imap-config*: *mapa de configuración* para el protocolo IMAP.
 
-.. code-block::
+::
 
    kubectl create configmap imap-config \
    --from-file=./configFiles/mail.ini.gke
@@ -548,11 +555,11 @@ Una ventaja de esta herramienta es que no necesita que el repositorio sobre el q
 
 *Read the Docs*
 ^^^^^^^^^^^^^^^
-*Read the Docs* es una plataforma web que facilita la tarea de documentar productos *software* automatizando la compilación, versionado y hospedaje de los ficheros generados por la herramienta de documentación *Sphinx*. En el repositorio del proyecto, estos ficheros se encuentran dentro del directorio */docs/sphinx/*.
+*Read the Docs* es una plataforma web que facilita la tarea de documentar productos *software* automatizando la compilación, versionado y hospedaje de los ficheros generados por la herramienta de documentación *Sphinx*. En el repositorio del proyecto, estos ficheros se encuentran dentro del directorio ``/docs/sphinx/``.
 
 Para utilizar este servicio, basta con iniciar sesión en su página web a través de *GitHub*, otorgar los permisos necesarios, e importar el repositorio (proyecto) sobre el que se integrará el servicio.
 
-Además, se pueden configurar otros aspectos de la documentación. Para ello, es necesario indicar a la herramienta donde se encuentra el fichero de configuración *conf.py*, que en este proyecto se ubica también en */docs/sphinx/*.
+Además, se pueden configurar otros aspectos de la documentación. Para ello, es necesario indicar a la herramienta donde se encuentra el fichero de configuración *conf.py*, que en este proyecto se ubica también en ``/docs/sphinx/``.
 
 .. figure:: ../_static/images/docs-rtd.png
    :name: docs-rtd
@@ -568,11 +575,11 @@ Durante el desarrollo de los complementos (*plugins*), se han ido elaborado un c
 
 Para realizar esta tarea, se ha utilizado el *framework* de pruebas *PHPUnit*, el cual cuenta con una implementación adaptada a la estructura de la aplicación.
 
-Antes de poder utilizar esta implementación, se debe configurar la sección de pruebas de la aplicación mediante el fichero de configuración *config.ini*. Este se encuentra localizado en el directorio `/application/tests/`.
+Antes de poder utilizar esta implementación, se debe configurar la sección de pruebas de la aplicación mediante el fichero de configuración ``config.ini``. Este se encuentra localizado en el directorio ``/application/tests/``.
 
 Se deben indicar, al menos, los datos requeridos para la base de datos de prueba. **Es muy importante** que esta no sea la misma que la base de datos de la aplicación ya que, en cada ejecución de las pruebas, se ejecuta un *reset*.
 
-A continuación se describen las propiedades de configuración del fichero *config.ini*:
+A continuación se describen las propiedades de configuración del fichero ``config.ini``:
 
 - *db.host*: *hostname* donde se aloja la DB.
 - *db.username*: nombre de usuario que tiene permisos en la DB.
