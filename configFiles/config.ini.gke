@@ -39,7 +39,7 @@ locale.name = ""
 ; default: false
 ;
 ; This should only be enabled when debugging or developing for Omeka.
-debug.exceptions = true
+debug.exceptions = false
 
 ; debug.request
 ; Dump data about each web request to the browser.
