@@ -79,9 +79,9 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
       - Nombre del usuario de la DB.
       - Contraseña de usuario de la DB.
 
-   * La base de datos ha de estar codificada en `utf8`.
+   * La base de datos ha de estar codificada en ``utf8``.
 
-.. code-block::
+::
 
    sudo mysql -u root -
    CREATE DATABASE omekadb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -92,25 +92,26 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
 2. **Descargar** la version 2.7.1 de **Omeka**, desde su `web oficial <https://omeka.org/classic/download/>`__ o desde su `repositorio oficial <http://github.com/omeka/Omeka>`__ en GitHub.
 
-.. code-block::
+::
 
    cd /tmp && wget https://github.com/omeka/Omeka/releases/download/v2.7.1/omeka-2.7.1.zip
 
-3. **Descomprimir** el fichero `.zip` recién descargado sobre un directorio desde donde podamos trabajar.
+3. **Descomprimir** el fichero ``.zip`` recién descargado sobre un directorio desde donde podamos trabajar.
 
-.. code-block::
+::
 
    unzip omeka-2.7.1.zip -d <directorio_de_trabajo>
 
-4. Desde el directorio escogido, buscar el fichero `db.ini` y **sustituir los valores 'XXXXX' por los datos de la base de datos** (anotados en el paso 1).
+4. Desde el directorio escogido, buscar el fichero ``db.ini`` y **sustituir los valores 'XXXXX' por los datos de la base de datos** (anotados en el paso 1).
 
-.. code-block::
+::
 
    cd <directorio_de_trabajo>
    nano db.ini
 
-   No es necesario modificar los parámetros `prefix` o `port`.
-.. code-block::
+   No es necesario modificar los parámetros ``prefix`` o ``port``.
+
+::
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ; Database Configuration File ;
@@ -134,20 +135,20 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
 5. **Descargar** el contenido del `repositorio del proyecto <https://github.com/gcm1001/TFG-CeniehAriadne>`__.
 
-.. code-block::
+::
 
    cd /tmp && wget https://github.com/gcm1001/TFG-CeniehAriadne/archive/master.zip
 
-6. **Descomprimir** las carpetas `/omeka/plugins` y `/omeka/themes` del fichero `.zip` recién descargado.
+6. **Descomprimir** las carpetas ``/omeka/plugins`` y ``/omeka/themes`` del fichero ``.zip`` recién descargado.
 
-.. code-block::
+::
 
    unzip master.zip 'TFG-CeniehAriadne-master/omeka/plugins/*' 'TFG-CeniehAriadne-master/omeka/themes/*' -d <*directorio_de_trabajo*>
 
 
 7. Desde el directorio de trabajo, **reemplazar las carpetas originales** *plugins* y *themes* por las previamente descargadas.
 
-.. code-block::
+::
 
    cd <*directorio_de_trabajo*>
    rm -rf ./plugins ./themes
@@ -156,13 +157,13 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
 8. Mover todo el contenido del directorio de trabajo a la carpeta del servidor Apache.
 
-.. code-block::
+::
 
    mv -r <*directorio_de_trabajo*>/* <*directorio_del_servidor*>
 
 9. **Dar permisos de lectura y escritura sobre todo el contenido de la aplicación**.
 
-.. code-block::
+::
 
    cd <*directorio_del_servidor*>
    sudo chown -R www-data:www-data <*directorio_de_trabajo*>
@@ -172,12 +173,13 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
    10.1. **Crear el archivo de configuración** correspondiente a la aplicación.
 
-   .. code-block::
+   ::
 
       nano /etc/apache2/sites-available/omeka.conf
 
    Cambiar los valores "*DocumentRoot*" y "*ServerName*".
-   .. code-block::
+
+   ::
 
       <VirtualHost *:80>
            ServerAdmin [email protected]
@@ -195,20 +197,20 @@ El primer paso consiste en **configurar el servidor**. Para ello, hay que seguir
 
       </VirtualHost>
 
-   b. ***Activar el sitio y el módulo rewrite** y **reiniciar el servidor** para aplicar los cambios.
+   b. **Activar el sitio y el módulo rewrite** y **reiniciar el servidor** para aplicar los cambios.
 
-   .. code-block::
+   ::
 
       a2ensite omeka.conf
       a2enmod rewrite
       systemctl restart apache2.service
 
-Desde este instante, **la aplicación será accesible desde el navegador** (puerto 80). El último paso consiste en **completar la instalación guiada desde el navegador**, disponible en el directorio `/install` (e.g *http://aplicacion.es/install*).
+Desde este instante, **la aplicación será accesible desde el navegador** (puerto 80). El último paso consiste en **completar la instalación guiada desde el navegador**, disponible en el directorio ``/install`` (e.g *http://aplicacion.es/install*).
 
 Una vez instalada la aplicación, para poder disfrutar de todas las mejoras propuestas en este proyecto, se deben instalar tanto los *plugins* como el tema propuesto (ver `Instalar complementos (plugins)`_ e `Instalar temas (themes)`_)
 
 .. warning::
-   Por temas de seguridad, conviene eliminar la carpeta `/install/` del directorio raíz una vez terminada la instalación de la aplicación.
+   Por temas de seguridad, conviene eliminar la carpeta ``/install/`` del directorio raíz una vez terminada la instalación de la aplicación.
 
 .. seealso::
    * `Omeka Classic User Manual <https://omeka.org/classic/docs/Installation/Installation/>`__
@@ -223,25 +225,25 @@ Docker
 
 Para proceder al despliegue **se deben descargar**, del `repositorio del proyecto <https://github.com/gcm1001/TFG-CeniehAriadne>`__, los siguientes ficheros:
 
-- `/Dockerfile`
-- `/docker-compose.yml`
-- `/ConfigFiles/*.modificar`
-- `/omeka/plugins/*`
+- ``/Dockerfile``
+- ``/docker-compose.yml``
+- ``/ConfigFiles/*.modificar``
+- ``/omeka/plugins/*``
 
 .. warning::
    Mantén los subdirectorios intactos.
 
 A continuación debes **compilar la imagen**. Para ello, desde el directorio donde hayas almacenado la descarga anterior, ejecuta el siguiente comando:
 
-.. code-block:: bash
+::
 
    docker build -t nombre_imagen:tag .
 
-**Recuerda muy bien el nombre de la imagen y el tag que pongas** porque será necesario para el siguiente paso, que consiste en configurar el archivo `docker-compose.yml`.
+**Recuerda muy bien el nombre de la imagen y el tag que pongas** porque será necesario para el siguiente paso, que consiste en configurar el archivo ``docker-compose.yml``.
 
-En él, solo tenemos que cambiar la etiqueta `image` del servicio `omeka_app` con el nombre y el tag de la imagen recién compilada:
+En él, solo tenemos que cambiar la etiqueta ``image`` del servicio ``omeka_app`` con el nombre y el tag de la imagen recién compilada:
 
-.. code-block:: bash
+::
 
    ...
      omeka_app:
@@ -251,11 +253,11 @@ En él, solo tenemos que cambiar la etiqueta `image` del servicio `omeka_app` co
 Si se ha publicado la imagen en *DockerHub*, se puede hacer referencia a esta indicando el nombre de usuario seguido de la imagen (e.g. username/nombre_de_mi_imagen:tag).
 
 .. warning::
-   Elimina el servicio `omeka-db-admin` si tu servidor está destinado a producción. Este servicio incorpora la herramienta *PhpMyAdmin* a la infraestructura, la cual tiene un alto grado de vulnerabilidades.
+   Elimina el servicio ``omeka-db-admin`` si tu servidor está destinado a producción. Este servicio incorpora la herramienta *PhpMyAdmin* a la infraestructura, la cual tiene un alto grado de vulnerabilidades.
 
 Por último, se crean los *secrets* correspondientes a las contraseñas de la base de datos:
 
-.. code-block:: bash
+::
 
    echo 'contraseña_usuario_db' | docker secret create omeka_db_password -
    echo 'contraseña_root_db' | docker secret create omeka_db_root_password -
@@ -263,11 +265,11 @@ Por último, se crean los *secrets* correspondientes a las contraseñas de la ba
    cp configFiles/mail.ini.modificar configFiles/mail.ini
 
 .. warning::
-   Debes modificar los ficheros recién creados (*db.ini* y *mail.ini* con los datos relacionados con la base de datos y el protocolo IMAP. Ten en cuenta que la contraseña que introduzcas en el fichero tiene que coincidir con la del *secret* *omeka_db_password*.
+   Debes modificar los ficheros recién creados (``db.ini`` y ``mail.ini`` con los datos relacionados con la base de datos y el protocolo IMAP. Ten en cuenta que la contraseña que introduzcas en el fichero tiene que coincidir con la del *secret* ``omeka_db_password``.
 
 Ahora ya se puede desplegar la infraestructura ejecutando el siguiente comando desde el directorio de trabajo (donde se encuentra la descarga del primer paso).
 
-.. code-block:: bash
+::
 
    docker stack deploy -c docker-compose.yml nombre_del_entorno
 
@@ -285,11 +287,11 @@ El primer paso para desplegar la aplicación mediante *Kubernetes* es montar nue
 
 El siguiente paso consiste en desplegar la aplicación. Para esta tarea utilizo el gestor de objetos *Kustomize*. Por ello, deberás contar con dicha herramienta. Además debes estar en posesión de los siguientes ficheros alojados en este repositorio:
 
-- `/kustomization.yaml`
-- `/patch.yaml`
-- `/gke-mysql/*`
-- `/gke-omeka/*`
-- `/configFiles/*.gke`
+- ``/kustomization.yaml``
+- ``/patch.yaml``
+- ``/gke-mysql/*``
+- ``/gke-omeka/*``
+- ``/configFiles/*.gke``
 
 Se deben definir en el servidor los *secrets* y *configMaps* utilizados por los ficheros de configuración *.yaml*.
 
@@ -300,7 +302,7 @@ Para ello se ejecutan los siguientes comandos:
 
 - *omeka-db*: *secretos* relacionados con la base de datos.
 
-.. code-block::
+::
 
    kubectl create secret generic omeka-db \
    --from-literal=user-password=<contraseña_db_usuario> \
@@ -310,7 +312,7 @@ Para ello se ejecutan los siguientes comandos:
 
 - *omeka-snmp*: *secretos* relacionados con el protocolo SNMP.
 
-.. code-block::
+::
 
    kubectl create secret generic omeka-snmp \
    --from-literal=host=<host_snmp> \
@@ -321,7 +323,7 @@ Para ello se ejecutan los siguientes comandos:
 
 - *omeka-imap*: *secretos* relacionados con el protocolo IMAP.
 
-.. code-block::
+::
 
    kubectl create secret generic omeka-imap \
    --from-literal=host=<host_imap> \
@@ -332,28 +334,28 @@ Para ello se ejecutan los siguientes comandos:
 
 - *db-config*: *mapa de configuración* para la base de datos.
 
-.. code-block::
+::
 
    kubectl create configmap db-config \
    --from-file=./configFiles/db.ini.gke
 
 - *snmp-config*: *mapa de configuración* para el protocolo SNMP.
 
-.. code-block::
+::
 
    kubectl create configmap snmp-config \
    --from-file=./configFiles/config.ini.gke
 
 - *imap-config*: *mapa de configuración* para el protocolo IMAP.
 
-.. code-block::
+::
 
    kubectl create configmap imap-config \
    --from-file=./configFiles/mail.ini.gke
 
-Por último, debemos indicar el identificador de nuestra imagen *Docker* en el fichero `/gke-omeka/deployment.yaml`.
+Por último, debemos indicar el identificador de nuestra imagen *Docker* en el fichero ``/gke-omeka/deployment.yaml``.
 
-.. code-block:: bash
+::
 
    ...
        spec:
@@ -363,7 +365,7 @@ Por último, debemos indicar el identificador de nuestra imagen *Docker* en el f
 
 Tras esto, solo faltaría ejecutar, desde el directorio raíz, el siguiente comando:
 
-.. code-block:: bash
+::
 
    kustomize build . | kubectl apply -f -
 
@@ -382,7 +384,7 @@ Manual de usuario
 ~~~~~~~~~~~~~~~~~~~~~~
 La zona de administración es el lugar desde donde el cual se gestionan los conjuntos de datos almacenados en la plataforma y, además, se pueden configurar otros aspectos de la aplicación como, por ejemplo, su diseño, seguridad, usuarios, etc.
 
-Este área se encuentra ubicado en la ruta `/admin` desde la raíz del directorio donde se encuentra la aplicación. Si, por ejemplo, hemos accedido desde la URL `www.aplicacion.es`, al acceder a `www.aplicacion.es/admin` se nos mostrará la pantalla de inicio de sesión al sistema.
+Este área se encuentra ubicado en la ruta ``/admin`` desde la raíz del directorio donde se encuentra la aplicación. Si, por ejemplo, hemos accedido desde la URL `www.aplicacion.es`, al acceder a `www.aplicacion.es/admin` se nos mostrará la pantalla de inicio de sesión al sistema.
 
 .. figure:: ../_static/images/admin-login.png
    :name: admin-login
@@ -423,25 +425,25 @@ Dentro del área de administración podemos desplazarnos a través de los dos me
 
 Gestionar complementos (*plugins*)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-La principal ventaja de esta aplicación es que puedes añadir nuevas funciones a través de los complementos o *plugins*. A través de la entrada *Plugins* del menú global, se accede al gestor de *plugins* (`/admin/plugins`), lugar donde se llevan a cabo todas las tareas de gestión relacionadas con este tipo de aplicaciones.
+La principal ventaja de esta aplicación es que puedes añadir nuevas funciones a través de los complementos o *plugins*. A través de la entrada *Plugins* del menú global, se accede al gestor de *plugins* (``/admin/plugins``), lugar donde se llevan a cabo todas las tareas de gestión relacionadas con este tipo de aplicaciones.
 
 Instalar complementos (*plugins*)
 *********************************
 .. warning::
-   Si se siguieron a rajatabla los pasos de la `Instalación`_, la aplicación ya cuenta con los *plugins* propuestos dentro de la carpeta `/plugins/`. Por lo tanto, puedes saltarte el primer paso que ves a continuación e ir directamente a los puntos de instalación. **Para obtener más información de los complementos propuestos, ver el apartado** `Complementos (plugins)`_ .
+   Si se siguieron a rajatabla los pasos de la `Instalación`_, la aplicación ya cuenta con los *plugins* propuestos dentro de la carpeta ``/plugins/``. Por lo tanto, puedes saltarte el primer paso que ves a continuación e ir directamente a los puntos de instalación. **Para obtener más información de los complementos propuestos, ver el apartado** `Complementos (plugins)`_ .
 
 El primer paso para instalar cualquier complemento, es descargarlo. Actualmente existen dos sitios desde donde se pueden obtener *plugins*:
 
 1. `Página oficial de Omeka <https://omeka.org/classic/plugins/>`__
 2. `Repositorio de Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_plugins.html>`__
 
-Una vez descargado, se debe transportar la carpeta del *plugin* correspondiente a la carpeta `/plugins/` del directorio raíz de la aplicación.
+Una vez descargado, se debe transportar la carpeta del *plugin* correspondiente a la carpeta ``/plugins/`` del directorio raíz de la aplicación.
 
 Con los *plugins* ya almacenados en la aplicación, se puede llevar a cabo el proceso de instalación desde la plataforma.
 
 Para instalar un complemento (*plugin*):
 
-1. Desde el gestor de *plugins* (`/admin/plugins`).
+1. Desde el gestor de *plugins* (``/admin/plugins``).
 2. Localizar el nombre del complemento que se desea instalar.
 3. Hacer clic sobre el botón "*Install*".
 
@@ -458,7 +460,7 @@ Algunos complementos ofrecen la posibilidad de configurar la funcionalidad que i
 
 Para configurar un complemento (*plugin*):
 
-1. Desde el gestor de *plugins* (`/admin/plugins`).
+1. Desde el gestor de *plugins* (``/admin/plugins``).
 2. Localizar el nombre del complemento que se desea configurar.
 3. Hacer clic sobre el botón "*Configure*".
 
@@ -481,7 +483,7 @@ Al desactivar un complemento, todas las funciones que incluía en la aplicación
 
 Para activar/desactivar un complemento (*plugin*):
 
-1. Desde el gestor de *plugins* (`/admin/plugins`).
+1. Desde el gestor de *plugins* (``/admin/plugins``).
 2. Localizar el nombre del complemento que se desea configurar.
 3. Hacer clic sobre el botón "*Deactivate*" para desactivar o sobre el botón "*Activate*" para activar.
 
@@ -497,11 +499,11 @@ Para activar/desactivar un complemento (*plugin*):
 
 Desinstalar complementos (*plugins*)
 ************************************
-Los complementos pueden ser desinstalados de la aplicación. Al desinstalar un complemento o *plugin* este puede volver a ser instalado siempre y cuando conservemos los ficheros correspondientes en la carpeta `/plugins` del directorio raíz de la aplicación.
+Los complementos pueden ser desinstalados de la aplicación. Al desinstalar un complemento o *plugin* este puede volver a ser instalado siempre y cuando conservemos los ficheros correspondientes en la carpeta ``/plugins`` del directorio raíz de la aplicación.
 
 Para desinstalar un complemento (*plugin*):
 
-1. Desde el gestor de *plugins* (`/admin/plugins`).
+1. Desde el gestor de *plugins* (``/admin/plugins``).
 2. Localizar el nombre del complemento que se desea desinstalar.
 3. Hacer clic sobre el botón "*Uninstall*".
 
@@ -510,7 +512,7 @@ Para desinstalar un complemento (*plugin*):
    :scale: 80%
    :align: center
 
-4. En la página actual (`/admin/plugins`), leer las consecuencias de la desinstalación y, en caso de estar conforme, marcar la casilla "*Yes, I want to uninstall this plugin.*".
+4. En la página actual (``/admin/plugins``), leer las consecuencias de la desinstalación y, en caso de estar conforme, marcar la casilla "*Yes, I want to uninstall this plugin.*".
 
 .. figure:: ../_static/images/plugins-uninst-2.png
    :name: plugins-uninst-2
@@ -539,20 +541,20 @@ Desde la entrada "*Appearance*" del menú global podemos configurar todos los as
 Instalar temas (*themes*)
 *************************
 .. warning::
-   Si se siguieron a rajatabla los pasos de la `Instalación`_, la aplicación ya cuenta el tema (*theme*) propuesto dentro de la carpeta `/themes/`. Por lo tanto, puedes saltarte el primer paso que ves a continuación e ir directamente a los puntos de instalación. **El nombre del tema propuesto es "Curatescape".**
+   Si se siguieron a rajatabla los pasos de la `Instalación`_, la aplicación ya cuenta el tema (*theme*) propuesto dentro de la carpeta ``/themes/``. Por lo tanto, puedes saltarte el primer paso que ves a continuación e ir directamente a los puntos de instalación. **El nombre del tema propuesto es "Curatescape".**
 
 El primer paso para instalar cualquier tema es descargarlo. Actualmente existen dos sitios desde donde se pueden obtener temas (*themes*):
 
 1. `Página oficial de Omeka <https://omeka.org/classic/themes/>`__
 2. `Repositorio de Github <https://daniel-km.github.io/UpgradeToOmekaS/omeka_themes.html>`__
 
-Una vez descargado, se debe transportar la carpeta del tema correspondiente a la carpeta `/themes/` del directorio raíz de la aplicación.
+Una vez descargado, se debe transportar la carpeta del tema correspondiente a la carpeta ``/themes/`` del directorio raíz de la aplicación.
 
 Con el tema ya almacenado en la aplicación, se puede llevar a cabo el proceso de instalación desde la plataforma.
 
 Para instalar un tema (*theme*):
 
-1. Desde la página de configuración de diseño (`/admin/appearance/`).
+1. Desde la página de configuración de diseño (``/admin/appearance/``).
 2. Hacer clic sobre la entrada "*Themes*" de la barra de navegación existente.
 3. Localizar el nombre del tema que se desea instalar.
 4. Hacer clic sobre el botón "*Use this theme*".
@@ -597,7 +599,7 @@ Para realizar cambios en la navegación pública de la aplicación:
    :scale: 60%
    :align: middle
 
-1. Desde la página de configuración de diseño (`/admin/appearance/`).
+1. Desde la página de configuración de diseño (``/admin/appearance/``).
 2. Hacer clic sobre la entrada "*Navigation*" de la barra de navegación existente.
 3. Realizar los cambios necesarios:
 
@@ -652,7 +654,7 @@ Existen ciertos aspectos del diseño de la aplicación que no están ligados ni 
 
 Para configurar estos aspectos:
 
-1. Desde la página de configuración de diseño (`/admin/appearance/`).
+1. Desde la página de configuración de diseño (``/admin/appearance/``).
 2. Hacer clic sobre la entrada "*Settings*" de la barra de navegación existente.
 3. Realizar los cambios oportunos:
 
@@ -689,7 +691,7 @@ Para crear un nuevo usuario:
    :scale: 60%
    :align: middle
 
-1. Desde el gestor de usuarios (`/admin/users`).
+1. Desde el gestor de usuarios (``/admin/users``).
 2. Hacer clic sobre el botón "*Add user*" situado en la parte superior izquierda del gestor.
 3. En la página actual, especificar:
 
@@ -709,7 +711,7 @@ Al eliminar un usuario, no se eliminan ninguno de los objetos digitales (ítems,
 
 Para eliminar un usuario existente:
 
-1. Desde el gestor de usuarios (`/admin/users`).
+1. Desde el gestor de usuarios (``/admin/users``).
 2. Buscar en la tabla de usuarios el usuario que se pretende eliminar.
 3. Una vez localizado, hacer clic sobre el hipertexto "*Delete*" situado justo debajo del nombre de usuario.
 4. Confirmar la eliminación haciendo clic sobre el botón rojo "*Delete*".
@@ -735,10 +737,10 @@ Para editar un usuario existente:
    :scale: 60%
    :align: middle
 
-1. Desde el gestor de usuarios (`/admin/users`).
+1. Desde el gestor de usuarios (``/admin/users``).
 2. Buscar en la tabla de usuarios el usuario que se pretende editar.
 3. Una vez localizado, hacer clic sobre el bipertexto "*Edit*" situado justo debajo del nombre de usuario.
-4. En la página actual (`mi/admin/users/edit/<idUser>`), realizar las modificaciones oportunas.
+4. En la página actual (``/admin/users/edit/<idUser>``), realizar las modificaciones oportunas.
 
    |user-mod-1|
 
@@ -771,7 +773,7 @@ A través de la barra de navegación podemos desplazarnos por las distintas zona
 
 Configuración general
 *********************
-Desde la pestaña "*General*" de la barra de navegación existente en la página de configuración principal de la aplicación (`mi/admin/settings/`), se pueden llevan a cabo las siguientes configuraciones:
+Desde la pestaña "*General*" de la barra de navegación existente en la página de configuración principal de la aplicación (``/admin/settings/``), se pueden llevan a cabo las siguientes configuraciones:
 
 .. figure:: ../_static/images/settings-general.png
    :name: settings-general
@@ -790,7 +792,7 @@ Desde la pestaña "*General*" de la barra de navegación existente en la página
 
 Configuración de la seguridad
 ******************************
-Desde la pestaña "*Security*" de la barra de navegación existente en la página de configuración principal de la aplicación (`mi/admin/settings/`), se pueden llevan a cabo las siguientes configuraciones:
+Desde la pestaña "*Security*" de la barra de navegación existente en la página de configuración principal de la aplicación (``mi/admin/settings/``), se pueden llevan a cabo las siguientes configuraciones:
 
 .. |sec-1| image:: ../_static/images/sec-1.png
    :scale: 60%
@@ -830,7 +832,7 @@ Desde la pestaña "*Security*" de la barra de navegación existente en la págin
 
 Configuración de las búsquedas
 ******************************
-Desde la pestaña "*Search*" de la barra de navegación existente en la página de configuración principal de la aplicación (`mi/admin/settings/`), se pueden llevan a cabo las siguientes configuraciones:
+Desde la pestaña "*Search*" de la barra de navegación existente en la página de configuración principal de la aplicación (``/admin/settings/``), se pueden llevan a cabo las siguientes configuraciones:
 
 .. figure:: ../_static/images/settings-search.png
    :name: settings-search
@@ -844,7 +846,7 @@ Desde la pestaña "*Search*" de la barra de navegación existente en la página 
 
 Configuración de los esquemas de metadatos
 ******************************************
-Desde la pestaña "*Element Sets*" de la barra de navegación existente en la página de configuración principal de la aplicación (`mi/admin/settings/`), se pueden llevan a cabo las siguientes configuraciones:
+Desde la pestaña "*Element Sets*" de la barra de navegación existente en la página de configuración principal de la aplicación (``/admin/settings/``), se pueden llevan a cabo las siguientes configuraciones:
 
 .. figure:: ../_static/images/settings-es.png
    :name: settings-es
@@ -858,7 +860,7 @@ Desde la pestaña "*Element Sets*" de la barra de navegación existente en la p�
 
 Configuración de los metadatos usados en los tipos de ítem
 ***********************************************************
-Desde la pestaña "*Item Type Elements*" de la barra de navegación existente en la página de configuración principal de la aplicación (`mi/admin/settings/`), se pueden llevan a cabo las siguientes configuraciones:
+Desde la pestaña "*Item Type Elements*" de la barra de navegación existente en la página de configuración principal de la aplicación (``/admin/settings/``), se pueden llevan a cabo las siguientes configuraciones:
 
 .. figure:: ../_static/images/settings-it.png
    :name: settings-it
@@ -873,7 +875,7 @@ Desde la pestaña "*Item Type Elements*" de la barra de navegación existente en
 
 Configuración de la API
 ***********************
-Desde la pestaña "*API*" de la barra de navegación existente en la página de configuración principal de la aplicación (`mi/admin/settings/`), se pueden llevan a cabo las siguientes configuraciones:
+Desde la pestaña "*API*" de la barra de navegación existente en la página de configuración principal de la aplicación (``/admin/settings/``), se pueden llevan a cabo las siguientes configuraciones:
 
 .. figure:: ../_static/images/settings-api.png
    :name: settings-api
@@ -893,7 +895,7 @@ Dentro de la aplicación nos podemos encontrar con cinco tipos de objetos digita
 
 *Items*
 ^^^^^^^
-Los ítems son los **elementos principales** de la aplicación, utilizados para representar a cada uno de los objetos digitales almacenados en esta. A través de la entrada *Items*, dentro de la sección "*Data Manager*" del menú principal, se accede al gestor de ítems (`/admin/items/`), lugar donde se llevan a cabo todas las tareas de gestión relacionadas con este elemento.
+Los ítems son los **elementos principales** de la aplicación, utilizados para representar a cada uno de los objetos digitales almacenados en esta. A través de la entrada *Items*, dentro de la sección "*Data Manager*" del menú principal, se accede al gestor de ítems (``/admin/items/``), lugar donde se llevan a cabo todas las tareas de gestión relacionadas con este elemento.
 
 .. figure:: ../_static/images/items-view.png
    :name: items-view
@@ -930,9 +932,9 @@ Si se desean generar conjuntos de datos desde la aplicación, el primer paso es 
 
 Para crear un ítem:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Hacer clic sobre el botón "*Add an Item*" situado en la parte superior de la tabla (ver :numref:`items-view`).
-3. En la página actual (`/admin/items/add`), se puede observar una barra de navegación (ver :numref:`add-items-view`). Desde ella se pueden configurar los elementos del ítem:
+3. En la página actual (``/admin/items/add``), se puede observar una barra de navegación (ver :numref:`add-items-view`). Desde ella se pueden configurar los elementos del ítem:
 
    a. *Dublin Core*: metadatos del esquema de metadatos *Dublin Core*.
    b. *Item Type Metadata*: metadatos asociados al tipo de *Item*.
@@ -960,9 +962,9 @@ Existen numerosos motivos por los que pueden surgir la necesidad de editar un í
 
 Para editar un ítem existente:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Localizar la fila en la que se encuentra el ítem y hacer clic sobre el hipertexto "*Edit*" situado justo debajo del título del ítem (ver :numref:`items-view`).
-3. En la página actual (`/admin/item/edit/<itemid>`), se puede observar una barra de navegación (ver :numref:`edit-items-view`). Desde ella se pueden configurar los elementos del ítem:
+3. En la página actual (``/admin/item/edit/<itemid>``), se puede observar una barra de navegación (ver :numref:`edit-items-view`). Desde ella se pueden configurar los elementos del ítem:
 
    a. *Dublin Core*: metadatos del esquema de metadatos *Dublin Core*.
    b. *Item Type Metadata*: metadatos asociados al tipo de ítem.
@@ -987,23 +989,23 @@ El gestor de ítems ofrece múltiples formas de eliminar un ítem existente en l
 
 *[Opción 1]* Para eliminar un ítem existente:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Localizar la fila en la que se encuentra el ítem y hacer clic sobre el hipertexto "*Delete*" situado justo debajo del título del ítem.
 3. Confirmar la eliminación del ítem pulsando sobre el botón "*Delete*".
 
 *[Opción 2]* Para eliminar un ítem existente:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Localizar la fila en la que se encuentra el ítem y hacer clic sobre el hipertexto "*Edit*" situado justo debajo del título del ítem.
-3. En la página actual (`/admin/item/edit/<itemid>`), clicar sobre el botón "*Delete*" situado en la parte derecha del formulario.
+3. En la página actual (``/admin/item/edit/<itemid>``), clicar sobre el botón "*Delete*" situado en la parte derecha del formulario.
 4. Confirmar la eliminación del ítem pulsando sobre el botón "*Delete*".
 
 *[Opción 3]* Para eliminar un ítem existente:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Localizar la fila en la que se encuentra el ítem y hacer clic sobre la casilla situada en la primera columna de la izquierda de la tabla.
 3. Hacer clic sobre el botón "*Delete*" situado en la parte superior derecha de la tabla.
-4. En la página actual (`/admin/items/batch-edit`), hacer clic sobre el botón "*Delete Items*" situado en la parte derecha de la página.
+4. En la página actual (``/admin/items/batch-edit``), hacer clic sobre el botón "*Delete Items*" situado en la parte derecha de la página.
 
 Buscar ítems
 ************
@@ -1037,9 +1039,9 @@ Por defecto se muestran todos los ítems almacenados en la plataforma, sin embar
 
 Para buscar ítems mediante una búsqueda avanzada:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Hacer clic sobre el botón "*Search items*" situado justo encima/debajo de la tabla de ítems.
-3. En la página actual (`/admin/items/search`), rellenar el formulario con los datos de búsqueda.
+3. En la página actual (``/admin/items/search``), rellenar el formulario con los datos de búsqueda.
 
    |advanced-search|
 
@@ -1071,7 +1073,7 @@ Para buscar ítems mediante una búsqueda avanzada:
 
 Para buscar ítems mediante filtros de búsqueda:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Hacer clic sobre el desplegable "*Quick Filter*" situado justo encima/debajo de la tabla de ítems.
 3. Seleccionar el filtro que se desee aplicar.
 
@@ -1095,13 +1097,13 @@ La aplicación te permite modificar o eliminar varios ítems a la vez desde el g
 
 Para editar/eliminar varios ítems a la vez:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar los ítems que se quieran eliminar/editar (ver `Buscar ítems`_).
 3. Marcar la casilla situada en la parte izquierda de la tabla de todos los ítems que se pretenden editar/eliminar.
    Si se desean seleccionar todos los ítems, hacer clic sobre el botón "*Select all results*" situado en la parte superior izquierda de la tabla.
    Si se desean seleccionar todos los ítems de la página actual, marcar la casilla alojada en la cabecera de la tabla.
 4. Hacer clic sobre el botón "*Edit*" situado en la parte superior derecha de la tabla.
-5. Al pulsar el botón "*Edit*", desde la página actual (`/admin/items/batch-edit`) podrás:
+5. Al pulsar el botón "*Edit*", desde la página actual (``/admin/items/batch-edit``) podrás:
 
    * cambiar su accesibilidad (públicos / privados)
    * cambiar su estado (descatados o no destacados)
@@ -1116,7 +1118,7 @@ Para editar/eliminar varios ítems a la vez:
 
 Visualizar un ítem completo
 ***************************
-En la página principal del gestor de ítems (`/admin/items/`) solo se pueden visualizar los datos más característicos de cada ítem como su título o tipo. La aplicación te da la posibilidad de visualizar el ítem al completo, junto a todos sus metadatos, ficheros, *tags*, etc.
+En la página principal del gestor de ítems (``/admin/items/``) solo se pueden visualizar los datos más característicos de cada ítem como su título o tipo. La aplicación te da la posibilidad de visualizar el ítem al completo, junto a todos sus metadatos, ficheros, *tags*, etc.
 
 .. figure:: ../_static/images/show-items-view.png
    :name: show-items-view
@@ -1127,14 +1129,14 @@ En la página principal del gestor de ítems (`/admin/items/`) solo se pueden vi
 
 Para visualizar un ítem:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar el ítem que se quiera visualizar (ver `Buscar ítems`_).
 3. Hacer clic sobre el título del ítem, situado en la segunda columna de la tabla.
-4. Visualizar el ítem desde la página actual (`/admin/items/show/<idItem>`).
+4. Visualizar el ítem desde la página actual (``/admin/items/show/<idItem>``).
 
 Exportar ítems
 **************
-A través de este gestor también se pueden exportar ítems almacenados en la plataforma. Desde la página principal (`/admin/items/`) se pueden exportar varios ítems a la vez, sin embargo, desde la página de visualización (`/admin/items/show/<idItem>`) solo es posible exportar un único ítem. Por este motivo, alguno de los formatos de exportación disponibles se encontrarán en una sola vista o en ambas, dependiendo de los requisitos del lenguaje.
+A través de este gestor también se pueden exportar ítems almacenados en la plataforma. Desde la página principal (``/admin/items/``) se pueden exportar varios ítems a la vez, sin embargo, desde la página de visualización (``/admin/items/show/<idItem>``) solo es posible exportar un único ítem. Por este motivo, alguno de los formatos de exportación disponibles se encontrarán en una sola vista o en ambas, dependiendo de los requisitos del lenguaje.
 
 .. table:: Formato de exportación disponibles para los Items.
    :name: specialvaluestable
@@ -1178,15 +1180,15 @@ A través de este gestor también se pueden exportar ítems almacenados en la pl
 
 Para exportar un único ítem:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar el ítem que se quiera exportar (ver `Buscar ítems`_).
 3. Hacer clic sobre el título del ítem, situado en la segunda columna de la tabla.
-4. Desde la página de visualización del ítem (`/admin/items/show/<idItem>`).
+4. Desde la página de visualización del ítem (``/admin/items/show/<idItem>``).
 5. Hacer clic sobre el formato de exportación deseado existente en el panel "*Output Formats*" situado en la parte derecha de la pantalla (ver :numref:`show-items-view`).
 
 Para exportar todos los ítems de una página:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar los ítems que se quieran exportar (ver `Buscar ítems`_).
 3. Hacer clic sobre el formato de exportación deseado de entre todos los que se encuentran en parte inferior de la pantalla, justo debajo de la tabla de ítems (ver :numref:`items-view`).
 
@@ -1199,7 +1201,7 @@ Para exportar todos los ítems de una página:
 ^^^^^^^
 Cuando se añaden nuevos ítems a la plataforma, es posible asociar ficheros (imágenes, documentos, etc.) a los mismos. Por cada uno de ellos se crea un elemento de tipo *File*, el cual contiene información detallada del fichero que se ha subido a la plataforma.
 
-Estos elementos no tienen su propia página de gestión ya que son parte de los ítems, por lo que tiene más sentido que se gestionen desde el gestor de ítems (`/admin/items/`).
+Estos elementos no tienen su propia página de gestión ya que son parte de los ítems, por lo que tiene más sentido que se gestionen desde el gestor de ítems (``/admin/items/``).
 
 Tipos de ficheros admitidos
 ***************************
@@ -1211,7 +1213,7 @@ Lamentablemente, no se puede configurar el tamaño máximo de los ficheros desde
 
 Visualizar un fichero
 *********************
-A través de la página de visualización de ficheros (`/admin/files/show/<idFile>`) es posible obtener más informacion acerca de un determinado fichero.
+A través de la página de visualización de ficheros (``/admin/files/show/<idFile>``) es posible obtener más informacion acerca de un determinado fichero.
 
 .. figure:: ../_static/images/show-files-view.png
    :name: show-files-view
@@ -1222,10 +1224,10 @@ A través de la página de visualización de ficheros (`/admin/files/show/<idFil
 
 Para visualizar un fichero:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar el ítem que contenga al archivo involucrado (ver `Buscar ítems`_).
 3. Hacer clic sobre el título del ítem, situado en la segunda columna de la tabla (ver :numref:`items-view`).
-4. Desde la página actual (`/admin/items/show/<idItem>`).
+4. Desde la página actual (``/admin/items/show/<idItem>``).
 5. Hacer clic sobre la miniatura del fichero (parte superior, justo encima de los metadatos) o bien clicar sobre su nombre (parte derecha, panel "*File Metadata*).
 
 Añadir metadatos a un fichero
@@ -1241,27 +1243,27 @@ La aplicación permite asociar metadatos del esquema *Dublin Core* a los fichero
 
 [Opción 1] Para añadir metadatos a un fichero:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar el ítem que contenga al archivo involucrado (ver `Buscar ítems`_).
 3. Hacer clic sobre el hipertexto "*Edit*" situado justo debajo del título del ítem (ver :numref:`items-view`).
-4. Desde la página actual (`/admin/items/edit/<idItem>`), acceder a la pestaña "*Files*" (ver :numref:`edit-items-view`).
+4. Desde la página actual (``/admin/items/edit/<idItem>``), acceder a la pestaña "*Files*" (ver :numref:`edit-items-view`).
 5. Hacer clic sobre el hipertexto "*Edit*" situado en la parte derecha del nombre del fichero.
 
 [Opción 2] Para añadir metadatos a un fichero:
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar el ítem que contenga al archivo involucrado (ver `Buscar ítems`_).
 3. Hacer clic sobre el título del ítem, situado en la segunda columna de la tabla (ver :numref:`items-view`).
-4. Desde la página actual (`/admin/items/show/<idItem>`).
+4. Desde la página actual (``/admin/items/show/<idItem>``).
 5. En el panel "*File Metadata*", situado en la parte derecha de la pantalla, hacer clic sobre el nombre del fichero al que deseamos añadir metadatos (ver :numref:`show-items-view`)..
-6. Desde la página actual (`/admin/files/show/<idFile>`), hacer clic sobre el botón "*Edit*".
+6. Desde la página actual (``/admin/files/show/<idFile>``), hacer clic sobre el botón "*Edit*".
 
 .. seealso::
    * `Omeka Classic User Manual - Files <https://omeka.org/classic/docs/Content/Files/>`__
 
 *Collections*
 ^^^^^^^^^^^^^
-Las colecciones pueden ser usadas en una gran variedad de contextos en los que puede tener sentido utilizarlas para tus conjuntos de datos. En la aplicación, un ítem puede pertenecer a una única colección y, como es lógico, una colección puede contener múltiple ítems. A través de la entrada *Collections*, dentro de la sección "*Data Manager*" del menú principal, se accede al espacio (`/admin/collections`) donde se gestionan este tipo de elementos.
+Las colecciones pueden ser usadas en una gran variedad de contextos en los que puede tener sentido utilizarlas para tus conjuntos de datos. En la aplicación, un ítem puede pertenecer a una única colección y, como es lógico, una colección puede contener múltiple ítems. A través de la entrada *Collections*, dentro de la sección "*Data Manager*" del menú principal, se accede al espacio (``/admin/collections``) donde se gestionan este tipo de elementos.
 
 .. figure:: ../_static/images/collections-view.png
    :name: collections-view
@@ -1283,9 +1285,9 @@ Antes de poder agrupar ítems en una colección, esta debe ser creada.
 
 Para crear una colección:
 
-1. Desde el gestor de colecciones (`/admin/collections/`).
+1. Desde el gestor de colecciones (``/admin/collections/``).
 2. Hacer clic sobre uno de los dos botones "*Add a Collection*".
-3. En la página actual (`/admin/collections/add`),  se puede observar una barra de navegación. Desde ella se pueden configurar los elementos de la colección:
+3. En la página actual (``/admin/collections/add``),  se puede observar una barra de navegación. Desde ella se pueden configurar los elementos de la colección:
 
    a. *Dublin Core*: metadatos del esquema *Dublin Core*.
    b. *Files*: ficheros asociados.
@@ -1295,7 +1297,7 @@ Para crear una colección:
 
 Añadir ítems a una colección
 ****************************
-Las colecciones pueden agrupar un número ilimitado de ítems. Para añadir ítems a una colección existente se debe señalar a la colección en el valor especial "*Collection*" de cada ítem. Esta operación no se puede llevar a cabo desde el gestor de colecciones, debes editar ese campo desde el gestor de ítems (`/admin/items/`).
+Las colecciones pueden agrupar un número ilimitado de ítems. Para añadir ítems a una colección existente se debe señalar a la colección en el valor especial "*Collection*" de cada ítem. Esta operación no se puede llevar a cabo desde el gestor de colecciones, debes editar ese campo desde el gestor de ítems (``/admin/items/``).
 
 Para añadir un solo ítem a una colección:
 
@@ -1306,9 +1308,9 @@ Para añadir un solo ítem a una colección:
 
    Añadir un ítem a una colección.
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Localizar la fila en la que se encuentra el ítem y hacer clic sobre el hipertexto "*Edit*" situado justo debajo del título del ítem.
-3. En la página actual (`/admin/item/edit/<itemid>`), en la parte derecha de la pantala, justo debajo del botón "*Add Item*", selecciona la colección en el campo "*Collection*".
+3. En la página actual (``/admin/item/edit/<itemid>``), en la parte derecha de la pantala, justo debajo del botón "*Add Item*", selecciona la colección en el campo "*Collection*".
 4. Hacer clic sobre el botón "*Save Changes*".
 
 Para añadir varios ítems a una colección:
@@ -1320,13 +1322,13 @@ Para añadir varios ítems a una colección:
 
    Añadir varios ítems a una colección.
 
-1. Desde el gestor de ítems (`/admin/items/`).
+1. Desde el gestor de ítems (``/admin/items/``).
 2. Buscar los ítems que se quieran añadir a la colección.
 3. Marcar la casilla situada en la parte izquierda de la tabla de todos los ítems que se pretenden añadir.
    Si se desean seleccionar todos los ítems, hacer clic sobre el botón "*Select all results*" situado en la parte superior izquierda de la tabla.
    Si se desean seleccionar todos los ítems de la página actual, marcar la casilla alojada en la cabecera de la tabla.
 4. Hacer clic sobre el botón "*Edit*" situado en la parte superior derecha de la tabla.
-5. Desde la página actual (`/admin/items/batch-edit`), seleccionar la colección en el campo "*Collection*".
+5. Desde la página actual (``/admin/items/batch-edit``), seleccionar la colección en el campo "*Collection*".
 6. Hacer clic sobre el botón "*Save Changes*".
 
 Editar una colección
@@ -1342,9 +1344,9 @@ Es posible modificar los datos exclusivos de la colección (no de sus ítems) un
 
 Para editar una colección existente:
 
-1. Desde el gestor de colecciones (`/admin/collections/`).
+1. Desde el gestor de colecciones (``/admin/collections/``).
 2. Hacer clic sobre el hipertexto "*Edit*".
-3. En la página actual (`/admin/collections/edit/<collectionId>`), realizar las modificaciones oportunas.
+3. En la página actual (``/admin/collections/edit/<collectionId>``), realizar las modificaciones oportunas.
 4. Hacer clic sobre el botón "*Save Changes*".
 
 Eliminar una colección.
@@ -1353,14 +1355,14 @@ Al eliminar una colección los ítems que estaban asociados a esta no se elimina
 
 Para eliminar una colección existente:
 
-1. Desde el gestor de colecciones (`/admin/collections/`).
+1. Desde el gestor de colecciones (``/admin/collections/``).
 2. Hacer clic sobre el hipertexto "*Edit*".
-3. En la página actual (`/admin/collections/edit/<collectionId>`), hacer clic sobre el botón "*Delete*".
+3. En la página actual (``/admin/collections/edit/<collectionId>``), hacer clic sobre el botón "*Delete*".
 4. Confirmar la eliminación haciendo de nuevo clic sobre el botón "*Delete*".
 
 Visualizar una colección
 ************************
-Desde la página principal del gestor de colecciones (`/admin/collections/`) solo se muestran algunos datos de cada elemento. Si queremos conocer más información acerca de una colección, tendremos que acceder a su página de visualización.
+Desde la página principal del gestor de colecciones (``/admin/collections/``) solo se muestran algunos datos de cada elemento. Si queremos conocer más información acerca de una colección, tendremos que acceder a su página de visualización.
 
 .. figure:: ../_static/images/show-collections-view.png
    :name: show-collections-view
@@ -1371,17 +1373,17 @@ Desde la página principal del gestor de colecciones (`/admin/collections/`) sol
 
 Para visualizar una colección:
 
-1. Desde el gestor de colecciones (`/admin/collections/`).
+1. Desde el gestor de colecciones (``/admin/collections/``).
 2. Buscar la colección que se quiera visualizar.
 3. Hacer clic sobre el título de la colección, situado en la segunda columna de la tabla.
-4. Visualizar la colección desde la página actual (`/admin/collections/show/<idItem>`).
+4. Visualizar la colección desde la página actual (``/admin/collections/show/<idItem>``).
 
 .. seealso::
    * `Omeka Classic User Manual - Collections <https://omeka.org/classic/docs/Content/Collections/>`__
 
 *Tags*
 ^^^^^^
-Desde la entrada "*Tags*", dentro de la sección "*Data Manager*"  del menú principal, se accede al gestor de etiquetas o *tags* (`/admin/tags/`). Las etiquetas son palabras clave o frases utilizadas para describir los datos almacenados en la plataforma. Permiten clasificar el contenido de los datos para facilitar su búsqueda. Estas se pueden asociar a ítems.
+Desde la entrada "*Tags*", dentro de la sección "*Data Manager*"  del menú principal, se accede al gestor de etiquetas o *tags* (``/admin/tags/``). Las etiquetas son palabras clave o frases utilizadas para describir los datos almacenados en la plataforma. Permiten clasificar el contenido de los datos para facilitar su búsqueda. Estas se pueden asociar a ítems.
 
 .. figure:: ../_static/images/tags-view.png
    :name: tags-view
@@ -1398,7 +1400,7 @@ Es posible ordenar las etiquetas en función de su nombre, número de aparicione
 
 Para ordenar etiquetas:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Hacer clic sobre alguno de los botones que se encuentran encima del conjunto de etiquetas.
 
    a. *Name*: se ordenan alfabéticamente por el nombre de cada etiqueta.
@@ -1425,13 +1427,13 @@ Se pueden buscar etiquetas por su nombre.
 
 Para buscar etiquetas:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Escribir el nombre de la etiqueta que se está buscando sobre el cuadro de texto situado en la parte izquierda de la pantalla.
 3. Hacer clic sobre el botón "*Search tags*".
 
 Para volver al estado de búsqueda inicial:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Hacer clic sobre el botón "*Reset results*".
 
 
@@ -1448,7 +1450,7 @@ Una vez creada una etiqueta, se puede modificar el nombre de esta. Este cambió 
 
 Para editar una etiqueta:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Buscar la etiqueta que se desea editar dentro del conjunto de etiquetas situado en la parte derecha de la pantalla.
 3. Hacer clic sobre el nombre de la etiqueta.
 4. Introducir el nuevo valor en el campo de texto emergente.
@@ -1461,14 +1463,14 @@ Es posible eliminar una o varias etiquetas a la vez. Es importante recalcar que,
 
 Para eliminar una sola etiqueta:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Buscar la etiqueta que se desea eliminar dentro del conjunto de etiquetas situado en la parte derecha de la pantalla.
 3. Hacer clic sobre botón "*x*" situado en la parte derecha de la etiqueta.
 4. Confirmar la eliminación haciendo clic sobre el botón "*Delete*".
 
 Para eliminar varias etiquetas a la vez:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Buscar las etiquetas que se desean eliminar haciendo uso del buscador. Si se desean eliminar todas las etiquetas, ignorar este paso.
 3. Hacer clic sobre botón rojo "*Delete results*" en caso de haber hecho una búsqueda, sino, hacer clic sobre el botón "*Delete all*".
 4. Confirmar la eliminación haciendo clic sobre el botón "*Yes*".
@@ -1479,7 +1481,7 @@ Se pueden obtener todos los ítems asociados a una determinada etiqueta.
 
 Para ello:
 
-1. Desde el gestor de etiquetas (`/admin/tags/`).
+1. Desde el gestor de etiquetas (``/admin/tags/``).
 2. Buscar la etiqueta que se desea eliminar dentro del conjunto de etiquetas situado en la parte derecha de la pantalla.
 3. Hacer clic sobre el contador situado en la parte izquierda de la etiqueta.
 
@@ -1497,11 +1499,11 @@ Cada ítem puede pertenecer a un determinado tipo, el cual aporta elementos extr
 
    Vista principal del gestor de tipos de ítem.
 
-A través de la entrada "*Item Types*", dentro de la sección "*Data Manager*" del menú principal de administración, se puede acceder al gestor de tipos de ítem (`/admin/item-types`).
+A través de la entrada "*Item Types*", dentro de la sección "*Data Manager*" del menú principal de administración, se puede acceder al gestor de tipos de ítem (``/admin/item-types``).
 
 Tipos de ítem predefinidos
 **************************
-Cuando se accede al gestor de tipos de ítem (`/admin/item-types`) por primera vez se observan un conjunto de tipos de ítems ya definidos.
+Cuando se accede al gestor de tipos de ítem (``/admin/item-types``) por primera vez se observan un conjunto de tipos de ítems ya definidos.
 
 .. table:: Tipos de ítem predefinidos.
    :name: itemtypes
@@ -1558,10 +1560,10 @@ Se pueden modificar tipos de ítem existentes para modificar sus elementos (meta
 
 Para modificar un tipo de ítem existente:
 
-1. Desde el gestor de tipos de ítem (`/admin/item-types`).
+1. Desde el gestor de tipos de ítem (``/admin/item-types``).
 2. Localizar el tipo de ítem que se desea editar en la tabla donde se encuentran todos los tipos (ver :numref:`item-type-view`).
 3. Hacer clic sobre el hipertexto "*Edit*", situado justo debajo del nombre del tipo.
-4. En la página actual (`/admin/item-types/edit/<idItemType>`), realizar las modificaciones oportunas (ver `Crear un tipo de ítem`_).
+4. En la página actual (``/admin/item-types/edit/<idItemType>``), realizar las modificaciones oportunas (ver `Crear un tipo de ítem`_).
 5. Hacer clic sobre el botón "*Save changes*" situado en la parte superior derecha de la pantalla.
 
 Crear un tipo de ítem
@@ -1601,9 +1603,9 @@ En caso de que ninguno de los tipos de ítem predefinidos (ver :numref:`itemtype
 
 Para crear un tipo de ítem nuevo:
 
-1. Desde el gestor de tipos de ítem (`/admin/item-types`).
+1. Desde el gestor de tipos de ítem (``/admin/item-types``).
 2. Hacer clic sobre el botón "*Add an Item Type*", situado en la parte superior/inferior de la pantalla (ver :numref:`item-type-view`).
-3. En la página actual (`/admin/item-types/add`):
+3. En la página actual (``/admin/item-types/add``):
 
    3.1. Establecer un nombre
 
@@ -1651,10 +1653,10 @@ Antes de realizar tareas de gestión sobre un determinado tipo de ítem, se pued
 
 Para visualizar un tipo de ítem existente.
 
-1. Desde el gestor de tipos de ítem (`/admin/item-types`).
+1. Desde el gestor de tipos de ítem (``/admin/item-types``).
 2. Localizar el tipo de ítem que se desea eliminar en la tabla donde se encuentran todos los tipos (ver :numref:`item-type-view`).
 3. Hacer clic sobre el nombre del tipo de ítem.
-4. Visualizar el tipo de ítem en la página actual (`/admin/item-types/show/<idItemType>`).
+4. Visualizar el tipo de ítem en la página actual (``/admin/item-types/show/<idItemType>``).
 
 Eliminar un tipo de item
 ************************
@@ -1662,18 +1664,18 @@ Al eliminar un tipo de ítem no se eliminan los elementos (metadatos) asignados 
 
 [Opción 1] Para eliminar un tipo de ítem existente:
 
-1. Desde el gestor de tipos de ítem (`/admin/item-types`).
+1. Desde el gestor de tipos de ítem (``/admin/item-types``).
 2. Localizar el tipo de ítem que se desea eliminar en la tabla donde se encuentran todos los tipos (ver :numref:`item-type-view`).
 3. Hacer clic sobre el hipertexto "*Edit*", situado justo debajo del nombre del tipo.
-4. En la página actual (`/admin/item-types/edit/<idItemType>`), hacer clic sobre el botón rojo "*Delete*"  (ver :numref:`show-item-type`).
+4. En la página actual (``/admin/item-types/edit/<idItemType>``), hacer clic sobre el botón rojo "*Delete*"  (ver :numref:`show-item-type`).
 5. Confirmar la eliminación volviendo a pulsar sobre el botón "*Delete*".
 
 [Opción 2] Para eliminar un tipo de ítem existente:
 
-1. Desde el gestor de tipos de ítem (`/admin/item-types`).
+1. Desde el gestor de tipos de ítem (``/admin/item-types``).
 2. Localizar el tipo de ítem que se desea eliminar en la tabla donde se encuentran todos los tipos (ver :numref:`item-type-view`).
 3. Hacer clic sobre el nombre del tipo de ítem.
-4. En la página actual (`/admin/item-types/show/<idItemType>`), hacer clic sobre el botón rojo "*Delete*".
+4. En la página actual (``/admin/item-types/show/<idItemType>``), hacer clic sobre el botón rojo "*Delete*".
 5. Confirmar la eliminación volviendo a pulsar sobre el botón "*Delete*".
 
 .. seealso::
@@ -1685,7 +1687,7 @@ Complementos (*plugins*)
 
 *CSV Import+*
 ^^^^^^^^^^^^^
-Este complemento nos ofrece una herramienta que nos permite importar conjuntos de datos que están dispuestos en formato CSV. Se puede acceder a esta herramienta (`/admin/csv-import-plus/`) desde el menú principal de navegación a través de la entrada "*CSV Import+*", dentro de la sección "*Import Tools*".
+Este complemento nos ofrece una herramienta que nos permite importar conjuntos de datos que están dispuestos en formato CSV. Se puede acceder a esta herramienta (``/admin/csv-import-plus/``) desde el menú principal de navegación a través de la entrada "*CSV Import+*", dentro de la sección "*Import Tools*".
 
 .. figure:: ../_static/images/csv-import-plus-1.png
    :name: csv-import-plus-1
@@ -1712,7 +1714,7 @@ Además, existe un segundo paso opcional, donde se lleva a cabo el mapeo de dato
 
    Vista desde donde se visualizan los registros de la herramienta *CSV Import+*.
 
-Tras finalizar el recorrido de importación, es posible visualizar el registro de cada importación desde la misma herramienta (`/admin/csv-import-plus/`), dentro de la pestaña "*Status*".
+Tras finalizar el recorrido de importación, es posible visualizar el registro de cada importación desde la misma herramienta (``/admin/csv-import-plus/``), dentro de la pestaña "*Status*".
 
 
 Importar datos CSV
@@ -1721,7 +1723,7 @@ Antes de iniciar este proceso, es muy importante que el usuario que lo lleve a c
 
 Para importar datos CSV:
 
-1. Desde el complemento *CSV Import+* (`/admin/csv-import-plus/`).
+1. Desde el complemento *CSV Import+* (``/admin/csv-import-plus/``).
 2. En la pestaña *Import* (ver :numref:`csv-import-plus-1`), rellenar el formulario correspondiente al paso 1 (*Step 1: Select file and item settings*). **Es muy recomendable** dejar los valores por defecto (ver :numref:`formImport`).
 
    a. Hacer clic sobre el botón "*Next*".
@@ -2080,7 +2082,7 @@ Si por algún motivo se desea eliminar todos los elementos importados en una ses
 
 Para deshacer una importación:
 
-1. Desde el complemento *CSV Import+* (`/admin/csv-import-plus/`).
+1. Desde el complemento *CSV Import+* (``/admin/csv-import-plus/``).
 2. En la pestaña *Status* (ver :numref:`csv-import-plus-status`), localizar la fila de la tabla que muestre la sesión desde la que se importaron los elementos que se desean eliminar.
 3. Hacer clic sobre el botón rojo "*Undo import*" situado bajo la columna "*Action*".
 4. Esperar a que el contador alojado en la columna "*Imported records*" esté a 0. Puedes actualizarlo recargando la página.
@@ -2088,7 +2090,7 @@ Para deshacer una importación:
 Eliminar un registro de una importación CSV desecha
 ***************************************************
 
-1. Desde el complemento *CSV Import+* (`/admin/csv-import-plus/`).
+1. Desde el complemento *CSV Import+* (``/admin/csv-import-plus/``).
 2. En la pestaña *Status* (ver :numref:`csv-import-plus-status`) , localizar la fila de la tabla que muestre la sesión asociada a la importación desecha.
 3. Hacer clic sobre el botón rojo "*Clear History*" situado bajo la columna "*Action*".
 
@@ -2119,7 +2121,7 @@ Antes de empezar con el proceso de recolección, hay que cerciorarse de que el r
 
 Para importar metadatos mediante el protocolo OAI-PMH:
 
-1. Desde el complemento *OAI-PMH Harvester* (`/admin/oaipmh-harvester`).
+1. Desde el complemento *OAI-PMH Harvester* (``/admin/oaipmh-harvester``).
 2. Introducir el enlace del servicio OAI-PMH en el campo "*Base URL* de la sección "*Data Provider*" y hacer clic sobre el botón "*View Sets*".
 
    a. Si el enlace es correcto, se mostrará en la parte inferior todos los conjuntos de datos del repositorio objetivo (ver :numref:`oai-pmh-harvester-view-2`).
@@ -2164,7 +2166,7 @@ Si queremos observar los acontecimientos que van sucediendo durante la importaci
 
 Para visualizar los datos de una importación:
 
-1. Desde el complemento *OAI-PMH Harvester* (`/admin/oaipmh-harvester`).
+1. Desde el complemento *OAI-PMH Harvester* (``/admin/oaipmh-harvester``).
 2. En la tabla que contiene todas las recolecciones efectuadas (ver :numref:`oai-pmh-harvester-view-1`), clicar sobre el estado de la recolección que quieras visualizar.
 3. En la página actual (ver :numref:`oai-pmh-harvester-status`), se mostrarán los datos de la importación.
 
@@ -2174,7 +2176,7 @@ Existe la posibilidad de eliminar todos los ítems/colecciones recolectadas.
 
 Para deshacer una importación:
 
-1. Desde el complemento *OAI-PMH Harvester* (`/admin/oaipmh-harvester`).
+1. Desde el complemento *OAI-PMH Harvester* (``/admin/oaipmh-harvester``).
 2. En la tabla que contiene todas las recolecciones efectuadas (ver :numref:`oai-pmh-harvester-view-1`), clicar sobre el estado (*Complete*) de la recolección que quieras deshacer.
 3. En la página actual (ver :numref:`oai-pmh-harvester-status`), hacer clic sobre el hipertexto "*Delete Items*".
 
@@ -2206,7 +2208,7 @@ Para someter una colección o ítem al proceso de integración de ARIADNEplus se
 
 Para crear un nuevo ticket:
 
-1. Desde el complemento *ARIADNEplus Tracking* (`/admin/ariadne-plus-tracking`).
+1. Desde el complemento *ARIADNEplus Tracking* (``/admin/ariadne-plus-tracking``).
 2. En la página principal, hacer clic sobre el hipertexto "*create new one*" situado bajo la tabla de tickets (ver :numref:`ariadne-plus-tracking`)..
 3. En la página actual (ver :numref:`ariadne-plus-tracking-new`), seguir los pasos indicados:
    a. Seleccionar el tipo de dato que se pretende gestionar, pudiendo escoger entre "*Collection*" o "*Item*", y hacer clic sobre el botón *Continue*.
@@ -2220,7 +2222,7 @@ Pueden darse diversos motivos por los que ya no interese seguir con el proceso d
 
 Para eliminar un ticket existente:
 
-1. Desde el complemento *ARIADNEplus Tracking* (`/admin/ariadne-plus-tracking`).
+1. Desde el complemento *ARIADNEplus Tracking* (``/admin/ariadne-plus-tracking``).
 2. En la página principal, debemos visualizar una tabla con, al menos, una entrada (ver :numref:`ariadne-plus-tracking`).
 3. Localizar, en la tabla, la fila correspondiente al ticket que se quiere eliminar.
 4. Hacer clic sobre el botón circular "x" situado en la columna *Action* (última columna).
@@ -2241,7 +2243,7 @@ Para someter una colección o ítem al proceso de integración de ARIADNEplus se
 
 Para visualizar los registros de un ticket existente:
 
-1. Desde el complemento *ARIADNEplus Tracking* (`/admin/ariadne-plus-tracking`).
+1. Desde el complemento *ARIADNEplus Tracking* (``/admin/ariadne-plus-tracking``).
 2. En la página principal, debemos visualizar una tabla con, al menos, una entrada.
 3. Localizar, en la tabla, la fila correspondiente al ticket que se quiere consultar.
 4. Hacer clic sobre el hipertexto situado en las columnas *Type* e *Id* (segunda columna por la izquierda).
@@ -2285,10 +2287,10 @@ Cada vez que ejecuta satisfactoriamente un cambio de fase, se actualiza el estad
 
 Para cambiar de fase dentro de un *ticket*:
 
-1. Desde el complemento *ARIADNEplus Tracking* (`/admin/ariadne-plus-tracking`).
+1. Desde el complemento *ARIADNEplus Tracking* (``/admin/ariadne-plus-tracking``).
 2. En la página principal, debemos visualizar una tabla con, al menos, una entrada. Cada entrada es un *ticket*.
 3. Clicar sobre la fila correspondiente al ticket que se quiere gestionar.
-4. En la página actual (`/ariadne-plus-tracking/index/ticket`), hacer clic sobre el botón "*Next Phase*" en caso de querer avanzar de fase o sobre el botón "*Restart*" en caso de querer retroceder hasta la primera fase. Ambos situados en la parte inferior central de la aplicación.
+4. En la página actual (``/ariadne-plus-tracking/index/ticket``), hacer clic sobre el botón "*Next Phase*" en caso de querer avanzar de fase o sobre el botón "*Restart*" en caso de querer retroceder hasta la primera fase. Ambos situados en la parte inferior central de la aplicación.
 
 Configuración
 *************
@@ -2381,7 +2383,7 @@ Desde su página principal solo se puede exportar **TODOS** los ítems almacenad
 
 Para exportar todos los ítems existentes en formato CSV:
 
-1. Desde el complemento *CSV Export* (`/admin/csv-export/`).
+1. Desde el complemento *CSV Export* (``/admin/csv-export/``).
 2. Hacer clic sobre el botón "*Export all data as CSV*".
 3. Confirmar la descarga.
 
@@ -2446,7 +2448,7 @@ El complemento *Bulk Editor* aporta una herramienta denominada *Bulk Metadata Ed
 
 Para editar varios ítems a la vez:
 
-1. Desde el complemento *Bulk Editor* (`/admin/bulk-metadata-editor/`).
+1. Desde el complemento *Bulk Editor* (``/admin/bulk-metadata-editor/``).
 2. Seleccionar los ítems que se desean modificar:
 
    |be-1|
@@ -2537,7 +2539,7 @@ Estas funcionalidades se pueden activar/desactivar su página de configuración 
 .. note::
    Sólo se explicarán aquellas funcionalidades añadidas a la `versión original del complemento Geolocation <https://omeka.org/classic/plugins/Geolocation/>`__. Si quieres saber más acerca del *plugin*, haz `clic aquí <https://omeka.org/classic/docs/Plugins/Geolocation/>`__.
 
-El complemento *Geolocation Modified* es una versión mejorada del complemento `Geolocation <>`. Las funcionalidades que se han añadido son:
+El complemento *Geolocation Modified* es una versión mejorada del complemento `Geolocation <ttps://omeka.org/classic/plugins/Geolocation/>`__. Las funcionalidades que se han añadido son:
 
 * Marco avanzado de dibujo: añade en el mapa un cuadro de herramientas que permite trazar localizaciones simples (marcadores) y compuestas (rectangulares).
 
@@ -2698,7 +2700,7 @@ El *endpoint* de la aplicación tiene el siguiente formato: *http://<host>/oai-p
 
 *Simple Pages*
 ^^^^^^^^^^^^^^
-El complemento *Simple Pages* permite añadir páginas simples como la de "About" al área pública. Desde la entrada "*Simple Pages*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de páginas simples (`/admin/simple-pages/`).
+El complemento *Simple Pages* permite añadir páginas simples como la de "About" al área pública. Desde la entrada "*Simple Pages*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de páginas simples (``/admin/simple-pages/``).
 
 .. figure:: ../_static/images/simplepages.png
    :name: simplepages
@@ -2713,7 +2715,7 @@ Para añadir una página simple:
    :scale: 60%
    :align: middle
 
-1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+1. Desde el complemento *Simple Pages* (``/admin/simple-pages/``).
 2. Hacer clic sobre el botón "*Add a Page*".
 3. Rellenar el formulario:
 
@@ -2731,14 +2733,14 @@ Para añadir una página simple:
 
 Para eliminar una página simple:
 
-1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+1. Desde el complemento *Simple Pages* (``/admin/simple-pages/``).
 2. Localizar la página a eliminar en la tabla principal.
 3. Hacer clic sobre el texto "*Delete*".
 4. Confirmar la eliminación haciendo clic sobre el botón rojo "*Delete*".
 
 Para editar una página simple:
 
-1. Desde el complemento *Simple Pages* (`/admin/simple-pages/`).
+1. Desde el complemento *Simple Pages* (``/admin/simple-pages/``).
 2. Localizar la página a eliminar en la tabla principal.
 3. Hacer clic sobre el texto "*Edit*".
 4. Modificar el formulario.
@@ -2751,7 +2753,7 @@ Para editar una página simple:
 
 *History Log*
 ^^^^^^^^^^^^^
-El complemento *History Log* permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma. Desde la entrada "*History Logs*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (`/admin/history-log/`).
+El complemento *History Log* permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma. Desde la entrada "*History Logs*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (``/admin/history-log/``).
 
 .. figure:: ../_static/images/historylog.png
    :name: historylog
@@ -2768,7 +2770,7 @@ Desde su página principal se pueden hacer búsquedas avanzadas y aplicar filtro
 
 *Getty Suggest*
 ^^^^^^^^^^^^^^^
-El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Getty* durante el relleno de un elemento (metadato). Desde la entrada "*Getty Suggest*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (`/admin/getty-suggest/`).
+El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Getty* durante el relleno de un elemento (metadato). Desde la entrada "*Getty Suggest*", dentro de la sección "*Others*"  del menú principal, se accede a todos los registros de la aplicación (``/admin/getty-suggest/``).
 
 .. figure:: ../_static/images/gettysuggest.png
    :name: gettysuggest
@@ -2779,7 +2781,7 @@ El complemento *Getty Suggest* permite sugerir términos de los vocabularios *Ge
 
 Para activar la sugerencia de vocabulario en un metadato:
 
-1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+1. Desde el complemento *Simple Pages* (``/admin/getty-suggest/``).
 2. Rellenar el formulario.
 
    a. *Element*: metadato en el que se activará la sugerencia.
@@ -2789,13 +2791,13 @@ Para activar la sugerencia de vocabulario en un metadato:
 
 Para desactivar la sugerencia de vocabulario en un metadato:
 
-1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+1. Desde el complemento *Simple Pages* (``/admin/getty-suggest/``).
 2. Buscar en la tabla de asignaciones el metadato a desactivar.
 3. Hacer clic sobre el botón "*Delete*".
 
 Para editar la sugerencia de vocabulario en un metadato:
 
-1. Desde el complemento *Simple Pages* (`/admin/getty-suggest/`).
+1. Desde el complemento *Simple Pages* (``/admin/getty-suggest/``).
 2. Buscar en la tabla de asignaciones el metadato a editar.
 3. Hacer clic sobre el botón "*Edit*".
 4. Modificar desde la tabla el metadato o la autoridad.
@@ -2806,7 +2808,7 @@ Para editar la sugerencia de vocabulario en un metadato:
 
 *Simple Vocab*
 ^^^^^^^^^^^^^^
-El complemento *Simple Vocab* permite crear y gestionar vocabularios simples para elementos de un determinado esquema. Desde la entrada "*Simple Vocab*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de vocabularios simples (`/admin/simple-vocab/`).
+El complemento *Simple Vocab* permite crear y gestionar vocabularios simples para elementos de un determinado esquema. Desde la entrada "*Simple Vocab*", dentro de la sección "*Others*"  del menú principal, se accede al gestor de vocabularios simples (``/admin/simple-vocab/``).
 
 .. figure:: ../_static/images/simplevocab.png
    :name: simplevocab
@@ -2817,7 +2819,7 @@ El complemento *Simple Vocab* permite crear y gestionar vocabularios simples par
 
 Para crear un vocabulario sobre un metadato específico:
 
-1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+1. Desde el complemento *Simple Vocab* (``/admin/getty-suggest/``).
 2. Rellenar el formulario.
 
    a. *Element*: metadato en el que se activará el vocabulario.
@@ -2827,7 +2829,7 @@ Para crear un vocabulario sobre un metadato específico:
 
 Para eliminar un vocabulario sobre un metadato específico:
 
-1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+1. Desde el complemento *Simple Vocab* (``/admin/getty-suggest/``).
 2. Seleccionar en el formulario el metadato donde se encuentra activado el vocabulario.
 
    a. *Element*: metadato involucrado.
@@ -2837,7 +2839,7 @@ Para eliminar un vocabulario sobre un metadato específico:
 
 Para editar un vocabulario sobre un metadato específico:
 
-1. Desde el complemento *Simple Vocab* (`/admin/getty-suggest/`).
+1. Desde el complemento *Simple Vocab* (``/admin/getty-suggest/``).
 2. Seleccionar en el formulario el metadato donde se encuentra activado el vocabulario.
 
    a. *Element*: metadato involucrado.

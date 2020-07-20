@@ -93,12 +93,12 @@ Antes de mostrar cómo se encuentran organizados los complementos (*plugins*) qu
 
    Diagrama de paquetes de la aplicación.
 
-- *omeka.admin* : contiene todas las clases de cada una de las *vistas* del área de administración.
-- *omeka.application*: contiene la aplicación. Alberga todo el sistema *MVC*, así como las configuraciones y servicios utilizados.
-- *omeka.files*: recoge todos los ficheros almacenados en la plataforma.
-- *omeka.install*: contiene los ficheros de instalación inicial, necesarios para inicializar los parámetros principales de la aplicación.
-- *omeka.themes*: recoge las plantillas de diseño (*themes*) utilizadas para personalizar el área pública (*frontend*) de la aplicación.
-- *omeka.plugins*: contiene todos los complementos (*plugins*) utilizados para añadir nuevas funcionalidades a la aplicación.
+- ``omeka.admin`` : contiene todas las clases de cada una de las *vistas* del área de administración.
+- ``omeka.application``: contiene la aplicación. Alberga todo el sistema *MVC*, así como las configuraciones y servicios utilizados.
+- ``omeka.files``: recoge todos los ficheros almacenados en la plataforma.
+- ``omeka.install``: contiene los ficheros de instalación inicial, necesarios para inicializar los parámetros principales de la aplicación.
+- ``omeka.themes``: recoge las plantillas de diseño (*themes*) utilizadas para personalizar el área pública (*frontend*) de la aplicación.
+- ``omeka.plugins``: contiene todos los complementos (*plugins*) utilizados para añadir nuevas funcionalidades a la aplicación.
 
 De todos estos paquetes únicamente se especificará en detalle el paquete *plugins* por el hecho de que sólo se ha trabajado en la creación, modificación e instalación de complementos (*plugins*).
 
@@ -113,19 +113,19 @@ Para obtener una visión más clara de cómo están organizados los complementos
 
    Diagrama de paquetes del complemento ficticio *FuncExtra*.
 
-- *omeka.plugins.FuncExtra*: representa el nivel superior del complemento. Alberga todo el sistema *MVC* del complemento.
-- *omeka.plugins.FuncExtra.controllers*: contiene todas las clases de la capa *controlador*.
-- *omeka.plugins.FuncExtra.libraries*: contiene clases externas utilizadas por el complemento.
-- *omeka.plugins.FuncExtra.languages*: contiene las traducciones del texto existente en el complemento.
-- *omeka.plugins.FuncExtra.models*: contiene las clases de la capa *modelo*. Permite al complemento crear y gestionar sus propias tablas en la base de datos.
+- ``omeka.plugins.FuncExtra``: representa el nivel superior del complemento. Alberga todo el sistema *MVC* del complemento.
+- ``omeka.plugins.FuncExtra.controllers``: contiene todas las clases de la capa *controlador*.
+- ``omeka.plugins.FuncExtra.libraries``: contiene clases externas utilizadas por el complemento.
+- ``omeka.plugins.FuncExtra.languages``: contiene las traducciones del texto existente en el complemento.
+- ``omeka.plugins.FuncExtra.models``: contiene las clases de la capa *modelo*. Permite al complemento crear y gestionar sus propias tablas en la base de datos.
 
-   - *omeka.plugins.FuncExtra.Table*: contiene parte de las clases de la capa *modelo*.
+   - ``omeka.plugins.FuncExtra.Table``: contiene parte de las clases de la capa *modelo*.
 
-- *omeka.plugins.FuncExtra.views*: contiene los archivos (que no clases) de la capa *vista*.
+- ``omeka.plugins.FuncExtra.views``: contiene los archivos (que no clases) de la capa *vista*.
 
-   - *omeka.plugins.FuncExtra.views.admin*: contiene las *vistas* solo visibles en el área de administración.
-   - *omeka.plugins.FuncExtra.views.public*: contiene las *vistas* solo visibles en el área pública.
-   - *omeka.plugins.FuncExtra.views.shared*: contiene las *vistas* visibles en ambas áreas.
+   - ``omeka.plugins.FuncExtra.views.admin``: contiene las *vistas* solo visibles en el área de administración.
+   - ``omeka.plugins.FuncExtra.views.public``: contiene las *vistas* solo visibles en el área pública.
+   - ``omeka.plugins.FuncExtra.views.shared``: contiene las *vistas* visibles en ambas áreas.
 
 A continuación, se muestran los paquetes de todos los complementos instalados en la aplicación.
 
@@ -138,38 +138,38 @@ A continuación, se muestran los paquetes de todos los complementos instalados e
 
 Son un total de 21 complementos, de los cuales 6 han sido creados específicamente para el proyecto (verdes) y el resto (azules) han sido recogidos de la página oficial de Omeka o de repositorios externos. De estos últimos se han modificado 3 para añadir nuevas funcionalidades (naranjas).
 
-- *omeka.plugins.AdminMenuDesign*: permite ordenar las entradas del menú principal de navegación del área de administración en secciones (submenús).
-- *omeka.plugins.AriadnePlusTracking*: implementa todas las funcionalidades relacionadas con los tickets de seguimiento para los procesos de integración en *ARIADNEplus*.
-- *omeka.plugins.BulkMetadataEditor*: permite añadir, editar o eliminar metadatos de ítems de forma masiva.
-- *omeka.plugins.CENIEHExport*: permite exportar ítems y colecciones en un formato compatible con *ARIADNEplus*.
-- *omeka.plugins.CollectionFiles*: permite asociar ficheros a colecciones.
-- *omeka.plugins.GettySuggest*: permite sugerir términos de los vocabularios Getty durante el relleno de un metadato.
-- *omeka.plugins.CsvImportPlus*: permite importar elementos (metadatos, localizaciones, etc.) en formato CSV y gestionar las importaciones.
-- *omeka.plugins.CuratescapeAdminHelper*: implementa funcionalidades que brindan ayuda a los administradores de la aplicación.
-- *omeka.plugins.CuratescapeJSON*: implementa funcionalidades para la plantilla de diseño (*theme*).
-- *omeka.plugins.DublinCoreExtended*: implementa nuevos elementos en el esquema de metadatos (*ElementSet*) *Dublin Core*.
-- *omeka.plugins.Geolocation*: implementa diversas funcionalidades relacionadas con la geolocalización de los ítems.
-- *omeka.plugins.HideElements*: permite ocultar elementos de los esquemas de metadatos (*ElementSet*) existentes en la plataforma.
-- *omeka.plugins.TagsManager*: añade funcionalidades relacionadas con las etiquetas (*tags*).
-- *omeka.plugins.HistoryLog*: permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma.
-- *omeka.plugins.AutoDublinCore*: permite automatizar el relleno de algunos elementos del esquema *Dublin Core*.
-- *omeka.plugins.OaipmhHarvester*: permite recolectar metadatos de otros repositorios web y gestionar las recolecciones ejecutadas.
-- *omeka.plugins.OaiPmhRepository*: permite que otros repositorios web recolecten metadatos de nuestra aplicación.
-- *omeka.plugins.SimplePages*: permite añadir páginas simples como la de "About" al área pública.
-- *omeka.plugins.SimpleVocab*: permite crear y gestionar vocabularios simples para elementos de un determinado esquema.
-- *omeka.plugins.SuperRss*: muestra enlaces para compartir publicaciones (área pública) en redes sociales.
+- ``omeka.plugins.AdminMenuDesign``: permite ordenar las entradas del menú principal de navegación del área de administración en secciones (submenús).
+- ``omeka.plugins.AriadnePlusTracking``: implementa todas las funcionalidades relacionadas con los tickets de seguimiento para los procesos de integración en *ARIADNEplus*.
+- ``omeka.plugins.BulkMetadataEditor``: permite añadir, editar o eliminar metadatos de ítems de forma masiva.
+- ``omeka.plugins.CENIEHExport``: permite exportar ítems y colecciones en un formato compatible con *ARIADNEplus*.
+- ``omeka.plugins.CollectionFiles``: permite asociar ficheros a colecciones.
+- ``omeka.plugins.GettySuggest``: permite sugerir términos de los vocabularios Getty durante el relleno de un metadato.
+- ``omeka.plugins.CsvImportPlus``: permite importar elementos (metadatos, localizaciones, etc.) en formato CSV y gestionar las importaciones.
+- ``omeka.plugins.CuratescapeAdminHelper``: implementa funcionalidades que brindan ayuda a los administradores de la aplicación.
+- ``omeka.plugins.CuratescapeJSON``: implementa funcionalidades para la plantilla de diseño (*theme*).
+- ``omeka.plugins.DublinCoreExtended``: implementa nuevos elementos en el esquema de metadatos (*ElementSet*) *Dublin Core*.
+- ``omeka.plugins.Geolocation``: implementa diversas funcionalidades relacionadas con la geolocalización de los ítems.
+- ``omeka.plugins.HideElements``: permite ocultar elementos de los esquemas de metadatos (*ElementSet*) existentes en la plataforma.
+- ``omeka.plugins.TagsManager``: añade funcionalidades relacionadas con las etiquetas (*tags*).
+- ``omeka.plugins.HistoryLog``: permite llevar un registro detallado de todas las acciones (eliminar, editar, crear, etc.) ejecutadas en la plataforma.
+- ``omeka.plugins.AutoDublinCore``: permite automatizar el relleno de algunos elementos del esquema *Dublin Core*.
+- ``omeka.plugins.OaipmhHarvester``: permite recolectar metadatos de otros repositorios web y gestionar las recolecciones ejecutadas.
+- ``omeka.plugins.OaiPmhRepository``: permite que otros repositorios web recolecten metadatos de nuestra aplicación.
+- ``omeka.plugins.SimplePages``: permite añadir páginas simples como la de "About" al área pública.
+- ``omeka.plugins.SimpleVocab``: permite crear y gestionar vocabularios simples para elementos de un determinado esquema.
+- ``omeka.plugins.SuperRss``: muestra enlaces para compartir publicaciones (área pública) en redes sociales.
 
 Diseño de clases
 ~~~~~~~~~~~~~~~~
 Cada complemento puede contar con las siguientes clases, de las cuales sólo la primera es de uso obligatorio.
 
-- *FuncExtraPlugin*:  representa la clase principal del complemento *FuncExtra*. Permite definir las llamadas a "*hooks*" y "*filters*" y establecer las opciones de configuración del complemento.
-- *FuncExtraRecord*: implementa la capa *modelo* del complemento *FuncExtra*. Cada complemento puede implementar varios *modelos* o ninguno.
+- ``FuncExtraPlugin``:  representa la clase principal del complemento *FuncExtra*. Permite definir las llamadas a "*hooks*" y "*filters*" y establecer las opciones de configuración del complemento.
+- ``FuncExtraRecord``: implementa la capa *modelo* del complemento *FuncExtra*. Cada complemento puede implementar varios *modelos* o ninguno.
 
-   - *Table_FuncExtraRecord*: es parte de la implementación de la capa *modelo*. Sobre él se implementan métodos para hacer búsquedas sobre la base de datos y obtener como resultado objetos de la clase *FuncExtraRecord*.
+   - ``Table_FuncExtraRecord``: es parte de la implementación de la capa *modelo*. Sobre él se implementan métodos para hacer búsquedas sobre la base de datos y obtener como resultado objetos de la clase *FuncExtraRecord*.
 
-- *FuncExtra_IndexController*: implementa la capa *controlador* del complemento *FuncExtra*. En este caso, implementaría el *controlador* *index*. Cada complemento puede implementar varios *controladores* o ninguno.
-- *FuncExtraHelper_View_Helper_Extra*: implementa el ayudante *Extra*. Este provee a las *vistas* del complemento *FuncExtra* métodos para llevar a cabo funciones complejas como, por ejemplo, añadir elementos a un formulario. Es una clase opcional.
+- ``FuncExtra_IndexController``: implementa la capa *controlador* del complemento *FuncExtra*. En este caso, implementaría el *controlador* *index*. Cada complemento puede implementar varios *controladores* o ninguno.
+- ``FuncExtraHelper_View_Helper_Extra``: implementa el ayudante *Extra*. Este provee a las *vistas* del complemento *FuncExtra* métodos para llevar a cabo funciones complejas como, por ejemplo, añadir elementos a un formulario. Es una clase opcional.
 
 .. figure:: ../_static/images/pck-3.png
    :name: da-pck-3
@@ -208,7 +208,7 @@ A continuación, por motivos de brevedad, se mostrarán únicamente los diagrama
 
 En el complemento *AdminMenuDesign* se hace uso de un paquete nuevo:
 
-- *omeka.plugins.AriadnePlusTracking.views.css*: almacena las hojas de estilo *CSS* utilizadas por las *vistas* del complemento.
+- ``omeka.plugins.AriadnePlusTracking.views.css``: almacena las hojas de estilo *CSS* utilizadas por las *vistas* del complemento.
 
 .. figure:: ../_static/images/pck-6.png
    :name: da-pck-6
@@ -219,13 +219,13 @@ En el complemento *AdminMenuDesign* se hace uso de un paquete nuevo:
 
 En el complemento *AriadnePlusTracking* se utilizan varios paquetes nuevos:
 
-- *omeka.plugins.AriadnePlusTracking.libraries.AriadnePlusTracking*: librería que implementa una nueva funcionalidad que permite ejecutar en segundo plano el proceso de cambio de fase del ticket.
-- *omeka.plugins.AriadnePlusTracking.views.javascripts*: facilita el uso de *JavaScrip* dentro de las vistas del complemento.
-- *omeka.plugins.AriadnePlusTracking.views.file*: implementa la carga de ficheros. En este caso se utiliza para el campo "JSON file of your matchings to Getty AAT" del esquema Monitor.
-- *omeka.plugins.AriadnePlusTracking.views.forms*: implementa los formularios de las *vistas*.
-- *omeka.plugins.AriadnePlusTracking.views.common*: implementa funcionalidades que se usan en varias *vistas*.
-- *omeka.plugins.AriadnePlusTracking.views.plugins*: implementa la página de configuración del complemento.
-- *omeka.plugins.AriadnePlusTracking.views.images*: facilita el uso de imágenes dentro de las *vistas* del complemento.
+- ``omeka.plugins.AriadnePlusTracking.libraries.AriadnePlusTracking``: librería que implementa una nueva funcionalidad que permite ejecutar en segundo plano el proceso de cambio de fase del ticket.
+- ``omeka.plugins.AriadnePlusTracking.views.javascripts``: facilita el uso de *JavaScrip* dentro de las vistas del complemento.
+- ``omeka.plugins.AriadnePlusTracking.views.file``: implementa la carga de ficheros. En este caso se utiliza para el campo "JSON file of your matchings to Getty AAT" del esquema Monitor.
+- ``omeka.plugins.AriadnePlusTracking.views.forms``: implementa los formularios de las *vistas*.
+- ``omeka.plugins.AriadnePlusTracking.views.common``: implementa funcionalidades que se usan en varias *vistas*.
+- ``omeka.plugins.AriadnePlusTracking.views.plugins``: implementa la página de configuración del complemento.
+- ``omeka.plugins.AriadnePlusTracking.views.images``: facilita el uso de imágenes dentro de las *vistas* del complemento.
 
 .. figure:: ../_static/images/pck-7.png
    :name: da-pck-7
@@ -236,7 +236,7 @@ En el complemento *AriadnePlusTracking* se utilizan varios paquetes nuevos:
 
 En el complemento *CENIEHExport* se hace uso de una nueva librería:
 
-- *ZipStream*: librería que permite comprimir varios ficheros (.xml) en formato *.zip* de forma dinámica, sin tener que almacenar ningún fichero en el servidor.
+- ``ZipStream``: librería que permite comprimir varios ficheros (.xml) en formato *.zip* de forma dinámica, sin tener que almacenar ningún fichero en el servidor.
 
 
 .. figure:: ../_static/images/pck-8.png
@@ -248,12 +248,12 @@ En el complemento *CENIEHExport* se hace uso de una nueva librería:
 
 En el complemento *CollectionFiles* se utiliza una nueva librería:
 
-- *CollectionFiles*: librería que implementa todas las funcionalidades que permiten asociar ficheros a colecciones.
+- ``CollectionFiles``: librería que implementa todas las funcionalidades que permiten asociar ficheros a colecciones.
 
 Además, se utilizan dos paquetes nuevos:
 
-- *omeka.plugins.CollectionFiles.models.Builder*: paquete utilizado para implementar *builders*. En este caso, implementa el *builder* para el objeto *CollectionFile*.
-- *omeka.plugins.CollectionFiles.models.Job*: paquete utilizado para implementar *jobs*. En este caso, el *job* implementado procesa la carga de ficheros.
+- ``omeka.plugins.CollectionFiles.models.Builder``: paquete utilizado para implementar *builders*. En este caso, implementa el *builder* para el objeto *CollectionFile*.
+- ``omeka.plugins.CollectionFiles.models.Job``: paquete utilizado para implementar *jobs*. En este caso, el *job* implementado procesa la carga de ficheros.
 
 .. figure:: ../_static/images/pck-9.png
    :name: da-pck-9
