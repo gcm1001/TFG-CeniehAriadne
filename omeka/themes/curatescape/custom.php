@@ -569,7 +569,7 @@ function mh_display_map($type=null,$item=null,$tour=null){
 							var group=[];
 							if(useClusters==true){
 								var markers = L.markerClusterGroup({
-									spiderfyOnMaxZoom: false, // should be an option?
+									spiderfyOnMaxZoom: true,
 									zoomToBoundsOnClick:true,
 									disableClusteringAtZoom: clusterIntensity,
 									polygonOptions: {
