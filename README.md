@@ -40,11 +40,11 @@
 * [**2 - Docker**](#docker)
 * [**3 - Kubernetes**](#kubernetes)
 
-[**Plugins**](#plugins)
+[**Plugins**](#-plugins)
 
 * [**Plugins propios**](#plugins-propios)
-* [**Plugins modificados**](#plugins-modificados)
-* [**Otros**](#otros)
+* [**Plugins modificados**](#plugins-de-terceros-modificados)
+* [**Plugins de terceros**](#plugins-de-terceros-utilizados)
 
 [**Licencia**](#licencia)
 
@@ -197,48 +197,51 @@ Para ello se ejecutan los siguientes comandos:
    --from-literal=database=<nombre_bd>
 
 ```
+
 - `omeka-snmp`: *secretos* relacionados con el protocolo SNMP.
 
-.. code-block::
-
+```
    kubectl create secret generic omeka-snmp \
    --from-literal=host=<host_snmp> \
    --from-literal=username=<correo_electronico> \
    --from-literal=password=<contraseña_correo> \
    --from-literal=port=<puerto_snmp> \
    --from-literal=ssl=<protocolo_seguridad_snmp>
+```
 
 - `omeka-imap`: *secretos* relacionados con el protocolo IMAP.
 
-.. code-block::
-
+```
    kubectl create secret generic omeka-imap \
    --from-literal=host=<host_imap> \
    --from-literal=username=<correo_electronico> \
    --from-literal=password=<contraseña_correo> \
    --from-literal=port=<puerto_imap> \
    --from-literal=ssl=<protocolo_seguridad_imap>
+```
 
 - `db-config`: *mapa de configuración* para la base de datos.
 
-.. code-block::
-
+```
    kubectl create configmap db-config \
    --from-file=./configFiles/db.ini.gke
+```
 
 - `snmp-config`: *mapa de configuración* para el protocolo SNMP.
 
-.. code-block::
-
+```
    kubectl create configmap snmp-config \
    --from-file=./configFiles/config.ini.gke
 
+```
+
 - `imap-config`: *mapa de configuración* para el protocolo IMAP.
 
-.. code-block::
-
+```
    kubectl create configmap imap-config \
    --from-file=./configFiles/mail.ini.gke
+
+```
 
 Por último, debemos indicar el identificador de nuestra imagen _Docker_ en el fichero `/gke-omeka/deployment.yaml`. 
 
@@ -286,7 +289,6 @@ Desde este instante la aplicación debería ser accesible desde el navegador (pu
 | --- | --- |
 | [BulkMetadataEditor](https://omeka.org/classic/plugins/BulkMetadataEditor/) | Permite editar multitud de ítems a la vez |
 | [CSVExport](https://omeka.org/classic/plugins/CsvExport/) | Exporta ítems en formato CSV |
-| [CsvImportPlus](https://github.com/biblibre/omeka-plugin-CsvImportPlus) | Importa ítems en formato CSV |
 | [DublinCoreExtended](https://omeka.org/classic/plugins/DublinCoreExtended/) | Añade el esquema de metadatos *Dublin Core Extended* a la plataforma  |
 | [GettySuggest](https://github.com/UCSCLibrary/GettySuggest) | Sugiere términos del vocabulario Getty AAT a la hora de rellenar metadatos |
 | [Hide Elements](https://omeka.org/classic/plugins/HideElements/) | Permite ocultar campos del esquema de metadatos |

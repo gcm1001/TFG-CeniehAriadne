@@ -26,10 +26,10 @@ Omeka.CsvImportPlus = {};
     };
     
     Omeka.CsvImportPlus.refreshData = function () {
-        setTimeout(function()
-        {
-            $('#content').load(location.href + " " + '#content > *');
-        }, 2000);
+      setInterval(function()
+      {
+        $('#primary').load(location.href + " " + "#primary>*","");
+      },2000);
     };
 
     /**
