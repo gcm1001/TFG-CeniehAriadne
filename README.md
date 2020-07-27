@@ -46,7 +46,7 @@
 * [**Plugins modificados**](#plugins-de-terceros-modificados)
 * [**Plugins de terceros**](#plugins-de-terceros-utilizados)
 
-[**Licencia**](#licencia)
+[**Licencia**](#-licencia)
 
 <img align="right" src="/docs/readme/gifs/readme-desc.gif" width="450"/>
 
