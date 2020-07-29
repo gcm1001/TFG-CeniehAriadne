@@ -1085,10 +1085,6 @@ function mh_official_website($item='item'){
 
 }
 
-function mh_show_all_exist_metadata(){
-    
-	return '';
-}
 /*
 ** Display the street address
 */

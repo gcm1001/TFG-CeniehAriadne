@@ -1,7 +1,8 @@
 <?php 
 $maptype='story';
-if ($hasimg=metadata($item, 'has thumbnail') ) {
-	$img_markup=item_image('fullsize',array(),0, $item);
+$hasimg = metadata($item, 'has thumbnail');
+if ($hasimg === 1) {
+	$img_markup = item_image('fullsize',array(),0, $item);
 	preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img_markup, $result);
 	$hero_img = array_pop($result);
 	$noimg= false;
@@ -59,23 +60,46 @@ echo head(array(
 	
 	<?php echo mh_factoid(); ?>
 	
-	<section class="metadata">
-		<h2 hidden class="hidden"><?php echo __('Metadata');?></h2>
+	<section id="simplemeta" class="metadata">
+		<h2><?php echo __('Item metadata');?></h2>
 		<?php echo mh_official_website();?>	
-		<?php echo mh_item_citation(); ?>
+		
 		<?php echo function_exists('tours_for_item') ? tours_for_item($item->id, __('Related %s', mh_tour_label('plural'))) : null?>
 		<?php echo mh_subjects(); ?>
 		<?php echo mh_related_links();?>
+                <?php echo mh_item_citation(); ?>
+                <button id="showfull">Show all metadata</button>
 	</section>	
-	
-	<section class="allmetadata">
-		<?php echo mh_show_all_exist_metadata($item);?>
+  
+        <section id="fullmeta" class="metadata" hidden="">
+          <h2><?php echo __('Item metadata');?></h2>
+          <?php echo all_element_texts($item, array('show_element_sets' => 'Dublin Core', 'partial' => 'common/record-metadata-theme.php'));?>
+          <?php echo mh_item_citation(); ?>
+          <button id="showsimple">Show simple metadata</button>
+        </section>
+        
+	<section>
 		<?php echo mh_post_date(); ?>		
 		<?php echo mh_display_comments();?>
 	</section>
+  
+        
 
 	<?php echo mh_share_this(mh_item_label());?>
 	
 	<?php echo function_exists('tour_nav') ? '<nav aria-label="'.__('Tour Navigation - Bottom').'" class="tour-nav-container bottom">'.tour_nav(null,mh_tour_label()).'</nav>' : null; ?>
 </article>
 <?php echo foot(); ?>
+<script>
+    jQuery(document).ready(function() {
+        jQuery('#showfull').click( function(){
+            jQuery('#simplemeta').hide();
+            jQuery('#fullmeta').show();
+        });
+        
+        jQuery('#showsimple').click( function(){
+            jQuery('#fullmeta').hide();
+            jQuery('#simplemeta').show();
+        });
+    });
+</script>
