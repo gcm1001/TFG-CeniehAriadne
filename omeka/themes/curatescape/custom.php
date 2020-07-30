@@ -586,7 +586,7 @@ function mh_display_map($type=null,$item=null,$tour=null){
 								var c = (item.featured==1 && featured_color) ? featured_color : color;
 								var inner = (item.featured==1 && featuredStar) ? "star" : "circle";
 						        if(typeof(item.thumbnail)!="undefined"){
-							        var image = '<a href="'+root_url+'/items/show/'+item.id+'" class="curatescape-infowindow-image '+(!item.thumbnail ? 'no-img' : '')+'" style="background-image:url('+item.thumbnail+');"></a>';
+							        var image = '<a href="'+root_url+'/items/show/'+item.id+'" class="curatescape-infowindow-image '+(!item.thumbnail ? 'no-img' : '')+'" style="background-image:url('+(!item.thumbnail ? '<?= img('thumbnailDefault.jpg') ?>' : item.thumbnail)+');"></a>';
 							    }else{
 								    var image = '';
 							    }
@@ -628,7 +628,7 @@ function mh_display_map($type=null,$item=null,$tour=null){
 							map.setView([data.latitude,data.longitude],defaultItemZoom);
 					        var address = data.address ? data.address : data.latitude+','+data.longitude;
 
-					        var image = (typeof(data.thumbnail)!="undefined") ? '<a href="" class="curatescape-infowindow-image '+(!data.thumbnail ? 'no-img' : '')+'" style="background-image:url('+data.thumbnail+');" title="'+data.title+'"></a>' : '';
+					        var image = (typeof(data.thumbnail)!="undefined") ? '<a href="" class="curatescape-infowindow-image '+(!data.thumbnail ? 'no-img' : '')+'" style="background-image:url('+(!data.thumbnail ? '<?= img('thumbnailDefault.jpg') ?>' : data.thumbnail)+');" title="'+data.title+'"></a>' : '';
 
 					        var html = image+'<div class="curatescape-infowindow-address single-item"><span class="icon-map-marker" aria-hidden="true"></span> '+address.replace(/(<([^>]+)>)/ig,"")+'</div>';
 
