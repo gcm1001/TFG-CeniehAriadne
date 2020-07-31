@@ -13,6 +13,7 @@
     <a href='https://tfg-ceniehariadne.readthedocs.io/es/latest/?badge=latest'>
         <img src='https://readthedocs.org/projects/tfg-ceniehariadne/badge/?version=latest' alt='Documentation Status' />
     </a>
+    <a href="https://zenodo.org/badge/latestdoi/244304521"><img src="https://zenodo.org/badge/244304521.svg" alt="DOI"></a>
   <a href="https://www.codacy.com/manual/gcm1001/TFG-CeniehAriadne?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gcm1001/TFG-CeniehAriadne&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/5a86b32c970a40a981b82a1324254596"/></a>
 </p>
 <h4 align="center">TFG de la <a href="https://www.ubu.es/">UBU</a> en colaboración con el <a href="https://www.cenieh.es/" target="_blank">CENIEH</a>.</h4>
